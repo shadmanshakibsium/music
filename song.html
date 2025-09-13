@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Now Playing</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap');
+*{margin:0;padding:0;box-sizing:border-box;font-family:'Poppins',sans-serif;}
+body {
+  background: linear-gradient(135deg,#ffdde1,#ee9ca7);
+  min-height:100vh;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+  padding:20px;
+  color:#fff;
+}
+h1 {
+  margin-bottom:20px;
+  text-align:center;
+  font-size:2rem;
+  text-shadow:1px 1px 5px rgba(0,0,0,0.3);
+}
+.player-card{
+  background: rgba(255,255,255,0.2);
+  backdrop-filter: blur(15px);
+  padding:20px;
+  border-radius:20px;
+  width:90%;
+  max-width:400px;
+  text-align:center;
+  box-shadow:0 8px 25px rgba(0,0,0,0.2);
+}
+.player-card img{
+  width:100%;
+  border-radius:15px;
+  margin-bottom:15px;
+}
+.song-title{
+  font-weight:700;
+  font-size:1.2rem;
+  margin-bottom:10px;
+}
+audio{
+  width:100%;
+  margin-bottom:15px;
+  outline:none;
+  border-radius:10px;
+  background: rgba(255,255,255,0.2);
+  cursor:pointer;
+}
+.controls{
+  display:flex;
+  justify-content:space-between;
+  margin-top:10px;
+}
+button{
+  padding:8px 12px;
+  border:none;
+  border-radius:10px;
+  cursor:pointer;
+  font-weight:600;
+  transition:transform 0.2s, box-shadow 0.2s;
+  background: rgba(255,255,255,0.3);
+  color:#fff;
+  backdrop-filter: blur(5px);
+}
+button:hover{
+  transform: scale(1.1);
+  box-shadow:0 5px 15px rgba(0,0,0,0.3);
+}
+</style>
+</head>
+<body>
+
+<h1>Now Playing</h1>
+<div class="player-card">
+  <img id="cover" src="" alt="cover">
+  <div class="song-title" id="song-title"></div>
+  <audio id="audio" controls></audio>
+  <div class="controls">
+    <button id="prev">Prev</button>
+    <button id="play-pause">Play</button>
+    <button id="next">Next</button>
+  </div>
+  <div class="controls" style="margin-top:10px;">
+    <button id="repeat">Repeat</button>
+    <button id="shuffle">Shuffle</button>
+  </div>
+</div>
+
+<script>
+// ------------------ Load Song Data ------------------
+let params = new URLSearchParams(window.location.search);
+let songIndex = parseInt(params.get("song")) || 0;
+let songs = [];
+
+fetch("data/songs.json")
+.then(res=>res.json())
+.then(data=>{
+  songs = data;
+  loadSong(songIndex);
+});
+
+const audio = document.getElementById("audio");
+const cover = document.getElementById("cover");
+const title = document.getElementById("song-title");
+const playBtn = document.getElementById("play-pause");
+const prevBtn = document.getElementById("prev");
+const nextBtn = document.getElementById("next");
+const repeatBtn = document.getElementById("repeat");
+const shuffleBtn = document.getElementById("shuffle");
+
+let isPlaying = false;
+let isRepeat = false;
+let isShuffle = false;
+
+// ------------------ Functions ------------------
+function loadSong(index){
+  const song = songs[index];
+  audio.src = song.url;
+  cover.src = song.cover;
+  title.textContent = song.title + " - " + song.artist;
+  isPlaying=false;
+  playSong();
+}
+
+function playSong(){
+  audio.play();
+  isPlaying=true;
+  playBtn.textContent="Pause";
+}
+
+function pauseSong(){
+  audio.pause();
+  isPlaying=false;
+  playBtn.textContent="Play";
+}
+
+playBtn.addEventListener("click", ()=>{
+  if(isPlaying) pauseSong();
+  else playSong();
+});
+
+prevBtn.addEventListener("click", ()=>{
+  if(isShuffle){
+    songIndex = Math.floor(Math.random()*songs.length);
+  } else {
+    songIndex = (songIndex-1+songs.length)%songs.length;
+  }
+  loadSong(songIndex);
+});
+
+nextBtn.addEventListener("click", ()=>{
+  if(isShuffle){
+    songIndex = Math.floor(Math.random()*songs.length);
+  } else {
+    songIndex = (songIndex+1)%songs.length;
+  }
+  loadSong(songIndex);
+});
+
+repeatBtn.addEventListener("click", ()=>{
+  isRepeat = !isRepeat;
+  repeatBtn.style.background = isRepeat?"rgba(255,255,255,0.6)":"rgba(255,255,255,0.3)";
+});
+
+shuffleBtn.addEventListener("click", ()=>{
+  isShuffle = !isShuffle;
+  shuffleBtn.style.background = isShuffle?"rgba(255,255,255,0.6)":"rgba(255,255,255,0.3)";
+});
+
+// ------------------ Auto Next ------------------
+audio.addEventListener("ended", ()=>{
+  if(isRepeat) loadSong(songIndex);
+  else nextBtn.click();
+});
+</script>
+
+</body>
+</html>
