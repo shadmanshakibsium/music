@@ -8,7 +8,7 @@
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap');
 *{margin:0;padding:0;box-sizing:border-box;font-family:'Poppins',sans-serif;}
 body {
-  background: linear-gradient(135deg,#ffdde1,#ee9ca7);
+  background: linear-gradient(135deg,#222,#444);
   min-height:100vh;
   display:flex;
   flex-direction:column;
@@ -17,59 +17,110 @@ body {
   padding:20px;
   color:#fff;
 }
-h1 {
+h1{
+  font-size:2rem;
   margin-bottom:20px;
   text-align:center;
-  font-size:2rem;
-  text-shadow:1px 1px 5px rgba(0,0,0,0.3);
+  font-weight:700;
 }
+
+/* ------------------ Player Card ------------------ */
 .player-card{
-  background: rgba(255,255,255,0.2);
+  background: rgba(0,0,0,0.6);
   backdrop-filter: blur(15px);
-  padding:20px;
-  border-radius:20px;
+  border-radius:25px;
   width:90%;
   max-width:400px;
+  padding:30px 20px;
   text-align:center;
-  box-shadow:0 8px 25px rgba(0,0,0,0.2);
+  box-shadow:0 15px 40px rgba(0,0,0,0.5);
 }
 .player-card img{
-  width:100%;
+  width:250px;
+  height:250px;
   border-radius:15px;
-  margin-bottom:15px;
+  margin-bottom:20px;
+  object-fit:cover;
+  box-shadow:0 10px 20px rgba(0,0,0,0.5);
+  transition: transform 0.3s;
+}
+.player-card img:hover{
+  transform: scale(1.03);
 }
 .song-title{
   font-weight:700;
-  font-size:1.2rem;
-  margin-bottom:10px;
+  font-size:1.3rem;
+  margin-bottom:5px;
 }
-audio{
+.song-artist{
+  font-weight:400;
+  font-size:1rem;
+  margin-bottom:20px;
+  color:#ccc;
+}
+
+/* ------------------ Progress Bar ------------------ */
+.progress-container{
   width:100%;
-  margin-bottom:15px;
-  outline:none;
-  border-radius:10px;
   background: rgba(255,255,255,0.2);
+  height:8px;
+  border-radius:10px;
   cursor:pointer;
+  margin-bottom:20px;
+  position:relative;
 }
+.progress{
+  background:#ff6b6b;
+  height:100%;
+  width:0%;
+  border-radius:10px;
+}
+
+/* ------------------ Controls ------------------ */
 .controls{
   display:flex;
   justify-content:space-between;
-  margin-top:10px;
+  align-items:center;
+  margin-bottom:15px;
 }
 button{
-  padding:8px 12px;
+  background:none;
   border:none;
-  border-radius:10px;
-  cursor:pointer;
-  font-weight:600;
-  transition:transform 0.2s, box-shadow 0.2s;
-  background: rgba(255,255,255,0.3);
   color:#fff;
-  backdrop-filter: blur(5px);
+  font-size:1.5rem;
+  cursor:pointer;
+  transition: transform 0.2s;
 }
 button:hover{
-  transform: scale(1.1);
-  box-shadow:0 5px 15px rgba(0,0,0,0.3);
+  transform: scale(1.2);
+}
+#play-pause{
+  font-size:2rem;
+}
+.volume-container{
+  display:flex;
+  align-items:center;
+  gap:10px;
+}
+input[type=range]{
+  -webkit-appearance:none;
+  width:100px;
+  height:5px;
+  border-radius:5px;
+  background:#555;
+  cursor:pointer;
+}
+input[type=range]::-webkit-slider-thumb{
+  -webkit-appearance:none;
+  width:15px;
+  height:15px;
+  border-radius:50%;
+  background:#ff6b6b;
+  cursor:pointer;
+  box-shadow:0 2px 4px rgba(0,0,0,0.5);
+}
+@media(max-width:500px){
+  .player-card img{width:200px;height:200px;}
 }
 </style>
 </head>
@@ -79,20 +130,32 @@ button:hover{
 <div class="player-card">
   <img id="cover" src="" alt="cover">
   <div class="song-title" id="song-title"></div>
-  <audio id="audio" controls></audio>
+  <div class="song-artist" id="song-artist"></div>
+
+  <div class="progress-container" id="progress-container">
+    <div class="progress" id="progress"></div>
+  </div>
+
   <div class="controls">
-    <button id="prev">Prev</button>
-    <button id="play-pause">Play</button>
-    <button id="next">Next</button>
+    <button id="prev">⏮</button>
+    <button id="play-pause">▶️</button>
+    <button id="next">⏭</button>
   </div>
-  <div class="controls" style="margin-top:10px;">
-    <button id="repeat">Repeat</button>
-    <button id="shuffle">Shuffle</button>
+
+  <div class="controls">
+    <button id="repeat">🔁</button>
+    <button id="shuffle">🔀</button>
+    <div class="volume-container">
+      <span>🔊</span>
+      <input type="range" id="volume" min="0" max="1" step="0.01" value="0.8">
+    </div>
   </div>
+
+  <audio id="audio"></audio>
 </div>
 
 <script>
-// ------------------ Load Song Data ------------------
+// ------------------ Load Songs ------------------
 let params = new URLSearchParams(window.location.search);
 let songIndex = parseInt(params.get("song")) || 0;
 let songs = [];
@@ -107,22 +170,26 @@ fetch("data/songs.json")
 const audio = document.getElementById("audio");
 const cover = document.getElementById("cover");
 const title = document.getElementById("song-title");
+const artist = document.getElementById("song-artist");
 const playBtn = document.getElementById("play-pause");
 const prevBtn = document.getElementById("prev");
 const nextBtn = document.getElementById("next");
 const repeatBtn = document.getElementById("repeat");
 const shuffleBtn = document.getElementById("shuffle");
+const progressContainer = document.getElementById("progress-container");
+const progress = document.getElementById("progress");
+const volumeSlider = document.getElementById("volume");
 
-let isPlaying = false;
-let isRepeat = false;
-let isShuffle = false;
+let isPlaying=false;
+let isRepeat=false;
+let isShuffle=false;
 
-// ------------------ Functions ------------------
 function loadSong(index){
-  const song = songs[index];
-  audio.src = song.url;
-  cover.src = song.cover;
-  title.textContent = song.title + " - " + song.artist;
+  const song=songs[index];
+  audio.src=song.url;
+  cover.src=song.cover;
+  title.textContent=song.title;
+  artist.textContent=song.artist;
   isPlaying=false;
   playSong();
 }
@@ -130,13 +197,13 @@ function loadSong(index){
 function playSong(){
   audio.play();
   isPlaying=true;
-  playBtn.textContent="Pause";
+  playBtn.textContent="⏸";
 }
 
 function pauseSong(){
   audio.pause();
   isPlaying=false;
-  playBtn.textContent="Play";
+  playBtn.textContent="▶️";
 }
 
 playBtn.addEventListener("click", ()=>{
@@ -145,31 +212,43 @@ playBtn.addEventListener("click", ()=>{
 });
 
 prevBtn.addEventListener("click", ()=>{
-  if(isShuffle){
-    songIndex = Math.floor(Math.random()*songs.length);
-  } else {
-    songIndex = (songIndex-1+songs.length)%songs.length;
-  }
+  if(isShuffle) songIndex=Math.floor(Math.random()*songs.length);
+  else songIndex=(songIndex-1+songs.length)%songs.length;
   loadSong(songIndex);
 });
 
 nextBtn.addEventListener("click", ()=>{
-  if(isShuffle){
-    songIndex = Math.floor(Math.random()*songs.length);
-  } else {
-    songIndex = (songIndex+1)%songs.length;
-  }
+  if(isShuffle) songIndex=Math.floor(Math.random()*songs.length);
+  else songIndex=(songIndex+1)%songs.length;
   loadSong(songIndex);
 });
 
 repeatBtn.addEventListener("click", ()=>{
-  isRepeat = !isRepeat;
-  repeatBtn.style.background = isRepeat?"rgba(255,255,255,0.6)":"rgba(255,255,255,0.3)";
+  isRepeat=!isRepeat;
+  repeatBtn.style.opacity=isRepeat?0.7:1;
 });
 
 shuffleBtn.addEventListener("click", ()=>{
-  isShuffle = !isShuffle;
-  shuffleBtn.style.background = isShuffle?"rgba(255,255,255,0.6)":"rgba(255,255,255,0.3)";
+  isShuffle=!isShuffle;
+  shuffleBtn.style.opacity=isShuffle?0.7:1;
+});
+
+// ------------------ Progress Bar ------------------
+audio.addEventListener("timeupdate", ()=>{
+  const percent = (audio.currentTime/audio.duration)*100;
+  progress.style.width = percent + "%";
+});
+
+progressContainer.addEventListener("click",(e)=>{
+  const width=progressContainer.clientWidth;
+  const clickX=e.offsetX;
+  const duration=audio.duration;
+  audio.currentTime=(clickX/width)*duration;
+});
+
+// ------------------ Volume ------------------
+volumeSlider.addEventListener("input", ()=>{
+  audio.volume=volumeSlider.value;
 });
 
 // ------------------ Auto Next ------------------
