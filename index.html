@@ -3,227 +3,313 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>My Music Collection</title>
+<title>My Music Library</title>
 <style>
-  /* ======= BASIC RESET ======= */
-  * {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-  }
+:root {
+    --primary: #ff3e78;
+    --secondary: #4e54ff;
+    --dark-bg: #0f0f13;
+    --card-bg: #1a1a24;
+    --card-hover: #232330;
+    --text-primary: #ffffff;
+    --text-secondary: #b3b3b3;
+    --gradient: linear-gradient(135deg, var(--primary), var(--secondary));
+    --glass-bg: rgba(30, 30, 40, 0.6);
+    --glass-border: rgba(255, 255, 255, 0.1);
+    --transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+}
+/* RESET */
+*{margin:0;padding:0;box-sizing:border-box;}
+body{
+    background: var(--dark-bg);
+    color: var(--text-primary);
+    font-family:'Poppins',sans-serif;
+    min-height:100vh;
+}
 
-  body {
-    background: #f5f5f5;
-    color: #333;
-    display: flex;
-    flex-direction: column;
-    min-height: 100vh;
-  }
-
-  /* ======= HEADER ======= */
-  header {
-    background: #1e1e1e;
-    color: white;
-    padding: 1rem 2rem;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    box-shadow: 0 4px 8px rgba(0,0,0,0.2);
-  }
-
-  header h1 {
-    font-size: 1.5rem;
-  }
-
-  nav {
-    display: flex;
-    gap: 1rem;
-  }
-
-  nav button {
-    background: transparent;
-    border: none;
-    color: white;
-    font-size: 1rem;
-    cursor: pointer;
-    padding: 0.5rem 1rem;
-    border-radius: 8px;
-    transition: 0.2s;
-  }
-
-  nav button:hover {
+/* HEADER */
+header{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    padding:1rem 2rem;
+    background: var(--glass-bg);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    box-shadow:0 4px 30px rgba(0,0,0,0.3);
+    position:sticky;
+    top:0;
+    z-index:100;
+    border-bottom:1px solid var(--glass-border);
+}
+.logo h1{
+    font-family:'Montserrat',sans-serif;
+    font-size:1.8rem;
+    font-weight:700;
+    background: var(--gradient);
+    -webkit-background-clip:text;
+    background-clip:text;
+    -webkit-text-fill-color:transparent;
+}
+.nav-items{
+    display:flex;
+    gap:1rem;
+    align-items:center;
+}
+.nav-btn{
+    padding:0.6rem 1.5rem;
+    border-radius:50px;
+    border:none;
     background: rgba(255,255,255,0.1);
-  }
+    color:#fff;
+    font-weight:600;
+    cursor:pointer;
+    transition: var(--transition);
+    box-shadow:0 4px 12px rgba(0,0,0,0.3);
+    display:flex;
+    align-items:center;
+    justify-content:center;
+}
+.nav-btn:hover{
+    background: var(--gradient);
+    transform: translateY(-2px) scale(1.05);
+    box-shadow:0 6px 20px rgba(255,62,120,0.4);
+}
+/* Dropdown */
+.dropdown{ position:relative;}
+.dropdown-content{
+    display:none;
+    position:absolute;
+    top:120%;
+    right:0;
+    background: var(--glass-bg);
+    backdrop-filter: blur(10px);
+    border-radius:16px;
+    box-shadow:0 10px 30px rgba(0,0,0,0.4);
+    overflow:hidden;
+    padding:0.5rem 0;
+}
+.dropdown-content button{
+    width:100%;
+    padding:0.8rem 1.2rem;
+    border:none;
+    background:none;
+    color:#fff;
+    text-align:left;
+    cursor:pointer;
+    transition:0.2s;
+}
+.dropdown-content button:hover{background: rgba(255,255,255,0.1);}
+.dropdown:hover .dropdown-content{display:block;}
 
-  /* ======= FILTER DROPDOWN ======= */
-  .dropdown {
-    position: relative;
-  }
+/* SEARCH BAR */
+#search-bar{
+    width:100%;
+    max-width:400px;
+    margin:1.5rem auto;
+    display:block;
+    padding:0.8rem 1rem;
+    border-radius:12px;
+    border:1px solid var(--glass-border);
+    background: var(--card-bg);
+    color: var(--text-primary);
+}
 
-  .dropdown-content {
-    display: none;
-    position: absolute;
-    top: 110%;
-    left: 0;
-    background: white;
-    color: #333;
-    min-width: 150px;
-    border-radius: 8px;
-    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
-    overflow: hidden;
-    z-index: 10;
-  }
+/* SONG GRID */
+main{
+    padding:1.5rem 2rem;
+    display:grid;
+    grid-template-columns: repeat(auto-fill, minmax(220px,1fr));
+    gap:1.5rem;
+    max-width:1400px;
+    margin:0 auto;
+}
+.song-card{
+    background: var(--card-bg);
+    border-radius:20px;
+    overflow:hidden;
+    cursor:pointer;
+    transition:var(--transition);
+    display:flex;
+    flex-direction:column;
+    box-shadow:0 10px 20px rgba(0,0,0,0.2);
+    position:relative;
+}
+.song-card:hover{
+    transform:translateY(-8px);
+    box-shadow:0 15px 30px rgba(0,0,0,0.3);
+    background:var(--card-hover);
+}
+.song-image-container{
+    width:100%;
+    height:180px;
+    overflow:hidden;
+    position:relative;
+}
+.song-card img{
+    width:100%;
+    height:100%;
+    object-fit:cover;
+    transition: transform 0.5s ease;
+}
+.song-card:hover img{transform:scale(1.1);}
+.play-overlay{
+    position:absolute;
+    top:0;left:0;right:0;bottom:0;
+    background: rgba(0,0,0,0.5);
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    opacity:0;
+    transition:var(--transition);
+}
+.play-icon{
+    width:50px;
+    height:50px;
+    border-radius:50%;
+    background:var(--gradient);
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    transform:scale(0.8);
+    transition:var(--transition);
+}
+.play-icon i{ color:white;font-size:1.2rem;margin-left:3px;}
+.song-card:hover .play-overlay{opacity:1;}
+.song-card:hover .play-icon{transform:scale(1);}
+.song-info{padding:1rem;display:flex;flex-direction:column;gap:0.3rem;}
+.song-info h3{
+    font-size:1rem;
+    font-weight:600;
+    white-space:nowrap;
+    overflow:hidden;
+    text-overflow:ellipsis;
+    background: var(--gradient);
+    -webkit-background-clip:text;
+    background-clip:text;
+    -webkit-text-fill-color:transparent;
+}
+.song-info p{ font-size:0.85rem;color:var(--text-secondary);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.song-type{
+    position:absolute;
+    top:12px;
+    right:12px;
+    background: var(--glass-bg);
+    backdrop-filter:blur(5px);
+    -webkit-backdrop-filter:blur(5px);
+    color: var(--text-primary);
+    font-size:0.7rem;
+    padding:0.3rem 0.6rem;
+    border-radius:20px;
+    border:1px solid var(--glass-border);
+}
 
-  .dropdown-content button {
-    display: block;
-    width: 100%;
-    padding: 0.5rem 1rem;
-    text-align: left;
-    background: none;
-    border: none;
-    cursor: pointer;
-    transition: 0.2s;
-  }
+/* Loading */
+.loading{
+    grid-column:1/-1;
+    text-align:center;
+    font-size:1.2rem;
+    color:var(--text-secondary);
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    gap:1rem;
+    padding:3rem;
+}
+.loading-spinner{
+    width:40px;
+    height:40px;
+    border:3px solid rgba(255,255,255,0.1);
+    border-radius:50%;
+    border-top-color:var(--primary);
+    animation: spin 1s ease-in-out infinite;
+}
+@keyframes spin{ to{ transform:rotate(360deg);} }
 
-  .dropdown-content button:hover {
-    background: #f0f0f0;
-  }
+@media(max-width:768px){ main{ grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:1rem;}.song-image-container{height:150px;} }
+@media(max-width:480px){ main{ grid-template-columns:repeat(auto-fill,minmax(140px,1fr));gap:0.8rem;}.song-image-container{height:130px;} }
 
-  .dropdown:hover .dropdown-content {
-    display: block;
-  }
-
-  /* ======= SONG LIST ======= */
-  main {
-    flex: 1;
-    padding: 2rem;
-  }
-
-  .song-list {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
-    gap: 1rem;
-  }
-
-  .song-card {
-    background: white;
-    padding: 1rem;
-    border-radius: 12px;
-    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-    transition: 0.2s;
-    cursor: pointer;
-  }
-
-  .song-card:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 8px 16px rgba(0,0,0,0.2);
-  }
-
-  .song-card h3 {
-    font-size: 1.1rem;
-    margin-bottom: 0.2rem;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-  }
-
-  .song-card p {
-    font-size: 0.85rem;
-    color: #666;
-  }
 </style>
 </head>
 <body>
 
 <header>
-  <h1>My Music</h1>
-  <nav>
-    <button id="btn-songs">Songs</button>
+  <div class="logo"><h1>My Music Library</h1></div>
+  <div class="nav-items">
+    <button class="nav-btn" id="all-songs">Songs</button>
     <div class="dropdown">
-      <button>Types ▼</button>
-      <div class="dropdown-content" id="type-options">
-        <!-- Dynamic types will be loaded here -->
+      <button class="nav-btn">Types</button>
+      <div class="dropdown-content">
+        <button data-type="bangla">Bangla</button>
+        <button data-type="english">English</button>
+        <button data-type="hindi">Hindi</button>
+        <button data-type="arabic">Arabic</button>
+        <button data-type="slowed">Slowed/Reverbed</button>
+        <button data-type="lofi">Lofi</button>
+        <button data-type="funk">Funk/Phonk</button>
       </div>
     </div>
-    <button id="btn-favorites">Favorites</button>
-  </nav>
+    <button class="nav-btn" id="favorites">Favorites</button>
+  </div>
 </header>
 
-<main>
-  <div class="song-list" id="song-list">
-    <!-- Songs will be populated here -->
+<input type="text" id="search-bar" placeholder="Search songs...">
+
+<main id="song-list">
+  <div class="loading">
+    <div class="loading-spinner"></div>
+    <p>Loading songs...</p>
   </div>
 </main>
 
 <script>
-const types = [
-  'Bangla', 'English', 'Hindi', 'Arabic',
-  'Slowed Reverbed', 'Lofi', 'Funk/Phonk'
-];
+const songList=document.getElementById('song-list');
+let songsData=[];
 
-// Load types in dropdown
-const typeContainer = document.getElementById('type-options');
-types.forEach(type => {
-  const btn = document.createElement('button');
-  btn.textContent = type;
-  btn.addEventListener('click', () => loadSongs(type.toLowerCase()));
-  typeContainer.appendChild(btn);
-});
-
-// Load all songs initially
-document.getElementById('btn-songs').addEventListener('click', () => loadSongs());
-document.getElementById('btn-favorites').addEventListener('click', () => loadSongs('favorites'));
-
-async function loadSongs(type = '') {
-  const songList = document.getElementById('song-list');
-  songList.innerHTML = 'Loading...';
-  
-  let allSongs = [];
-
-  // If favorites, just simulate empty list (you can implement later)
-  if(type === 'favorites') {
-    songList.innerHTML = '<p>No favorites yet.</p>';
-    return;
-  }
-
-  // If type is specified, load only that JSON
-  const typesToLoad = type ? [type] : ['bangla','english','hindi','arabic'];
-
-  for(const t of typesToLoad) {
-    try {
-      const res = await fetch(`data/${t}.json`);
-      if(res.ok) {
-        const data = await res.json();
-        allSongs = allSongs.concat(data);
-      }
-    } catch(err) {
-      console.error('Error loading', t, err);
+async function loadSongs(type='all'){
+    songList.innerHTML='<div class="loading"><div class="loading-spinner"></div><p>Loading songs...</p></div>';
+    songsData=[];
+    const typesToLoad=type==='all'?['bangla','english','hindi','arabic']: [type];
+    for(const t of typesToLoad){
+        try{
+            const res=await fetch(`data/${t}.json`);
+            if(res.ok){
+                const data=await res.json();
+                data.forEach(s=>songsData.push({...s,type:t}));
+            }
+        }catch(e){ console.error(e);}
     }
-  }
-
-  // Sort alphabetically
-  allSongs.sort((a,b) => a.name.localeCompare(b.name));
-
-  if(allSongs.length === 0) {
-    songList.innerHTML = '<p>No songs found.</p>';
-    return;
-  }
-
-  // Render songs
-  songList.innerHTML = '';
-  allSongs.forEach(song => {
-    const card = document.createElement('div');
-    card.className = 'song-card';
-    card.innerHTML = `<h3>${song.name}</h3><p>${song.artist || ''}</p>`;
-    card.addEventListener('click', () => {
-      window.location.href = `song.html?song=${encodeURIComponent(song.file)}&type=${encodeURIComponent(song.type)}`;
-    });
-    songList.appendChild(card);
-  });
+    displaySongs(songsData);
 }
 
-// Initial load
+function displaySongs(list){
+    if(list.length===0){
+        songList.innerHTML='<p style="text-align:center; grid-column:1/-1;">No songs found.</p>';
+        return;
+    }
+    songList.innerHTML=list.sort((a,b)=>a.name.localeCompare(b.name))
+    .map(s=>`<div class="song-card" onclick="playSong('${s.type}','${encodeURIComponent(s.file)}')">
+        <div class="song-image-container"><img src="${s.cover||'https://via.placeholder.com/220x180'}" alt="${s.name}">
+        <div class="play-overlay"><div class="play-icon"><i>&#9658;</i></div></div>
+        </div>
+        <div class="song-info"><h3>${s.name}</h3><p>${s.artist||''}</p></div>
+        <div class="song-type">${s.type}</div>
+    </div>`).join('');
+}
+
+function playSong(type,file){
+    window.location.href=`song.html?type=${type}&file=${file}`;
+}
+
+document.getElementById('search-bar').addEventListener('input',e=>{
+    const val=e.target.value.toLowerCase();
+    displaySongs(songsData.filter(s=>s.name.toLowerCase().includes(val)));
+});
+
+document.querySelectorAll('.dropdown-content button').forEach(btn=>{
+    btn.addEventListener('click',()=>loadSongs(btn.dataset.type));
+});
+
 loadSongs();
 </script>
 
