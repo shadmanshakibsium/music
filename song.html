@@ -5,258 +5,100 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Now Playing</title>
 <style>
-@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap');
-*{margin:0;padding:0;box-sizing:border-box;font-family:'Poppins',sans-serif;}
-body {
-  background: linear-gradient(135deg,#222,#444);
-  min-height:100vh;
-  display:flex;
-  flex-direction:column;
-  align-items:center;
-  justify-content:center;
-  padding:20px;
-  color:#fff;
+:root{
+    --primary:#ff3e78;
+    --secondary:#4e54ff;
+    --dark-bg:#0f0f13;
+    --card-bg:#1a1a24;
+    --text-primary:#fff;
+    --text-secondary:#b3b3b3;
+    --gradient: linear-gradient(135deg, var(--primary), var(--secondary));
+    --glass-bg: rgba(30,30,40,0.6);
+    --transition:all 0.3s ease;
 }
-h1{
-  font-size:2rem;
-  margin-bottom:20px;
-  text-align:center;
-  font-weight:700;
+*{margin:0;padding:0;box-sizing:border-box;}
+body{
+    background: var(--dark-bg);
+    color: var(--text-primary);
+    font-family:'Poppins',sans-serif;
+    min-height:100vh;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    padding:2rem;
 }
-
-/* ------------------ Player Card ------------------ */
-.player-card{
-  background: rgba(0,0,0,0.6);
-  backdrop-filter: blur(15px);
-  border-radius:25px;
-  width:90%;
-  max-width:400px;
-  padding:30px 20px;
-  text-align:center;
-  box-shadow:0 15px 40px rgba(0,0,0,0.5);
+.container{
+    background: var(--card-bg);
+    border-radius:20px;
+    padding:2rem;
+    max-width:400px;
+    width:100%;
+    text-align:center;
+    box-shadow:0 10px 30px rgba(0,0,0,0.3);
+    backdrop-filter:blur(10px);
 }
-.player-card img{
-  width:250px;
-  height:250px;
-  border-radius:15px;
-  margin-bottom:20px;
-  object-fit:cover;
-  box-shadow:0 10px 20px rgba(0,0,0,0.5);
-  transition: transform 0.3s;
+h2{
+    font-size:1.5rem;
+    font-weight:700;
+    background: var(--gradient);
+    -webkit-background-clip:text;
+    background-clip:text;
+    -webkit-text-fill-color:transparent;
+    margin-bottom:0.5rem;
 }
-.player-card img:hover{
-  transform: scale(1.03);
-}
-.song-title{
-  font-weight:700;
-  font-size:1.3rem;
-  margin-bottom:5px;
-}
-.song-artist{
-  font-weight:400;
-  font-size:1rem;
-  margin-bottom:20px;
-  color:#ccc;
-}
-
-/* ------------------ Progress Bar ------------------ */
-.progress-container{
-  width:100%;
-  background: rgba(255,255,255,0.2);
-  height:8px;
-  border-radius:10px;
-  cursor:pointer;
-  margin-bottom:20px;
-  position:relative;
-}
-.progress{
-  background:#ff6b6b;
-  height:100%;
-  width:0%;
-  border-radius:10px;
-}
-
-/* ------------------ Controls ------------------ */
-.controls{
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
-  margin-bottom:15px;
+p{color:var(--text-secondary); margin-bottom:1.5rem;}
+audio{
+    width:100%;
+    margin-bottom:1.5rem;
+    border-radius:12px;
 }
 button{
-  background:none;
-  border:none;
-  color:#fff;
-  font-size:1.5rem;
-  cursor:pointer;
-  transition: transform 0.2s;
+    padding:0.6rem 1.5rem;
+    border-radius:50px;
+    border:none;
+    background: var(--gradient);
+    color:#fff;
+    font-weight:600;
+    cursor:pointer;
+    transition: var(--transition);
 }
 button:hover{
-  transform: scale(1.2);
-}
-#play-pause{
-  font-size:2rem;
-}
-.volume-container{
-  display:flex;
-  align-items:center;
-  gap:10px;
-}
-input[type=range]{
-  -webkit-appearance:none;
-  width:100px;
-  height:5px;
-  border-radius:5px;
-  background:#555;
-  cursor:pointer;
-}
-input[type=range]::-webkit-slider-thumb{
-  -webkit-appearance:none;
-  width:15px;
-  height:15px;
-  border-radius:50%;
-  background:#ff6b6b;
-  cursor:pointer;
-  box-shadow:0 2px 4px rgba(0,0,0,0.5);
-}
-@media(max-width:500px){
-  .player-card img{width:200px;height:200px;}
+    transform: translateY(-2px) scale(1.05);
+    box-shadow:0 6px 20px rgba(255,62,120,0.4);
 }
 </style>
 </head>
 <body>
-
-<h1>Now Playing</h1>
-<div class="player-card">
-  <img id="cover" src="" alt="cover">
-  <div class="song-title" id="song-title"></div>
-  <div class="song-artist" id="song-artist"></div>
-
-  <div class="progress-container" id="progress-container">
-    <div class="progress" id="progress"></div>
-  </div>
-
-  <div class="controls">
-    <button id="prev">⏮</button>
-    <button id="play-pause">▶️</button>
-    <button id="next">⏭</button>
-  </div>
-
-  <div class="controls">
-    <button id="repeat">🔁</button>
-    <button id="shuffle">🔀</button>
-    <div class="volume-container">
-      <span>🔊</span>
-      <input type="range" id="volume" min="0" max="1" step="0.01" value="0.8">
-    </div>
-  </div>
-
-  <audio id="audio"></audio>
+<div class="container">
+    <h2 id="song-name">Song Name</h2>
+    <p id="song-artist">Artist</p>
+    <audio id="player" controls></audio>
+    <button onclick="goBack()">Back</button>
 </div>
 
 <script>
-// ------------------ Load Songs ------------------
-let params = new URLSearchParams(window.location.search);
-let songIndex = parseInt(params.get("song")) || 0;
-let songs = [];
+function goBack(){ window.history.back(); }
 
-fetch("data/songs.json")
-.then(res=>res.json())
-.then(data=>{
-  songs = data;
-  loadSong(songIndex);
-});
+const params=new URLSearchParams(window.location.search);
+const type=params.get('type');
+const file=params.get('file');
+const player=document.getElementById('player');
+const songName=document.getElementById('song-name');
+const songArtist=document.getElementById('song-artist');
 
-const audio = document.getElementById("audio");
-const cover = document.getElementById("cover");
-const title = document.getElementById("song-title");
-const artist = document.getElementById("song-artist");
-const playBtn = document.getElementById("play-pause");
-const prevBtn = document.getElementById("prev");
-const nextBtn = document.getElementById("next");
-const repeatBtn = document.getElementById("repeat");
-const shuffleBtn = document.getElementById("shuffle");
-const progressContainer = document.getElementById("progress-container");
-const progress = document.getElementById("progress");
-const volumeSlider = document.getElementById("volume");
-
-let isPlaying=false;
-let isRepeat=false;
-let isShuffle=false;
-
-function loadSong(index){
-  const song=songs[index];
-  audio.src=song.url;
-  cover.src=song.cover;
-  title.textContent=song.title;
-  artist.textContent=song.artist;
-  isPlaying=false;
-  playSong();
+if(type && file){
+    fetch(`data/${type}.json`)
+    .then(res=>res.ok?res.json():[])
+    .then(data=>{
+        const song=data.find(s=>s.file===decodeURIComponent(file));
+        if(song){
+            songName.textContent=song.name;
+            songArtist.textContent=song.artist||'Unknown';
+            player.src=`songs/${type}/${song.file}`;
+        }
+    })
+    .catch(err=>console.error(err));
 }
-
-function playSong(){
-  audio.play();
-  isPlaying=true;
-  playBtn.textContent="⏸";
-}
-
-function pauseSong(){
-  audio.pause();
-  isPlaying=false;
-  playBtn.textContent="▶️";
-}
-
-playBtn.addEventListener("click", ()=>{
-  if(isPlaying) pauseSong();
-  else playSong();
-});
-
-prevBtn.addEventListener("click", ()=>{
-  if(isShuffle) songIndex=Math.floor(Math.random()*songs.length);
-  else songIndex=(songIndex-1+songs.length)%songs.length;
-  loadSong(songIndex);
-});
-
-nextBtn.addEventListener("click", ()=>{
-  if(isShuffle) songIndex=Math.floor(Math.random()*songs.length);
-  else songIndex=(songIndex+1)%songs.length;
-  loadSong(songIndex);
-});
-
-repeatBtn.addEventListener("click", ()=>{
-  isRepeat=!isRepeat;
-  repeatBtn.style.opacity=isRepeat?0.7:1;
-});
-
-shuffleBtn.addEventListener("click", ()=>{
-  isShuffle=!isShuffle;
-  shuffleBtn.style.opacity=isShuffle?0.7:1;
-});
-
-// ------------------ Progress Bar ------------------
-audio.addEventListener("timeupdate", ()=>{
-  const percent = (audio.currentTime/audio.duration)*100;
-  progress.style.width = percent + "%";
-});
-
-progressContainer.addEventListener("click",(e)=>{
-  const width=progressContainer.clientWidth;
-  const clickX=e.offsetX;
-  const duration=audio.duration;
-  audio.currentTime=(clickX/width)*duration;
-});
-
-// ------------------ Volume ------------------
-volumeSlider.addEventListener("input", ()=>{
-  audio.volume=volumeSlider.value;
-});
-
-// ------------------ Auto Next ------------------
-audio.addEventListener("ended", ()=>{
-  if(isRepeat) loadSong(songIndex);
-  else nextBtn.click();
-});
 </script>
-
 </body>
 </html>
