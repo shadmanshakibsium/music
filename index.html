@@ -3,9 +3,8 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>My Music Site</title>
+<title>All Songs</title>
 <style>
-/* ------------------ Global Styles ------------------ */
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap');
 *{margin:0;padding:0;box-sizing:border-box;font-family:'Poppins',sans-serif;}
 body {
@@ -18,106 +17,35 @@ body {
   color:#fff;
 }
 h1 {
-  font-size:2.8rem;
+  font-size:2.5rem;
   margin-bottom:20px;
   text-shadow: 1px 1px 6px rgba(0,0,0,0.3);
 }
-/* ------------------ Filters ------------------ */
-.filters {
-  display:flex;
-  gap:15px;
-  margin-bottom:30px;
-}
-select {
-  padding:10px 15px;
-  border-radius:10px;
-  border:none;
-  font-size:1rem;
-  cursor:pointer;
-  transition: transform 0.2s;
-  background: rgba(255,255,255,0.3);
-  color:#fff;
-  backdrop-filter: blur(5px);
-}
-select:hover{transform: scale(1.05);}
-
-/* ------------------ Song Cards ------------------ */
 ul#song-list{
-  display:flex;
-  flex-wrap:wrap;
-  justify-content:center;
-  gap:20px;
   list-style:none;
-  padding:0;
-}
-li.song-card{
-  background: rgba(255,255,255,0.15);
-  backdrop-filter: blur(12px);
-  border-radius:20px;
-  width:250px;
-  padding:15px;
-  box-shadow:0 8px 25px rgba(0,0,0,0.15);
-  transition: transform 0.3s, box-shadow 0.3s, opacity 0.5s;
-  opacity:0;
-  transform: translateY(20px);
-}
-li.song-card:hover{
-  transform: translateY(-10px) scale(1.05);
-  box-shadow:0 12px 30px rgba(0,0,0,0.25);
-}
-li img{
   width:100%;
-  border-radius:15px;
-  margin-bottom:10px;
-  transition: transform 0.3s;
+  max-width:600px;
 }
-li img:hover{
-  transform: scale(1.05);
-}
-li span{
-  display:block;
-  font-weight:600;
-  margin-bottom:10px;
-  text-align:center;
-  font-size:1rem;
-}
-
-/* Custom Audio Player Styling */
-audio{
-  width:100%;
-  outline:none;
-  border-radius:10px;
+li.song-item{
   background: rgba(255,255,255,0.2);
+  backdrop-filter: blur(10px);
+  margin-bottom:15px;
+  padding:15px 20px;
+  border-radius:15px;
   cursor:pointer;
+  font-weight:600;
+  font-size:1.1rem;
+  transition: transform 0.3s, box-shadow 0.3s;
 }
-
-/* ------------------ Responsive ------------------ */
-@media(max-width:600px){
-  li.song-card{width:90%;}
-  .filters{flex-direction:column;align-items:center;}
+li.song-item:hover{
+  transform: scale(1.03);
+  box-shadow:0 8px 20px rgba(0,0,0,0.3);
 }
 </style>
 </head>
 <body>
 
 <h1>All Songs</h1>
-
-<div class="filters">
-  <label>Language:
-    <select id="language-select">
-      <option value="all">All</option>
-      <option value="hindi">Hindi</option>
-      <option value="bangla">Bangla</option>
-      <option value="english">English</option>
-    </select>
-  </label>
-  <label>Singer:
-    <select id="singer-select">
-      <option value="all">All</option>
-    </select>
-  </label>
-</div>
-
 <ul id="song-list"></ul>
 
 <script>
@@ -126,46 +54,16 @@ fetch("data/songs.json")
 .then(res => res.json())
 .then(songs => {
   const songList = document.getElementById("song-list");
-  const singerSelect = document.getElementById("singer-select");
 
-  // Populate singer dropdown
-  const singers = [...new Set(songs.map(s => s.artist))];
-  singers.forEach(s => {
-    const option = document.createElement("option");
-    option.value = s;
-    option.textContent = s;
-    singerSelect.appendChild(option);
-  });
-
-  function render(filteredSongs){
-    songList.innerHTML="";
-    filteredSongs.forEach((song,i)=>{
-      const li=document.createElement("li");
-      li.className="song-card";
-      li.style.transitionDelay=(i*50)+"ms"; // stagger fade-in
-      li.innerHTML=`
-        <img src="${song.cover}" alt="${song.title}">
-        <span>${song.title} - ${song.artist}</span>
-        <audio controls src="${song.url}"></audio>
-      `;
-      songList.appendChild(li);
-      setTimeout(()=>li.style.opacity=1,50);
+  songs.forEach((song, index)=>{
+    const li = document.createElement("li");
+    li.className = "song-item";
+    li.textContent = song.title + " - " + song.artist;
+    li.addEventListener("click", ()=>{
+      // Navigate to song page with query param
+      window.location.href = `song.html?song=${index}`;
     });
-  }
-
-  render(songs);
-
-  // ------------------ Filter Logic ------------------
-  document.getElementById("language-select").addEventListener("change",e=>{
-    const lang=e.target.value;
-    const singer=singerSelect.value;
-    render(songs.filter(s=> (lang==="all"||s.language===lang) && (singer==="all"||s.artist===singer)));
-  });
-
-  singerSelect.addEventListener("change",e=>{
-    const singer=e.target.value;
-    const lang=document.getElementById("language-select").value;
-    render(songs.filter(s=> (singer==="all"||s.artist===singer) && (lang==="all"||s.language===lang)));
+    songList.appendChild(li);
   });
 });
 </script>
