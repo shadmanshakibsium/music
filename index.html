@@ -3,69 +3,228 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>All Songs</title>
+<title>My Music Collection</title>
 <style>
-@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap');
-*{margin:0;padding:0;box-sizing:border-box;font-family:'Poppins',sans-serif;}
-body {
-  background: linear-gradient(135deg, #ffdde1, #ee9ca7);
-  min-height:100vh;
-  display:flex;
-  flex-direction:column;
-  align-items:center;
-  padding:20px;
-  color:#fff;
-}
-h1 {
-  font-size:2.5rem;
-  margin-bottom:20px;
-  text-shadow: 1px 1px 6px rgba(0,0,0,0.3);
-}
-ul#song-list{
-  list-style:none;
-  width:100%;
-  max-width:600px;
-}
-li.song-item{
-  background: rgba(255,255,255,0.2);
-  backdrop-filter: blur(10px);
-  margin-bottom:15px;
-  padding:15px 20px;
-  border-radius:15px;
-  cursor:pointer;
-  font-weight:600;
-  font-size:1.1rem;
-  transition: transform 0.3s, box-shadow 0.3s;
-}
-li.song-item:hover{
-  transform: scale(1.03);
-  box-shadow:0 8px 20px rgba(0,0,0,0.3);
-}
+  /* ======= BASIC RESET ======= */
+  * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  }
+
+  body {
+    background: #f5f5f5;
+    color: #333;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+  }
+
+  /* ======= HEADER ======= */
+  header {
+    background: #1e1e1e;
+    color: white;
+    padding: 1rem 2rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+  }
+
+  header h1 {
+    font-size: 1.5rem;
+  }
+
+  nav {
+    display: flex;
+    gap: 1rem;
+  }
+
+  nav button {
+    background: transparent;
+    border: none;
+    color: white;
+    font-size: 1rem;
+    cursor: pointer;
+    padding: 0.5rem 1rem;
+    border-radius: 8px;
+    transition: 0.2s;
+  }
+
+  nav button:hover {
+    background: rgba(255,255,255,0.1);
+  }
+
+  /* ======= FILTER DROPDOWN ======= */
+  .dropdown {
+    position: relative;
+  }
+
+  .dropdown-content {
+    display: none;
+    position: absolute;
+    top: 110%;
+    left: 0;
+    background: white;
+    color: #333;
+    min-width: 150px;
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+    overflow: hidden;
+    z-index: 10;
+  }
+
+  .dropdown-content button {
+    display: block;
+    width: 100%;
+    padding: 0.5rem 1rem;
+    text-align: left;
+    background: none;
+    border: none;
+    cursor: pointer;
+    transition: 0.2s;
+  }
+
+  .dropdown-content button:hover {
+    background: #f0f0f0;
+  }
+
+  .dropdown:hover .dropdown-content {
+    display: block;
+  }
+
+  /* ======= SONG LIST ======= */
+  main {
+    flex: 1;
+    padding: 2rem;
+  }
+
+  .song-list {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+    gap: 1rem;
+  }
+
+  .song-card {
+    background: white;
+    padding: 1rem;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    transition: 0.2s;
+    cursor: pointer;
+  }
+
+  .song-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 16px rgba(0,0,0,0.2);
+  }
+
+  .song-card h3 {
+    font-size: 1.1rem;
+    margin-bottom: 0.2rem;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .song-card p {
+    font-size: 0.85rem;
+    color: #666;
+  }
 </style>
 </head>
 <body>
 
-<h1>All Songs</h1>
-<ul id="song-list"></ul>
+<header>
+  <h1>My Music</h1>
+  <nav>
+    <button id="btn-songs">Songs</button>
+    <div class="dropdown">
+      <button>Types ▼</button>
+      <div class="dropdown-content" id="type-options">
+        <!-- Dynamic types will be loaded here -->
+      </div>
+    </div>
+    <button id="btn-favorites">Favorites</button>
+  </nav>
+</header>
+
+<main>
+  <div class="song-list" id="song-list">
+    <!-- Songs will be populated here -->
+  </div>
+</main>
 
 <script>
-// ------------------ Load Songs ------------------
-fetch("data/songs.json")
-.then(res => res.json())
-.then(songs => {
-  const songList = document.getElementById("song-list");
+const types = [
+  'Bangla', 'English', 'Hindi', 'Arabic',
+  'Slowed Reverbed', 'Lofi', 'Funk/Phonk'
+];
 
-  songs.forEach((song, index)=>{
-    const li = document.createElement("li");
-    li.className = "song-item";
-    li.textContent = song.title + " - " + song.artist;
-    li.addEventListener("click", ()=>{
-      // Navigate to song page with query param
-      window.location.href = `song.html?song=${index}`;
-    });
-    songList.appendChild(li);
-  });
+// Load types in dropdown
+const typeContainer = document.getElementById('type-options');
+types.forEach(type => {
+  const btn = document.createElement('button');
+  btn.textContent = type;
+  btn.addEventListener('click', () => loadSongs(type.toLowerCase()));
+  typeContainer.appendChild(btn);
 });
+
+// Load all songs initially
+document.getElementById('btn-songs').addEventListener('click', () => loadSongs());
+document.getElementById('btn-favorites').addEventListener('click', () => loadSongs('favorites'));
+
+async function loadSongs(type = '') {
+  const songList = document.getElementById('song-list');
+  songList.innerHTML = 'Loading...';
+  
+  let allSongs = [];
+
+  // If favorites, just simulate empty list (you can implement later)
+  if(type === 'favorites') {
+    songList.innerHTML = '<p>No favorites yet.</p>';
+    return;
+  }
+
+  // If type is specified, load only that JSON
+  const typesToLoad = type ? [type] : ['bangla','english','hindi','arabic'];
+
+  for(const t of typesToLoad) {
+    try {
+      const res = await fetch(`data/${t}.json`);
+      if(res.ok) {
+        const data = await res.json();
+        allSongs = allSongs.concat(data);
+      }
+    } catch(err) {
+      console.error('Error loading', t, err);
+    }
+  }
+
+  // Sort alphabetically
+  allSongs.sort((a,b) => a.name.localeCompare(b.name));
+
+  if(allSongs.length === 0) {
+    songList.innerHTML = '<p>No songs found.</p>';
+    return;
+  }
+
+  // Render songs
+  songList.innerHTML = '';
+  allSongs.forEach(song => {
+    const card = document.createElement('div');
+    card.className = 'song-card';
+    card.innerHTML = `<h3>${song.name}</h3><p>${song.artist || ''}</p>`;
+    card.addEventListener('click', () => {
+      window.location.href = `song.html?song=${encodeURIComponent(song.file)}&type=${encodeURIComponent(song.type)}`;
+    });
+    songList.appendChild(card);
+  });
+}
+
+// Initial load
+loadSongs();
 </script>
 
 </body>
