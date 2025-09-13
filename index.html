@@ -1,260 +1,218 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>My Music Library</title>
-<style>
-:root {
-    --primary: #ff3e78;
-    --secondary: #4e54ff;
-    --dark-bg: #0f0f13;
-    --card-bg: #1a1a24;
-    --card-hover: #232330;
-    --text-primary: #ffffff;
-    --text-secondary: #b3b3b3;
-    --gradient: linear-gradient(135deg, var(--primary), var(--secondary));
-    --glass-bg: rgba(30, 30, 40, 0.6);
-    --glass-border: rgba(255, 255, 255, 0.1);
-    --transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
-}
-/* RESET */
-*{margin:0;padding:0;box-sizing:border-box;}
-body{
-    background: var(--dark-bg);
-    color: var(--text-primary);
-    font-family:'Poppins',sans-serif;
-    min-height:100vh;
-}
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>My Music Library</title>
+  <style>
+  :root {
+      --primary: #ff3e78;
+      --secondary: #4e54ff;
+      --dark-bg: #0f0f13;
+      --card-bg: #1a1a24;
+      --card-hover: #232330;
+      --text-primary: #ffffff;
+      --text-secondary: #b3b3b3;
+      --gradient: linear-gradient(135deg, var(--primary), var(--secondary));
+      --glass-bg: rgba(30, 30, 40, 0.6);
+      --glass-border: rgba(255, 255, 255, 0.1);
+      --transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+  }
+  /* RESET */
+  *{margin:0;padding:0;box-sizing:border-box;}
+  body{
+      background: var(--dark-bg);
+      color: var(--text-primary);
+      font-family:'Poppins',sans-serif;
+      min-height:100vh;
+  }
 
-/* HEADER */
-header{
-    display:flex;
-    justify-content:space-between;
-    align-items:center;
-    padding:1rem 2rem;
-    background: var(--glass-bg);
-    backdrop-filter: blur(10px);
-    -webkit-backdrop-filter: blur(10px);
-    box-shadow:0 4px 30px rgba(0,0,0,0.3);
-    position:sticky;
-    top:0;
-    z-index:100;
-    border-bottom:1px solid var(--glass-border);
-}
-.logo h1{
-    font-family:'Montserrat',sans-serif;
-    font-size:1.8rem;
-    font-weight:700;
-    background: var(--gradient);
-    -webkit-background-clip:text;
-    background-clip:text;
-    -webkit-text-fill-color:transparent;
-}
-.nav-items{
-    display:flex;
-    gap:1rem;
-    align-items:center;
-}
-.nav-btn{
-    padding:0.6rem 1.5rem;
-    border-radius:50px;
-    border:none;
-    background: rgba(255,255,255,0.1);
-    color:#fff;
-    font-weight:600;
-    cursor:pointer;
-    transition: var(--transition);
-    box-shadow:0 4px 12px rgba(0,0,0,0.3);
-    display:flex;
-    align-items:center;
-    justify-content:center;
-}
-.nav-btn:hover{
-    background: var(--gradient);
-    transform: translateY(-2px) scale(1.05);
-    box-shadow:0 6px 20px rgba(255,62,120,0.4);
-}
-/* Dropdown */
-.dropdown{ position:relative;}
-.dropdown-content{
-    display:none;
-    position:absolute;
-    top:120%;
-    right:0;
-    background: var(--glass-bg);
-    backdrop-filter: blur(10px);
-    border-radius:16px;
-    box-shadow:0 10px 30px rgba(0,0,0,0.4);
-    overflow:hidden;
-    padding:0.5rem 0;
-}
-.dropdown-content button{
-    width:100%;
-    padding:0.8rem 1.2rem;
-    border:none;
-    background:none;
-    color:#fff;
-    text-align:left;
-    cursor:pointer;
-    transition:0.2s;
-}
-.dropdown-content button:hover{background: rgba(255,255,255,0.1);}
-.dropdown:hover .dropdown-content{display:block;}
+  /* Glass Navbar */
+  .glass {
+      background: rgba(255,255,255,0.05);
+      backdrop-filter: blur(8px);
+      border: 1px solid rgba(255,255,255,0.1);
+      border-radius: 16px;
+  }
+  header nav ul li button,
+  header nav ul li a {
+      color: #fff;
+      font-weight: 500;
+      padding: 0.4rem 0.6rem;
+      border-radius: 8px;
+      transition: 0.2s;
+  }
+  header nav ul li button:hover,
+  header nav ul li a:hover {
+      color: var(--primary);
+  }
 
-/* SEARCH BAR */
-#search-bar{
-    width:100%;
-    max-width:400px;
-    margin:1.5rem auto;
-    display:block;
-    padding:0.8rem 1rem;
-    border-radius:12px;
-    border:1px solid var(--glass-border);
-    background: var(--card-bg);
-    color: var(--text-primary);
-}
+  /* SEARCH BAR */
+  #search-bar{
+      width:100%;
+      max-width:400px;
+      margin:1.5rem auto;
+      display:block;
+      padding:0.8rem 1rem;
+      border-radius:12px;
+      border:1px solid var(--glass-border);
+      background: var(--card-bg);
+      color: var(--text-primary);
+  }
 
-/* SONG GRID */
-main{
-    padding:1.5rem 2rem;
-    display:grid;
-    grid-template-columns: repeat(auto-fill, minmax(220px,1fr));
-    gap:1.5rem;
-    max-width:1400px;
-    margin:0 auto;
-}
-.song-card{
-    background: var(--card-bg);
-    border-radius:20px;
-    overflow:hidden;
-    cursor:pointer;
-    transition:var(--transition);
-    display:flex;
-    flex-direction:column;
-    box-shadow:0 10px 20px rgba(0,0,0,0.2);
-    position:relative;
-}
-.song-card:hover{
-    transform:translateY(-8px);
-    box-shadow:0 15px 30px rgba(0,0,0,0.3);
-    background:var(--card-hover);
-}
-.song-image-container{
-    width:100%;
-    height:180px;
-    overflow:hidden;
-    position:relative;
-}
-.song-card img{
-    width:100%;
-    height:100%;
-    object-fit:cover;
-    transition: transform 0.5s ease;
-}
-.song-card:hover img{transform:scale(1.1);}
-.play-overlay{
-    position:absolute;
-    top:0;left:0;right:0;bottom:0;
-    background: rgba(0,0,0,0.5);
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    opacity:0;
-    transition:var(--transition);
-}
-.play-icon{
-    width:50px;
-    height:50px;
-    border-radius:50%;
-    background:var(--gradient);
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    transform:scale(0.8);
-    transition:var(--transition);
-}
-.play-icon i{ color:white;font-size:1.2rem;margin-left:3px;}
-.song-card:hover .play-overlay{opacity:1;}
-.song-card:hover .play-icon{transform:scale(1);}
-.song-info{padding:1rem;display:flex;flex-direction:column;gap:0.3rem;}
-.song-info h3{
-    font-size:1rem;
-    font-weight:600;
-    white-space:nowrap;
-    overflow:hidden;
-    text-overflow:ellipsis;
-    background: var(--gradient);
-    -webkit-background-clip:text;
-    background-clip:text;
-    -webkit-text-fill-color:transparent;
-}
-.song-info p{ font-size:0.85rem;color:var(--text-secondary);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
-.song-type{
-    position:absolute;
-    top:12px;
-    right:12px;
-    background: var(--glass-bg);
-    backdrop-filter:blur(5px);
-    -webkit-backdrop-filter:blur(5px);
-    color: var(--text-primary);
-    font-size:0.7rem;
-    padding:0.3rem 0.6rem;
-    border-radius:20px;
-    border:1px solid var(--glass-border);
-}
+  /* SONG GRID */
+  main{
+      padding:1.5rem 2rem;
+      display:grid;
+      grid-template-columns: repeat(auto-fill, minmax(220px,1fr));
+      gap:1.5rem;
+      max-width:1400px;
+      margin:0 auto;
+  }
+  .song-card{
+      background: var(--card-bg);
+      border-radius:20px;
+      overflow:hidden;
+      cursor:pointer;
+      transition:var(--transition);
+      display:flex;
+      flex-direction:column;
+      box-shadow:0 10px 20px rgba(0,0,0,0.2);
+      position:relative;
+  }
+  .song-card:hover{
+      transform:translateY(-8px);
+      box-shadow:0 15px 30px rgba(0,0,0,0.3);
+      background:var(--card-hover);
+  }
+  .song-image-container{
+      width:100%;
+      height:180px;
+      overflow:hidden;
+      position:relative;
+  }
+  .song-card img{
+      width:100%;
+      height:100%;
+      object-fit:cover;
+      transition: transform 0.5s ease;
+  }
+  .song-card:hover img{transform:scale(1.1);}
+  .play-overlay{
+      position:absolute;
+      top:0;left:0;right:0;bottom:0;
+      background: rgba(0,0,0,0.5);
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      opacity:0;
+      transition:var(--transition);
+  }
+  .play-icon{
+      width:50px;
+      height:50px;
+      border-radius:50%;
+      background:var(--gradient);
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      transform:scale(0.8);
+      transition:var(--transition);
+  }
+  .play-icon i{ color:white;font-size:1.2rem;margin-left:3px;}
+  .song-card:hover .play-overlay{opacity:1;}
+  .song-card:hover .play-icon{transform:scale(1);}
+  .song-info{padding:1rem;display:flex;flex-direction:column;gap:0.3rem;}
+  .song-info h3{
+      font-size:1rem;
+      font-weight:600;
+      white-space:nowrap;
+      overflow:hidden;
+      text-overflow:ellipsis;
+      background: var(--gradient);
+      -webkit-background-clip:text;
+      background-clip:text;
+      -webkit-text-fill-color:transparent;
+  }
+  .song-info p{ font-size:0.85rem;color:var(--text-secondary);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+  .song-type{
+      position:absolute;
+      top:12px;
+      right:12px;
+      background: var(--glass-bg);
+      backdrop-filter:blur(5px);
+      -webkit-backdrop-filter:blur(5px);
+      color: var(--text-primary);
+      font-size:0.7rem;
+      padding:0.3rem 0.6rem;
+      border-radius:20px;
+      border:1px solid var(--glass-border);
+  }
 
-/* Loading */
-.loading{
-    grid-column:1/-1;
-    text-align:center;
-    font-size:1.2rem;
-    color:var(--text-secondary);
-    display:flex;
-    flex-direction:column;
-    align-items:center;
-    gap:1rem;
-    padding:3rem;
-}
-.loading-spinner{
-    width:40px;
-    height:40px;
-    border:3px solid rgba(255,255,255,0.1);
-    border-radius:50%;
-    border-top-color:var(--primary);
-    animation: spin 1s ease-in-out infinite;
-}
-@keyframes spin{ to{ transform:rotate(360deg);} }
+  /* Loading */
+  .loading{
+      grid-column:1/-1;
+      text-align:center;
+      font-size:1.2rem;
+      color:var(--text-secondary);
+      display:flex;
+      flex-direction:column;
+      align-items:center;
+      gap:1rem;
+      padding:3rem;
+  }
+  .loading-spinner{
+      width:40px;
+      height:40px;
+      border:3px solid rgba(255,255,255,0.1);
+      border-radius:50%;
+      border-top-color:var(--primary);
+      animation: spin 1s ease-in-out infinite;
+  }
+  @keyframes spin{ to{ transform:rotate(360deg);} }
 
-@media(max-width:768px){ main{ grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:1rem;}.song-image-container{height:150px;} }
-@media(max-width:480px){ main{ grid-template-columns:repeat(auto-fill,minmax(140px,1fr));gap:0.8rem;}.song-image-container{height:130px;} }
+  @media(max-width:768px){ main{ grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:1rem;}.song-image-container{height:150px;} }
+  @media(max-width:480px){ main{ grid-template-columns:repeat(auto-fill,minmax(140px,1fr));gap:0.8rem;}.song-image-container{height:130px;} }
 
-</style>
+  </style>
 </head>
 <body>
 
-<header>
-  <div class="logo"><h1>My Music Library</h1></div>
-  <div class="nav-items">
-    <button class="nav-btn" id="all-songs">Songs</button>
-    <div class="dropdown">
-      <button class="nav-btn">Types</button>
-      <div class="dropdown-content">
-        <button data-type="bangla">Bangla</button>
-        <button data-type="english">English</button>
-        <button data-type="hindi">Hindi</button>
-        <button data-type="arabic">Arabic</button>
-        <button data-type="slowed">Slowed/Reverbed</button>
-        <button data-type="lofi">Lofi</button>
-        <button data-type="funk">Funk/Phonk</button>
-      </div>
-    </div>
-    <button class="nav-btn" id="favorites">Favorites</button>
+<!-- Header -->
+<header class="glass p-4 sticky top-0 z-50">
+  <div class="max-w-6xl mx-auto flex flex-wrap justify-between items-center">
+    <!-- Logo -->
+    <h1 class="text-2xl font-bold bg-gradient-to-r from-pink-500 to-indigo-500 bg-clip-text text-transparent mb-2 sm:mb-0">
+      🎵 My Music Library
+    </h1>
+
+    <!-- Navigation -->
+    <nav>
+      <ul class="flex flex-wrap gap-4">
+        <li><a href="#" id="all-songs">Songs</a></li>
+        <li class="relative group">
+          <button>Types ▾</button>
+          <!-- Dropdown -->
+          <ul class="absolute hidden group-hover:block top-full right-0 bg-gray-900 bg-opacity-80 backdrop-blur-lg rounded-lg shadow-lg mt-2 min-w-[140px]">
+            <li><button data-type="bangla" class="block w-full text-left px-4 py-2 hover:bg-gray-700">Bangla</button></li>
+            <li><button data-type="english" class="block w-full text-left px-4 py-2 hover:bg-gray-700">English</button></li>
+            <li><button data-type="hindi" class="block w-full text-left px-4 py-2 hover:bg-gray-700">Hindi</button></li>
+            <li><button data-type="arabic" class="block w-full text-left px-4 py-2 hover:bg-gray-700">Arabic</button></li>
+            <li><button data-type="slowed" class="block w-full text-left px-4 py-2 hover:bg-gray-700">Slowed/Reverbed</button></li>
+            <li><button data-type="lofi" class="block w-full text-left px-4 py-2 hover:bg-gray-700">Lofi</button></li>
+            <li><button data-type="funk" class="block w-full text-left px-4 py-2 hover:bg-gray-700">Funk/Phonk</button></li>
+          </ul>
+        </li>
+        <li><a href="#" id="favorites">Favorites</a></li>
+      </ul>
+    </nav>
   </div>
 </header>
 
+<!-- Search -->
 <input type="text" id="search-bar" placeholder="Search songs...">
 
+<!-- Songs -->
 <main id="song-list">
   <div class="loading">
     <div class="loading-spinner"></div>
@@ -269,7 +227,9 @@ let songsData=[];
 async function loadSongs(type='all'){
     songList.innerHTML='<div class="loading"><div class="loading-spinner"></div><p>Loading songs...</p></div>';
     songsData=[];
-    const typesToLoad=type==='all'?['bangla','english','hindi','arabic']: [type];
+    const typesToLoad = type === 'all' 
+      ? ['bangla','english','hindi','arabic','slowed','lofi','funk'] 
+      : [type];
     for(const t of typesToLoad){
         try{
             const res=await fetch(`data/${t}.json`);
@@ -303,14 +263,18 @@ function playSong(type,file){
 
 document.getElementById('search-bar').addEventListener('input',e=>{
     const val=e.target.value.toLowerCase();
-    displaySongs(songsData.filter(s=>s.name.toLowerCase().includes(val)));
+    displaySongs(songsData.filter(s=>
+      s.name.toLowerCase().includes(val) || (s.artist||'').toLowerCase().includes(val)
+    ));
 });
 
 document.querySelectorAll('.dropdown-content button').forEach(btn=>{
     btn.addEventListener('click',()=>loadSongs(btn.dataset.type));
 });
 
-loadSongs();
+document.getElementById('all-songs').addEventListener('click',()=>loadSongs('all'));
+
+loadSongs(); // 🔥 প্রথমে ঢুকলেই সব গান দেখাবে
 </script>
 
 </body>
