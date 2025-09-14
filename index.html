@@ -31,21 +31,47 @@ body {
 
 h1 { color: white; text-align: center; margin-bottom: 20px; }
 
+.search-bar { width: 100%; margin-bottom: 20px; }
+.search-bar input {
+  width: 100%; padding: 12px 15px; border-radius: 15px; border: none; outline: none;
+  font-size: 16px; backdrop-filter: blur(8px); background: rgba(255,255,255,0.1); color: white;
+}
+.search-bar input::placeholder { color: rgba(255,255,255,0.7); }
+
+.tabs { display: flex; justify-content: space-around; margin-bottom: 20px; }
+.tab {
+  padding: 10px 20px; border-radius: 15px; cursor: pointer; color: white; font-weight: 500; transition: 0.3s;
+}
+.tab.active, .tab:hover { background: rgba(255,255,255,0.2); backdrop-filter: blur(8px); }
+
 .music-list { list-style: none; }
 .music-item {
-  display: flex; align-items: center;
+  display: flex; align-items: center; justify-content: space-between;
   background: rgba(255,255,255,0.1); border-radius: 15px;
   padding: 12px 15px; margin-bottom: 10px; backdrop-filter: blur(8px);
   cursor: pointer; transition: 0.3s;
 }
 .music-item:hover { background: rgba(255,255,255,0.2); }
-.music-item a { color:white; text-decoration:none; font-size:16px; font-weight:500; width:100%; }
+.music-item .info { color:white; }
+.music-item .info .title { font-weight:500; font-size:16px; }
+
+.folder-title { color:white; margin-top:20px; font-weight:500; font-size:18px; }
 </style>
 </head>
 <body>
 
 <div class="container">
   <h1>My Music Library</h1>
+
+  <div class="search-bar">
+    <input type="text" id="searchInput" placeholder="Search by song...">
+  </div>
+
+  <div class="tabs">
+    <div class="tab active" data-tab="songs">Songs</div>
+    <div class="tab" data-tab="folders">Folders</div>
+  </div>
+
   <ul class="music-list" id="music-list"></ul>
 </div>
 
@@ -53,6 +79,7 @@ h1 { color: white; text-align: center; margin-bottom: 20px; }
 const types = ['bangla','english','hindi','arabic','lofi','slowed-reverbed'];
 let musicData = [];
 
+// Load all JSON files
 async function loadAllMusic() {
   let allSongs = [];
   for(const type of types){
@@ -60,7 +87,7 @@ async function loadAllMusic() {
       const res = await fetch(`data/${type}.json`);
       const data = await res.json();
       data.forEach(song => {
-        song.type = type;
+        song.type = type; 
         song.path = `data/${type}/${song.file}`;
       });
       allSongs = allSongs.concat(data);
@@ -69,25 +96,69 @@ async function loadAllMusic() {
     }
   }
   musicData = allSongs;
-  displaySongs(musicData);
 }
 
+// Display functions
 function displaySongs(list){
   if(list.length === 0){
-    musicList.innerHTML = `<li style="color:white; text-align:center; padding:20px;">No songs found</li>`;
+    musicList.innerHTML = `<li style="color:white; text-align:center; padding:20px;">No results found</li>`;
     return;
   }
   musicList.innerHTML = list.map(song => `
     <li class="music-item">
-      <a href="song.html?name=${encodeURIComponent(song.name)}&file=${encodeURIComponent(song.path)}">
-        ${song.name} <span style="font-size:12px;color:rgba(255,255,255,0.5)">[${song.type}]</span>
+      <a href="song.html?name=${encodeURIComponent(song.name)}&file=${encodeURIComponent(song.path)}" class="info" style="color:white;text-decoration:none;">
+        <span class="title">${song.name}</span>
+        <span style="font-size:12px;color:rgba(255,255,255,0.5)">[${song.type}]</span>
       </a>
     </li>
   `).join('');
 }
 
+function displayFolders(list){
+  let html = '';
+  types.forEach(type=>{
+    const songs = list.filter(s => s.type === type);
+    if(songs.length > 0){
+      html += `<div class="folder-title">${type.toUpperCase()}</div>`;
+      html += songs.map(song=>`
+        <li class="music-item">
+          <a href="song.html?name=${encodeURIComponent(song.name)}&file=${encodeURIComponent(song.path)}" style="color:white;text-decoration:none;">
+            ${song.name}
+          </a>
+        </li>
+      `).join('');
+    }
+  });
+  musicList.innerHTML = html || `<li style="color:white; text-align:center; padding:20px;">No folders found</li>`;
+}
+
+// Tab switching
+const tabs = document.querySelectorAll('.tab');
 const musicList = document.getElementById('music-list');
-loadAllMusic();
+const searchInput = document.getElementById('searchInput');
+
+tabs.forEach(tab=>{
+  tab.addEventListener('click', ()=>{
+    tabs.forEach(t=>t.classList.remove('active'));
+    tab.classList.add('active');
+    const activeTab = tab.dataset.tab;
+    if(activeTab==='songs') displaySongs(musicData);
+    else if(activeTab==='folders') displayFolders(musicData);
+    searchInput.value = '';
+  });
+});
+
+// Search
+searchInput.addEventListener('input', ()=>{
+  const query = searchInput.value.toLowerCase();
+  const filtered = musicData.filter(song => song.name.toLowerCase().includes(query));
+  const activeTab = document.querySelector('.tab.active').dataset.tab;
+  if(activeTab==='songs') displaySongs(filtered);
+  else if(activeTab==='folders') displayFolders(filtered);
+});
+
+// Initial load
+loadAllMusic().then(()=> displaySongs(musicData));
 </script>
 
 </body>
