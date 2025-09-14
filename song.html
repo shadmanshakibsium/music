@@ -155,12 +155,19 @@
 </div>
 
 <script>
-  // গানগুলো ডিফাইন করো: songs/ফোল্ডার/ফাইলনাম.ম্প3 ফরম্যাট
+  // URL থেকে গান, নাম, ফোল্ডার নিবে
+  const params = new URLSearchParams(window.location.search);
+  const folder = params.get("folder");
+  const file = params.get("file");
+  const nameFromURL = params.get("name");
+
+  if (!folder || !file || !nameFromURL) {
+    alert("Invalid or missing song parameters in URL!");
+  }
+
+  // শুধু এখনকার গান নিয়ে কাজ করবো
   const songs = [
-    { name: "Bangla Song 1", file: "bangla/song1.mp3" },
-    { name: "English Song 1", file: "english/song1.mp3" },
-    { name: "Hindi Song 1", file: "hindi/song1.mp3" },
-    { name: "Lofi Beat", file: "lofi/song1.mp3" },
+    { name: nameFromURL, file: `${folder}/${file}` }
   ];
 
   const audio = document.getElementById("audio");
@@ -183,7 +190,6 @@
   let isShuffle = false;
   let isRepeat = false;
 
-  // লোড এবং প্লে একটি গান
   function loadSong(index) {
     const song = songs[index];
     audio.src = "songs/" + song.file;
@@ -197,9 +203,8 @@
     durationEl.textContent = "0:00";
   }
 
-  // প্লে ও পজ toggle
   function playSong() {
-    audio.play();
+    audio.play().catch(() => {});
     isPlaying = true;
     playIcon.classList.remove("fa-play");
     playIcon.classList.add("fa-pause");
@@ -220,37 +225,22 @@
     }
   });
 
-  // আগের গান
+  // আগের / পরের গান এখন শুধুমাত্র 1 গান তাই শুধু লোড + প্লে
   prevBtn.addEventListener("click", () => {
-    if (isShuffle) {
-      currentIndex = Math.floor(Math.random() * songs.length);
-    } else {
-      currentIndex--;
-      if (currentIndex < 0) currentIndex = songs.length - 1;
-    }
-    loadSong(currentIndex);
-    playSong();
+    // যদি ভবিষ্যতে একাধিক গান থাকে, তখন লজিক যোগ করতে পারো
+    alert("Only one song loaded from URL, no previous song available.");
   });
 
-  // পরের গান
   nextBtn.addEventListener("click", () => {
-    if (isShuffle) {
-      currentIndex = Math.floor(Math.random() * songs.length);
-    } else {
-      currentIndex++;
-      if (currentIndex >= songs.length) currentIndex = 0;
-    }
-    loadSong(currentIndex);
-    playSong();
+    alert("Only one song loaded from URL, no next song available.");
   });
 
-  // শাফল toggle
   shuffleBtn.addEventListener("click", () => {
     isShuffle = !isShuffle;
     shuffleBtn.classList.toggle("active", isShuffle);
+    alert("Shuffle will work when multiple songs are loaded.");
   });
 
-  // রিপিট toggle
   repeatBtn.addEventListener("click", () => {
     isRepeat = !isRepeat;
     repeatBtn.classList.toggle("active", isRepeat);
@@ -261,19 +251,15 @@
     }
   });
 
-  // প্রগ্রেস বার আপডেট
   audio.addEventListener("timeupdate", () => {
     if (audio.duration) {
       const percent = (audio.currentTime / audio.duration) * 100;
       progressFilled.style.width = percent + "%";
-
-      // সময় ফরম্যাটিং
       currentTimeEl.textContent = formatTime(audio.currentTime);
       durationEl.textContent = formatTime(audio.duration);
     }
   });
 
-  // প্রগ্রেস ক্লিক করলে গান সিক করার জন্য
   progress.addEventListener("click", (e) => {
     const width = progress.clientWidth;
     const clickX = e.offsetX;
@@ -281,29 +267,31 @@
     audio.currentTime = (clickX / width) * duration;
   });
 
-  // গান শেষ হলে কি হবে
   audio.addEventListener("ended", () => {
     if (isRepeat) {
-      playSong(); // আবার প্লে করবে একই গান
+      playSong();
     } else {
-      nextBtn.click(); // নেক্সট গান চালাবে
+      // একটাই গান, তাই কিছু করবে না
+      pauseSong();
     }
   });
 
-  // ভলিউম কন্ট্রোল
   volumeSlider.addEventListener("input", () => {
     audio.volume = volumeSlider.value;
   });
 
-  // টাইম ফরম্যাটার (সেকেন্ড থেকে মিনিট:সেকেন্ড)
   function formatTime(seconds) {
     const mins = Math.floor(seconds / 60) || 0;
     const secs = Math.floor(seconds % 60) || 0;
     return mins + ":" + (secs < 10 ? "0" : "") + secs;
   }
 
-  // শুরুতে প্রথম গান লোড করো
+  // গান লোড
   loadSong(currentIndex);
+
+  // পেজ লোড হলে স্বয়ং প্লে করার চেষ্টা করো (ব্রাউজার যদি দেয়)
+  audio.volume = volumeSlider.value;
+  audio.play().catch(() => { /* Autoplay blocked */ });
 </script>
 
 </body>
