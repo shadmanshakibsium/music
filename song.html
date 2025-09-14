@@ -58,36 +58,34 @@
     #progress {
       display: flex;
       align-items: center;
-      background: rgba(255, 255, 255, 0.12);
-      border-radius: 8px;
-      height: 14px;
-      padding: 0 10px;
-      user-select: none;
-      position: relative;
+      gap: 12px;
       cursor: pointer;
+      user-select: none;
+    }
+
+    #progress-bar {
+      flex: 1;
+      height: 8px;
+      background: rgba(255, 255, 255, 0.2);
+      border-radius: 8px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    #progress-filled {
+      height: 100%;
+      width: 0%;
+      background: linear-gradient(90deg, #ff6b6b, #583D91);
+      border-radius: 8px;
+      transition: width 0.2s ease;
     }
 
     #current-time, #duration {
       font-size: 12px;
       width: 40px;
-      flex-shrink: 0;
       color: #ddd;
-      z-index: 2;
+      flex-shrink: 0;
     }
-
-    #progress-filled {
-      position: absolute;
-      left: 50px;
-      right: 50px;
-      height: 8px;
-      background: linear-gradient(90deg, #ff6b6b, #583D91);
-      border-radius: 8px;
-      z-index: 1;
-      pointer-events: none;
-      width: 0%;
-      transition: width 0.15s ease;
-    }
-
     .controls {
       display: flex;
       justify-content: space-around;
