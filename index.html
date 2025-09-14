@@ -6,7 +6,6 @@
 <title>Music Library</title>
 <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
 <style>
-/* Reset */
 * { margin:0; padding:0; box-sizing:border-box; font-family: 'Roboto', sans-serif; }
 
 body {
@@ -51,14 +50,13 @@ h1 { color: white; text-align: center; margin-bottom: 20px; }
 .music-list { list-style: none; }
 .music-item {
   display: flex; align-items: center; background: rgba(255,255,255,0.1); border-radius: 15px;
-  padding: 10px 15px; margin-bottom: 10px; backdrop-filter: blur(8px); cursor: pointer; transition: 0.3s;
+  padding: 12px 15px; margin-bottom: 10px; backdrop-filter: blur(8px); cursor: pointer; transition: 0.3s;
 }
 .music-item:hover { background: rgba(255,255,255,0.2); }
-.music-item img { width:50px; height:50px; border-radius:10px; object-fit:cover; margin-right:15px; }
 .music-item .info { color:white; }
 .music-item .info .title { font-weight:500; font-size:16px; }
-.music-item .info .artist { font-size:14px; color: rgba(255,255,255,0.7); }
 
+/* Folder Title */
 .folder-title { color:white; margin-top:20px; font-weight:500; font-size:18px; }
 </style>
 </head>
@@ -69,13 +67,12 @@ h1 { color: white; text-align: center; margin-bottom: 20px; }
 
   <!-- Search -->
   <div class="search-bar">
-    <input type="text" id="searchInput" placeholder="Search by song or artist...">
+    <input type="text" id="searchInput" placeholder="Search by song...">
   </div>
 
   <!-- Tabs -->
   <div class="tabs">
     <div class="tab active" data-tab="songs">Songs</div>
-    <div class="tab" data-tab="artists">Artists</div>
     <div class="tab" data-tab="folders">Folders</div>
   </div>
 
@@ -83,20 +80,18 @@ h1 { color: white; text-align: center; margin-bottom: 20px; }
 </div>
 
 <script>
-const tabs = document.querySelectorAll('.tab');
-const musicList = document.getElementById('music-list');
-const searchInput = document.getElementById('searchInput');
-
+// Folder types
 const types = ['bangla','english','hindi','arabic','lofi','slowed-reverbed'];
 let musicData = [];
 
+// Load all JSON files
 async function loadAllMusic() {
   let allSongs = [];
   for(const type of types){
     try{
       const res = await fetch(`data/${type}.json`);
       const data = await res.json();
-      data.forEach(song => song.type = type); // mark type/folder
+      data.forEach(song => song.type = type); // mark folder type
       allSongs = allSongs.concat(data);
     } catch(e){
       console.error(`Failed to load ${type}.json`, e);
@@ -105,77 +100,50 @@ async function loadAllMusic() {
   musicData = allSongs;
 }
 
-function displaySongs(list) {
+// Display functions
+function displaySongs(list){
   if(list.length === 0){
     musicList.innerHTML = `<li style="color:white; text-align:center; padding:20px;">No results found</li>`;
     return;
   }
   musicList.innerHTML = list.map(song => `
-    <li class="music-item">
-      <img src="${song.cover || 'https://via.placeholder.com/50'}" alt="cover">
-      <div class="info">
-        <div class="title">${song.title}</div>
-        <div class="artist">${song.artist} <span style="font-size:12px;color:rgba(255,255,255,0.5)">[${song.type}]</span></div>
-      </div>
-    </li>
+    <li class="music-item">${song.name} <span style="font-size:12px;color:rgba(255,255,255,0.5)">[${song.type}]</span></li>
   `).join('');
 }
 
-function displayArtists(list) {
-  const artists = [...new Set(list.map(s => s.artist))].sort();
-  musicList.innerHTML = artists.map(artist => `
-    <li class="music-item">
-      <div class="info">
-        <div class="title">${artist}</div>
-      </div>
-    </li>
-  `).join('');
-}
-
-function displayFolders(list) {
+function displayFolders(list){
   let html = '';
   types.forEach(type=>{
     const songs = list.filter(s => s.type === type);
     if(songs.length > 0){
       html += `<div class="folder-title">${type.toUpperCase()}</div>`;
       html += songs.map(song=>`
-        <li class="music-item">
-          <img src="${song.cover || 'https://via.placeholder.com/50'}" alt="cover">
-          <div class="info">
-            <div class="title">${song.title}</div>
-            <div class="artist">${song.artist}</div>
-          </div>
-        </li>
+        <li class="music-item">${song.name}</li>
       `).join('');
     }
   });
   musicList.innerHTML = html || `<li style="color:white; text-align:center; padding:20px;">No folders found</li>`;
 }
 
-function displayTab(tab) {
-  searchInput.value = '';
-  if(tab==='songs') displaySongs(musicData);
-  else if(tab==='artists') displayArtists(musicData);
-  else if(tab==='folders') displayFolders(musicData);
-}
-
+// Tab switching
 tabs.forEach(tab=>{
   tab.addEventListener('click', ()=>{
     tabs.forEach(t=>t.classList.remove('active'));
     tab.classList.add('active');
-    displayTab(tab.dataset.tab);
+    const activeTab = tab.dataset.tab;
+    if(activeTab==='songs') displaySongs(musicData);
+    else if(activeTab==='folders') displayFolders(musicData);
+    searchInput.value = '';
   });
 });
 
+// Search
 searchInput.addEventListener('input', ()=>{
   const query = searchInput.value.toLowerCase();
-  const filtered = musicData.filter(song => 
-    song.title.toLowerCase().includes(query) || song.artist.toLowerCase().includes(query)
-  );
+  const filtered = musicData.filter(song => song.name.toLowerCase().includes(query));
   const activeTab = document.querySelector('.tab.active').dataset.tab;
   if(activeTab==='songs') displaySongs(filtered);
   else if(activeTab==='folders') displayFolders(filtered);
-  else if(activeTab==='artists') displayArtists(filtered);
 });
 
 // Initial load
