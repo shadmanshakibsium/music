@@ -294,7 +294,7 @@
 
   <audio id="audio"></audio>
 
-  <a href="index.html" class="back-btn">Back to Library</a>
+  <a href="#" id="backBtn" class="back-btn">Back to Library</a>
 </div>
 
 <script>
@@ -409,6 +409,14 @@
   volumeSlider.addEventListener("input", () => {
     audio.volume = volumeSlider.value;
   });
+
+    // ফাইল থেকে id বানানো
+  const fileId = file.replace(/\.[^/.]+$/, "") // extension বাদ
+                     .toLowerCase()
+                     .replace(/[^a-z0-9]+/g, '-'); // punctuation → dash
+
+  // Back বাটনে id যুক্ত করা
+  document.getElementById("backBtn").href = `index.html?song=${encodeURIComponent(fileId)}`;
 
   // Load song on page load
 window.addEventListener("load", () => {
