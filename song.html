@@ -1,249 +1,215 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>Music Player</title>
-<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet" />
-<style>
-  html, body {
-    height: 100%;
-    margin: 0;
-    padding: 0;
-    overflow: hidden;
-    font-family: 'Roboto', sans-serif;
-    background: url('https://i.imgur.com/uNWSHGy.png') no-repeat center center fixed;
-    background-size: cover;
-    color: white;
-  }
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Music Player</title>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet" />
+  <style>
+    html, body {
+      height: 100%;
+      margin: 0;
+      padding: 0;
+      overflow: hidden;
+      font-family: 'Roboto', sans-serif;
+      background: url('https://i.imgur.com/uNWSHGy.png') no-repeat center center fixed;
+      background-size: cover;
+      color: white;
+    }
 
-  body::before {
-    content: "";
-    position: fixed;
-    top: 0; left: 0; right: 0; bottom: 0;
-    background: rgba(0,0,0,0.25); /* ডার্ক ওভারলে হালকা */
-    z-index: 0;
-  }
+    body::before {
+      content: "";
+      position: fixed;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background: rgba(0,0,0,0.25);
+      z-index: 0;
+    }
 
-  body {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    position: relative;
-    z-index: 1;
-  }
+    body {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      position: relative;
+      z-index: 1;
+    }
 
-  .container {
-    width: 100%;
-    max-width: 420px;
-    background: rgba(255, 255, 255, 0.08);
-    border-radius: 30px;
-    border: 1px solid rgba(255, 255, 255, 0.15);
-    backdrop-filter: blur(18px) saturate(180%);
-    padding: 28px 25px;
-    text-align: center;
-    box-shadow: 0 15px 40px rgba(0, 0, 0, 0.55);
-    user-select: none;
-  }
-
-  .title {
-    font-size: 26px;
-    font-weight: 700;
-    margin-bottom: 24px;
-    letter-spacing: 0.7px;
-  }
-
-  #progress {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    background: rgba(255, 255, 255, 0.12);
-    border-radius: 8px;
-    height: 14px;
-    cursor: pointer;
-    padding: 0 10px;
-    gap: 12px;
-    user-select: none;
-  }
-
-  #current-time, #duration {
-    font-size: 12px;
-    width: 40px;
-    flex-shrink: 0;
-    color: #ddd;
-  }
-
-  #progress-filled {
-    flex: 1;
-    height: 8px;
-    background: linear-gradient(90deg, #ff6b6b, #583D91);
-    border-radius: 8px;
-    transition: width 0.15s ease;
-  }
-
-  .controls {
-    display: flex;
-    justify-content: space-around;
-    align-items: center;
-    margin: 32px 0 28px;
-    max-width: 360px;
-    margin-left: auto;
-    margin-right: auto;
-  }
-
-  .control-btn {
-    width: 50px;
-    height: 40px;
-    border-radius: 22px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    cursor: pointer;
-    background: linear-gradient(135deg, #ff6b6b, #fcb045);
-    border: none;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
-    transition: all 0.3s ease;
-    font-size: 18px;
-    color: white;
-  }
-
-  .control-btn:hover {
-    transform: scale(1.1);
-    box-shadow: 0 0 15px rgba(255, 107, 107, 0.75);
-  }
-
-  .play-btn {
-    width: 74px;
-    height: 48px;
-    font-size: 22px;
-    border-radius: 26px;
-    background: linear-gradient(135deg, #583D91, #7E5CD9);
-    box-shadow: 0 0 20px rgba(88, 61, 145, 0.8);
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    transition: all 0.3s ease;
-  }
-
-  .play-btn:hover {
-    transform: scale(1.05);
-    box-shadow: 0 0 25px rgba(88, 61, 145, 1);
-  }
-
-  .control-btn.active {
-    box-shadow: 0 0 20px rgba(255, 107, 107, 0.9);
-  }
-
-  #volume-container {
-    margin: 16px 0;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 14px;
-    color: white;
-  }
-
-  #volume {
-    width: 120px;
-    cursor: pointer;
-    -webkit-appearance: none;
-    height: 5px;
-    background: rgba(255,255,255,0.3);
-    border-radius: 6px;
-    outline: none;
-    transition: background 0.3s ease;
-  }
-  #volume:hover {
-    background: rgba(255,255,255,0.5);
-  }
-  #volume::-webkit-slider-thumb {
-    -webkit-appearance: none;
-    appearance: none;
-    width: 16px;
-    height: 16px;
-    background: #ff6b6b;
-    cursor: pointer;
-    border-radius: 50%;
-    box-shadow: 0 0 6px rgba(255, 107, 107, 0.85);
-    transition: background 0.3s ease;
-  }
-  #volume::-moz-range-thumb {
-    width: 16px;
-    height: 16px;
-    background: #ff6b6b;
-    cursor: pointer;
-    border-radius: 50%;
-    box-shadow: 0 0 6px rgba(255, 107, 107, 0.85);
-    transition: background 0.3s ease;
-  }
-
-  .back-btn {
-    display: inline-block;
-    padding: 10px 26px;
-    border-radius: 24px;
-    background: rgba(255, 255, 255, 0.15);
-    backdrop-filter: blur(9px);
-    color: white;
-    text-decoration: none;
-    font-weight: 600;
-    font-size: 14.5px;
-    transition: 0.3s;
-    margin-top: 16px;
-    user-select: none;
-  }
-
-  .back-btn:hover {
-    background: rgba(255, 255, 255, 0.3);
-  }
-
-  @media (max-width: 450px) {
     .container {
-      max-width: 95vw;
-      padding: 20px 15px;
-      border-radius: 22px;
+      width: 100%;
+      max-width: 420px;
+      background: rgba(255, 255, 255, 0.08);
+      border-radius: 30px;
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      backdrop-filter: blur(18px) saturate(180%);
+      padding: 28px 25px;
+      text-align: center;
+      box-shadow: 0 15px 40px rgba(0, 0, 0, 0.55);
+      user-select: none;
     }
-    .controls {
-      max-width: 100%;
-      gap: 8px;
+
+    .title {
+      font-size: 26px;
+      font-weight: 700;
+      margin-bottom: 24px;
+      letter-spacing: 0.7px;
     }
-    #volume {
-      width: 110px;
+
+    #progress {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      cursor: pointer;
+      user-select: none;
     }
-    .control-btn {
-      width: 44px;
-      height: 36px;
-      font-size: 16px;
+
+    #progress-bar {
+      flex: 1;
+      height: 8px;
+      background: rgba(255, 255, 255, 0.2);
+      border-radius: 8px;
+      position: relative;
+      overflow: hidden;
     }
-    .play-btn {
-      width: 68px;
-      height: 44px;
-      font-size: 20px;
-      border-radius: 22px;
+
+    #progress-filled {
+      height: 100%;
+      width: 0%;
+      background: linear-gradient(90deg, #ff6b6b, #583D91);
+      border-radius: 8px;
+      transition: width 0.2s ease;
     }
+
     #current-time, #duration {
-      font-size: 11px;
-      width: 36px;
+      font-size: 12px;
+      width: 40px;
+      color: #ddd;
+      flex-shrink: 0;
     }
-  }
-</style>
+
+    .controls {
+      display: flex;
+      justify-content: space-around;
+      align-items: center;
+      margin: 32px 0 28px;
+      max-width: 360px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    .control-btn {
+      width: 50px;
+      height: 40px;
+      border-radius: 22px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      cursor: pointer;
+      background: linear-gradient(135deg, #ff6b6b, #fcb045);
+      border: none;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
+      transition: all 0.3s ease;
+      font-size: 18px;
+      color: white;
+    }
+
+    .control-btn:hover {
+      transform: scale(1.1);
+      box-shadow: 0 0 15px rgba(255, 107, 107, 0.75);
+    }
+
+    .play-btn {
+      width: 74px;
+      height: 48px;
+      font-size: 22px;
+      border-radius: 26px;
+      background: linear-gradient(135deg, #583D91, #7E5CD9);
+      box-shadow: 0 0 20px rgba(88, 61, 145, 0.8);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      transition: all 0.3s ease;
+    }
+
+    .play-btn:hover {
+      transform: scale(1.05);
+      box-shadow: 0 0 25px rgba(88, 61, 145, 1);
+    }
+
+    .control-btn.active {
+      box-shadow: 0 0 20px rgba(255, 107, 107, 0.9);
+    }
+
+    #volume-container {
+      margin: 16px 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 14px;
+      color: white;
+    }
+
+    #volume {
+      width: 120px;
+      cursor: pointer;
+      -webkit-appearance: none;
+      height: 5px;
+      background: rgba(255,255,255,0.3);
+      border-radius: 6px;
+      outline: none;
+      transition: background 0.3s ease;
+    }
+
+    #volume:hover {
+      background: rgba(255,255,255,0.5);
+    }
+
+    #volume::-webkit-slider-thumb {
+      -webkit-appearance: none;
+      width: 16px;
+      height: 16px;
+      background: #ff6b6b;
+      border-radius: 50%;
+      box-shadow: 0 0 6px rgba(255, 107, 107, 0.85);
+    }
+
+    .back-btn {
+      display: inline-block;
+      padding: 10px 26px;
+      border-radius: 24px;
+      background: rgba(255, 255, 255, 0.15);
+      backdrop-filter: blur(9px);
+      color: white;
+      text-decoration: none;
+      font-weight: 600;
+      font-size: 14.5px;
+      transition: 0.3s;
+      margin-top: 16px;
+      user-select: none;
+    }
+
+    .back-btn:hover {
+      background: rgba(255, 255, 255, 0.3);
+    }
+  </style>
 </head>
 <body>
 
 <div class="container">
   <div id="title" class="title">Loading...</div>
 
-  <div id="progress" title="Seek">
+  <div id="progress">
     <span id="current-time">0:00</span>
-    <div id="progress-filled"></div>
+    <div id="progress-bar">
+      <div id="progress-filled"></div>
+    </div>
     <span id="duration">0:00</span>
   </div>
   
   <div class="controls">
-    <button class="control-btn" id="shuffle" title="Shuffle"><i class="fas fa-random"></i></button>
-    <button class="control-btn" id="prev" title="Previous"><i class="fas fa-backward"></i></button>
-    <button class="control-btn play-btn" id="play" title="Play/Pause"><i class="fas fa-play" id="play-icon"></i></button>
-    <button class="control-btn" id="next" title="Next"><i class="fas fa-forward"></i></button>
-    <button class="control-btn" id="repeat" title="Repeat"><i class="fas fa-redo" id="repeat-icon"></i></button>
+    <button class="control-btn" id="shuffle"><i class="fas fa-random"></i></button>
+    <button class="control-btn" id="prev"><i class="fas fa-backward"></i></button>
+    <button class="control-btn play-btn" id="play"><i class="fas fa-play" id="play-icon"></i></button>
+    <button class="control-btn" id="next"><i class="fas fa-forward"></i></button>
+    <button class="control-btn" id="repeat"><i class="fas fa-redo" id="repeat-icon"></i></button>
   </div>
 
   <div id="volume-container">
@@ -267,9 +233,7 @@
     alert("Invalid or missing song parameters in URL!");
   }
 
-  const songs = [
-    { name: nameFromURL, file: `${folder}/${file}` }
-  ];
+  const songs = [{ name: nameFromURL, file: `${folder}/${file}` }];
 
   const audio = document.getElementById("audio");
   const title = document.getElementById("title");
@@ -280,11 +244,11 @@
   const shuffleBtn = document.getElementById("shuffle");
   const repeatBtn = document.getElementById("repeat");
   const repeatIcon = document.getElementById("repeat-icon");
-  const progress = document.getElementById("progress");
   const progressFilled = document.getElementById("progress-filled");
   const currentTimeEl = document.getElementById("current-time");
   const durationEl = document.getElementById("duration");
   const volumeSlider = document.getElementById("volume");
+  const progressBar = document.getElementById("progress-bar");
 
   let currentIndex = 0;
   let isPlaying = false;
@@ -319,20 +283,11 @@
   }
 
   playBtn.addEventListener("click", () => {
-    if (isPlaying) {
-      pauseSong();
-    } else {
-      playSong();
-    }
+    isPlaying ? pauseSong() : playSong();
   });
 
-  prevBtn.addEventListener("click", () => {
-    alert("Only one song loaded, no previous song.");
-  });
-
-  nextBtn.addEventListener("click", () => {
-    alert("Only one song loaded, no next song.");
-  });
+  prevBtn.addEventListener("click", () => alert("Only one song loaded, no previous song."));
+  nextBtn.addEventListener("click", () => alert("Only one song loaded, no next song."));
 
   shuffleBtn.addEventListener("click", () => {
     isShuffle = !isShuffle;
@@ -355,18 +310,15 @@
     }
   });
 
-  progress.addEventListener("click", (e) => {
-    const width = progress.clientWidth;
-    const clickX = e.offsetX;
-    audio.currentTime = (clickX / width) * audio.duration;
+  progressBar.addEventListener("click", (e) => {
+    const rect = progressBar.getBoundingClientRect();
+    const clickX = e.clientX - rect.left;
+    const percentage = clickX / rect.width;
+    audio.currentTime = percentage * audio.duration;
   });
 
   audio.addEventListener("ended", () => {
-    if (isRepeat) {
-      playSong();
-    } else {
-      pauseSong();
-    }
+    isRepeat ? playSong() : pauseSong();
   });
 
   volumeSlider.addEventListener("input", () => {
