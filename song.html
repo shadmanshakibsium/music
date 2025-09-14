@@ -74,20 +74,23 @@
     z-index: 2;
   }
 
-  #progress-bar-container {
-    position: relative;
-    flex-grow: 1;
-    height: 10px;
-    margin: 0 10px;
-    background: rgba(255, 255, 255, 0.12);
-    border-radius: 8px;
-    overflow: hidden;
+#progress-bar-container {
+  position: relative;
+  flex-grow: 1;
+  height: 10px;
+  margin: 0 10px;
+  background: rgba(255, 255, 255, 0.12);
+  border-radius: 8px;
+  overflow: hidden;
 
-    /* ✅ ANDROID tap highlight fix */
-    -webkit-tap-highlight-color: transparent;
-    -webkit-user-select: none;
-    -webkit-touch-callout: none;
-  }
+  /* ✅ Android blue highlight fix */
+  -webkit-tap-highlight-color: transparent;
+  -webkit-user-select: none;
+  -webkit-touch-callout: none;
+  user-select: none;
+  outline: none;
+  touch-action: manipulation;
+}
 
   #progress-filled {
     background: linear-gradient(90deg, #ff6b6b, #583D91);
@@ -358,6 +361,7 @@
     return mins + ":" + (secs < 10 ? "0" + secs : secs);
   }
 
+  // প্রগ্রেস আপডেট
   audio.addEventListener("timeupdate", () => {
     if (audio.duration) {
       const percent = (audio.currentTime / audio.duration) * 100;
@@ -367,18 +371,18 @@
     }
   });
 
-  // ✅ Updated progress bar click behavior
+  // ✅ প্রগ্রেস বার ক্লিক করলে প্রথমে ভিজ্যুয়ালি আপডেট হয়, তারপর গান কাটে
   progressBarContainer.addEventListener("click", (e) => {
     const rect = progressBarContainer.getBoundingClientRect();
     const clickX = e.clientX - rect.left;
     const width = rect.width;
     const percent = clickX / width;
 
-    // Show visual progress first
+    // Visual progress bar আপডেট
     progressFilled.style.width = (percent * 100) + "%";
     currentTimeEl.textContent = formatTime(percent * audio.duration);
 
-    // Then set audio current time with slight delay
+    // ছোট delay দিয়ে actual seek
     setTimeout(() => {
       audio.currentTime = percent * audio.duration;
     }, 100);
@@ -391,12 +395,20 @@
     audio.volume = volumeSlider.value;
   });
 
+  // ✅ Android ট্যাপ হাইলাইট বন্ধ
+  progressBarContainer.setAttribute("tabindex", "-1");
+  progressBarContainer.style.outline = "none";
+  progressBarContainer.addEventListener("mousedown", (e) => e.preventDefault());
+  progressBarContainer.addEventListener("touchstart", (e) => e.preventDefault());
+
+  // পেজ লোড হলে অটো প্লে করে
   window.addEventListener("load", () => {
     loadSong(currentIndex);
     audio.volume = volumeSlider.value;
     playSong(); // autoplay on load
   });
 
+  // স্পেস বাটনে প্লে/পজ
   window.addEventListener("keydown", e => {
     if (e.code === "Space") {
       e.preventDefault();
