@@ -206,7 +206,7 @@
       }
       musicList.innerHTML = sortedList.map(song => `
         <li class="music-item" data-name="${song.name}" id="${song.id}">
-          <a href="song.html?name=${encodeURIComponent(song.name)}&file=${encodeURIComponent(song.file)}&folder=${encodeURIComponent(song.type)}" class="info">
+          <a href="index.html?song=${encodeURIComponent(song.id)}" class="info">
             <span class="title">${song.name}</span>
             <span style="font-size:12px;color:rgba(255,255,255,0.5)"> [${song.type}]</span>
           </a>
@@ -228,7 +228,7 @@
             <ul class="folder-songs" data-type="${type}">
               ${songs.map(song => `
                 <li class="music-item" data-name="${song.name}" id="${song.id}">
-                  <a href="song.html?name=${encodeURIComponent(song.name)}&file=${encodeURIComponent(song.file)}&folder=${encodeURIComponent(type)}" class="info">${song.name}</a>
+                  <a href="index.html?song=${encodeURIComponent(song.id)}" class="info">${song.name}</a>
                 </li>
               `).join('')}
             </ul>
@@ -286,20 +286,23 @@
       if(songId){
         const el = document.getElementById(songId);
         if(el){
-          el.scrollIntoView({behavior: 'smooth', block: 'center'});
-          el.style.backgroundColor = 'rgba(255,255,255,0.2)';
+          // If in folders view and the song's folder is closed, open it first
+          const folderSongs = el.closest(".folder-songs");
+          if(folderSongs && !folderSongs.classList.contains('open')){
+            folderSongs.classList.add('open');
+          }
+
+          // Delay scrolling to allow DOM update/render
           setTimeout(() => {
-            el.style.transition = 'background-color 1s';
-            el.style.backgroundColor = '';
-          }, 1500);
+            el.scrollIntoView({behavior: 'smooth', block: 'center'});
+            el.style.backgroundColor = 'rgba(255,255,255,0.2)';
+            setTimeout(() => {
+              el.style.transition = 'background-color 1s';
+              el.style.backgroundColor = '';
+            }, 1500);
+          }, 300);
         }
       }
-    }
-
-    window.addEventListener('scroll', highlightActiveLetter);
-
-    function highlightActiveLetter(){
-      // previous functionality unchanged (optional)
     }
 
     loadAllMusic().then(() => {
