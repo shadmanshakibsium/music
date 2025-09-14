@@ -19,6 +19,7 @@
     padding: 50px 20px;
   }
   .container {
+    position: relative;
     backdrop-filter: blur(10px) saturate(180%);
     -webkit-backdrop-filter: blur(10px) saturate(180%);
     background-color: rgba(255, 255, 255, 0.1);
@@ -46,10 +47,13 @@
     padding: 10px 20px; border-radius: 15px; cursor: pointer; color: white; font-weight: 500; transition: 0.3s;
   }
   .tab.active, .tab:hover {
-    background: rgba(255,255,255,0.2); backdrop-filter: blur(8px);
+    background: rgba(255,255,white but a bit stronger?), maybe rgba(255,255,255,0.2); backdrop-filter: blur(8px);
   }
   .music-list {
     list-style: none;
+    max-height: 60vh;
+    overflow-y: auto;
+    padding-right: 20px; /* give space for scrollbar */
   }
   .music-item {
     display: flex; align-items: center; justify-content: space-between;
@@ -60,6 +64,7 @@
   .music-item:hover { background: rgba(255,255,255,0.2); }
   .music-item .info {
     color:white;
+    width: 100%; /* make full width so whole box clickable */
   }
   .music-item .info .title {
     font-weight:500; font-size:16px;
@@ -81,6 +86,25 @@
     from { opacity: 0; transform: translateY(-10px); }
     to { opacity: 1; transform: translateY(0); }
   }
+
+  /* Alphabet navigation on left */
+  .alphabet-nav {
+    position: absolute;
+    left: -50px; /* adjust as needed */
+    top: 100px; /* adjust relative to container */
+    display: flex;
+    flex-direction: column;
+  }
+  .alphabet-nav div {
+    padding: 5px;
+    cursor: pointer;
+    color: white;
+    font-weight: bold;
+  }
+  .alphabet-nav div:hover {
+    color: #ffcc00;
+  }
+
 </style>
 </head>
 <body>
@@ -95,6 +119,9 @@
       <div class="tab active" data-tab="songs">Songs</div>
       <div class="tab" data-tab="folders">Folders</div>
     </div>
+
+    <!-- Alphabet navigation -->
+    <div class="alphabet-nav" id="alphabet-nav"></div>
 
     <ul class="music-list" id="music-list"></ul>
   </div>
@@ -128,12 +155,13 @@
       musicList.innerHTML = `<li style="color:white; text-align:center; padding:20px;">No results found</li>`;
       return;
     }
-    musicList.innerHTML = list.map(song => `
-      <li class="music-item">
-        <a href="song.html?name=${encodeURIComponent(song.name)}&file=${encodeURIComponent(song.file)}&folder=${encodeURIComponent(song.type)}" class="info" style="color:white;text-decoration:none;">
+    // Generate list items with full box clickable
+    musicList.innerHTML = list.map((song, index) => `
+      <li class="music-item" data-name="${song.name.toLowerCase()}">
+        <div class="info" onclick="playSong('${encodeURIComponent(song.name)}','${encodeURIComponent(song.file)}','${encodeURIComponent(song.type)}')">
           <span class="title">${song.name}</span>
           <span style="font-size:12px;color:rgba(255,255,255,0.5)">[${song.type}]</span>
-        </a>
+        </div>
       </li>
     `).join('');
   }
@@ -150,10 +178,10 @@
           <div class="folder-title">${type.toUpperCase()}</div>
           <div class="folder-content">
             ${songs.map(song=>`
-              <li class="music-item">
-                <a href="song.html?name=${encodeURIComponent(song.name)}&file=${encodeURIComponent(song.file)}&folder=${encodeURIComponent(type)}" style="color:white;text-decoration:none;">
+              <li class="music-item" data-name="${song.name.toLowerCase()}">
+                <div class="info" onclick="playSong('${encodeURIComponent(song.name)}','${encodeURIComponent(song.file)}','${encodeURIComponent(type)}')">
                   ${song.name}
-                </a>
+                </div>
               </li>
             `).join('')}
           </div>
@@ -171,6 +199,48 @@
     });
   }
 
+  function playSong(nameEnc, fileEnc, folderEnc){
+    const name = decodeURIComponent(nameEnc);
+    const file = decodeURIComponent(fileEnc);
+    const folder = decodeURIComponent(folderEnc);
+    // Redirect or open song.html
+    window.location.href = `song.html?name=${encodeURIComponent(name)}&file=${encodeURIComponent(file)}&folder=${encodeURIComponent(folder)}`;
+  }
+
+  // Alphabet navigation logic
+  function setupAlphabetNav() {
+    const nav = document.getElementById('alphabet-nav');
+    // Get all starting letters from musicData
+    const lettersSet = new Set(musicData.map(s => s.name[0].toUpperCase()));
+    // Sort letters
+    const letters = Array.from(lettersSet).sort();
+    nav.innerHTML = letters.map(letter =>
+      `<div data-letter="${letter}">${letter}</div>`
+    ).join('');
+
+    // Add click listeners
+    nav.querySelectorAll('div').forEach(div => {
+      div.addEventListener('click', () => {
+        const letter = div.dataset.letter.toLowerCase();
+        scrollToLetter(letter);
+      });
+    });
+  }
+
+  function scrollToLetter(letter) {
+    const musicList = document.getElementById('music-list');
+    // Find first item whose data-name starts with that letter
+    const items = musicList.querySelectorAll('.music-item[data-name]');
+    for (let item of items) {
+      const name = item.dataset.name;
+      if (name && name.startsWith(letter)) {
+        // Scroll so that item is visible
+        item.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        break;
+      }
+    }
+  }
+
   const tabs = document.querySelectorAll('.tab');
   const searchInput = document.getElementById('searchInput');
 
@@ -179,8 +249,15 @@
       tabs.forEach(t=>t.classList.remove('active'));
       tab.classList.add('active');
       const activeTab = tab.dataset.tab;
-      if(activeTab==='songs') displaySongs(musicData);
-      else if(activeTab==='folders') displayFolders(musicData);
+      if(activeTab==='songs') {
+        displaySongs(musicData);
+        setupAlphabetNav();
+      }
+      else if(activeTab==='folders') {
+        displayFolders(musicData);
+        // Hide alphabet nav in folders view
+        document.getElementById('alphabet-nav').innerHTML = '';
+      }
       searchInput.value = '';
     });
   });
@@ -189,11 +266,21 @@
     const query = searchInput.value.toLowerCase();
     const filtered = musicData.filter(song => song.name.toLowerCase().includes(query));
     const activeTab = document.querySelector('.tab.active').dataset.tab;
-    if(activeTab==='songs') displaySongs(filtered);
-    else if(activeTab==='folders') displayFolders(filtered);
+    if(activeTab==='songs') {
+      displaySongs(filtered);
+      setupAlphabetNav(); 
+    }
+    else if(activeTab==='folders') {
+      displayFolders(filtered);
+      document.getElementById('alphabet-nav').innerHTML = '';
+    }
   });
 
-  loadAllMusic().then(()=> displaySongs(musicData));
+  // On load
+  loadAllMusic().then(()=>{
+    displaySongs(musicData);
+    setupAlphabetNav();
+  });
 </script>
 
 </body>
