@@ -53,7 +53,7 @@
     border-radius: 6px;
     overflow: hidden;
     cursor: pointer;
-    margin-bottom: 20px;
+    margin-bottom: 10px;
   }
   #progress-filled {
     width: 0%;
@@ -66,8 +66,10 @@
     display: flex;
     justify-content: space-between;
     font-size: 14px;
+    margin-top: 0;
     margin-bottom: 20px;
   }
+
   /* কন্ট্রোল বাটনস */
   .controls {
     display: flex;
@@ -121,6 +123,21 @@
     box-shadow: 0 0 20px rgba(255, 107, 107, 0.9);
   }
 
+  /* ভলিউম কন্ট্রোল */
+  #volume-container {
+    margin: 15px 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    color: white;
+  }
+
+  #volume {
+    width: 120px;
+    cursor: pointer;
+  }
+
   /* ব্যাক বাটন */
   .back-btn {
     display: inline-block;
@@ -149,13 +166,17 @@
     .controls {
       max-width: 100%;
     }
+    #volume {
+      width: 100px;
+    }
   }
 </style>
 </head>
 <body>
 
 <div class="container">
-  <div id="title">Loading...</div>
+  <div id="title" class="title">Loading...</div>
+
   <div id="progress"><div id="progress-filled"></div></div>
   <div class="time-container">
     <span id="current-time">0:00</span>
@@ -192,7 +213,7 @@
     alert("Invalid or missing song parameters in URL!");
   }
 
-  // শুধু এখনকার গান নিয়ে কাজ করবো
+  // এখন শুধু ১টা গান নিয়ে কাজ করবো
   const songs = [
     { name: nameFromURL, file: `${folder}/${file}` }
   ];
@@ -252,9 +273,7 @@
     }
   });
 
-  // আগের / পরের গান এখন শুধুমাত্র 1 গান তাই শুধু লোড + প্লে
   prevBtn.addEventListener("click", () => {
-    // যদি ভবিষ্যতে একাধিক গান থাকে, তখন লজিক যোগ করতে পারো
     alert("Only one song loaded from URL, no previous song available.");
   });
 
@@ -298,7 +317,6 @@
     if (isRepeat) {
       playSong();
     } else {
-      // একটাই গান, তাই কিছু করবে না
       pauseSong();
     }
   });
@@ -316,7 +334,7 @@
   // গান লোড
   loadSong(currentIndex);
 
-  // পেজ লোড হলে স্বয়ং প্লে করার চেষ্টা করো (ব্রাউজার যদি দেয়)
+  // পেজ লোড হলে স্বয়ং প্লে করার চেষ্টা করো (যদি ব্রাউজার অনুমতি দেয়)
   audio.volume = volumeSlider.value;
   audio.play().catch(() => { /* Autoplay blocked */ });
 </script>
