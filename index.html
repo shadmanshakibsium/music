@@ -1,13 +1,12 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Music Library</title>
-<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet" />
 <style>
 * { margin:0; padding:0; box-sizing:border-box; font-family: 'Roboto', sans-serif; }
-
 body {
   background: url('https://i.imgur.com/uNWSHGy.png') no-repeat center center fixed;
   background-size: cover;
@@ -17,7 +16,6 @@ body {
   align-items: flex-start;
   padding: 50px 20px;
 }
-
 .container {
   backdrop-filter: blur(10px) saturate(180%);
   -webkit-backdrop-filter: blur(10px) saturate(180%);
@@ -28,22 +26,18 @@ body {
   width: 100%;
   max-width: 900px;
 }
-
 h1 { color: white; text-align: center; margin-bottom: 20px; }
-
 .search-bar { width: 100%; margin-bottom: 20px; }
 .search-bar input {
   width: 100%; padding: 12px 15px; border-radius: 15px; border: none; outline: none;
   font-size: 16px; backdrop-filter: blur(8px); background: rgba(255,255,255,0.1); color: white;
 }
 .search-bar input::placeholder { color: rgba(255,255,255,0.7); }
-
 .tabs { display: flex; justify-content: space-around; margin-bottom: 20px; }
 .tab {
   padding: 10px 20px; border-radius: 15px; cursor: pointer; color: white; font-weight: 500; transition: 0.3s;
 }
 .tab.active, .tab:hover { background: rgba(255,255,255,0.2); backdrop-filter: blur(8px); }
-
 .music-list { list-style: none; }
 .music-item {
   display: flex; align-items: center; justify-content: space-between;
@@ -54,7 +48,6 @@ h1 { color: white; text-align: center; margin-bottom: 20px; }
 .music-item:hover { background: rgba(255,255,255,0.2); }
 .music-item .info { color:white; }
 .music-item .info .title { font-weight:500; font-size:16px; }
-
 .folder-title { color:white; margin-top:20px; font-weight:500; font-size:18px; }
 </style>
 </head>
@@ -64,7 +57,7 @@ h1 { color: white; text-align: center; margin-bottom: 20px; }
   <h1>My Music Library</h1>
 
   <div class="search-bar">
-    <input type="text" id="searchInput" placeholder="Search by song...">
+    <input type="text" id="searchInput" placeholder="Search by song..." />
   </div>
 
   <div class="tabs">
@@ -88,7 +81,8 @@ async function loadAllMusic() {
       const data = await res.json();
       data.forEach(song => {
         song.type = type; 
-        song.path = `data/${type}/${song.file}`;
+        // ধরে নিচ্ছি JSON এ song.file আছে (যেমন song.file = "song1.mp3")
+        // song.path না পাঠাবো, ফাইল আলাদা পাঠাবো URL এ
       });
       allSongs = allSongs.concat(data);
     } catch(e){
@@ -106,7 +100,7 @@ function displaySongs(list){
   }
   musicList.innerHTML = list.map(song => `
     <li class="music-item">
-      <a href="song.html?name=${encodeURIComponent(song.name)}&file=${encodeURIComponent(song.path)}" class="info" style="color:white;text-decoration:none;">
+      <a href="song.html?name=${encodeURIComponent(song.name)}&folder=${encodeURIComponent(song.type)}&file=${encodeURIComponent(song.file)}" class="info" style="color:white;text-decoration:none;">
         <span class="title">${song.name}</span>
         <span style="font-size:12px;color:rgba(255,255,255,0.5)">[${song.type}]</span>
       </a>
@@ -122,7 +116,7 @@ function displayFolders(list){
       html += `<div class="folder-title">${type.toUpperCase()}</div>`;
       html += songs.map(song=>`
         <li class="music-item">
-          <a href="song.html?name=${encodeURIComponent(song.name)}&file=${encodeURIComponent(song.path)}" style="color:white;text-decoration:none;">
+          <a href="song.html?name=${encodeURIComponent(song.name)}&folder=${encodeURIComponent(song.type)}&file=${encodeURIComponent(song.file)}" style="color:white;text-decoration:none;">
             ${song.name}
           </a>
         </li>
