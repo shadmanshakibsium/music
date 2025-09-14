@@ -13,9 +13,6 @@
     background: url('https://i.imgur.com/uNWSHGy.png') no-repeat center center fixed;
     background-size: cover;
     min-height: 100vh;
-    display: flex;
-    justify-content: center;
-    align-items: flex-start;
     padding: 50px 20px;
   }
   .container {
@@ -27,6 +24,7 @@
     padding: 30px;
     width: 100%;
     max-width: 900px;
+    margin: auto;
   }
   h1 {
     color: white; text-align: center; margin-bottom: 20px;
@@ -66,17 +64,33 @@
   }
   .folder-title {
     color:white; margin-top:20px; font-weight:500; font-size:18px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  .toggle-btn {
+    background: rgba(255,255,255,0.15);
+    border: none;
+    border-radius: 12px;
+    padding: 4px 10px;
+    color: white;
+    font-weight: 700;
+    cursor: pointer;
+    transition: background 0.3s;
+  }
+  .toggle-btn:hover {
+    background: rgba(255,255,255,0.3);
   }
 
-  /* নতুন alpha-index স্টাইল */
+  /* alpha index */
   .alpha-index {
     position: fixed;
     right: 30px;
     top: 100px;
-    height: calc(100vh - 120px); /* উপরে 100px এবং নিচে 20px স্পেস */
+    height: calc(100vh - 120px);
     display: flex;
     flex-direction: column;
-    justify-content: space-between; /* স্পেস পুরোটা সমান করে দেবে */
+    justify-content: space-between;
     user-select: none;
     z-index: 1000;
     padding: 4px 8px;
@@ -86,7 +100,6 @@
     color: white;
     font-size: 14px;
   }
-
   .alpha-index div {
     cursor: pointer;
     padding: 4px 6px;
@@ -94,7 +107,6 @@
     text-align: center;
     transition: background 0.3s, color 0.3s;
   }
-
   .alpha-index div:hover,
   .alpha-index div.active {
     background: rgba(255,255,255,0.3);
@@ -118,10 +130,7 @@
     <ul class="music-list" id="music-list"></ul>
   </div>
 
-  <!-- A-Z-# ইনডেক্স -->
-  <div class="alpha-index" id="alphaIndex">
-    <!-- JS দিয়ে অক্ষর বসবে -->
-  </div>
+  <div class="alpha-index" id="alphaIndex"></div>
 
 <script>
   const types = ['bangla','english','hindi','arabic','lofi','slowed-reverbed'];
@@ -144,14 +153,34 @@
     musicData = allSongs;
   }
 
+  // Helper: Sort songs by name alphabetically, with # last
+  function sortSongs(list) {
+    return list.slice().sort((a,b) => {
+      const aChar = a.name.charAt(0).toUpperCase();
+      const bChar = b.name.charAt(0).toUpperCase();
+
+      const isALetter = /^[A-Z]$/.test(aChar);
+      const isBLetter = /^[A-Z]$/.test(bChar);
+
+      if(isALetter && !isBLetter) return -1;
+      if(!isALetter && isBLetter) return 1;
+
+      // Both letters or both non-letters
+      if(a.name.toUpperCase() < b.name.toUpperCase()) return -1;
+      if(a.name.toUpperCase() > b.name.toUpperCase()) return 1;
+      return 0;
+    });
+  }
+
   function displaySongs(list){
+    const sortedList = sortSongs(list);
     const musicList = document.getElementById('music-list');
-    if(list.length === 0){
+    if(sortedList.length === 0){
       musicList.innerHTML = `<li style="color:white; text-align:center; padding:20px;">No results found</li>`;
       return;
     }
-    musicList.innerHTML = list.map(song => `
-      <li class="music-item">
+    musicList.innerHTML = sortedList.map(song => `
+      <li class="music-item" data-name="${song.name}">
         <a href="song.html?name=${encodeURIComponent(song.name)}&file=${encodeURIComponent(song.file)}&folder=${encodeURIComponent(song.type)}" class="info" style="color:white;text-decoration:none;">
           <span class="title">${song.name}</span>
           <span style="font-size:12px;color:rgba(255,255,255,0.5)">[${song.type}]</span>
@@ -160,29 +189,60 @@
     `).join('');
   }
 
+  // Folder toggle state (store which folders are open)
+  const folderOpenState = {};
+
   function displayFolders(list){
     const musicList = document.getElementById('music-list');
+    const sortedList = sortSongs(list);
     let html = '';
+
     types.forEach(type=>{
-      const songs = list.filter(s => s.type === type);
+      const songs = sortedList.filter(s => s.type === type);
       if(songs.length > 0){
-        html += `<div class="folder-title">${type.toUpperCase()}</div>`;
-        html += songs.map(song=>`
-          <li class="music-item">
-            <a href="song.html?name=${encodeURIComponent(song.name)}&file=${encodeURIComponent(song.file)}&folder=${encodeURIComponent(type)}" style="color:white;text-decoration:none;">
-              ${song.name}
-            </a>
-          </li>
-        `).join('');
+        if(!(type in folderOpenState)) folderOpenState[type] = true; // default open
+
+        html += `
+          <div class="folder-title">
+            ${type.toUpperCase()}
+            <button class="toggle-btn" data-type="${type}">
+              ${folderOpenState[type] ? '−' : '+'}
+            </button>
+          </div>
+          <ul class="folder-songs" data-type="${type}" style="list-style:none; margin-bottom: 15px; padding-left:0; ${folderOpenState[type] ? '' : 'display:none;'}">
+            ${songs.map(song=>`
+              <li class="music-item" data-name="${song.name}">
+                <a href="song.html?name=${encodeURIComponent(song.name)}&file=${encodeURIComponent(song.file)}&folder=${encodeURIComponent(type)}" style="color:white;text-decoration:none;">
+                  ${song.name}
+                </a>
+              </li>
+            `).join('')}
+          </ul>
+        `;
       }
     });
-    musicList.innerHTML = html || `<li style="color:white; text-align:center; padding:20px;">No folders found</li>`;
+    musicList.innerHTML = html;
+
+    // টগল বাটন এভেন্ট লাগানো
+    document.querySelectorAll('.toggle-btn').forEach(btn=>{
+      btn.addEventListener('click', ()=>{
+        const type = btn.getAttribute('data-type');
+        folderOpenState[type] = !folderOpenState[type];
+        const ul = document.querySelector(`.folder-songs[data-type="${type}"]`);
+        if(folderOpenState[type]){
+          ul.style.display = '';
+          btn.textContent = '−';
+        } else {
+          ul.style.display = 'none';
+          btn.textContent = '+';
+        }
+      });
+    });
   }
 
-  // A-Z-# লেটার গুলো
+  // A-Z-# ইনডেক্স
   const alphabet = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ#'.split('');
   const alphaIndex = document.getElementById('alphaIndex');
-  const musicList = document.getElementById('music-list');
   const searchInput = document.getElementById('searchInput');
   const tabs = document.querySelectorAll('.tab');
 
@@ -191,107 +251,80 @@
     const div = document.createElement('div');
     div.textContent = letter;
     div.addEventListener('click', () => {
-      // ক্লিক করলে ওই অক্ষরের প্রথম গানের জায়গায় স্ক্রল হবে
       scrollToLetter(letter);
     });
     alphaIndex.appendChild(div);
   });
 
-  // scrollToLetter ফাংশন - যেই অক্ষর থেকে শুরু হয় সেই গান পর্যন্ত স্ক্রল করবে
   function scrollToLetter(letter) {
-    let filteredSongs = musicData;
-
-    // সার্চ ইমপুট থাকলে সেটা বিবেচনা করব না, সব গানে দেখব
-    if(searchInput.value.trim() !== '') filteredSongs = musicData;
-
-    // যেই তালিকার মধ্যে activeTab আছে সেটা দেখব (songs/folders)
     const activeTab = document.querySelector('.tab.active').dataset.tab;
+    const listItems = [...document.querySelectorAll('.music-item')];
 
-    // songs tab হলে সরাসরি music-item এ স্ক্রল করব
-    if(activeTab === 'songs') {
-      // প্রথম গান যেটার name letter দিয়ে শুরু হয়
-      let targetSong = filteredSongs.find(s => s.name.charAt(0).toUpperCase() === letter);
-      if(!targetSong) {
-        if(letter === '#') {
-          // # হলে নামের প্রথম ক্যারেক্টার অক্ষর না হলে ধরব
-          targetSong = filteredSongs.find(s => !(/[A-Z]/.test(s.name.charAt(0).toUpperCase())));
-        }
-      }
-      if(targetSong) {
-        // ওই গানকে খুঁজে <a> এলিমেন্ট নেবো, তারপর scrollIntoView করব
-        const link = document.querySelector(`.music-item a[href*="${encodeURIComponent(targetSong.name)}"]`);
-        if(link) link.scrollIntoView({behavior: 'smooth', block: 'start'});
-      }
-    } else if(activeTab === 'folders') {
-      // ফোল্ডার ট্যাবে গুলো আলাদা আলাদা ভাগে আছে, তাই একই কাজ নাম দিয়ে করব
-      let targetSong = filteredSongs.find(s => s.name.charAt(0).toUpperCase() === letter);
-      if(!targetSong) {
-        if(letter === '#') {
-          targetSong = filteredSongs.find(s => !(/[A-Z]/.test(s.name.charAt(0).toUpperCase())));
-        }
-      }
-      if(targetSong) {
-        const link = document.querySelector(`.music-list a[href*="${encodeURIComponent(targetSong.name)}"]`);
-        if(link) link.scrollIntoView({behavior: 'smooth', block: 'start'});
-      }
+    let targetItem;
+
+    if(letter === '#'){
+      // non A-Z starts
+      targetItem = listItems.find(li => {
+        const firstChar = li.getAttribute('data-name').charAt(0).toUpperCase();
+        return !(/[A-Z]/.test(firstChar));
+      });
+    } else {
+      targetItem = listItems.find(li => li.getAttribute('data-name').charAt(0).toUpperCase() === letter);
+    }
+    if(targetItem){
+      targetItem.scrollIntoView({behavior: 'smooth', block: 'start'});
     }
   }
 
-  // scroll করে ডান পাশের অক্ষর হাইলাইট করা
-  function highlightLetterOnScroll() {
-    // স্ক্রল পজিশন
-    const scrollTop = musicList.scrollTop;
-    const items = document.querySelectorAll('.music-item');
+  // হাইলাইট active অক্ষর ইনডেক্সে
+  function highlightActiveLetter(){
+    const activeTab = document.querySelector('.tab.active').dataset.tab;
+    const listItems = [...document.querySelectorAll('.music-item')];
+    if(listItems.length === 0) return;
+
+    // Window এর scroll top নিয়ে প্রথম দেখা song এর প্রথম অক্ষর বের করবো
+    const scrollY = window.scrollY || window.pageYOffset;
     let currentLetter = null;
 
-    // যেহেতু musicList তে scroll হয় না, scroll হচ্ছে পুরো body বা window-এ, তাই আমরা window.scrollY নিবো
-
-    // window.scrollY থেকে container এর উপর ভিত্তি করে স্ক্রল পজিশন নিয়ে কাজ করব
-    const container = document.querySelector('.container');
-    const containerRect = container.getBoundingClientRect();
-
-    // activeLetter পাবে যেটা স্ক্রল অনুযায়ী প্রায় উপরের দিকে আছে
-    for(let i = 0; i < items.length; i++) {
-      const rect = items[i].getBoundingClientRect();
-      if(rect.top >= containerRect.top) {
-        const firstChar = items[i].querySelector('.title')?.textContent?.charAt(0).toUpperCase();
-        if(firstChar && alphabet.includes(firstChar)) {
+    for(let i = 0; i < listItems.length; i++){
+      const li = listItems[i];
+      const rect = li.getBoundingClientRect();
+      if(rect.top + window.scrollY > scrollY + 10){
+        const name = li.getAttribute('data-name');
+        const firstChar = name.charAt(0).toUpperCase();
+        if(/[A-Z]/.test(firstChar)){
           currentLetter = firstChar;
-          break;
         } else {
           currentLetter = '#';
-          break;
         }
+        break;
       }
     }
-    // ডিফল্ট ধরলে প্রথম অক্ষর
-    if(!currentLetter && items.length > 0){
-      const firstChar = items[0].querySelector('.title')?.textContent?.charAt(0).toUpperCase();
-      currentLetter = (firstChar && alphabet.includes(firstChar)) ? firstChar : '#';
+    if(!currentLetter){
+      // যদি স্ক্রল শেষে যেয়ে থাকে তাহলে শেষের গান অনুযায়ী
+      const lastName = listItems[listItems.length-1].getAttribute('data-name');
+      const firstChar = lastName.charAt(0).toUpperCase();
+      currentLetter = /[A-Z]/.test(firstChar) ? firstChar : '#';
     }
 
-    // সব লেটার থেকে active ক্লাস সরাও
-    alphaIndex.querySelectorAll('div').forEach(div => div.classList.remove('active'));
-    // যেটা মেলালাম সেটাকে active দাও
-    if(currentLetter) {
-      const activeDiv = Array.from(alphaIndex.children).find(div => div.textContent === currentLetter);
-      if(activeDiv) activeDiv.classList.add('active');
-    }
+    // সব index থেকে active রিমুভ
+    [...alphaIndex.children].forEach(div => {
+      div.classList.remove('active');
+      if(div.textContent === currentLetter){
+        div.classList.add('active');
+      }
+    });
   }
-
-  // scroll event window এ দিবো, কারণ music-list এ scroll হয় না
-  window.addEventListener('scroll', highlightLetterOnScroll);
 
   tabs.forEach(tab=>{
     tab.addEventListener('click', ()=>{
       tabs.forEach(t=>t.classList.remove('active'));
       tab.classList.add('active');
       const activeTab = tab.dataset.tab;
+      searchInput.value = '';
       if(activeTab==='songs') displaySongs(musicData);
       else if(activeTab==='folders') displayFolders(musicData);
-      searchInput.value = '';
-      // ট্যাব পরিবর্তনের পর ইনডেক্স হাইলাইট রিফ্রেশ
-      setTimeout(highlightLetterOnScroll, 100);
+      highlightActiveLetter();
     });
   });
 
@@ -301,13 +334,16 @@
     const activeTab = document.querySelector('.tab.active').dataset.tab;
     if(activeTab==='songs') displaySongs(filtered);
     else if(activeTab==='folders') displayFolders(filtered);
-
-    setTimeout(highlightLetterOnScroll, 100);
+    highlightActiveLetter();
   });
 
-  loadAllMusic().then(()=> {
+  window.addEventListener('scroll', ()=>{
+    highlightActiveLetter();
+  });
+
+  loadAllMusic().then(()=>{
     displaySongs(musicData);
-    highlightLetterOnScroll();
+    highlightActiveLetter();
   });
 </script>
 
