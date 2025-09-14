@@ -83,35 +83,69 @@
   }
 
   /* alpha index */
+/* আগের .alpha-index বাদ দিয়ে নিচের CSS বসাও */
+
+.alpha-index {
+  position: fixed;
+  right: 30px;
+  top: 100px;
+  height: calc(100vh - 120px);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  user-select: none;
+  z-index: 1000;
+  padding: 4px 8px;
+  background: rgba(0,0,0,0.15);
+  border-radius: 12px;
+  font-weight: 700;
+  color: white;
+  font-size: 14px;
+  transition: all 0.3s ease;
+}
+
+/* মোবাইল স্ক্রিন এ নিচে হরাইজন্টাল */
+@media (max-width: 600px) {
   .alpha-index {
     position: fixed;
-    right: 30px;
-    top: 100px;
-    height: calc(100vh - 120px);
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    user-select: none;
-    z-index: 1000;
-    padding: 4px 8px;
-    background: rgba(0,0,0,0.15);
-    border-radius: 12px;
-    font-weight: 700;
-    color: white;
-    font-size: 14px;
+    bottom: 10px;
+    left: 50%;
+    transform: translateX(-50%);
+    height: auto;
+    width: 90%;
+    background: rgba(0,0,0,0.25);
+    border-radius: 20px;
+    padding: 6px 10px;
+    flex-direction: row;
+    justify-content: center;
+    gap: 6px;
+    overflow-x: auto;
+    scrollbar-width: none; /* Firefox */
+  }
+  .alpha-index::-webkit-scrollbar {
+    display: none; /* Chrome, Safari */
   }
   .alpha-index div {
-    cursor: pointer;
-    padding: 4px 6px;
-    border-radius: 8px;
-    text-align: center;
-    transition: background 0.3s, color 0.3s;
+    flex: 0 0 auto;
+    padding: 6px 8px;
+    border-radius: 10px;
   }
-  .alpha-index div:hover,
-  .alpha-index div.active {
-    background: rgba(255,255,255,0.3);
-    color: #000;
-  }
+}
+
+/* পূর্বের hover ও active স্টাইল */
+.alpha-index div {
+  cursor: pointer;
+  padding: 4px 6px;
+  border-radius: 8px;
+  text-align: center;
+  transition: background 0.3s, color 0.3s;
+  white-space: nowrap;
+}
+.alpha-index div:hover,
+.alpha-index div.active {
+  background: rgba(255,255,255,0.3);
+  color: #000;
+}
 </style>
 </head>
 <body>
