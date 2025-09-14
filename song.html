@@ -5,6 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Music Player</title>
   <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet" />
+
   <style>
     html, body {
       height: 100%;
@@ -15,6 +16,7 @@
       background: url('https://i.imgur.com/uNWSHGy.png') no-repeat center center fixed;
       background-size: cover;
       color: white;
+      -webkit-tap-highlight-color: transparent; /* Prevent blue highlight */
     }
 
     body::before {
@@ -56,33 +58,34 @@
     #progress {
       display: flex;
       align-items: center;
-      gap: 12px;
-      cursor: pointer;
+      background: rgba(255, 255, 255, 0.12);
+      border-radius: 8px;
+      height: 14px;
+      padding: 0 10px;
       user-select: none;
-    }
-
-    #progress-bar {
-      flex: 1;
-      height: 8px;
-      background: rgba(255, 255, 255, 0.2);
-      border-radius: 8px;
       position: relative;
-      overflow: hidden;
-    }
-
-    #progress-filled {
-      height: 100%;
-      width: 0%;
-      background: linear-gradient(90deg, #ff6b6b, #583D91);
-      border-radius: 8px;
-      transition: width 0.2s ease;
+      cursor: pointer;
     }
 
     #current-time, #duration {
       font-size: 12px;
       width: 40px;
-      color: #ddd;
       flex-shrink: 0;
+      color: #ddd;
+      z-index: 2;
+    }
+
+    #progress-filled {
+      position: absolute;
+      left: 50px;
+      right: 50px;
+      height: 8px;
+      background: linear-gradient(90deg, #ff6b6b, #583D91);
+      border-radius: 8px;
+      z-index: 1;
+      pointer-events: none;
+      width: 0%;
+      transition: width 0.15s ease;
     }
 
     .controls {
@@ -93,6 +96,10 @@
       max-width: 360px;
       margin-left: auto;
       margin-right: auto;
+    }
+
+    .control-btn, .play-btn, .back-btn {
+      -webkit-tap-highlight-color: transparent;
     }
 
     .control-btn {
@@ -156,6 +163,7 @@
       border-radius: 6px;
       outline: none;
       transition: background 0.3s ease;
+      -webkit-tap-highlight-color: transparent;
     }
 
     #volume:hover {
@@ -164,11 +172,14 @@
 
     #volume::-webkit-slider-thumb {
       -webkit-appearance: none;
+      appearance: none;
       width: 16px;
       height: 16px;
       background: #ff6b6b;
+      cursor: pointer;
       border-radius: 50%;
       box-shadow: 0 0 6px rgba(255, 107, 107, 0.85);
+      transition: background 0.3s ease;
     }
 
     .back-btn {
@@ -191,150 +202,153 @@
     }
   </style>
 </head>
+
 <body>
+  <div class="container">
+    <div id="title" class="title">Loading...</div>
 
-<div class="container">
-  <div id="title" class="title">Loading...</div>
-
-  <div id="progress">
-    <span id="current-time">0:00</span>
-    <div id="progress-bar">
+    <div id="progress" title="Seek">
+      <span id="current-time">0:00</span>
       <div id="progress-filled"></div>
+      <span id="duration">0:00</span>
     </div>
-    <span id="duration">0:00</span>
+
+    <div class="controls">
+      <button class="control-btn" id="shuffle"><i class="fas fa-random"></i></button>
+      <button class="control-btn" id="prev"><i class="fas fa-backward"></i></button>
+      <button class="control-btn play-btn" id="play"><i class="fas fa-play" id="play-icon"></i></button>
+      <button class="control-btn" id="next"><i class="fas fa-forward"></i></button>
+      <button class="control-btn" id="repeat"><i class="fas fa-redo" id="repeat-icon"></i></button>
+    </div>
+
+    <div id="volume-container">
+      <i class="fas fa-volume-down"></i>
+      <input type="range" id="volume" min="0" max="1" step="0.01" value="0.5" />
+      <i class="fas fa-volume-up"></i>
+    </div>
+
+    <audio id="audio"></audio>
+    <a href="index.html" class="back-btn">Back to Library</a>
   </div>
-  
-  <div class="controls">
-    <button class="control-btn" id="shuffle"><i class="fas fa-random"></i></button>
-    <button class="control-btn" id="prev"><i class="fas fa-backward"></i></button>
-    <button class="control-btn play-btn" id="play"><i class="fas fa-play" id="play-icon"></i></button>
-    <button class="control-btn" id="next"><i class="fas fa-forward"></i></button>
-    <button class="control-btn" id="repeat"><i class="fas fa-redo" id="repeat-icon"></i></button>
-  </div>
 
-  <div id="volume-container">
-    <i class="fas fa-volume-down"></i>
-    <input type="range" id="volume" min="0" max="1" step="0.01" value="0.5" />
-    <i class="fas fa-volume-up"></i>
-  </div>
+  <script>
+    const params = new URLSearchParams(window.location.search);
+    const folder = params.get("folder");
+    const file = params.get("file");
+    const nameFromURL = params.get("name");
 
-  <audio id="audio"></audio>
-
-  <a href="index.html" class="back-btn">Back to Library</a>
-</div>
-
-<script>
-  const params = new URLSearchParams(window.location.search);
-  const folder = params.get("folder");
-  const file = params.get("file");
-  const nameFromURL = params.get("name");
-
-  if (!folder || !file || !nameFromURL) {
-    alert("Invalid or missing song parameters in URL!");
-  }
-
-  const songs = [{ name: nameFromURL, file: `${folder}/${file}` }];
-
-  const audio = document.getElementById("audio");
-  const title = document.getElementById("title");
-  const playBtn = document.getElementById("play");
-  const playIcon = document.getElementById("play-icon");
-  const prevBtn = document.getElementById("prev");
-  const nextBtn = document.getElementById("next");
-  const shuffleBtn = document.getElementById("shuffle");
-  const repeatBtn = document.getElementById("repeat");
-  const repeatIcon = document.getElementById("repeat-icon");
-  const progressFilled = document.getElementById("progress-filled");
-  const currentTimeEl = document.getElementById("current-time");
-  const durationEl = document.getElementById("duration");
-  const volumeSlider = document.getElementById("volume");
-  const progressBar = document.getElementById("progress-bar");
-
-  let currentIndex = 0;
-  let isPlaying = false;
-  let isShuffle = false;
-  let isRepeat = false;
-
-  function loadSong(index) {
-    const song = songs[index];
-    audio.src = "songs/" + song.file;
-    title.textContent = song.name;
-    resetProgress();
-  }
-
-  function resetProgress() {
-    progressFilled.style.width = "0%";
-    currentTimeEl.textContent = "0:00";
-    durationEl.textContent = "0:00";
-  }
-
-  function playSong() {
-    audio.play().catch(() => {});
-    isPlaying = true;
-    playIcon.classList.remove("fa-play");
-    playIcon.classList.add("fa-pause");
-  }
-
-  function pauseSong() {
-    audio.pause();
-    isPlaying = false;
-    playIcon.classList.remove("fa-pause");
-    playIcon.classList.add("fa-play");
-  }
-
-  playBtn.addEventListener("click", () => {
-    isPlaying ? pauseSong() : playSong();
-  });
-
-  prevBtn.addEventListener("click", () => alert("Only one song loaded, no previous song."));
-  nextBtn.addEventListener("click", () => alert("Only one song loaded, no next song."));
-
-  shuffleBtn.addEventListener("click", () => {
-    isShuffle = !isShuffle;
-    shuffleBtn.classList.toggle("active", isShuffle);
-    alert("Shuffle works only with multiple songs.");
-  });
-
-  repeatBtn.addEventListener("click", () => {
-    isRepeat = !isRepeat;
-    repeatBtn.classList.toggle("active", isRepeat);
-    repeatIcon.style.color = isRepeat ? "#ff6b6b" : "white";
-  });
-
-  audio.addEventListener("timeupdate", () => {
-    if (audio.duration) {
-      const percent = (audio.currentTime / audio.duration) * 100;
-      progressFilled.style.width = percent + "%";
-      currentTimeEl.textContent = formatTime(audio.currentTime);
-      durationEl.textContent = formatTime(audio.duration);
+    if (!folder || !file || !nameFromURL) {
+      alert("Invalid or missing song parameters in URL!");
     }
-  });
 
-  progressBar.addEventListener("click", (e) => {
-    const rect = progressBar.getBoundingClientRect();
-    const clickX = e.clientX - rect.left;
-    const percentage = clickX / rect.width;
-    audio.currentTime = percentage * audio.duration;
-  });
+    const songs = [
+      { name: nameFromURL, file: `${folder}/${file}` }
+    ];
 
-  audio.addEventListener("ended", () => {
-    isRepeat ? playSong() : pauseSong();
-  });
+    const audio = document.getElementById("audio");
+    const title = document.getElementById("title");
+    const playBtn = document.getElementById("play");
+    const playIcon = document.getElementById("play-icon");
+    const prevBtn = document.getElementById("prev");
+    const nextBtn = document.getElementById("next");
+    const shuffleBtn = document.getElementById("shuffle");
+    const repeatBtn = document.getElementById("repeat");
+    const repeatIcon = document.getElementById("repeat-icon");
+    const progress = document.getElementById("progress");
+    const progressFilled = document.getElementById("progress-filled");
+    const currentTimeEl = document.getElementById("current-time");
+    const durationEl = document.getElementById("duration");
+    const volumeSlider = document.getElementById("volume");
 
-  volumeSlider.addEventListener("input", () => {
+    let currentIndex = 0;
+    let isPlaying = false;
+    let isShuffle = false;
+    let isRepeat = false;
+
+    function loadSong(index) {
+      const song = songs[index];
+      audio.src = "songs/" + song.file;
+      title.textContent = song.name;
+      resetProgress();
+    }
+
+    function resetProgress() {
+      progressFilled.style.width = "0%";
+      currentTimeEl.textContent = "0:00";
+      durationEl.textContent = "0:00";
+    }
+
+    function playSong() {
+      audio.play().catch(() => {});
+      isPlaying = true;
+      playIcon.classList.remove("fa-play");
+      playIcon.classList.add("fa-pause");
+    }
+
+    function pauseSong() {
+      audio.pause();
+      isPlaying = false;
+      playIcon.classList.remove("fa-pause");
+      playIcon.classList.add("fa-play");
+    }
+
+    playBtn.addEventListener("click", () => {
+      isPlaying ? pauseSong() : playSong();
+    });
+
+    prevBtn.addEventListener("click", () => {
+      alert("Only one song loaded, no previous song.");
+    });
+
+    nextBtn.addEventListener("click", () => {
+      alert("Only one song loaded, no next song.");
+    });
+
+    shuffleBtn.addEventListener("click", () => {
+      isShuffle = !isShuffle;
+      shuffleBtn.classList.toggle("active", isShuffle);
+      alert("Shuffle works only with multiple songs.");
+    });
+
+    repeatBtn.addEventListener("click", () => {
+      isRepeat = !isRepeat;
+      repeatBtn.classList.toggle("active", isRepeat);
+      repeatIcon.style.color = isRepeat ? "#ff6b6b" : "white";
+    });
+
+    audio.addEventListener("timeupdate", () => {
+      if (audio.duration) {
+        const percent = (audio.currentTime / audio.duration) * 100;
+        progressFilled.style.width = `calc(${percent}% * 0.9)`; // inside the bar
+        currentTimeEl.textContent = formatTime(audio.currentTime);
+        durationEl.textContent = formatTime(audio.duration);
+      }
+    });
+
+    progress.addEventListener("click", (e) => {
+      const rect = progress.getBoundingClientRect();
+      const clickX = e.clientX - rect.left;
+      const width = rect.width;
+      audio.currentTime = (clickX / width) * audio.duration;
+    });
+
+    audio.addEventListener("ended", () => {
+      isRepeat ? playSong() : pauseSong();
+    });
+
+    volumeSlider.addEventListener("input", () => {
+      audio.volume = volumeSlider.value;
+    });
+
+    function formatTime(seconds) {
+      const mins = Math.floor(seconds / 60) || 0;
+      const secs = Math.floor(seconds % 60) || 0;
+      return mins + ":" + (secs < 10 ? "0" : "") + secs;
+    }
+
+    loadSong(currentIndex);
     audio.volume = volumeSlider.value;
-  });
-
-  function formatTime(seconds) {
-    const mins = Math.floor(seconds / 60) || 0;
-    const secs = Math.floor(seconds % 60) || 0;
-    return mins + ":" + (secs < 10 ? "0" : "") + secs;
-  }
-
-  loadSong(currentIndex);
-  audio.volume = volumeSlider.value;
-  audio.play().catch(() => {});
-</script>
-
+    audio.play().catch(() => {});
+  </script>
 </body>
 </html>
