@@ -1,11 +1,11 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Music Library</title>
-  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet" />
-  <style>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Music Library</title>
+<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet" />
+<style>
   * {
     margin:0; padding:0; box-sizing:border-box; font-family: 'Roboto', sans-serif;
   }
@@ -134,10 +134,9 @@
     background: rgba(255,255,255,0.3);
     color: #000;
   }
-  </style>
+</style>
 </head>
 <body>
-
   <div class="container">
     <h1>My Music Library</h1>
 
@@ -155,159 +154,257 @@
 
   <div class="alpha-index" id="alphaIndex"></div>
 
-  <script>
-    const types = ['anime','arabic','bangla','edit audio','english','hindi','lofi','phonk','slowed-reverbed'];
-    let musicData = [];
+<script>
+  const types = ['anime','arabic','bangla','edit audio','english','hindi','lofi','phonk','slowed-reverbed'];
+  let musicData = [];
 
-    function slugify(filename) {
-      return filename
-        .replace(/\.[^/.]+$/, '')
-        .toLowerCase()
-        .replace(/[^a-z0-9]+/g, '-')
-        .replace(/^-+|-+$/g, '');
-    }
-
-    async function loadAllMusic() {
-      let allSongs = [];
-      for(const type of types){
-        try{
-          const res = await fetch(`data/${type}.json`);
-          const data = await res.json();
-          data.forEach(song => {
-            song.type = type;
-            song.id = slugify(song.file); // Add ID to each song
-          });
-          allSongs = allSongs.concat(data);
-        } catch(e){
-          console.error(`Failed to load ${type}.json`, e);
-        }
-      }
-      musicData = allSongs;
-    }
-
-    function sortSongs(list) {
-      return list.slice().sort((a,b) => {
-        const aChar = a.name.charAt(0).toUpperCase();
-        const bChar = b.name.charAt(0).toUpperCase();
-        const isALetter = /^[A-Z]$/.test(aChar);
-        const isBLetter = /^[A-Z]$/.test(bChar);
-        if(isALetter && !isBLetter) return -1;
-        if(!isALetter && isBLetter) return 1;
-        return a.name.localeCompare(b.name);
-      });
-    }
-
-    function displaySongs(list){
-      const sortedList = sortSongs(list);
-      const musicList = document.getElementById('music-list');
-      if(sortedList.length === 0){
-        musicList.innerHTML = `<li style="color:white; text-align:center; padding:20px;">No results found</li>`;
-        return;
-      }
-      musicList.innerHTML = sortedList.map(song => `
-        <li class="music-item" data-name="${song.name}" id="${song.id}">
-          <a href="index.html?song=${encodeURIComponent(song.id)}" class="info">
-            <span class="title">${song.name}</span>
-            <span style="font-size:12px;color:rgba(255,255,255,0.5)"> [${song.type}]</span>
-          </a>
-        </li>
-      `).join('');
-      addPlayHandler();
-      scrollToSongIfPresent();
-    }
-
-    function displayFolders(list){
-      const musicList = document.getElementById('music-list');
-      const sortedList = sortSongs(list);
-      let html = '';
-      types.forEach(type => {
-        const songs = sortedList.filter(s => s.type === type);
-        if (songs.length > 0) {
-          html += `
-            <div class="folder-title" data-type="${type}">${type.toUpperCase()}</div>
-            <ul class="folder-songs" data-type="${type}">
-              ${songs.map(song => `
-                <li class="music-item" data-name="${song.name}" id="${song.id}">
-                  <a href="index.html?song=${encodeURIComponent(song.id)}" class="info">${song.name}</a>
-                </li>
-              `).join('')}
-            </ul>
-          `;
-        }
-      });
-      musicList.innerHTML = html;
-
-      document.querySelectorAll('.folder-title').forEach(title => {
-        title.addEventListener('click', () => {
-          const type = title.getAttribute('data-type');
-          document.querySelector(`.folder-songs[data-type="${type}"]`).classList.toggle('open');
+  async function loadAllMusic() {
+    let allSongs = [];
+    for(const type of types){
+      try{
+        const res = await fetch(`data/${type}.json`);
+        const data = await res.json();
+        data.forEach(song => {
+          song.type = type;
         });
-      });
-
-      addPlayHandler();
-      scrollToSongIfPresent();
-    }
-
-    function addPlayHandler(){
-      document.querySelectorAll('.music-item').forEach(item => {
-        item.onclick = (e) => {
-          if(e.target.tagName.toLowerCase() === 'a') return;
-          const link = item.querySelector('a');
-          if(link) window.open(link.href, '_blank');
-        };
-      });
-    }
-
-    const tabs = document.querySelectorAll('.tab');
-    const searchInput = document.getElementById('searchInput');
-
-    tabs.forEach(tab => {
-      tab.addEventListener('click', () => {
-        tabs.forEach(t => t.classList.remove('active'));
-        tab.classList.add('active');
-        searchInput.value = '';
-        const tabType = tab.dataset.tab;
-        if(tabType === 'songs') displaySongs(musicData);
-        else if(tabType === 'folders') displayFolders(musicData);
-      });
-    });
-
-    searchInput.addEventListener('input', () => {
-      const query = searchInput.value.toLowerCase();
-      const filtered = musicData.filter(song => song.name.toLowerCase().includes(query));
-      const activeTab = document.querySelector('.tab.active').dataset.tab;
-      if(activeTab === 'songs') displaySongs(filtered);
-      else if(activeTab === 'folders') displayFolders(filtered);
-    });
-
-    function scrollToSongIfPresent(){
-      const params = new URLSearchParams(window.location.search);
-      const songId = params.get('song');
-      if(songId){
-        const el = document.getElementById(songId);
-        if(el){
-          // If in folders view and the song's folder is closed, open it first
-          const folderSongs = el.closest(".folder-songs");
-          if(folderSongs && !folderSongs.classList.contains('open')){
-            folderSongs.classList.add('open');
-          }
-
-          // Delay scrolling to allow DOM update/render
-          setTimeout(() => {
-            el.scrollIntoView({behavior: 'smooth', block: 'center'});
-            el.style.backgroundColor = 'rgba(255,255,255,0.2)';
-            setTimeout(() => {
-              el.style.transition = 'background-color 1s';
-              el.style.backgroundColor = '';
-            }, 1500);
-          }, 300);
-        }
+        allSongs = allSongs.concat(data);
+      } catch(e){
+        console.error(`Failed to load ${type}.json`, e);
       }
     }
+    musicData = allSongs;
+  }
 
-    loadAllMusic().then(() => {
-      displaySongs(musicData);
+  // Sort songs by name alphabetically, with # last
+  function sortSongs(list) {
+    return list.slice().sort((a,b) => {
+      const aChar = a.name.charAt(0).toUpperCase();
+      const bChar = b.name.charAt(0).toUpperCase();
+
+      const isALetter = /^[A-Z]$/.test(aChar);
+      const isBLetter = /^[A-Z]$/.test(bChar);
+
+      if(isALetter && !isBLetter) return -1;
+      if(!isALetter && isBLetter) return 1;
+
+      if(a.name.toUpperCase() < b.name.toUpperCase()) return -1;
+      if(a.name.toUpperCase() > b.name.toUpperCase()) return 1;
+      return 0;
     });
-  </script>
+  }
+
+  function displaySongs(list){
+    const sortedList = sortSongs(list);
+    const musicList = document.getElementById('music-list');
+    if(sortedList.length === 0){
+      musicList.innerHTML = `<li style="color:white; text-align:center; padding:20px;">No results found</li>`;
+      return;
+    }
+    musicList.innerHTML = sortedList.map(song => `
+      <li class="music-item" data-name="${song.name}">
+        <a href="song.html?name=${encodeURIComponent(song.name)}&file=${encodeURIComponent(song.file)}&folder=${encodeURIComponent(song.type)}" class="info" style="color:white;">
+          <span class="title">${song.name}</span>
+          <span style="font-size:12px;color:rgba(255,255,255,0.5)"> [${song.type}]</span>
+        </a>
+      </li>
+    `).join('');
+
+    addPlayHandler();
+  }
+
+  // Folder toggle state (store which folders are open)
+  const folderOpenState = {};
+
+  function displayFolders(list){
+    const musicList = document.getElementById('music-list');
+    const sortedList = sortSongs(list);
+    let html = '';
+
+    types.forEach(type=>{
+      const songs = sortedList.filter(s => s.type === type);
+      if(songs.length > 0){
+        folderOpenState[type] = false; // সব ফোল্ডার প্রথমে ক্লোজড থাকবে
+
+        html += `
+          <div class="folder-title" data-type="${type}">${type.toUpperCase()}</div>
+          <ul class="folder-songs" data-type="${type}">
+            ${songs.map(song=>`
+              <li class="music-item" data-name="${song.name}">
+                <a href="song.html?name=${encodeURIComponent(song.name)}&file=${encodeURIComponent(song.file)}&folder=${encodeURIComponent(type)}" class="info" style="color:white;">
+                  ${song.name}
+                </a>
+              </li>
+            `).join('')}
+          </ul>
+        `;
+      }
+    });
+    musicList.innerHTML = html;
+
+    // ফোল্ডার নাম ক্লিক করলে টগল হবে
+    document.querySelectorAll('.folder-title').forEach(title => {
+      title.addEventListener('click', () => {
+        const type = title.getAttribute('data-type');
+        folderOpenState[type] = !folderOpenState[type];
+        const ul = document.querySelector(`.folder-songs[data-type="${type}"]`);
+        ul.classList.toggle('open');
+      });
+    });
+
+    addPlayHandler();
+  }
+
+  // A-Z-# ইনডেক্স
+  const alphabet = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ#'.split('');
+  const alphaIndex = document.getElementById('alphaIndex');
+  const searchInput = document.getElementById('searchInput');
+  const tabs = document.querySelectorAll('.tab');
+
+  // ইনডেক্সে অক্ষর বসানো
+  alphabet.forEach(letter => {
+    const div = document.createElement('div');
+    div.textContent = letter;
+    div.addEventListener('click', () => {
+      scrollToLetter(letter);
+    });
+    alphaIndex.appendChild(div);
+  });
+
+  function scrollToLetter(letter) {
+    const activeTab = document.querySelector('.tab.active').dataset.tab;
+    const listItems = [...document.querySelectorAll('.music-item')];
+
+    let targetItem;
+
+    if(letter === '#'){
+      targetItem = listItems.find(li => {
+        const firstChar = li.getAttribute('data-name').charAt(0).toUpperCase();
+        return !(/[A-Z]/.test(firstChar));
+      });
+    } else {
+      targetItem = listItems.find(li => li.getAttribute('data-name').charAt(0).toUpperCase() === letter);
+    }
+    if(targetItem){
+      targetItem.scrollIntoView({behavior: 'smooth', block: 'start'});
+    }
+  }
+
+  // হাইলাইট active অক্ষর ইনডেক্সে
+  function highlightActiveLetter(){
+    const activeTab = document.querySelector('.tab.active').dataset.tab;
+    const listItems = [...document.querySelectorAll('.music-item')];
+    if(listItems.length === 0) return;
+
+    const scrollY = window.scrollY || window.pageYOffset;
+    let currentLetter = null;
+
+    for(let i = 0; i < listItems.length; i++){
+      const li = listItems[i];
+      const rect = li.getBoundingClientRect();
+      if(rect.top + window.scrollY > scrollY + 10){
+        const name = li.getAttribute('data-name');
+        const firstChar = name.charAt(0).toUpperCase();
+        if(/[A-Z]/.test(firstChar)){
+          currentLetter = firstChar;
+        } else {
+          currentLetter = '#';
+        }
+        break;
+      }
+    }
+    if(!currentLetter){
+      const lastName = listItems[listItems.length-1].getAttribute('data-name');
+      const firstChar = lastName.charAt(0).toUpperCase();
+      currentLetter = /[A-Z]/.test(firstChar) ? firstChar : '#';
+    }
+
+    [...alphaIndex.children].forEach(div => {
+      div.classList.remove('active');
+      if(div.textContent === currentLetter){
+        div.classList.add('active');
+      }
+    });
+  }
+
+  tabs.forEach(tab=>{
+    tab.addEventListener('click', ()=>{
+      tabs.forEach(t=>t.classList.remove('active'));
+      tab.classList.add('active');
+      const activeTab = tab.dataset.tab;
+      searchInput.value = '';
+      if(activeTab==='songs') displaySongs(musicData);
+      else if(activeTab==='folders') displayFolders(musicData);
+      highlightActiveLetter();
+    });
+  });
+
+  searchInput.addEventListener('input', ()=>{
+    const query = searchInput.value.toLowerCase();
+    const filtered = musicData.filter(song => song.name.toLowerCase().includes(query));
+    const activeTab = document.querySelector('.tab.active').dataset.tab;
+    if(activeTab==='songs') displaySongs(filtered);
+    else if(activeTab==='folders') displayFolders(filtered);
+    highlightActiveLetter();
+  });
+
+  window.addEventListener('scroll', ()=>{
+    highlightActiveLetter();
+  });
+
+  // গান প্লে করার জন্য গানের যেকোনো জায়গায় ক্লিক হ্যান্ডলার
+  function addPlayHandler(){
+    document.querySelectorAll('.music-item').forEach(item=>{
+      item.onclick = (e) => {
+        // prevent multiple triggering if clicking the link inside
+        if(e.target.tagName.toLowerCase() === 'a') return;
+        const link = item.querySelector('a');
+        if(link) {
+          // নতুন উইন্ডোতে গান লিংক খুলবে
+          window.open(link.href, '_blank');
+        }
+      }
+    });
+  }
+
+  // নতুন কোড শুরু (scrollTo support)
+
+  function getQueryParam(param) {
+    const urlParams = new URLSearchParams(window.location.search);
+    return urlParams.get(param);
+  }
+
+  function scrollToSongByName(name) {
+    if (!name) return;
+
+    const listItems = [...document.querySelectorAll('.music-item')];
+    const targetItem = listItems.find(li => li.getAttribute('data-name').toLowerCase() === name.toLowerCase());
+
+    if (targetItem) {
+      targetItem.scrollIntoView({ behavior: 'smooth', block: 'start' });
+
+      const firstChar = name.charAt(0).toUpperCase();
+      const letter = /[A-Z]/.test(firstChar) ? firstChar : '#';
+
+      [...alphaIndex.children].forEach(div => {
+        div.classList.remove('active');
+        if (div.textContent === letter) {
+          div.classList.add('active');
+        }
+      });
+    }
+  }
+
+  loadAllMusic().then(() => {
+    displaySongs(musicData);
+    highlightActiveLetter();
+
+    const songToScroll = getQueryParam('scrollTo');
+    if (songToScroll) {
+      scrollToSongByName(songToScroll);
+    }
+  });
+
+</script>
+
 </body>
 </html>
