@@ -209,21 +209,24 @@
     background: rgba(255, 255, 255, 0.3);
   }
 
-  /* Remove Android blue highlight on tap and focus outlines */
-  button, input[type="range"] {
-    -webkit-tap-highlight-color: transparent;
-    -webkit-focus-ring-color: transparent;
-    outline: none;
-  }
+/* Remove Android blue highlight on tap */
+button, input[type="range"] {
+  -webkit-tap-highlight-color: transparent;
+  -webkit-focus-ring-color: transparent;
+  outline: none;
+}
 
-  button:focus, input[type="range"]:focus {
-    outline: none !important;
-    box-shadow: none !important;
-  }
+button:focus,
+input[type="range"]:focus,
+button:active,
+input[type="range"]:active {
+  outline: none !important;
+  box-shadow: none !important;
+}
 
-  button::-moz-focus-inner {
-    border: 0;
-  }
+* {
+  -webkit-tap-highlight-color: transparent !important;
+}
 
   input[type="range"]::-webkit-slider-thumb:focus {
     outline: none !important;
