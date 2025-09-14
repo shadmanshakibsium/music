@@ -408,6 +408,24 @@ input[type="range"]:active {
       e.preventDefault();
       togglePlayPause();
     }
+    /* Complete removal of blue focus & tap highlight */
+* {
+  -webkit-tap-highlight-color: transparent !important;
+  -moz-focus-inner: none !important;
+  outline: none !important;
+  box-shadow: none !important;
+}
+
+button,
+input[type="range"],
+button:focus,
+input[type="range"]:focus,
+button:active,
+input[type="range"]:active {
+  outline: none !important;
+  box-shadow: none !important;
+  -webkit-tap-highlight-color: transparent !important;
+}
   });
 </script>
 
