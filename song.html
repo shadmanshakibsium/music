@@ -271,7 +271,7 @@
 
   <div id="volume-container">
     <i class="fas fa-volume-down"></i>
-    <input type="range" id="volume" min="0" max="1" step="0.01" value="0.5" />
+    <input type="range" id="volume" min="0" max="1" step="0.01" value="1" />
     <i class="fas fa-volume-up"></i>
   </div>
 
@@ -380,10 +380,11 @@
   });
 
   // Load song on page load
-  window.addEventListener("load", () => {
-    loadSong(currentIndex);
-    audio.volume = volumeSlider.value;
-  });
+window.addEventListener("load", () => {
+  loadSong(currentIndex);
+  audio.volume = volumeSlider.value;
+  playSong(); // autoplay on load
+});
 
   // Optional: Keyboard controls (space for play/pause)
   window.addEventListener("keydown", e => {
