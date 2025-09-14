@@ -105,42 +105,38 @@ body {
 </div>
 
 <script>
-// URL থেকে গান নেওয়া
+// URL থেকে গান নাম এবং path নেওয়া
 const params = new URLSearchParams(window.location.search);
 const songName = params.get("name");
 const songFile = params.get("file");
-const folder = params.get("folder"); // bangla, english ইত্যাদি
 
-if(!songName || !songFile || !folder){
+if(!songName || !songFile){
   alert("Invalid song parameters!");
 }
 
-// সঠিক ফোল্ডার থেকে গান লোড
 const audio = document.getElementById('audioPlayer');
 const title = document.getElementById('title');
+const playBtn = document.getElementById('play');
+const playIcon = document.getElementById('play-icon');
+const progressFilled = document.getElementById('progress-filled');
+
 title.textContent = songName;
-audio.src = `songs/${folder}/${songFile}`;
+audio.src = songFile;
 audio.play().catch(e => console.log("Autoplay blocked:", e));
 
 let isPlaying = true;
-const playBtn = document.getElementById('play');
-const playIcon = document.getElementById('play-icon');
 
 playBtn.addEventListener('click', ()=>{
   if(isPlaying){
     audio.pause();
-    playIcon.classList.remove('fa-pause');
-    playIcon.classList.add('fa-play');
+    playIcon.classList.replace('fa-pause', 'fa-play');
   } else {
     audio.play();
-    playIcon.classList.remove('fa-play');
-    playIcon.classList.add('fa-pause');
+    playIcon.classList.replace('fa-play', 'fa-pause');
   }
   isPlaying = !isPlaying;
 });
 
-// Progress bar
-const progressFilled = document.getElementById('progress-filled');
 audio.addEventListener('timeupdate', ()=>{
   const percent = (audio.currentTime / audio.duration) * 100;
   progressFilled.style.width = percent + '%';
