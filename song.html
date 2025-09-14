@@ -46,22 +46,36 @@
   }
 
   /* প্রগ্রেস বার */
-  #progress {
-    width: 100%;
-    height: 8px;
-    background: rgba(255,255,255,0.2);
-    border-radius: 6px;
-    overflow: hidden;
-    cursor: pointer;
-    margin-bottom: 10px;
-  }
-  #progress-filled {
-    width: 0%;
-    height: 100%;
-    background: linear-gradient(90deg, #ff6b6b, #583D91);
-    border-radius: 6px;
-    transition: width 0.2s ease;
-  }
+#progress {
+  display: flex;
+  align-items: center;
+  background: rgba(255,255,255,0.2);
+  border-radius: 6px;
+  height: 8px;
+  cursor: pointer;
+  padding: 0 10px;
+  gap: 10px;
+  position: relative;
+}
+
+/* টাইম স্প্যানগুলো */
+#progress > span {
+  color: white;
+  font-size: 12px;
+  width: 35px;
+  user-select: none;
+}
+
+/* প্রগ্রেস ফিল্ড যেটা বাড়বে */
+#progress-filled {
+  flex: 1; /* বাকি জায়গা নেবে */
+  height: 6px;
+  background: linear-gradient(90deg, #ff6b6b, #583D91);
+  border-radius: 6px;
+  transition: width 0.2s ease;
+  position: relative;
+  top: 0;
+}
   .time-container {
     display: flex;
     justify-content: space-between;
