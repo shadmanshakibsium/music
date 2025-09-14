@@ -89,7 +89,7 @@
     background: linear-gradient(90deg, #ff6b6b, #583D91);
     height: 100%;
     width: 0;
-    transition: width 0.15s ease;
+    /* transition: width 0.15s ease;  transition সরানো হয়েছে */
     border-radius: 8px 0 0 8px;
     pointer-events: none;
   }
@@ -209,24 +209,24 @@
     background: rgba(255, 255, 255, 0.3);
   }
 
-/* Remove Android blue highlight on tap */
-button, input[type="range"] {
-  -webkit-tap-highlight-color: transparent;
-  -webkit-focus-ring-color: transparent;
-  outline: none;
-}
+  /* Remove Android blue highlight on tap */
+  button, input[type="range"] {
+    -webkit-tap-highlight-color: transparent;
+    -webkit-focus-ring-color: transparent;
+    outline: none;
+  }
 
-button:focus,
-input[type="range"]:focus,
-button:active,
-input[type="range"]:active {
-  outline: none !important;
-  box-shadow: none !important;
-}
+  button:focus,
+  input[type="range"]:focus,
+  button:active,
+  input[type="range"]:active {
+    outline: none !important;
+    box-shadow: none !important;
+  }
 
-* {
-  -webkit-tap-highlight-color: transparent !important;
-}
+  * {
+    -webkit-tap-highlight-color: transparent !important;
+  }
 
   input[type="range"]::-webkit-slider-thumb:focus {
     outline: none !important;
@@ -350,18 +350,18 @@ input[type="range"]:active {
     isPlaying = true;
     playIcon.classList.remove("fa-play");
     playIcon.classList.add("fa-pause");
+    updateProgress(); // চালু হলে প্রগ্রেস আপডেট শুরু কর
   }
 
   function pauseSong() {
     audio.pause();
     isPlaying = false;
-    playIcon.classList.remove("fa-pause");
-    playIcon.classList.add("fa-play");
   }
 
   function togglePlayPause() {
     if (isPlaying) {
       pauseSong();
+      cancelAnimationFrame(rafId);
     } else {
       playSong();
     }
@@ -373,20 +373,34 @@ input[type="range"]:active {
     return mins + ":" + (secs < 10 ? "0" + secs : secs);
   }
 
-  audio.addEventListener("timeupdate", () => {
+  let rafId;
+
+  // প্রগ্রেস আপডেট করার জন্য রিকোয়েস্ট এনিমেশন ফ্রেম ব্যবহার
+  function updateProgress() {
     if (audio.duration) {
       const percent = (audio.currentTime / audio.duration) * 100;
       progressFilled.style.width = percent + "%";
       currentTimeEl.textContent = formatTime(audio.currentTime);
       durationEl.textContent = formatTime(audio.duration);
     }
-  });
+    if (isPlaying) {
+      rafId = requestAnimationFrame(updateProgress);
+    }
+  }
 
   progressBarContainer.addEventListener("click", (e) => {
     const rect = progressBarContainer.getBoundingClientRect();
     const clickX = e.clientX - rect.left;
     const width = rect.width;
     audio.currentTime = (clickX / width) * audio.duration;
+    // সিকিং করার পরও যদি প্লে অবস্থায় থাকে, প্রগ্রেস আপডেট চালু থাকবে
+    if (isPlaying) {
+      updateProgress();
+    } else {
+      // না থাকলে শুধু UI আপডেট
+      progressFilled.style.width = ((audio.currentTime / audio.duration) * 100) + "%";
+      currentTimeEl.textContent = formatTime(audio.currentTime);
+    }
   });
 
   playBtn.addEventListener("click", togglePlayPause);
@@ -402,31 +416,14 @@ input[type="range"]:active {
     audio.volume = volumeSlider.value;
   });
 
-  // Optional: Keyboard controls (space for play/pause)
+  // Keyboard controls (space for play/pause)
   window.addEventListener("keydown", e => {
     if (e.code === "Space") {
       e.preventDefault();
       togglePlayPause();
     }
-    /* Complete removal of blue focus & tap highlight */
-* {
-  -webkit-tap-highlight-color: transparent !important;
-  -moz-focus-inner: none !important;
-  outline: none !important;
-  box-shadow: none !important;
-}
-
-button,
-input[type="range"],
-button:focus,
-input[type="range"]:focus,
-button:active,
-input[type="range"]:active {
-  outline: none !important;
-  box-shadow: none !important;
-  -webkit-tap-highlight-color: transparent !important;
-}
   });
+
 </script>
 
 </body>
