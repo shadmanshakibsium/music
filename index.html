@@ -66,6 +66,20 @@
   }
   .folder-title {
     color:white; margin-top:20px; font-weight:500; font-size:18px;
+    cursor: pointer; padding: 10px 0;
+  }
+  .folder-content {
+    margin-bottom: 20px;
+    display: none;
+    animation: fadeIn 0.3s ease-in-out;
+  }
+  .folder-title.active + .folder-content {
+    display: block;
+  }
+
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateY(-10px); }
+    to { opacity: 1; transform: translateY(0); }
   }
 </style>
 </head>
@@ -95,8 +109,6 @@
       try{
         const res = await fetch(`data/${type}.json`);
         const data = await res.json();
-        // JSON এ song object থাকে {"name": "...", "file": "..."}
-        // এখানে folder নামে টাইপ যুক্ত করছি যাতে প্লে পেজে পাথ ঠিক যায়
         data.forEach(song => {
           song.type = type;
         });
@@ -105,6 +117,8 @@
         console.error(`Failed to load ${type}.json`, e);
       }
     }
+    // A-Z sort
+    allSongs.sort((a, b) => a.name.localeCompare(b.name));
     musicData = allSongs;
   }
 
@@ -127,20 +141,34 @@
   function displayFolders(list){
     const musicList = document.getElementById('music-list');
     let html = '';
-    types.forEach(type=>{
+    types.forEach(type => {
       const songs = list.filter(s => s.type === type);
       if(songs.length > 0){
-        html += `<div class="folder-title">${type.toUpperCase()}</div>`;
-        html += songs.map(song=>`
-          <li class="music-item">
-            <a href="song.html?name=${encodeURIComponent(song.name)}&file=${encodeURIComponent(song.file)}&folder=${encodeURIComponent(type)}" style="color:white;text-decoration:none;">
-              ${song.name}
-            </a>
-          </li>
-        `).join('');
+        // Sort inside folder too
+        songs.sort((a, b) => a.name.localeCompare(b.name));
+        html += `
+          <div class="folder-title">${type.toUpperCase()}</div>
+          <div class="folder-content">
+            ${songs.map(song=>`
+              <li class="music-item">
+                <a href="song.html?name=${encodeURIComponent(song.name)}&file=${encodeURIComponent(song.file)}&folder=${encodeURIComponent(type)}" style="color:white;text-decoration:none;">
+                  ${song.name}
+                </a>
+              </li>
+            `).join('')}
+          </div>
+        `;
       }
     });
     musicList.innerHTML = html || `<li style="color:white; text-align:center; padding:20px;">No folders found</li>`;
+
+    // Add toggle functionality
+    const folderTitles = document.querySelectorAll('.folder-title');
+    folderTitles.forEach(title => {
+      title.addEventListener('click', () => {
+        title.classList.toggle('active');
+      });
+    });
   }
 
   const tabs = document.querySelectorAll('.tab');
