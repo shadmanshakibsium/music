@@ -209,11 +209,11 @@
     background: rgba(255, 255, 255, 0.3);
   }
 
-  /* Remove Android blue highlight on tap */
-  button, input[type="range"] {
+  /* Remove Android/iOS blue highlight and outline on tap/focus */
+  button, input[type="range"], a {
     -webkit-tap-highlight-color: transparent;
-    -webkit-focus-ring-color: transparent;
     outline: none;
+    -webkit-focus-ring-color: transparent;
   }
 
   /* Responsive */
