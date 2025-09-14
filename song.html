@@ -281,167 +281,169 @@
 </div>
 
 <script>
-const params = new URLSearchParams(window.location.search);
-const folder = params.get("folder");
-const file = params.get("file");
-const nameFromURL = params.get("name");
+  const params = new URLSearchParams(window.location.search);
+  const folder = params.get("folder");
+  const playlistParam = params.get("playlist"); // যেমন: song1.mp3,song2.mp3,song3.mp3
+  const currentIndexParam = parseInt(params.get("current")) || 0;
+  const namesParam = params.get("names"); // যেমন: Song%201,Song%202,Song%203
 
-if (!folder || !file || !nameFromURL) {
-  alert("Invalid or missing song parameters in URL!");
-}
+  if (!folder || !playlistParam || !namesParam) {
+    alert("Invalid or missing parameters in URL!");
+  }
 
-// প্লেলিস্ট হিসেবে একটা array — তুমি এখানে চাইলে আরো গান যুক্ত করতে পারো।
-const songs = [
-  { name: nameFromURL, file: `${folder}/${file}` }
-  // যদি প্লেলিস্ট বড় করতে চাও তাহলে এরকম আরো গান যোগ করো:
-  // { name: "Song 2", file: "folder2/song2.mp3" },
-  // { name: "Song 3", file: "folder3/song3.mp3" },
-];
+  // প্লেলিস্ট ও নামের অ্যারে তৈরি
+  const playlist = playlistParam.split(",");
+  const names = namesParam.split(",");
 
-const audio = document.getElementById("audio");
-const title = document.getElementById("title");
-const playBtn = document.getElementById("play");
-const playIcon = document.getElementById("play-icon");
-const prevBtn = document.getElementById("prev");
-const nextBtn = document.getElementById("next");
-const shuffleBtn = document.getElementById("shuffle");
-const repeatBtn = document.getElementById("repeat");
-const repeatIcon = document.getElementById("repeat-icon");
-const progressBarContainer = document.getElementById("progress-bar-container");
-const progressFilled = document.getElementById("progress-filled");
-const currentTimeEl = document.getElementById("current-time");
-const durationEl = document.getElementById("duration");
-const volumeSlider = document.getElementById("volume");
+  // songs অ্যারে তৈরি
+  const songs = playlist.map((file, i) => ({
+    name: decodeURIComponent(names[i] || file),
+    file
+  }));
 
-let currentIndex = 0;
-let isPlaying = false;
-let isShuffle = false;
-let isRepeat = false;
+  const audio = document.getElementById("audio");
+  const title = document.getElementById("title");
+  const playBtn = document.getElementById("play");
+  const playIcon = document.getElementById("play-icon");
+  const prevBtn = document.getElementById("prev");
+  const nextBtn = document.getElementById("next");
+  const shuffleBtn = document.getElementById("shuffle");
+  const repeatBtn = document.getElementById("repeat");
+  const progressBarContainer = document.getElementById("progress-bar-container");
+  const progressFilled = document.getElementById("progress-filled");
+  const currentTimeEl = document.getElementById("current-time");
+  const durationEl = document.getElementById("duration");
+  const volumeSlider = document.getElementById("volume");
 
-function loadSong(index) {
-  const song = songs[index];
-  audio.src = "songs/" + song.file;
-  title.textContent = song.name;
-  resetProgress();
-}
+  let currentIndex = currentIndexParam;
+  let isPlaying = false;
+  let isShuffle = false;
+  let isRepeat = false;
 
-function resetProgress() {
-  progressFilled.style.width = "0%";
-  currentTimeEl.textContent = "0:00";
-  durationEl.textContent = "0:00";
-}
+  function loadSong(index) {
+    const song = songs[index];
+    audio.src = folder + "/" + song.file;
+    title.textContent = song.name;
+    resetProgress();
+  }
 
-function playSong() {
-  audio.play();
-  isPlaying = true;
-  playIcon.classList.remove("fa-play");
-  playIcon.classList.add("fa-pause");
-}
+  function resetProgress() {
+    progressFilled.style.width = "0%";
+    currentTimeEl.textContent = "0:00";
+    durationEl.textContent = "0:00";
+  }
 
-function pauseSong() {
-  audio.pause();
-  isPlaying = false;
-  playIcon.classList.remove("fa-pause");
-  playIcon.classList.add("fa-play");
-}
+  function playSong() {
+    audio.play();
+    isPlaying = true;
+    playIcon.classList.remove("fa-play");
+    playIcon.classList.add("fa-pause");
+  }
 
-function togglePlayPause() {
-  if (isPlaying) {
-    pauseSong();
-  } else {
+  function pauseSong() {
+    audio.pause();
+    isPlaying = false;
+    playIcon.classList.remove("fa-pause");
+    playIcon.classList.add("fa-play");
+  }
+
+  function togglePlayPause() {
+    if (isPlaying) {
+      pauseSong();
+    } else {
+      playSong();
+    }
+  }
+
+  function formatTime(seconds) {
+    const mins = Math.floor(seconds / 60);
+    const secs = Math.floor(seconds % 60);
+    return mins + ":" + (secs < 10 ? "0" + secs : secs);
+  }
+
+  // সময় আপডেট ইভেন্ট
+  audio.addEventListener("timeupdate", () => {
+    if (audio.duration) {
+      const percent = (audio.currentTime / audio.duration) * 100;
+      progressFilled.style.width = percent + "%";
+      currentTimeEl.textContent = formatTime(audio.currentTime);
+      durationEl.textContent = formatTime(audio.duration);
+    }
+  });
+
+  // প্রগ্রেস বার ক্লিক করলে গান থেকে ঐ পজিশনে যায়
+  progressBarContainer.addEventListener("click", (e) => {
+    const rect = progressBarContainer.getBoundingClientRect();
+    const clickX = e.clientX - rect.left;
+    const width = rect.width;
+    audio.currentTime = (clickX / width) * audio.duration;
+  });
+
+  // প্লে / পজ বোতাম
+  playBtn.addEventListener("click", togglePlayPause);
+
+  // ভলিউম কন্ট্রোল
+  volumeSlider.addEventListener("input", () => {
+    audio.volume = volumeSlider.value;
+  });
+
+  // নেক্সট বোতাম
+  nextBtn.addEventListener("click", () => {
+    if (isShuffle) {
+      currentIndex = Math.floor(Math.random() * songs.length);
+    } else {
+      currentIndex = (currentIndex + 1) % songs.length;
+    }
+    loadSong(currentIndex);
     playSong();
-  }
-}
+  });
 
-function formatTime(seconds) {
-  const mins = Math.floor(seconds / 60);
-  const secs = Math.floor(seconds % 60);
-  return mins + ":" + (secs < 10 ? "0" + secs : secs);
-}
-
-// সময় আপডেট ইভেন্ট
-audio.addEventListener("timeupdate", () => {
-  if (audio.duration) {
-    const percent = (audio.currentTime / audio.duration) * 100;
-    progressFilled.style.width = percent + "%";
-    currentTimeEl.textContent = formatTime(audio.currentTime);
-    durationEl.textContent = formatTime(audio.duration);
-  }
-});
-
-// প্রগ্রেস বার ক্লিক করলে গান থেকে ঐ পজিশনে যায়
-progressBarContainer.addEventListener("click", (e) => {
-  const rect = progressBarContainer.getBoundingClientRect();
-  const clickX = e.clientX - rect.left;
-  const width = rect.width;
-  audio.currentTime = (clickX / width) * audio.duration;
-});
-
-// প্লে / পজ বোতাম
-playBtn.addEventListener("click", togglePlayPause);
-
-// ভলিউম কন্ট্রোল
-volumeSlider.addEventListener("input", () => {
-  audio.volume = volumeSlider.value;
-});
-
-// নেক্সট বোতাম
-nextBtn.addEventListener("click", () => {
-  if (isShuffle) {
-    currentIndex = Math.floor(Math.random() * songs.length);
-  } else {
-    currentIndex = (currentIndex + 1) % songs.length;
-  }
-  loadSong(currentIndex);
-  playSong();
-});
-
-// প্রিভিয়াস বোতাম
-prevBtn.addEventListener("click", () => {
-  if (isShuffle) {
-    currentIndex = Math.floor(Math.random() * songs.length);
-  } else {
-    currentIndex = (currentIndex - 1 + songs.length) % songs.length;
-  }
-  loadSong(currentIndex);
-  playSong();
-});
-
-// শাফেল টগল
-shuffleBtn.addEventListener("click", () => {
-  isShuffle = !isShuffle;
-  shuffleBtn.classList.toggle("active", isShuffle);
-});
-
-// রিপিট টগল
-repeatBtn.addEventListener("click", () => {
-  isRepeat = !isRepeat;
-  repeatBtn.classList.toggle("active", isRepeat);
-});
-
-// গান শেষ হলে
-audio.addEventListener("ended", () => {
-  if (isRepeat) {
-    audio.currentTime = 0;
+  // প্রিভিয়াস বোতাম
+  prevBtn.addEventListener("click", () => {
+    if (isShuffle) {
+      currentIndex = Math.floor(Math.random() * songs.length);
+    } else {
+      currentIndex = (currentIndex - 1 + songs.length) % songs.length;
+    }
+    loadSong(currentIndex);
     playSong();
-  } else {
-    nextBtn.click();
-  }
-});
+  });
 
-// পেজ লোড হলে প্রথম গান লোড করা এবং ভলিউম সেট করা
-window.addEventListener("load", () => {
-  loadSong(currentIndex);
-  audio.volume = volumeSlider.value;
-});
+  // শাফেল টগল
+  shuffleBtn.addEventListener("click", () => {
+    isShuffle = !isShuffle;
+    shuffleBtn.classList.toggle("active", isShuffle);
+  });
 
-// স্পেস বার চাপলে প্লে/পজ টগল
-window.addEventListener("keydown", e => {
-  if (e.code === "Space") {
-    e.preventDefault();
-    togglePlayPause();
-  }
-});
+  // রিপিট টগল
+  repeatBtn.addEventListener("click", () => {
+    isRepeat = !isRepeat;
+    repeatBtn.classList.toggle("active", isRepeat);
+  });
+
+  // গান শেষ হলে
+  audio.addEventListener("ended", () => {
+    if (isRepeat) {
+      audio.currentTime = 0;
+      playSong();
+    } else {
+      nextBtn.click();
+    }
+  });
+
+  // পেজ লোড হলে প্রথম গান লোড করা এবং ভলিউম সেট করা
+  window.addEventListener("load", () => {
+    loadSong(currentIndex);
+    audio.volume = volumeSlider.value;
+  });
+
+  // স্পেস বার চাপলে প্লে/পজ টগল
+  window.addEventListener("keydown", e => {
+    if (e.code === "Space") {
+      e.preventDefault();
+      togglePlayPause();
+    }
+  });
 </script>
 
 </body>
