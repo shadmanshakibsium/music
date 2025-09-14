@@ -6,26 +6,23 @@
 <title>Music Player</title>
 <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet" />
 <style>
-  /* পুরো স্ক্রীন জুড়ে উচ্চতা ও স্ক্রোল বন্ধ */
   html, body {
     height: 100%;
     margin: 0;
     padding: 0;
-    overflow: hidden; /* স্ক্রল বন্ধ */
+    overflow: hidden;
     font-family: 'Roboto', sans-serif;
     background: url('https://i.imgur.com/uNWSHGy.png') no-repeat center center fixed;
     background-size: cover;
     color: white;
   }
 
-  /* flex দিয়ে body কে পুরো স্ক্রিনে কেন্দ্র করে */
   body {
     display: flex;
-    justify-content: center; /* হরিজন্টালি সেন্টার */
-    align-items: center;     /* ভার্টিকালি সেন্টার */
+    justify-content: center;
+    align-items: center;
   }
 
-  /* প্লেয়ার বক্স */
   .container {
     width: 100%;
     max-width: 400px;
@@ -38,7 +35,6 @@
     box-shadow: 0 15px 50px rgba(0, 0, 0, 0.5);
   }
 
-  /* টাইটেল */
   .title {
     font-size: 24px;
     font-weight: 700;
@@ -46,45 +42,36 @@
   }
 
   /* প্রগ্রেস বার */
-#progress {
-  display: flex;
-  align-items: center;
-  background: rgba(255,255,255,0.2);
-  border-radius: 6px;
-  height: 8px;
-  cursor: pointer;
-  padding: 0 10px;
-  gap: 10px;
-  position: relative;
-}
-
-/* টাইম স্প্যানগুলো */
-#progress > span {
-  color: white;
-  font-size: 12px;
-  width: 35px;
-  user-select: none;
-}
-
-/* প্রগ্রেস ফিল্ড যেটা বাড়বে */
-#progress-filled {
-  flex: 1; /* বাকি জায়গা নেবে */
-  height: 6px;
-  background: linear-gradient(90deg, #ff6b6b, #583D91);
-  border-radius: 6px;
-  transition: width 0.2s ease;
-  position: relative;
-  top: 0;
-}
-  .time-container {
+  #progress {
     display: flex;
-    justify-content: space-between;
-    font-size: 14px;
-    margin-top: 0;
-    margin-bottom: 20px;
+    align-items: center;
+    background: rgba(255,255,255,0.2);
+    border-radius: 6px;
+    height: 8px;
+    cursor: pointer;
+    gap: 10px;
+    position: relative;
+    /* padding বাদ দিলাম কারণ সেটা ক্লিক ইভেন্টে সমস্যা দেয় */
   }
 
-  /* কন্ট্রোল বাটনস */
+  /* টাইম স্প্যানগুলো */
+  #progress > span {
+    color: white;
+    font-size: 12px;
+    width: 40px;
+    user-select: none;
+  }
+
+  /* প্রগ্রেস ফিল্ড যেটা বাড়বে */
+  #progress-filled {
+    flex: 1;
+    height: 6px;
+    background: linear-gradient(90deg, #ff6b6b, #583D91);
+    border-radius: 6px;
+    transition: width 0.2s ease;
+    position: relative;
+  }
+
   .controls {
     display: flex;
     justify-content: space-around;
@@ -137,7 +124,6 @@
     box-shadow: 0 0 20px rgba(255, 107, 107, 0.9);
   }
 
-  /* ভলিউম কন্ট্রোল */
   #volume-container {
     margin: 15px 0;
     display: flex;
@@ -152,7 +138,6 @@
     cursor: pointer;
   }
 
-  /* ব্যাক বাটন */
   .back-btn {
     display: inline-block;
     padding: 10px 25px;
@@ -170,7 +155,6 @@
     background: rgba(255, 255, 255, 0.3);
   }
 
-  /* Responsive মোবাইলের জন্য */
   @media (max-width: 450px) {
     .container {
       max-width: 90vw;
@@ -191,12 +175,12 @@
 <div class="container">
   <div id="title" class="title">Loading...</div>
 
-<div id="progress">
-  <span id="current-time">0:00</span>
-  <div id="progress-filled"></div>
-  <span id="duration">0:00</span>
-</div>
-  
+  <div id="progress">
+    <span id="current-time">0:00</span>
+    <div id="progress-filled"></div>
+    <span id="duration">0:00</span>
+  </div>
+
   <div class="controls">
     <button class="control-btn" id="shuffle" title="Shuffle"><i class="fas fa-random"></i></button>
     <button class="control-btn" id="prev" title="Previous"><i class="fas fa-backward"></i></button>
@@ -217,7 +201,6 @@
 </div>
 
 <script>
-  // URL থেকে গান, নাম, ফোল্ডার নিবে
   const params = new URLSearchParams(window.location.search);
   const folder = params.get("folder");
   const file = params.get("file");
@@ -227,7 +210,6 @@
     alert("Invalid or missing song parameters in URL!");
   }
 
-  // এখন শুধু ১টা গান নিয়ে কাজ করবো
   const songs = [
     { name: nameFromURL, file: `${folder}/${file}` }
   ];
@@ -304,11 +286,7 @@
   repeatBtn.addEventListener("click", () => {
     isRepeat = !isRepeat;
     repeatBtn.classList.toggle("active", isRepeat);
-    if (isRepeat) {
-      repeatIcon.style.color = "#ff6b6b";
-    } else {
-      repeatIcon.style.color = "white";
-    }
+    repeatIcon.style.color = isRepeat ? "#ff6b6b" : "white";
   });
 
   audio.addEventListener("timeupdate", () => {
@@ -321,10 +299,13 @@
   });
 
   progress.addEventListener("click", (e) => {
+    // এখানে padding নাই তাই offsetX কাজ করবে ঠিকমত
     const width = progress.clientWidth;
     const clickX = e.offsetX;
     const duration = audio.duration;
-    audio.currentTime = (clickX / width) * duration;
+    if (duration) {
+      audio.currentTime = (clickX / width) * duration;
+    }
   });
 
   audio.addEventListener("ended", () => {
@@ -345,12 +326,10 @@
     return mins + ":" + (secs < 10 ? "0" : "") + secs;
   }
 
-  // গান লোড
   loadSong(currentIndex);
-
-  // পেজ লোড হলে স্বয়ং প্লে করার চেষ্টা করো (যদি ব্রাউজার অনুমতি দেয়)
   audio.volume = volumeSlider.value;
-  audio.play().catch(() => { /* Autoplay blocked */ });
+  audio.play().catch(() => {});
+
 </script>
 
 </body>
