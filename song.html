@@ -294,7 +294,7 @@
 
   <audio id="audio"></audio>
 
-  <a href="#" id="backBtn" class="back-btn">Back to Library</a>
+  <a href="index.html" class="back-btn" id="back-btn">Back to Library</a>
 </div>
 
 <script>
@@ -326,11 +326,15 @@
   const currentTimeEl = document.getElementById("current-time");
   const durationEl = document.getElementById("duration");
   const volumeSlider = document.getElementById("volume");
+  const backBtn = document.getElementById("back-btn");
 
   let currentIndex = 0;
   let isPlaying = false;
   let isShuffle = false;
   let isRepeat = false;
+
+  // Update back button href dynamically with 'name' param
+  backBtn.href = `index.html?highlightSong=${encodeURIComponent(nameFromURL)}`;
 
   function loadSong(index) {
     const song = songs[index];
@@ -375,7 +379,6 @@
 
   let rafId;
 
-  // প্রগ্রেস আপডেট করার জন্য রিকোয়েস্ট এনিমেশন ফ্রেম ব্যবহার
   function updateProgress() {
     if (audio.duration) {
       const percent = (audio.currentTime / audio.duration) * 100;
@@ -393,11 +396,9 @@
     const clickX = e.clientX - rect.left;
     const width = rect.width;
     audio.currentTime = (clickX / width) * audio.duration;
-    // সিকিং করার পরও যদি প্লে অবস্থায় থাকে, প্রগ্রেস আপডেট চালু থাকবে
     if (isPlaying) {
       updateProgress();
     } else {
-      // না থাকলে শুধু UI আপডেট
       progressFilled.style.width = ((audio.currentTime / audio.duration) * 100) + "%";
       currentTimeEl.textContent = formatTime(audio.currentTime);
     }
@@ -405,34 +406,22 @@
 
   playBtn.addEventListener("click", togglePlayPause);
 
-  // Volume Control
   volumeSlider.addEventListener("input", () => {
     audio.volume = volumeSlider.value;
   });
 
-    // ফাইল থেকে id বানানো
-  const fileId = file.replace(/\.[^/.]+$/, "") // extension বাদ
-                     .toLowerCase()
-                     .replace(/[^a-z0-9]+/g, '-'); // punctuation → dash
+  window.addEventListener("load", () => {
+    loadSong(currentIndex);
+    audio.volume = volumeSlider.value;
+    playSong();
+  });
 
-  // Back বাটনে id যুক্ত করা
-  document.getElementById("backBtn").href = `index.html?song=${encodeURIComponent(fileId)}`;
-
-  // Load song on page load
-window.addEventListener("load", () => {
-  loadSong(currentIndex);
-  audio.volume = volumeSlider.value;
-  playSong(); // autoplay on load
-});
-
-  // Keyboard controls (space for play/pause)
   window.addEventListener("keydown", e => {
     if (e.code === "Space") {
       e.preventDefault();
       togglePlayPause();
     }
   });
-
 </script>
 
 </body>
