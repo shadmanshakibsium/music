@@ -58,6 +58,7 @@
   .music-item:hover { background: rgba(255,255,255,0.2); }
   .music-item .info {
     color:white;
+    flex-grow: 1;
   }
   .music-item .info .title {
     font-weight:500; font-size:16px;
@@ -83,47 +84,45 @@
   }
 
   /* alpha index */
-/* আগের .alpha-index বাদ দিয়ে নিচের CSS বসাও */
-
-.alpha-index {
-  position: fixed;
-  right: 30px;
-  top: 100px;
-  height: calc(100vh - 120px);
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  user-select: none;
-  z-index: 1000;
-  padding: 4px 8px;
-  background: rgba(0,0,0,0.15);
-  border-radius: 12px;
-  font-weight: 700;
-  color: white;
-  font-size: 14px;
-  transition: all 0.3s ease;
-}
-
-/* মোবাইল স্ক্রিনে দেখাবে না */
-@media (max-width: 600px) {
   .alpha-index {
-    display: none !important;
+    position: fixed;
+    right: 30px;
+    top: 100px;
+    height: calc(100vh - 120px);
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    user-select: none;
+    z-index: 1000;
+    padding: 4px 8px;
+    background: rgba(0,0,0,0.15);
+    border-radius: 12px;
+    font-weight: 700;
+    color: white;
+    font-size: 14px;
+    transition: all 0.3s ease;
   }
-}
 
-.alpha-index div {
-  cursor: pointer;
-  padding: 4px 6px;
-  border-radius: 8px;
-  text-align: center;
-  transition: background 0.3s, color 0.3s;
-  white-space: nowrap;
-}
-.alpha-index div:hover,
-.alpha-index div.active {
-  background: rgba(255,255,255,0.3);
-  color: #000;
-}
+  /* মোবাইল স্ক্রিনে দেখাবে না */
+  @media (max-width: 600px) {
+    .alpha-index {
+      display: none !important;
+    }
+  }
+
+  .alpha-index div {
+    cursor: pointer;
+    padding: 4px 6px;
+    border-radius: 8px;
+    text-align: center;
+    transition: background 0.3s, color 0.3s;
+    white-space: nowrap;
+  }
+  .alpha-index div:hover,
+  .alpha-index div.active {
+    background: rgba(255,255,255,0.3);
+    color: #000;
+  }
 </style>
 </head>
 <body>
@@ -192,17 +191,29 @@
       return;
     }
     musicList.innerHTML = sortedList.map(song => `
-      <li class="music-item" data-name="${song.name}">
-        <a href="song.html?name=${encodeURIComponent(song.name)}&file=${encodeURIComponent(song.file)}&folder=${encodeURIComponent(song.type)}" class="info" style="color:white;text-decoration:none;">
+      <li class="music-item" data-name="${song.name}" data-file="${song.file}" data-folder="${song.type}">
+        <div class="info">
           <span class="title">${song.name}</span>
           <span style="font-size:12px;color:rgba(255,255,255,0.5)">[${song.type}]</span>
-        </a>
+        </div>
       </li>
     `).join('');
+
+    // এখন পুরো .music-item এ ক্লিক ইভেন্ট লাগানো হবে
+    document.querySelectorAll('.music-item').forEach(item => {
+      item.addEventListener('click', () => {
+        const name = item.getAttribute('data-name');
+        const file = item.getAttribute('data-file');
+        const folder = item.getAttribute('data-folder');
+        // song.html পেজে যাবে
+        window.location.href = `song.html?name=${encodeURIComponent(name)}&file=${encodeURIComponent(file)}&folder=${encodeURIComponent(folder)}`;
+      });
+    });
   }
 
-  // Folder toggle state (store which folders are open)
+  // Folder toggle state (ডিফল্ট সব ফোল্ডার বন্ধ থাকবে)
   const folderOpenState = {};
+  types.forEach(type => folderOpenState[type] = false); // সব false
 
   function displayFolders(list){
     const musicList = document.getElementById('music-list');
@@ -212,21 +223,17 @@
     types.forEach(type=>{
       const songs = sortedList.filter(s => s.type === type);
       if(songs.length > 0){
-        if(!(type in folderOpenState)) folderOpenState[type] = true; // default open
-
         html += `
           <div class="folder-title">
             ${type.toUpperCase()}
             <button class="toggle-btn" data-type="${type}">
-              ${folderOpenState[type] ? '−' : '+'}
+              +
             </button>
           </div>
-          <ul class="folder-songs" data-type="${type}" style="list-style:none; margin-bottom: 15px; padding-left:0; ${folderOpenState[type] ? '' : 'display:none;'}">
+          <ul class="folder-songs" data-type="${type}" style="list-style:none; margin-bottom: 15px; padding-left:0; display:none;">
             ${songs.map(song=>`
-              <li class="music-item" data-name="${song.name}">
-                <a href="song.html?name=${encodeURIComponent(song.name)}&file=${encodeURIComponent(song.file)}&folder=${encodeURIComponent(type)}" style="color:white;text-decoration:none;">
-                  ${song.name}
-                </a>
+              <li class="music-item" data-name="${song.name}" data-file="${song.file}" data-folder="${type}">
+                <div style="color:white; cursor:pointer;">${song.name}</div>
               </li>
             `).join('')}
           </ul>
@@ -248,6 +255,16 @@
           ul.style.display = 'none';
           btn.textContent = '+';
         }
+      });
+    });
+
+    // ফোল্ডারের গানগুলোর .music-item-এ ক্লিক ইভেন্ট লাগানো
+    document.querySelectorAll('.folder-songs .music-item').forEach(item => {
+      item.addEventListener('click', () => {
+        const name = item.getAttribute('data-name');
+        const file = item.getAttribute('data-file');
+        const folder = item.getAttribute('data-folder');
+        window.location.href = `song.html?name=${encodeURIComponent(name)}&file=${encodeURIComponent(file)}&folder=${encodeURIComponent(folder)}`;
       });
     });
   }
@@ -294,7 +311,6 @@
     const listItems = [...document.querySelectorAll('.music-item')];
     if(listItems.length === 0) return;
 
-    // Window এর scroll top নিয়ে প্রথম দেখা song এর প্রথম অক্ষর বের করবো
     const scrollY = window.scrollY || window.pageYOffset;
     let currentLetter = null;
 
@@ -313,13 +329,11 @@
       }
     }
     if(!currentLetter){
-      // যদি স্ক্রল শেষে যেয়ে থাকে তাহলে শেষের গান অনুযায়ী
       const lastName = listItems[listItems.length-1].getAttribute('data-name');
       const firstChar = lastName.charAt(0).toUpperCase();
       currentLetter = /[A-Z]/.test(firstChar) ? firstChar : '#';
     }
 
-    // সব index থেকে active রিমুভ
     [...alphaIndex.children].forEach(div => {
       div.classList.remove('active');
       if(div.textContent === currentLetter){
