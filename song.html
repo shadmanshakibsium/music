@@ -53,7 +53,6 @@
     letter-spacing: 0.7px;
   }
 
-  /* Progress Bar Section */
   #progress {
     display: flex;
     align-items: center;
@@ -83,6 +82,11 @@
     background: rgba(255, 255, 255, 0.12);
     border-radius: 8px;
     overflow: hidden;
+
+    /* ✅ ANDROID tap highlight fix */
+    -webkit-tap-highlight-color: transparent;
+    -webkit-user-select: none;
+    -webkit-touch-callout: none;
   }
 
   #progress-filled {
@@ -209,14 +213,12 @@
     background: rgba(255, 255, 255, 0.3);
   }
 
-  /* Remove Android blue highlight on tap */
   button, input[type="range"] {
     -webkit-tap-highlight-color: transparent;
     -webkit-focus-ring-color: transparent;
     outline: none;
   }
 
-  /* Responsive */
   @media (max-width: 450px) {
     .container {
       max-width: 95vw;
@@ -365,11 +367,21 @@
     }
   });
 
+  // ✅ Updated progress bar click behavior
   progressBarContainer.addEventListener("click", (e) => {
     const rect = progressBarContainer.getBoundingClientRect();
     const clickX = e.clientX - rect.left;
     const width = rect.width;
-    audio.currentTime = (clickX / width) * audio.duration;
+    const percent = clickX / width;
+
+    // Show visual progress first
+    progressFilled.style.width = (percent * 100) + "%";
+    currentTimeEl.textContent = formatTime(percent * audio.duration);
+
+    // Then set audio current time with slight delay
+    setTimeout(() => {
+      audio.currentTime = percent * audio.duration;
+    }, 100);
   });
 
   playBtn.addEventListener("click", togglePlayPause);
@@ -379,14 +391,12 @@
     audio.volume = volumeSlider.value;
   });
 
-  // Load song on page load
-window.addEventListener("load", () => {
-  loadSong(currentIndex);
-  audio.volume = volumeSlider.value;
-  playSong(); // autoplay on load
-});
+  window.addEventListener("load", () => {
+    loadSong(currentIndex);
+    audio.volume = volumeSlider.value;
+    playSong(); // autoplay on load
+  });
 
-  // Optional: Keyboard controls (space for play/pause)
   window.addEventListener("keydown", e => {
     if (e.code === "Space") {
       e.preventDefault();
