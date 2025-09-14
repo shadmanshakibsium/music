@@ -104,35 +104,13 @@
   transition: all 0.3s ease;
 }
 
-/* মোবাইল স্ক্রিন এ নিচে হরাইজন্টাল */
+/* মোবাইল স্ক্রিনে দেখাবে না */
 @media (max-width: 600px) {
   .alpha-index {
-    position: fixed;
-    bottom: 10px;
-    left: 50%;
-    transform: translateX(-50%);
-    height: auto;
-    width: 90%;
-    background: rgba(0,0,0,0.25);
-    border-radius: 20px;
-    padding: 6px 10px;
-    flex-direction: row;
-    justify-content: center;
-    gap: 6px;
-    overflow-x: auto;
-    scrollbar-width: none; /* Firefox */
-  }
-  .alpha-index::-webkit-scrollbar {
-    display: none; /* Chrome, Safari */
-  }
-  .alpha-index div {
-    flex: 0 0 auto;
-    padding: 6px 8px;
-    border-radius: 10px;
+    display: none !important;
   }
 }
 
-/* পূর্বের hover ও active স্টাইল */
 .alpha-index div {
   cursor: pointer;
   padding: 4px 6px;
