@@ -7,12 +7,7 @@
 <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet" />
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
 <style>
-  * {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-    font-family: 'Roboto', sans-serif;
-  }
+  * { margin:0; padding:0; box-sizing:border-box; font-family: 'Roboto', sans-serif; }
   body {
     background: url('https://i.imgur.com/uNWSHGy.png') no-repeat center center fixed;
     background-size: cover;
@@ -25,43 +20,33 @@
   .container {
     width: 100%;
     max-width: 400px;
-    background: rgba(255, 255, 255, 0.07);
+    background: rgba(255,255,255,0.07);
     border-radius: 30px;
-    border: 1px solid rgba(255, 255, 255, 0.2);
+    border: 1px solid rgba(255,255,255,0.2);
     backdrop-filter: blur(15px) saturate(180%);
     padding: 30px 20px;
     text-align: center;
     color: white;
-    box-shadow: 0 15px 50px rgba(0, 0, 0, 0.5);
+    box-shadow: 0 15px 50px rgba(0,0,0,0.5);
   }
-  .title {
-    font-size: 24px;
-    font-weight: 700;
-    margin-bottom: 22px;
-  }
-  #progress {
-    width: 100%;
-    height: 8px;
-    background: rgba(255, 255, 255, 0.2);
-    border-radius: 6px;
-    overflow: hidden;
-    margin-bottom: 15px;
-  }
-  #progress-filled {
-    width: 0%;
-    height: 100%;
-    background: linear-gradient(90deg, #ff6b6b, #583D91);
-    border-radius: 6px;
-    transition: width 0.2s ease;
+  .title { font-size: 24px; font-weight:700; margin-bottom:22px; }
+  #progress { width: 100%; height: 8px; background: rgba(255,255,255,0.2); border-radius: 6px; overflow: hidden; margin-bottom: 10px; cursor: pointer; }
+  #progress-filled { width:0%; height:100%; background: linear-gradient(90deg, #ff6b6b, #583D91); border-radius:6px; transition: width 0.2s ease; }
+  .time {
+    display: flex;
+    justify-content: space-between;
+    font-size: 14px;
+    color: rgba(255,255,255,0.7);
+    margin-bottom: 20px;
   }
   .controls {
     display: flex;
     justify-content: space-around;
     align-items: center;
-    margin: 20px 0;
+    margin: 30px 0;
   }
   .control-btn {
-    width: 55px;
+    width: 45px;
     height: 40px;
     border-radius: 20px;
     display: flex;
@@ -70,39 +55,63 @@
     cursor: pointer;
     background: linear-gradient(135deg, #ff6b6b, #fcb045);
     border: none;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
+    box-shadow: 0 4px 12px rgba(0,0,0,0.5);
     transition: all 0.3s ease;
     font-size: 18px;
     color: white;
   }
   .control-btn:hover {
     transform: scale(1.1);
-    box-shadow: 0 0 15px rgba(255, 107, 107, 0.8);
+    box-shadow: 0 0 15px rgba(255,107,107,0.8);
   }
   .play-btn {
-    width: 75px;
+    width: 65px;
     height: 50px;
     font-size: 22px;
     border-radius: 25px;
     background: linear-gradient(135deg, #583D91, #7E5CD9);
-    box-shadow: 0 0 20px rgba(88, 61, 145, 0.8);
+    box-shadow: 0 0 20px rgba(88,61,145,0.8);
     display: flex;
     justify-content: center;
     align-items: center;
     transition: all 0.3s ease;
   }
-  .play-btn:hover {
-    transform: scale(1.05);
-    box-shadow: 0 0 25px rgba(88, 61, 145, 1);
+  .play-btn:hover { transform: scale(1.05); box-shadow: 0 0 25px rgba(88,61,145,1); }
+  .control-btn.active { box-shadow: 0 0 20px rgba(255,107,107,0.9); }
+
+  .volume-container {
+    margin-top: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
   }
-  .control-btn.active {
-    box-shadow: 0 0 20px rgba(255, 107, 107, 0.9);
+  input[type="range"] {
+    -webkit-appearance: none;
+    width: 150px;
+    height: 6px;
+    border-radius: 5px;
+    background: rgba(255,255,255,0.2);
+    cursor: pointer;
+  }
+  input[type="range"]::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    width: 16px;
+    height: 16px;
+    background: #ff6b6b;
+    border-radius: 50%;
+    cursor: pointer;
+    box-shadow: 0 0 5px rgba(255,107,107,0.8);
+    transition: background 0.3s;
+  }
+  input[type="range"]:hover::-webkit-slider-thumb {
+    background: #fcb045;
   }
   .back-btn {
     display: inline-block;
     padding: 10px 25px;
     border-radius: 25px;
-    background: rgba(255, 255, 255, 0.15);
+    background: rgba(255,255,255,0.15);
     backdrop-filter: blur(8px);
     color: white;
     text-decoration: none;
@@ -110,31 +119,20 @@
     transition: 0.3s;
     margin-top: 15px;
   }
-  .back-btn:hover {
-    background: rgba(255, 255, 255, 0.3);
-  }
-  #volumeSlider {
-    width: 100%;
-    margin-top: 10px;
-  }
-  .time-container {
-    display: flex;
-    justify-content: space-between;
-    color: white;
-    font-size: 14px;
-    margin-top: 5px;
-  }
+  .back-btn:hover { background: rgba(255,255,255,0.3); }
 </style>
 </head>
 <body>
 
 <div class="container">
   <div class="title" id="title">Loading...</div>
-
-  <div id="progress"><div id="progress-filled"></div></div>
-
-  <div class="time-container">
-    <span id="currentTime">0:00</span>
+  
+  <div id="progress" title="Seek">
+    <div id="progress-filled"></div>
+  </div>
+  
+  <div class="time">
+    <span id="current-time">0:00</span>
     <span id="duration">0:00</span>
   </div>
 
@@ -146,152 +144,147 @@
     <button class="control-btn" id="repeat" title="Repeat"><i class="fas fa-redo"></i></button>
   </div>
 
-  <label for="volumeSlider" style="color:white;">Volume:</label>
-  <input type="range" id="volumeSlider" min="0" max="1" step="0.01" value="1" />
+  <div class="volume-container" title="Volume">
+    <i class="fas fa-volume-down"></i>
+    <input type="range" id="volume" min="0" max="1" step="0.01" value="0.7" />
+    <i class="fas fa-volume-up"></i>
+  </div>
 
   <audio id="audioPlayer"></audio>
-
   <a href="index.html" class="back-btn">Back to Library</a>
 </div>
 
 <script>
-  // URL থেকে গান নেওয়া
-  const params = new URLSearchParams(window.location.search);
-  const songName = params.get("name");
-  const songFile = params.get("file");
-  const folder = params.get("folder");
+  // গানের ডাটা (এখানে ধরলাম songs ফোল্ডারে ৩টা গান)
+  const songs = [
+    { name: "Song One", file: "song1.mp3", folder: "bangla" },
+    { name: "Song Two", file: "song2.mp3", folder: "english" },
+    { name: "Song Three", file: "song3.mp3", folder: "hindi" }
+  ];
 
-  if(!songName || !songFile || !folder){
-    alert("Invalid song parameters!");
-    window.location.href = "index.html";
-  }
+  let currentIndex = 0;
+  let isPlaying = false;
+  let isShuffle = false;
+  let isRepeat = false;
 
   const audio = document.getElementById('audioPlayer');
   const title = document.getElementById('title');
   const playBtn = document.getElementById('play');
   const playIcon = document.getElementById('play-icon');
   const progressFilled = document.getElementById('progress-filled');
-
+  const progress = document.getElementById('progress');
+  const currentTimeEl = document.getElementById('current-time');
+  const durationEl = document.getElementById('duration');
   const shuffleBtn = document.getElementById('shuffle');
   const prevBtn = document.getElementById('prev');
   const nextBtn = document.getElementById('next');
   const repeatBtn = document.getElementById('repeat');
-  const volumeSlider = document.getElementById('volumeSlider');
+  const volumeSlider = document.getElementById('volume');
 
-  const currentTimeEl = document.getElementById('currentTime');
-  const durationEl = document.getElementById('duration');
-
-  // প্লেলিস্ট (তুমি নিজের গান যুক্ত করো এখানে)
-  const musicData = [
-    {name: "Tomar Hridoy", file: "tomar_hridoy.mp3", folder: "bangla"},
-    {name: "Ami Tomake Bhalobashi", file: "ami_tomake_bhalobashi.mp3", folder: "bangla"},
-    {name: "English Song", file: "english_song.mp3", folder: "english"},
-  ];
-
-  let currentIndex = musicData.findIndex(s =>
-    s.name === songName && s.file === songFile && s.folder === folder
-  );
-
-  if(currentIndex === -1){
-    currentIndex = 0;
-  }
-
-  // ফ্ল্যাগস
-  let isPlaying = false;
-  let isShuffle = false;
-  let isRepeat = false;
-
-  // গান লোড করা ফাংশন
-  function loadSong(index){
-    const song = musicData[index];
+  // গান লোড
+  function loadSong(index) {
+    const song = songs[index];
     title.textContent = song.name;
     audio.src = `songs/${song.folder}/${song.file}`;
+    audio.load();
   }
 
-  // গান প্লে ফাংশন
-  function playAudio(){
-    audio.play().catch(e => {
-      console.log("Play error:", e);
-    });
-    playIcon.classList.replace('fa-play', 'fa-pause');
+  // গান প্লে করা
+  function playSong() {
+    audio.play();
     isPlaying = true;
+    playIcon.classList.remove('fa-play');
+    playIcon.classList.add('fa-pause');
   }
 
-  // গান পজ ফাংশন
-  function pauseAudio(){
+  // গান পজ করা
+  function pauseSong() {
     audio.pause();
-    playIcon.classList.replace('fa-pause', 'fa-play');
     isPlaying = false;
+    playIcon.classList.remove('fa-pause');
+    playIcon.classList.add('fa-play');
   }
 
-  // প্লে/পজ বাটন
+  // প্লে/পজ টগল
   playBtn.addEventListener('click', () => {
     if (isPlaying) {
-      pauseAudio();
+      pauseSong();
     } else {
-      playAudio();
+      playSong();
     }
-  });
-
-  // আগের গান
-  prevBtn.addEventListener('click', () => {
-    if(isShuffle){
-      currentIndex = Math.floor(Math.random() * musicData.length);
-    } else {
-      currentIndex = (currentIndex - 1 + musicData.length) % musicData.length;
-    }
-    loadSong(currentIndex);
-    playAudio();
   });
 
   // পরের গান
   nextBtn.addEventListener('click', () => {
-    if(isShuffle){
-      currentIndex = Math.floor(Math.random() * musicData.length);
+    if (isShuffle) {
+      currentIndex = Math.floor(Math.random() * songs.length);
     } else {
-      currentIndex = (currentIndex + 1) % musicData.length;
+      currentIndex++;
+      if (currentIndex >= songs.length) currentIndex = 0;
     }
     loadSong(currentIndex);
-    playAudio();
+    playSong();
   });
 
-  // শাফেল বাটন
+  // আগের গান
+  prevBtn.addEventListener('click', () => {
+    if (isShuffle) {
+      currentIndex = Math.floor(Math.random() * songs.length);
+    } else {
+      currentIndex--;
+      if (currentIndex < 0) currentIndex = songs.length - 1;
+    }
+    loadSong(currentIndex);
+    playSong();
+  });
+
+  // শাফল টগল
   shuffleBtn.addEventListener('click', () => {
     isShuffle = !isShuffle;
-    shuffleBtn.classList.toggle('active', isShuffle);
+    shuffleBtn.classList.toggle('active');
   });
 
-  // রিপিট বাটন
+  // রিপিট টগল
   repeatBtn.addEventListener('click', () => {
     isRepeat = !isRepeat;
-    repeatBtn.classList.toggle('active', isRepeat);
+    repeatBtn.classList.toggle('active');
   });
 
   // গান শেষ হলে
   audio.addEventListener('ended', () => {
-    if(isRepeat){
-      playAudio();
+    if (isRepeat) {
+      playSong();
     } else {
       nextBtn.click();
     }
   });
 
-  // প্রগ্রেস বার আপডেট
+  // প্রগ্রেস আপডেট
   audio.addEventListener('timeupdate', () => {
-    if(audio.duration){
+    if (audio.duration) {
       const percent = (audio.currentTime / audio.duration) * 100;
       progressFilled.style.width = percent + '%';
 
+      // টাইম আপডেট
       currentTimeEl.textContent = formatTime(audio.currentTime);
       durationEl.textContent = formatTime(audio.duration);
     }
   });
 
-  // সময় ফরম্যাট ফাংশন (মিনিট:সেকেন্ড)
-  function formatTime(seconds){
-    const mins = Math.floor(seconds / 60);
-    const secs = Math.floor(seconds % 60);
-    return `${mins}:${secs < 10 ? '0' + secs : secs}`;
+  // প্রগ্রেসে ক্লিক করে গান চালানো
+  progress.addEventListener('click', (e) => {
+    const width = progress.clientWidth;
+    const clickX = e.offsetX;
+    const duration = audio.duration;
+
+    audio.currentTime = (clickX / width) * duration;
+  });
+
+  // টাইম ফরম্যাট (মিনিট:সেকেন্ড)
+  function formatTime(seconds) {
+    const mins = Math.floor(seconds / 60) || 0;
+    const secs = Math.floor(seconds % 60) || 0;
+    return `${mins}:${secs < 10 ? '0' : ''}${secs}`;
   }
 
   // ভলিউম কন্ট্রোল
@@ -299,15 +292,10 @@
     audio.volume = e.target.value;
   });
 
-  // প্রথমে গান লোড করো
+  // প্রথম গান লোড ও প্লে করার চেষ্টা (user interaction না হলে play ব্যর্থ হবে)
   loadSong(currentIndex);
+  // autoplay না হলে প্লে বাটনে ক্লিক করলে বাজবে
 
-  // ব্রাউজার পলিসি কারণে ইউজার ক্লিক ছাড়া অটো প্লে না হলে 
-  document.body.addEventListener('click', () => {
-    if(!isPlaying){
-      playAudio();
-    }
-  }, { once: true });
 </script>
 
 </body>
