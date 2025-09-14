@@ -1,11 +1,11 @@
 <!DOCTYPE html>
-<html lang="bn">
+<html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>মিউজিক প্লেয়ার</title>
-  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet" />
-  <style>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Music Player</title>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet" />
+<style>
   html, body {
     height: 100%;
     margin: 0;
@@ -209,11 +209,11 @@
     background: rgba(255, 255, 255, 0.3);
   }
 
-  /* Remove Android/iOS blue highlight and outline on tap/focus */
-  button, input[type="range"], a {
+  /* Remove Android blue highlight on tap */
+  button, input[type="range"] {
     -webkit-tap-highlight-color: transparent;
-    outline: none;
     -webkit-focus-ring-color: transparent;
+    outline: none;
   }
 
   /* Responsive */
@@ -246,21 +246,12 @@
       width: 36px;
     }
   }
-<!DOCTYPE html>
-<html lang="bn">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>মিউজিক প্লেয়ার</title>
-  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet" />
-  <style>
-    /* তোমার পূর্বের CSS কোড এখানে থাকবে */
-  </style>
+</style>
 </head>
 <body>
 
 <div class="container">
-  <div id="title" class="title">লোড হচ্ছে...</div>
+  <div id="title" class="title">Loading...</div>
 
   <div id="progress" title="Seek">
     <span id="current-time">0:00</span>
@@ -286,133 +277,121 @@
 
   <audio id="audio"></audio>
 
-  <a href="index.html" class="back-btn">লাইব্রেরিতে ফিরে যান</a>
+  <a href="index.html" class="back-btn">Back to Library</a>
 </div>
 
 <script>
-    // প্যারামিটার গুলো পড়া
-    const urlParams = new URLSearchParams(window.location.search);
-    const folder = urlParams.get('folder');  // যেমন: "bangla"
-    const playlistRaw = urlParams.get('playlist'); // "song1.mp3,song2.mp3"
-    const namesRaw = urlParams.get('names'); // "গান১,গান২"
-    const currentRaw = urlParams.get('current'); // "0"
+  const params = new URLSearchParams(window.location.search);
+  const folder = params.get("folder");
+  const file = params.get("file");
+  const nameFromURL = params.get("name");
 
-    console.log("PARAMS:", { folder, playlistRaw, namesRaw, currentRaw });
+  if (!folder || !file || !nameFromURL) {
+    alert("Invalid or missing song parameters in URL!");
+  }
 
-    const playlist = playlistRaw ? playlistRaw.split(",") : [];
-    const names = namesRaw ? namesRaw.split(",").map(n => decodeURIComponent(n)) : [];
-    let currentIndex = currentRaw ? parseInt(currentRaw) : 0;
+  const songs = [
+    { name: nameFromURL, file: `${folder}/${file}` }
+  ];
 
-    console.log("Parsed:", { playlist, names, currentIndex });
+  const audio = document.getElementById("audio");
+  const title = document.getElementById("title");
+  const playBtn = document.getElementById("play");
+  const playIcon = document.getElementById("play-icon");
+  const prevBtn = document.getElementById("prev");
+  const nextBtn = document.getElementById("next");
+  const shuffleBtn = document.getElementById("shuffle");
+  const repeatBtn = document.getElementById("repeat");
+  const repeatIcon = document.getElementById("repeat-icon");
+  const progress = document.getElementById("progress");
+  const progressBarContainer = document.getElementById("progress-bar-container");
+  const progressFilled = document.getElementById("progress-filled");
+  const currentTimeEl = document.getElementById("current-time");
+  const durationEl = document.getElementById("duration");
+  const volumeSlider = document.getElementById("volume");
 
-    const audioEl = document.getElementById('audioEl');
-    const titleEl = document.getElementById('titleEl');
-    const prevBtn = document.getElementById('prevBtn');
-    const playBtn = document.getElementById('playBtn');
-    const nextBtn = document.getElementById('nextBtn');
-    const shuffleBtn = document.getElementById('shuffleBtn');
-    const repeatBtn = document.getElementById('repeatBtn');
+  let currentIndex = 0;
+  let isPlaying = false;
+  let isShuffle = false;
+  let isRepeat = false;
 
-    let isPlaying = false;
-    let isShuffle = false;
-    let isRepeat = false;
+  function loadSong(index) {
+    const song = songs[index];
+    audio.src = "songs/" + song.file;
+    title.textContent = song.name;
+    resetProgress();
+  }
 
-    function loadSong(idx){
-      if(!folder){
-        console.error("No folder parameter");
-        return;
-      }
-      if(!playlist[idx]){
-        console.error("Playlist does not have file at index", idx);
-        return;
-      }
-      const file = playlist[idx];
-      const name = names[idx] || file;
-      const src = `songs/${folder}/${file}`;
-      console.log("Loading src:", src);
-      audioEl.src = src;
-      titleEl.textContent = name;
+  function resetProgress() {
+    progressFilled.style.width = "0%";
+    currentTimeEl.textContent = "0:00";
+    durationEl.textContent = "0:00";
+  }
+
+  function playSong() {
+    audio.play();
+    isPlaying = true;
+    playIcon.classList.remove("fa-play");
+    playIcon.classList.add("fa-pause");
+  }
+
+  function pauseSong() {
+    audio.pause();
+    isPlaying = false;
+    playIcon.classList.remove("fa-pause");
+    playIcon.classList.add("fa-play");
+  }
+
+  function togglePlayPause() {
+    if (isPlaying) {
+      pauseSong();
+    } else {
+      playSong();
     }
+  }
 
-    function playPause(){
-      if(isPlaying){
-        audioEl.pause();
-        isPlaying = false;
-        console.log("Paused");
-      } else {
-        audioEl.play().then(() => {
-          isPlaying = true;
-          console.log("Playing");
-        }).catch(e => {
-          console.error("Play error:", e);
-        });
-      }
+  function formatTime(seconds) {
+    const mins = Math.floor(seconds / 60);
+    const secs = Math.floor(seconds % 60);
+    return mins + ":" + (secs < 10 ? "0" + secs : secs);
+  }
+
+  audio.addEventListener("timeupdate", () => {
+    if (audio.duration) {
+      const percent = (audio.currentTime / audio.duration) * 100;
+      progressFilled.style.width = percent + "%";
+      currentTimeEl.textContent = formatTime(audio.currentTime);
+      durationEl.textContent = formatTime(audio.duration);
     }
+  });
 
-    function nextSong(){
-      if(playlist.length == 0) {
-        console.warn("Empty playlist");
-        return;
-      }
-      if(isShuffle){
-        let newIndex = Math.floor(Math.random()*playlist.length);
-        if(playlist.length > 1){
-          while(newIndex === currentIndex){
-            newIndex = Math.floor(Math.random()*playlist.length);
-          }
-        }
-        currentIndex = newIndex;
-      } else {
-        currentIndex = (currentIndex + 1) % playlist.length;
-      }
-      loadSong(currentIndex);
-      audioEl.play().catch(e => console.error("Play error on next:", e));
+  progressBarContainer.addEventListener("click", (e) => {
+    const rect = progressBarContainer.getBoundingClientRect();
+    const clickX = e.clientX - rect.left;
+    const width = rect.width;
+    audio.currentTime = (clickX / width) * audio.duration;
+  });
+
+  playBtn.addEventListener("click", togglePlayPause);
+
+  // Volume Control
+  volumeSlider.addEventListener("input", () => {
+    audio.volume = volumeSlider.value;
+  });
+
+  // Load song on page load
+  window.addEventListener("load", () => {
+    loadSong(currentIndex);
+    audio.volume = volumeSlider.value;
+  });
+
+  // Optional: Keyboard controls (space for play/pause)
+  window.addEventListener("keydown", e => {
+    if (e.code === "Space") {
+      e.preventDefault();
+      togglePlayPause();
     }
-
-    function prevSong(){
-      if(playlist.length == 0){
-        console.warn("Empty playlist");
-        return;
-      }
-      currentIndex = (currentIndex -1 + playlist.length) % playlist.length;
-      loadSong(currentIndex);
-      audioEl.play().catch(e => console.error("Play error on prev:", e));
-    }
-
-    // ইভেন্ট হ্যান্ডলার
-    playBtn.addEventListener('click', () => {
-      console.log("Play button clicked");
-      playPause();
-    });
-    nextBtn.addEventListener('click', () => {
-      console.log("Next button clicked");
-      nextSong();
-    });
-    prevBtn.addEventListener('click', () => {
-      console.log("Prev button clicked");
-      prevSong();
-    });
-    shuffleBtn.addEventListener('click', () => {
-      isShuffle = !isShuffle;
-      console.log("Shuffle:", isShuffle);
-    });
-    repeatBtn.addEventListener('click', () => {
-      isRepeat = !isRepeat;
-      console.log("Repeat:", isRepeat);
-    });
-    audioEl.addEventListener('ended', () => {
-      console.log("Song ended");
-      if(isRepeat){
-        loadSong(currentIndex);
-        audioEl.play().catch(e => console.error("Play error after ended:", e));
-      } else {
-        nextSong();
-      }
-    });
-
-    window.addEventListener('load', () => {
-      loadSong(currentIndex);
-    });
+  });
 </script>
 
 </body>
