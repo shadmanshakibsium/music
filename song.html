@@ -6,68 +6,84 @@
 <title>Music Player</title>
 <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet" />
 <style>
+  /* পুরো স্ক্রীন জুড়ে উচ্চতা ও স্ক্রোল বন্ধ */
   html, body {
     height: 100%;
     margin: 0;
     padding: 0;
-    overflow: hidden;
+    overflow: hidden; /* স্ক্রল বন্ধ */
     font-family: 'Roboto', sans-serif;
     background: url('https://i.imgur.com/uNWSHGy.png') no-repeat center center fixed;
     background-size: cover;
     color: white;
   }
 
+  body::before {
+    content: "";
+    position: fixed;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background: rgba(0,0,0,0.55); /* ডার্ক ওভারলে যাতে টেক্সট স্পষ্ট হয় */
+    z-index: 0;
+  }
+
   body {
     display: flex;
     justify-content: center;
     align-items: center;
+    position: relative;
+    z-index: 1;
   }
 
+  /* প্লেয়ার বক্স */
   .container {
     width: 100%;
-    max-width: 400px;
-    background: rgba(255, 255, 255, 0.07);
+    max-width: 420px;
+    background: rgba(255, 255, 255, 0.1);
     border-radius: 30px;
     border: 1px solid rgba(255, 255, 255, 0.2);
-    backdrop-filter: blur(15px) saturate(180%);
-    padding: 30px 20px;
+    backdrop-filter: blur(20px) saturate(180%);
+    padding: 30px 25px;
     text-align: center;
-    box-shadow: 0 15px 50px rgba(0, 0, 0, 0.5);
+    box-shadow: 0 15px 50px rgba(0, 0, 0, 0.7);
+    user-select: none;
   }
 
+  /* টাইটেল */
   .title {
-    font-size: 24px;
+    font-size: 28px;
     font-weight: 700;
-    margin-bottom: 22px;
+    margin-bottom: 25px;
+    letter-spacing: 0.7px;
   }
 
   /* প্রগ্রেস বার */
   #progress {
     display: flex;
     align-items: center;
-    background: rgba(255,255,255,0.2);
-    border-radius: 6px;
-    height: 8px;
+    background: rgba(255, 255, 255, 0.15);
+    border-radius: 8px;
+    height: 10px;
     cursor: pointer;
-    gap: 10px;
+    padding: 0 12px;
+    gap: 12px;
     position: relative;
-    /* padding বাদ দিলাম কারণ সেটা ক্লিক ইভেন্টে সমস্যা দেয় */
   }
 
   /* টাইম স্প্যানগুলো */
   #progress > span {
     color: white;
-    font-size: 12px;
-    width: 40px;
+    font-size: 13px;
+    width: 45px;
     user-select: none;
+    font-weight: 500;
   }
 
   /* প্রগ্রেস ফিল্ড যেটা বাড়বে */
   #progress-filled {
     flex: 1;
-    height: 6px;
+    height: 8px;
     background: linear-gradient(90deg, #ff6b6b, #583D91);
-    border-radius: 6px;
+    border-radius: 8px;
     transition: width 0.2s ease;
     position: relative;
   }
@@ -76,22 +92,23 @@
     display: flex;
     justify-content: space-around;
     align-items: center;
-    margin: 30px 0;
-    width: 100%;
-    max-width: 350px;
+    margin: 35px 0;
+    max-width: 360px;
+    margin-left: auto;
+    margin-right: auto;
   }
 
   .control-btn {
-    width: 55px;
-    height: 40px;
-    border-radius: 20px;
+    width: 54px;
+    height: 42px;
+    border-radius: 22px;
     display: flex;
     justify-content: center;
     align-items: center;
     cursor: pointer;
     background: linear-gradient(135deg, #ff6b6b, #fcb045);
     border: none;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.55);
     transition: all 0.3s ease;
     font-size: 18px;
     color: white;
@@ -99,16 +116,16 @@
 
   .control-btn:hover {
     transform: scale(1.1);
-    box-shadow: 0 0 15px rgba(255, 107, 107, 0.8);
+    box-shadow: 0 0 20px rgba(255, 107, 107, 0.85);
   }
 
   .play-btn {
-    width: 75px;
+    width: 80px;
     height: 50px;
-    font-size: 22px;
-    border-radius: 25px;
+    font-size: 24px;
+    border-radius: 26px;
     background: linear-gradient(135deg, #583D91, #7E5CD9);
-    box-shadow: 0 0 20px rgba(88, 61, 145, 0.8);
+    box-shadow: 0 0 25px rgba(88, 61, 145, 0.9);
     display: flex;
     justify-content: center;
     align-items: center;
@@ -116,56 +133,102 @@
   }
 
   .play-btn:hover {
-    transform: scale(1.05);
-    box-shadow: 0 0 25px rgba(88, 61, 145, 1);
+    transform: scale(1.07);
+    box-shadow: 0 0 30px rgba(88, 61, 145, 1);
   }
 
   .control-btn.active {
-    box-shadow: 0 0 20px rgba(255, 107, 107, 0.9);
+    box-shadow: 0 0 25px rgba(255, 107, 107, 1);
   }
 
+  /* ভলিউম কন্ট্রোল */
   #volume-container {
-    margin: 15px 0;
+    margin: 18px 0;
     display: flex;
     align-items: center;
     justify-content: center;
-    gap: 10px;
+    gap: 15px;
     color: white;
   }
 
   #volume {
-    width: 120px;
+    width: 130px;
     cursor: pointer;
+    -webkit-appearance: none;
+    height: 6px;
+    background: rgba(255,255,255,0.25);
+    border-radius: 6px;
+    outline: none;
+    transition: background 0.3s ease;
+  }
+  #volume:hover {
+    background: rgba(255,255,255,0.4);
+  }
+  #volume::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 18px;
+    height: 18px;
+    background: #ff6b6b;
+    cursor: pointer;
+    border-radius: 50%;
+    box-shadow: 0 0 5px rgba(255, 107, 107, 0.8);
+    transition: background 0.3s ease;
+  }
+  #volume::-moz-range-thumb {
+    width: 18px;
+    height: 18px;
+    background: #ff6b6b;
+    cursor: pointer;
+    border-radius: 50%;
+    box-shadow: 0 0 5px rgba(255, 107, 107, 0.8);
+    transition: background 0.3s ease;
   }
 
+  /* ব্যাক বাটন */
   .back-btn {
     display: inline-block;
-    padding: 10px 25px;
+    padding: 11px 28px;
     border-radius: 25px;
-    background: rgba(255, 255, 255, 0.15);
-    backdrop-filter: blur(8px);
+    background: rgba(255, 255, 255, 0.18);
+    backdrop-filter: blur(9px);
     color: white;
     text-decoration: none;
-    font-weight: 500;
+    font-weight: 600;
+    font-size: 15px;
     transition: 0.3s;
-    margin-top: 15px;
+    margin-top: 18px;
+    user-select: none;
   }
 
   .back-btn:hover {
-    background: rgba(255, 255, 255, 0.3);
+    background: rgba(255, 255, 255, 0.38);
   }
 
+  /* Responsive মোবাইলের জন্য */
   @media (max-width: 450px) {
     .container {
-      max-width: 90vw;
+      max-width: 95vw;
       padding: 20px 15px;
-      border-radius: 20px;
+      border-radius: 22px;
     }
     .controls {
       max-width: 100%;
+      gap: 8px;
     }
     #volume {
-      width: 100px;
+      width: 110px;
+    }
+    .control-btn {
+      width: 46px;
+      height: 36px;
+      font-size: 16px;
+    }
+    .play-btn {
+      width: 70px;
+      height: 45px;
+      font-size: 20px;
+      border-radius: 22px;
     }
   }
 </style>
@@ -175,12 +238,12 @@
 <div class="container">
   <div id="title" class="title">Loading...</div>
 
-  <div id="progress">
+  <div id="progress" title="Seek">
     <span id="current-time">0:00</span>
     <div id="progress-filled"></div>
     <span id="duration">0:00</span>
   </div>
-
+  
   <div class="controls">
     <button class="control-btn" id="shuffle" title="Shuffle"><i class="fas fa-random"></i></button>
     <button class="control-btn" id="prev" title="Previous"><i class="fas fa-backward"></i></button>
@@ -201,6 +264,7 @@
 </div>
 
 <script>
+  // URL থেকে গান, নাম, ফোল্ডার নিবে
   const params = new URLSearchParams(window.location.search);
   const folder = params.get("folder");
   const file = params.get("file");
@@ -286,7 +350,11 @@
   repeatBtn.addEventListener("click", () => {
     isRepeat = !isRepeat;
     repeatBtn.classList.toggle("active", isRepeat);
-    repeatIcon.style.color = isRepeat ? "#ff6b6b" : "white";
+    if (isRepeat) {
+      repeatIcon.style.color = "#ff6b6b";
+    } else {
+      repeatIcon.style.color = "white";
+    }
   });
 
   audio.addEventListener("timeupdate", () => {
@@ -299,13 +367,10 @@
   });
 
   progress.addEventListener("click", (e) => {
-    // এখানে padding নাই তাই offsetX কাজ করবে ঠিকমত
     const width = progress.clientWidth;
     const clickX = e.offsetX;
     const duration = audio.duration;
-    if (duration) {
-      audio.currentTime = (clickX / width) * duration;
-    }
+    audio.currentTime = (clickX / width) * duration;
   });
 
   audio.addEventListener("ended", () => {
@@ -326,10 +391,12 @@
     return mins + ":" + (secs < 10 ? "0" : "") + secs;
   }
 
+  // গান লোড
   loadSong(currentIndex);
-  audio.volume = volumeSlider.value;
-  audio.play().catch(() => {});
 
+  // পেজ লোড হলে স্বয়ং প্লে করার চেষ্টা করো (যদি ব্রাউজার অনুমতি দেয়)
+  audio.volume = volumeSlider.value;
+  audio.play().catch(() => { /* Autoplay blocked */ });
 </script>
 
 </body>
