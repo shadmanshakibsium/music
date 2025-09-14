@@ -54,36 +54,39 @@
   }
 
   /* ====== PROGRESS BAR ====== */
-  #progress {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
+#progress {
+    position: relative;
     background: rgba(255, 255, 255, 0.12);
     border-radius: 8px;
     height: 14px;
     cursor: pointer;
-    padding: 0 10px;
-    gap: 12px;
     user-select: none;
-    position: relative;
-  }
+    padding: 0 50px; /* দুই পাশে টাইম স্প্যানের জন্য জায়গা */
+    display: flex;
+    align-items: center;
+}
 
-  #current-time, #duration {
-    font-size: 12px;
-    width: 40px;
-    flex-shrink: 0;
-    color: #ddd;
-    user-select: none;
-  }
-
-  #progress-filled {
-    flex: 1;
+#progress-filled {
+    position: absolute;
+    left: 50px;  /* left থেকে কিছু প্যাড দিতে হবে কারণ left টাইম স্প্যান আছে */
+    right: 50px; /* right টাইম স্প্যান আছে */
     height: 8px;
     background: linear-gradient(90deg, #ff6b6b, #583D91);
     border-radius: 8px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 0;
     transition: width 0.15s ease;
-    margin: 0 6px;
-  }
+    pointer-events: none;
+}
+
+#current-time, #duration {
+    width: 40px;
+    font-size: 12px;
+    color: #ddd;
+    flex-shrink: 0;
+    user-select: none;
+}
 
   /* ====== CONTROLS ====== */
   .controls {
@@ -237,11 +240,11 @@
 <div class="container">
   <div id="title" class="title">Loading...</div>
 
-  <div id="progress" title="Seek">
-    <span id="current-time">0:00</span>
-    <div id="progress-filled"></div>
-    <span id="duration">0:00</span>
-  </div>
+<div id="progress" title="Seek">
+  <span id="current-time">0:00</span>
+  <div id="progress-filled"></div>
+  <span id="duration">0:00</span>
+</div>
   
   <div class="controls">
     <button class="control-btn" id="shuffle" title="Shuffle"><i class="fas fa-random"></i></button>
