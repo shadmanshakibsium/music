@@ -53,23 +53,22 @@
     letter-spacing: 0.7px;
   }
 
-  /* ====== PROGRESS BAR ====== */
-#progress {
+  #progress {
     position: relative;
     background: rgba(255, 255, 255, 0.12);
     border-radius: 8px;
     height: 14px;
     cursor: pointer;
     user-select: none;
-    padding: 0 50px; /* দুই পাশে টাইম স্প্যানের জন্য জায়গা */
+    padding: 0 50px;
     display: flex;
     align-items: center;
-}
+  }
 
-#progress-filled {
+  #progress-filled {
     position: absolute;
-    left: 50px;  /* left থেকে কিছু প্যাড দিতে হবে কারণ left টাইম স্প্যান আছে */
-    right: 50px; /* right টাইম স্প্যান আছে */
+    left: 50px;
+    right: 50px;
     height: 8px;
     background: linear-gradient(90deg, #ff6b6b, #583D91);
     border-radius: 8px;
@@ -78,17 +77,16 @@
     width: 0;
     transition: width 0.15s ease;
     pointer-events: none;
-}
+  }
 
-#current-time, #duration {
+  #current-time, #duration {
     width: 40px;
     font-size: 12px;
     color: #ddd;
     flex-shrink: 0;
     user-select: none;
-}
+  }
 
-  /* ====== CONTROLS ====== */
   .controls {
     display: flex;
     justify-content: space-around;
@@ -204,6 +202,14 @@
     background: rgba(255, 255, 255, 0.3);
   }
 
+  /* Remove Android blue highlight on tap */
+  button, input[type="range"] {
+    -webkit-tap-highlight-color: transparent;
+    -webkit-focus-ring-color: transparent;
+    outline: none;
+  }
+
+  /* Responsive */
   @media (max-width: 450px) {
     .container {
       max-width: 95vw;
@@ -240,11 +246,11 @@
 <div class="container">
   <div id="title" class="title">Loading...</div>
 
-<div id="progress" title="Seek">
-  <span id="current-time">0:00</span>
-  <div id="progress-filled"></div>
-  <span id="duration">0:00</span>
-</div>
+  <div id="progress" title="Seek">
+    <span id="current-time">0:00</span>
+    <div id="progress-filled"></div>
+    <span id="duration">0:00</span>
+  </div>
   
   <div class="controls">
     <button class="control-btn" id="shuffle" title="Shuffle"><i class="fas fa-random"></i></button>
@@ -364,8 +370,8 @@
   });
 
   progress.addEventListener("click", (e) => {
-    const width = progress.clientWidth;
-    const clickX = e.offsetX;
+    const width = progress.clientWidth - 100; // left & right padding (50+50)
+    const clickX = e.clientX - progress.getBoundingClientRect().left - 50; // left padding
     audio.currentTime = (clickX / width) * audio.duration;
   });
 
