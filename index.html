@@ -366,44 +366,10 @@
     });
   }
 
-  // নতুন কোড শুরু (scrollTo support)
-
-  function getQueryParam(param) {
-    const urlParams = new URLSearchParams(window.location.search);
-    return urlParams.get(param);
-  }
-
-  function scrollToSongByName(name) {
-    if (!name) return;
-
-    const listItems = [...document.querySelectorAll('.music-item')];
-    const targetItem = listItems.find(li => li.getAttribute('data-name').toLowerCase() === name.toLowerCase());
-
-    if (targetItem) {
-      targetItem.scrollIntoView({ behavior: 'smooth', block: 'start' });
-
-      const firstChar = name.charAt(0).toUpperCase();
-      const letter = /[A-Z]/.test(firstChar) ? firstChar : '#';
-
-      [...alphaIndex.children].forEach(div => {
-        div.classList.remove('active');
-        if (div.textContent === letter) {
-          div.classList.add('active');
-        }
-      });
-    }
-  }
-
-  loadAllMusic().then(() => {
+  loadAllMusic().then(()=>{
     displaySongs(musicData);
     highlightActiveLetter();
-
-    const songToScroll = getQueryParam('scrollTo');
-    if (songToScroll) {
-      scrollToSongByName(songToScroll);
-    }
   });
-
 </script>
 
 </body>
