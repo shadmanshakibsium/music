@@ -53,43 +53,47 @@
     letter-spacing: 0.7px;
   }
 
-#progress {
-  position: relative;
-  background: rgba(255, 255, 255, 0.12);
-  border-radius: 8px;
-  height: 14px;
-  cursor: pointer;
-  user-select: none;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 0 10px; /* একটু কম padding দিয়ে দুই পাশে স্প্যান রাখব */
-}
+  /* Progress Bar Section */
+  #progress {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    max-width: 320px;
+    cursor: pointer;
+    user-select: none;
+    color: #ddd;
+    font-size: 12px;
+    position: relative;
+    margin: 0 auto 30px auto;
+  }
 
-#progress-filled {
-  position: absolute;
-  top: 50%;
-  left: 10px;  /* padding এর সাথে মিল রেখে */
-  right: 10px;
-  height: 8px;
-  background: linear-gradient(90deg, #ff6b6b, #583D91);
-  border-radius: 8px;
-  transform: translateY(-50%);
-  width: 0%;
-  transition: width 0.15s ease;
-  pointer-events: none;
-  z-index: 1;
-}
+  #current-time, #duration {
+    flex-shrink: 0;
+    width: 40px;
+    text-align: center;
+    z-index: 2;
+  }
 
-#current-time, #duration {
-  width: 40px;
-  font-size: 12px;
-  color: #ddd;
-  flex-shrink: 0;
-  user-select: none;
-  position: relative;
-  z-index: 2;
-}
+  #progress-bar-container {
+    position: relative;
+    flex-grow: 1;
+    height: 10px;
+    margin: 0 10px;
+    background: rgba(255, 255, 255, 0.12);
+    border-radius: 8px;
+    overflow: hidden;
+  }
+
+  #progress-filled {
+    background: linear-gradient(90deg, #ff6b6b, #583D91);
+    height: 100%;
+    width: 0;
+    transition: width 0.15s ease;
+    border-radius: 8px 0 0 8px;
+    pointer-events: none;
+  }
+
   .controls {
     display: flex;
     justify-content: space-around;
@@ -251,7 +255,9 @@
 
   <div id="progress" title="Seek">
     <span id="current-time">0:00</span>
-    <div id="progress-filled"></div>
+    <div id="progress-bar-container">
+      <div id="progress-filled"></div>
+    </div>
     <span id="duration">0:00</span>
   </div>
   
@@ -298,6 +304,7 @@
   const repeatBtn = document.getElementById("repeat");
   const repeatIcon = document.getElementById("repeat-icon");
   const progress = document.getElementById("progress");
+  const progressBarContainer = document.getElementById("progress-bar-container");
   const progressFilled = document.getElementById("progress-filled");
   const currentTimeEl = document.getElementById("current-time");
   const durationEl = document.getElementById("duration");
@@ -322,7 +329,7 @@
   }
 
   function playSong() {
-    audio.play().catch(() => {});
+    audio.play();
     isPlaying = true;
     playIcon.classList.remove("fa-play");
     playIcon.classList.add("fa-pause");
@@ -335,33 +342,19 @@
     playIcon.classList.add("fa-play");
   }
 
-  playBtn.addEventListener("click", () => {
+  function togglePlayPause() {
     if (isPlaying) {
       pauseSong();
     } else {
       playSong();
     }
-  });
+  }
 
-  prevBtn.addEventListener("click", () => {
-    alert("Only one song loaded, no previous song.");
-  });
-
-  nextBtn.addEventListener("click", () => {
-    alert("Only one song loaded, no next song.");
-  });
-
-  shuffleBtn.addEventListener("click", () => {
-    isShuffle = !isShuffle;
-    shuffleBtn.classList.toggle("active", isShuffle);
-    alert("Shuffle works only with multiple songs.");
-  });
-
-  repeatBtn.addEventListener("click", () => {
-    isRepeat = !isRepeat;
-    repeatBtn.classList.toggle("active", isRepeat);
-    repeatIcon.style.color = isRepeat ? "#ff6b6b" : "white";
-  });
+  function formatTime(seconds) {
+    const mins = Math.floor(seconds / 60);
+    const secs = Math.floor(seconds % 60);
+    return mins + ":" + (secs < 10 ? "0" + secs : secs);
+  }
 
   audio.addEventListener("timeupdate", () => {
     if (audio.duration) {
@@ -372,34 +365,33 @@
     }
   });
 
-  progress.addEventListener("click", (e) => {
-    const progressRect = progress.getBoundingClientRect();
-    const clickX = e.clientX - progressRect.left;
-    const width = progress.clientWidth;
+  progressBarContainer.addEventListener("click", (e) => {
+    const rect = progressBarContainer.getBoundingClientRect();
+    const clickX = e.clientX - rect.left;
+    const width = rect.width;
     audio.currentTime = (clickX / width) * audio.duration;
   });
 
-  audio.addEventListener("ended", () => {
-    if (isRepeat) {
-      playSong();
-    } else {
-      pauseSong();
-    }
-  });
+  playBtn.addEventListener("click", togglePlayPause);
 
+  // Volume Control
   volumeSlider.addEventListener("input", () => {
     audio.volume = volumeSlider.value;
   });
 
-  function formatTime(seconds) {
-    const mins = Math.floor(seconds / 60) || 0;
-    const secs = Math.floor(seconds % 60) || 0;
-    return mins + ":" + (secs < 10 ? "0" : "") + secs;
-  }
+  // Load song on page load
+  window.addEventListener("load", () => {
+    loadSong(currentIndex);
+    audio.volume = volumeSlider.value;
+  });
 
-  loadSong(currentIndex);
-  audio.volume = volumeSlider.value;
-  audio.play().catch(() => {});
+  // Optional: Keyboard controls (space for play/pause)
+  window.addEventListener("keydown", e => {
+    if (e.code === "Space") {
+      e.preventDefault();
+      togglePlayPause();
+    }
+  });
 </script>
 
 </body>
