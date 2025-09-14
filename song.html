@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Music Player - JSON Support</title>
+<title>Now Playing</title>
 <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 <style>
@@ -105,33 +105,27 @@ body {
 </div>
 
 <script>
-// JSON Data
-const songs = [
-  { "name": "Shape of You", "file": "Let-it-happen-Slowed-Reverb.mp3" },
-  { "name": "Blinding Lights", "file": "Blinding-Lights.mp3" },
-  { "name": "Dance Monkey", "file": "Dance-Monkey.mp3" }
-];
+// URL থেকে গান নেওয়া
+const params = new URLSearchParams(window.location.search);
+const songName = params.get("name");
+const songFile = params.get("file");
+const folder = params.get("folder"); // bangla, english ইত্যাদি
 
-let currentIndex = 0;
-let isPlaying = false;
-let isRepeat = false;
-let isShuffle = false;
-
-const audio = document.getElementById('audioPlayer');
-const playBtn = document.getElementById('play');
-const playIcon = document.getElementById('play-icon');
-const title = document.getElementById('title');
-const progressFilled = document.getElementById('progress-filled');
-const shuffleBtn = document.getElementById('shuffle');
-const repeatBtn = document.getElementById('repeat');
-
-function loadSong(index){
-  const song = songs[index];
-  audio.src = song.file;
-  title.textContent = song.name;
+if(!songName || !songFile || !folder){
+  alert("Invalid song parameters!");
 }
 
-// Play/Pause
+// সঠিক ফোল্ডার থেকে গান লোড
+const audio = document.getElementById('audioPlayer');
+const title = document.getElementById('title');
+title.textContent = songName;
+audio.src = `songs/${folder}/${songFile}`;
+audio.play().catch(e => console.log("Autoplay blocked:", e));
+
+let isPlaying = true;
+const playBtn = document.getElementById('play');
+const playIcon = document.getElementById('play-icon');
+
 playBtn.addEventListener('click', ()=>{
   if(isPlaying){
     audio.pause();
@@ -146,56 +140,11 @@ playBtn.addEventListener('click', ()=>{
 });
 
 // Progress bar
+const progressFilled = document.getElementById('progress-filled');
 audio.addEventListener('timeupdate', ()=>{
   const percent = (audio.currentTime / audio.duration) * 100;
   progressFilled.style.width = percent + '%';
 });
-
-// Next
-document.getElementById('next').addEventListener('click', ()=>{
-  if(isShuffle){
-    currentIndex = Math.floor(Math.random() * songs.length);
-  } else {
-    currentIndex = (currentIndex + 1) % songs.length;
-  }
-  loadSong(currentIndex);
-  audio.play();
-  playIcon.classList.remove('fa-play');
-  playIcon.classList.add('fa-pause');
-  isPlaying = true;
-});
-
-// Previous
-document.getElementById('prev').addEventListener('click', ()=>{
-  currentIndex = (currentIndex - 1 + songs.length) % songs.length;
-  loadSong(currentIndex);
-  audio.play();
-  playIcon.classList.remove('fa-play');
-  playIcon.classList.add('fa-pause');
-  isPlaying = true;
-});
-
-// Shuffle toggle
-shuffleBtn.addEventListener('click', ()=>{
-  isShuffle = !isShuffle;
-  shuffleBtn.classList.toggle('active', isShuffle);
-});
-
-// Repeat toggle
-repeatBtn.addEventListener('click', ()=>{
-  isRepeat = !isRepeat;
-  repeatBtn.classList.toggle('active', isRepeat);
-  audio.loop = isRepeat;
-});
-
-// Auto next song
-audio.addEventListener('ended', ()=>{
-  if(isRepeat) return;
-  document.getElementById('next').click();
-});
-
-// Initial load
-loadSong(currentIndex);
 </script>
 
 </body>
