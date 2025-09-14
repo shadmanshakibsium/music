@@ -53,6 +53,7 @@
     letter-spacing: 0.7px;
   }
 
+  /* Progress Bar Section */
   #progress {
     display: flex;
     align-items: center;
@@ -74,26 +75,15 @@
     z-index: 2;
   }
 
-#progress-bar-container {
-  position: relative;
-  flex-grow: 1;
-  height: 10px;
-  margin: 0 10px;
-  background: rgba(255, 255, 255, 0.12);
-  border-radius: 8px;
-  overflow: hidden;
-
-  /* 🛑 Android blue highlight fix */
-  -webkit-tap-highlight-color: transparent;
-  -webkit-user-select: none;
-  -webkit-touch-callout: none;
-  user-select: none;
-  outline: none;
-  touch-action: manipulation;
-
-  /* 💡 Force blur focus */
-  caret-color: transparent;
-}
+  #progress-bar-container {
+    position: relative;
+    flex-grow: 1;
+    height: 10px;
+    margin: 0 10px;
+    background: rgba(255, 255, 255, 0.12);
+    border-radius: 8px;
+    overflow: hidden;
+  }
 
   #progress-filled {
     background: linear-gradient(90deg, #ff6b6b, #583D91);
@@ -219,12 +209,28 @@
     background: rgba(255, 255, 255, 0.3);
   }
 
+  /* Remove Android blue highlight on tap and focus outlines */
   button, input[type="range"] {
     -webkit-tap-highlight-color: transparent;
     -webkit-focus-ring-color: transparent;
     outline: none;
   }
 
+  button:focus, input[type="range"]:focus {
+    outline: none !important;
+    box-shadow: none !important;
+  }
+
+  button::-moz-focus-inner {
+    border: 0;
+  }
+
+  input[type="range"]::-webkit-slider-thumb:focus {
+    outline: none !important;
+    box-shadow: none !important;
+  }
+
+  /* Responsive */
   @media (max-width: 450px) {
     .container {
       max-width: 95vw;
@@ -279,7 +285,7 @@
 
   <div id="volume-container">
     <i class="fas fa-volume-down"></i>
-    <input type="range" id="volume" min="0" max="1" step="0.01" value="1" />
+    <input type="range" id="volume" min="0" max="1" step="0.01" value="0.5" />
     <i class="fas fa-volume-up"></i>
   </div>
 
@@ -288,14 +294,119 @@
   <a href="index.html" class="back-btn">Back to Library</a>
 </div>
 
-  <!-- তোমার অন্য কন্টেন্ট -->
-  
-  <script>
-    // এখানেই এই পুরো জাভাস্ক্রিপ্ট বসাও
-  </script>
+<script>
+  const params = new URLSearchParams(window.location.search);
+  const folder = params.get("folder");
+  const file = params.get("file");
+  const nameFromURL = params.get("name");
 
-</body>
-</html>
+  if (!folder || !file || !nameFromURL) {
+    alert("Invalid or missing song parameters in URL!");
+  }
+
+  const songs = [
+    { name: nameFromURL, file: `${folder}/${file}` }
+  ];
+
+  const audio = document.getElementById("audio");
+  const title = document.getElementById("title");
+  const playBtn = document.getElementById("play");
+  const playIcon = document.getElementById("play-icon");
+  const prevBtn = document.getElementById("prev");
+  const nextBtn = document.getElementById("next");
+  const shuffleBtn = document.getElementById("shuffle");
+  const repeatBtn = document.getElementById("repeat");
+  const repeatIcon = document.getElementById("repeat-icon");
+  const progress = document.getElementById("progress");
+  const progressBarContainer = document.getElementById("progress-bar-container");
+  const progressFilled = document.getElementById("progress-filled");
+  const currentTimeEl = document.getElementById("current-time");
+  const durationEl = document.getElementById("duration");
+  const volumeSlider = document.getElementById("volume");
+
+  let currentIndex = 0;
+  let isPlaying = false;
+  let isShuffle = false;
+  let isRepeat = false;
+
+  function loadSong(index) {
+    const song = songs[index];
+    audio.src = "songs/" + song.file;
+    title.textContent = song.name;
+    resetProgress();
+  }
+
+  function resetProgress() {
+    progressFilled.style.width = "0%";
+    currentTimeEl.textContent = "0:00";
+    durationEl.textContent = "0:00";
+  }
+
+  function playSong() {
+    audio.play();
+    isPlaying = true;
+    playIcon.classList.remove("fa-play");
+    playIcon.classList.add("fa-pause");
+  }
+
+  function pauseSong() {
+    audio.pause();
+    isPlaying = false;
+    playIcon.classList.remove("fa-pause");
+    playIcon.classList.add("fa-play");
+  }
+
+  function togglePlayPause() {
+    if (isPlaying) {
+      pauseSong();
+    } else {
+      playSong();
+    }
+  }
+
+  function formatTime(seconds) {
+    const mins = Math.floor(seconds / 60);
+    const secs = Math.floor(seconds % 60);
+    return mins + ":" + (secs < 10 ? "0" + secs : secs);
+  }
+
+  audio.addEventListener("timeupdate", () => {
+    if (audio.duration) {
+      const percent = (audio.currentTime / audio.duration) * 100;
+      progressFilled.style.width = percent + "%";
+      currentTimeEl.textContent = formatTime(audio.currentTime);
+      durationEl.textContent = formatTime(audio.duration);
+    }
+  });
+
+  progressBarContainer.addEventListener("click", (e) => {
+    const rect = progressBarContainer.getBoundingClientRect();
+    const clickX = e.clientX - rect.left;
+    const width = rect.width;
+    audio.currentTime = (clickX / width) * audio.duration;
+  });
+
+  playBtn.addEventListener("click", togglePlayPause);
+
+  // Volume Control
+  volumeSlider.addEventListener("input", () => {
+    audio.volume = volumeSlider.value;
+  });
+
+  // Load song on page load
+  window.addEventListener("load", () => {
+    loadSong(currentIndex);
+    audio.volume = volumeSlider.value;
+  });
+
+  // Optional: Keyboard controls (space for play/pause)
+  window.addEventListener("keydown", e => {
+    if (e.code === "Space") {
+      e.preventDefault();
+      togglePlayPause();
+    }
+  });
+</script>
 
 </body>
 </html>
