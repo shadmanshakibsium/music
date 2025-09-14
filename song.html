@@ -68,7 +68,7 @@
   #progress-filled {
     position: absolute;
     left: 50px;
-    right: 50px;
+    /* right: 50px;  <-- সরানো হয়েছে */
     height: 8px;
     background: linear-gradient(90deg, #ff6b6b, #583D91);
     border-radius: 8px;
@@ -370,8 +370,9 @@
   });
 
   progress.addEventListener("click", (e) => {
-    const width = progress.clientWidth - 100; // left & right padding (50+50)
-    const clickX = e.clientX - progress.getBoundingClientRect().left - 50; // left padding
+    const progressRect = progress.getBoundingClientRect();
+    const clickX = e.clientX - progressRect.left;
+    const width = progress.clientWidth;
     audio.currentTime = (clickX / width) * audio.duration;
   });
 
