@@ -54,33 +54,36 @@
     background: rgba(255,255,255,0.1); border-radius: 15px;
     padding: 12px 15px; margin-bottom: 10px; backdrop-filter: blur(8px);
     cursor: pointer; transition: 0.3s;
+    color: white;
   }
   .music-item:hover { background: rgba(255,255,255,0.2); }
   .music-item .info {
     color:white;
-    flex-grow: 1;
   }
   .music-item .info .title {
     font-weight:500; font-size:16px;
   }
+  /* Folder title big and clickable */
   .folder-title {
-    color:white; margin-top:20px; font-weight:500; font-size:18px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-  }
-  .toggle-btn {
-    background: rgba(255,255,255,0.15);
-    border: none;
-    border-radius: 12px;
-    padding: 4px 10px;
     color: white;
+    margin-top: 20px;
     font-weight: 700;
+    font-size: 24px;
     cursor: pointer;
-    transition: background 0.3s;
+    user-select: none;
+    padding: 10px 5px;
+    border-radius: 12px;
+    transition: background-color 0.3s;
   }
-  .toggle-btn:hover {
-    background: rgba(255,255,255,0.3);
+  .folder-title:hover {
+    background-color: rgba(255, 255, 255, 0.2);
+  }
+  .folder-songs {
+    list-style:none;
+    margin-bottom: 15px;
+    padding-left: 0;
+    /* Initially hidden */
+    display: none;
   }
 
   /* alpha index */
@@ -103,7 +106,7 @@
     transition: all 0.3s ease;
   }
 
-  /* মোবাইল স্ক্রিনে দেখাবে না */
+  /* Hide alpha index on mobile */
   @media (max-width: 600px) {
     .alpha-index {
       display: none !important;
@@ -176,7 +179,6 @@
       if(isALetter && !isBLetter) return -1;
       if(!isALetter && isBLetter) return 1;
 
-      // Both letters or both non-letters
       if(a.name.toUpperCase() < b.name.toUpperCase()) return -1;
       if(a.name.toUpperCase() > b.name.toUpperCase()) return 1;
       return 0;
@@ -192,28 +194,22 @@
     }
     musicList.innerHTML = sortedList.map(song => `
       <li class="music-item" data-name="${song.name}" data-file="${song.file}" data-folder="${song.type}">
-        <div class="info">
-          <span class="title">${song.name}</span>
-          <span style="font-size:12px;color:rgba(255,255,255,0.5)">[${song.type}]</span>
-        </div>
+        ${song.name}
       </li>
     `).join('');
 
-    // এখন পুরো .music-item এ ক্লিক ইভেন্ট লাগানো হবে
+    // গান ক্লিক করলে প্লে পেজে যাবে
     document.querySelectorAll('.music-item').forEach(item => {
       item.addEventListener('click', () => {
         const name = item.getAttribute('data-name');
         const file = item.getAttribute('data-file');
         const folder = item.getAttribute('data-folder');
-        // song.html পেজে যাবে
         window.location.href = `song.html?name=${encodeURIComponent(name)}&file=${encodeURIComponent(file)}&folder=${encodeURIComponent(folder)}`;
       });
     });
   }
 
-  // Folder toggle state (ডিফল্ট সব ফোল্ডার বন্ধ থাকবে)
-  const folderOpenState = {};
-  types.forEach(type => folderOpenState[type] = false); // সব false
+  const folderOpenState = {}; // কোন ফোল্ডার ওপেন/ক্লোজ আছে
 
   function displayFolders(list){
     const musicList = document.getElementById('music-list');
@@ -223,17 +219,16 @@
     types.forEach(type=>{
       const songs = sortedList.filter(s => s.type === type);
       if(songs.length > 0){
+        folderOpenState[type] = false; // প্রথমে সব ফোল্ডার হাইড থাকবে
+
         html += `
-          <div class="folder-title">
+          <div class="folder-title" data-type="${type}">
             ${type.toUpperCase()}
-            <button class="toggle-btn" data-type="${type}">
-              +
-            </button>
           </div>
-          <ul class="folder-songs" data-type="${type}" style="list-style:none; margin-bottom: 15px; padding-left:0; display:none;">
+          <ul class="folder-songs" data-type="${type}">
             ${songs.map(song=>`
               <li class="music-item" data-name="${song.name}" data-file="${song.file}" data-folder="${type}">
-                <div style="color:white; cursor:pointer;">${song.name}</div>
+                ${song.name}
               </li>
             `).join('')}
           </ul>
@@ -242,23 +237,21 @@
     });
     musicList.innerHTML = html;
 
-    // টগল বাটন এভেন্ট লাগানো
-    document.querySelectorAll('.toggle-btn').forEach(btn=>{
-      btn.addEventListener('click', ()=>{
-        const type = btn.getAttribute('data-type');
+    // ফোল্ডার নাম ক্লিক করলে টগল হবে
+    document.querySelectorAll('.folder-title').forEach(title => {
+      title.addEventListener('click', () => {
+        const type = title.getAttribute('data-type');
         folderOpenState[type] = !folderOpenState[type];
         const ul = document.querySelector(`.folder-songs[data-type="${type}"]`);
         if(folderOpenState[type]){
           ul.style.display = '';
-          btn.textContent = '−';
         } else {
           ul.style.display = 'none';
-          btn.textContent = '+';
         }
       });
     });
 
-    // ফোল্ডারের গানগুলোর .music-item-এ ক্লিক ইভেন্ট লাগানো
+    // গান ক্লিক করলে প্লে পেজে যাবে
     document.querySelectorAll('.folder-songs .music-item').forEach(item => {
       item.addEventListener('click', () => {
         const name = item.getAttribute('data-name');
@@ -292,7 +285,6 @@
     let targetItem;
 
     if(letter === '#'){
-      // non A-Z starts
       targetItem = listItems.find(li => {
         const firstChar = li.getAttribute('data-name').charAt(0).toUpperCase();
         return !(/[A-Z]/.test(firstChar));
@@ -305,7 +297,6 @@
     }
   }
 
-  // হাইলাইট active অক্ষর ইনডেক্সে
   function highlightActiveLetter(){
     const activeTab = document.querySelector('.tab.active').dataset.tab;
     const listItems = [...document.querySelectorAll('.music-item')];
