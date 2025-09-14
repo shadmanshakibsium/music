@@ -47,13 +47,13 @@
     padding: 10px 20px; border-radius: 15px; cursor: pointer; color: white; font-weight: 500; transition: 0.3s;
   }
   .tab.active, .tab:hover {
-    background: rgba(255,255,white but a bit stronger?), maybe rgba(255,255,255,0.2); backdrop-filter: blur(8px);
+    background: rgba(255,255,255,0.2); backdrop-filter: blur(8px);
   }
   .music-list {
     list-style: none;
     max-height: 60vh;
     overflow-y: auto;
-    padding-right: 20px; /* give space for scrollbar */
+    padding-right: 20px; /* scrollbar এ জিনিসটা ভালো দেখাবে */
   }
   .music-item {
     display: flex; align-items: center; justify-content: space-between;
@@ -64,10 +64,10 @@
   .music-item:hover { background: rgba(255,255,255,0.2); }
   .music-item .info {
     color:white;
-    width: 100%; /* make full width so whole box clickable */
+    width: 100%; /*পুরো বক্স ঢেকে যাতে ক্লিক কাজ করে */
   }
-  .music-item .info .title {
-    font-weight:500; font-size:16px;
+  .music-item.active-item .info {
+    background: rgba(255,255,255,0.3); /* হাইলাইট স্টাইল, পরিবর্তন করতে পারো */
   }
   .folder-title {
     color:white; margin-top:20px; font-weight:500; font-size:18px;
@@ -87,11 +87,11 @@
     to { opacity: 1; transform: translateY(0); }
   }
 
-  /* Alphabet navigation on left */
+  /* Alphabet navigation on right */
   .alphabet-nav {
     position: absolute;
-    left: -50px; /* adjust as needed */
-    top: 100px; /* adjust relative to container */
+    right: -50px; /* ডানে রেখে দিচ্ছি; প্রয়োজনমতো পরিবর্তন করে নিতে পারো */
+    top: 100px; /* ধারনা; প্রয়োজনমতো adjust করো */
     display: flex;
     flex-direction: column;
   }
@@ -100,11 +100,15 @@
     cursor: pointer;
     color: white;
     font-weight: bold;
+    transition: 0.2s;
   }
   .alphabet-nav div:hover {
     color: #ffcc00;
   }
-
+  .alphabet-nav div.active-letter {
+    color: #ffcc00;
+    /* বা অন্য স্টাইল হাইলাইট করার জন্য */
+  }
 </style>
 </head>
 <body>
@@ -155,7 +159,6 @@
       musicList.innerHTML = `<li style="color:white; text-align:center; padding:20px;">No results found</li>`;
       return;
     }
-    // Generate list items with full box clickable
     musicList.innerHTML = list.map((song, index) => `
       <li class="music-item" data-name="${song.name.toLowerCase()}">
         <div class="info" onclick="playSong('${encodeURIComponent(song.name)}','${encodeURIComponent(song.file)}','${encodeURIComponent(song.type)}')">
@@ -164,6 +167,9 @@
         </div>
       </li>
     `).join('');
+
+    // হাইলাইট active letter যদি আগেই নির্বাচন করা থাকে
+    updateActiveLetterHighlight();
   }
 
   function displayFolders(list){
@@ -172,7 +178,6 @@
     types.forEach(type => {
       const songs = list.filter(s => s.type === type);
       if(songs.length > 0){
-        // Sort inside folder too
         songs.sort((a, b) => a.name.localeCompare(b.name));
         html += `
           <div class="folder-title">${type.toUpperCase()}</div>
@@ -189,56 +194,61 @@
       }
     });
     musicList.innerHTML = html || `<li style="color:white; text-align:center; padding:20px;">No folders found</li>`;
-
-    // Add toggle functionality
-    const folderTitles = document.querySelectorAll('.folder-title');
-    folderTitles.forEach(title => {
-      title.addEventListener('click', () => {
-        title.classList.toggle('active');
-      });
-    });
   }
 
   function playSong(nameEnc, fileEnc, folderEnc){
     const name = decodeURIComponent(nameEnc);
     const file = decodeURIComponent(fileEnc);
     const folder = decodeURIComponent(folderEnc);
-    // Redirect or open song.html
+    // redirect
     window.location.href = `song.html?name=${encodeURIComponent(name)}&file=${encodeURIComponent(file)}&folder=${encodeURIComponent(folder)}`;
   }
 
   // Alphabet navigation logic
+  let currentLetter = null;
+
   function setupAlphabetNav() {
     const nav = document.getElementById('alphabet-nav');
-    // Get all starting letters from musicData
     const lettersSet = new Set(musicData.map(s => s.name[0].toUpperCase()));
-    // Sort letters
     const letters = Array.from(lettersSet).sort();
     nav.innerHTML = letters.map(letter =>
       `<div data-letter="${letter}">${letter}</div>`
     ).join('');
 
-    // Add click listeners
     nav.querySelectorAll('div').forEach(div => {
       div.addEventListener('click', () => {
         const letter = div.dataset.letter.toLowerCase();
-        scrollToLetter(letter);
+        currentLetter = div.dataset.letter;
+        // এখানে scroll হবেনা, শুধু হাইলাইট হবে
+        nav.querySelectorAll('div').forEach(d=> d.classList.remove('active-letter'));
+        div.classList.add('active-letter');
+        // এবং গান তালিকা filter করা হবে এমনভাবে যে প্রথম অক্ষরের গানগুলোর তালিকা শুরু হবে ঐ অক্ষর দিয়ে
+        filterAndShowFromLetter(letter);
       });
     });
   }
 
-  function scrollToLetter(letter) {
-    const musicList = document.getElementById('music-list');
-    // Find first item whose data-name starts with that letter
-    const items = musicList.querySelectorAll('.music-item[data-name]');
-    for (let item of items) {
-      const name = item.dataset.name;
-      if (name && name.startsWith(letter)) {
-        // Scroll so that item is visible
-        item.scrollIntoView({ behavior: 'smooth', block: 'start' });
-        break;
-      }
+  function filterAndShowFromLetter(letter) {
+    // Songs ট্যাব হলে কাজ করবে
+    const filtered = musicData.filter(song => song.name.toLowerCase().startsWith(letter));
+    if(filtered.length > 0) {
+      displaySongs(filtered);
+    } else {
+      // যদি ঐ অক্ষর দিয়ে কোন গান না থাকে, তখন খালি দেখাবে
+      displaySongs([]);
     }
+  }
+
+  function updateActiveLetterHighlight() {
+    if (!currentLetter) return;
+    const nav = document.getElementById('alphabet-nav');
+    nav.querySelectorAll('div').forEach(d => {
+      if (d.dataset.letter === currentLetter) {
+        d.classList.add('active-letter');
+      } else {
+        d.classList.remove('active-letter');
+      }
+    });
   }
 
   const tabs = document.querySelectorAll('.tab');
@@ -255,8 +265,9 @@
       }
       else if(activeTab==='folders') {
         displayFolders(musicData);
-        // Hide alphabet nav in folders view
+        // hide alphabet nav
         document.getElementById('alphabet-nav').innerHTML = '';
+        currentLetter = null;
       }
       searchInput.value = '';
     });
@@ -268,11 +279,13 @@
     const activeTab = document.querySelector('.tab.active').dataset.tab;
     if(activeTab==='songs') {
       displaySongs(filtered);
-      setupAlphabetNav(); 
+      // যদি query টাইপ করা হয়ে থাকে, অক্ষর হাইলাইটটি রিসেট করা যেতে পারে
+      // নিচে রিসেট কোড
+      currentLetter = null;
+      updateActiveLetterHighlight();
     }
     else if(activeTab==='folders') {
       displayFolders(filtered);
-      document.getElementById('alphabet-nav').innerHTML = '';
     }
   });
 
