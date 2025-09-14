@@ -53,39 +53,43 @@
     letter-spacing: 0.7px;
   }
 
-  #progress {
-    position: relative;
-    background: rgba(255, 255, 255, 0.12);
-    border-radius: 8px;
-    height: 14px;
-    cursor: pointer;
-    user-select: none;
-    padding: 0 50px;
-    display: flex;
-    align-items: center;
-  }
+#progress {
+  position: relative;
+  background: rgba(255, 255, 255, 0.12);
+  border-radius: 8px;
+  height: 14px;
+  cursor: pointer;
+  user-select: none;
+  padding: 0 50px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;  /* এটা যোগ করতে হবে */
+}
 
-  #progress-filled {
-    position: absolute;
-    left: 50px;
-    /* right: 50px;  <-- সরানো হয়েছে */
-    height: 8px;
-    background: linear-gradient(90deg, #ff6b6b, #583D91);
-    border-radius: 8px;
-    top: 50%;
-    transform: translateY(-50%);
-    width: 0;
-    transition: width 0.15s ease;
-    pointer-events: none;
-  }
+#progress-filled {
+  position: absolute;
+  left: 50px;
+  right: 50px;
+  height: 8px;
+  background: linear-gradient(90deg, #ff6b6b, #583D91);
+  border-radius: 8px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 0;
+  transition: width 0.15s ease;
+  pointer-events: none;
+  z-index: 1;
+}
 
-  #current-time, #duration {
-    width: 40px;
-    font-size: 12px;
-    color: #ddd;
-    flex-shrink: 0;
-    user-select: none;
-  }
+#current-time, #duration {
+  width: 40px;
+  font-size: 12px;
+  color: #ddd;
+  flex-shrink: 0;
+  user-select: none;
+  z-index: 2;
+  position: relative;
+}
 
   .controls {
     display: flex;
