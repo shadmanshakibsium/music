@@ -28,6 +28,7 @@
       padding: 30px;
       width: 100%;
       max-width: 900px;
+      overflow: hidden; /* কিছু overflow গোপন করার জন্য */
     }
     h1 {
       color: white; text-align: center; margin-bottom: 20px;
@@ -53,7 +54,13 @@
       list-style: none;
       max-height: 60vh;
       overflow-y: auto;
-      padding-right: 20px; /* scrollbar এ জায়গা রাখছে */
+      padding-right: 20px; /* scrollbar area */
+      scroll-behavior: smooth; /* smooth scrolling */
+    }
+    /* scrollbar গোপন করতে */
+    .music-list::-webkit-scrollbar {
+      width: 0px;
+      background: transparent;
     }
     .music-item {
       display: flex; align-items: center; justify-content: space-between;
@@ -64,7 +71,7 @@
     .music-item:hover { background: rgba(255,255,255,0.2); }
     .music-item .info {
       color:white;
-      width: 100%; /* পুরো বক্সে ক্লিককেবল অ্যারিয়া বাড়াচ্ছে */
+      width: 100%; /* পুরো বক্স ক্লিকযোগ্য */
     }
     .folder-title {
       color:white; margin-top:20px; font-weight:500; font-size:18px;
@@ -78,17 +85,15 @@
     .folder-title.active + .folder-content {
       display: block;
     }
-
     @keyframes fadeIn {
       from { opacity: 0; transform: translateY(-10px); }
       to { opacity: 1; transform: translateY(0); }
     }
-
     /* Alphabet navigation on right */
     .alphabet-nav {
       position: absolute;
-      right: -50px; /* ডান দিকে */
-      top: 100px; /* প্রয়োজনমতো adjust করো */
+      right: -50px; /* ডানে রাখা আছে */
+      top: 100px; /* প্রয়োজনমতো adjust করতে পারো */
       display: flex;
       flex-direction: column;
     }
@@ -104,7 +109,7 @@
     }
     .alphabet-nav div.active-letter {
       color: #ffcc00;
-      /* হাইলাইট স্টাইল; তুমি চাইলে ব্যাকগ্রাউন্ড বা অন্য রঙ দিতে পারো */
+      /* হাইলাইট রঙ */
     }
   </style>
 </head>
@@ -127,176 +132,204 @@
     <ul class="music-list" id="music-list"></ul>
   </div>
 
-  <script>
-    const types = ['bangla','english','hindi','arabic','lofi','slowed-reverbed'];
-    let musicData = [];
-    let currentLetter = null;
+<script>
+  const types = ['bangla','english','hindi','arabic','lofi','slowed-reverbed'];
+  let musicData = [];
+  let currentLetter = null;
 
-    async function loadAllMusic() {
-      let allSongs = [];
-      for(const type of types){
-        try{
-          const res = await fetch(`data/${type}.json`);
-          const data = await res.json();
-          data.forEach(song => {
-            song.type = type;
-          });
-          allSongs = allSongs.concat(data);
-        } catch(e){
-          console.error(`Failed to load ${type}.json`, e);
-        }
+  async function loadAllMusic() {
+    let allSongs = [];
+    for(const type of types){
+      try{
+        const res = await fetch(`data/${type}.json`);
+        const data = await res.json();
+        data.forEach(song => {
+          song.type = type;
+        });
+        allSongs = allSongs.concat(data);
+      } catch(e){
+        console.error(`Failed to load ${type}.json`, e);
       }
-      // A-Z sort
-      allSongs.sort((a, b) => a.name.localeCompare(b.name));
-      musicData = allSongs;
     }
+    // A-Z sort
+    allSongs.sort((a, b) => a.name.localeCompare(b.name));
+    musicData = allSongs;
+  }
 
-    function displaySongs(list){
-      const musicList = document.getElementById('music-list');
-      if(list.length === 0){
-        musicList.innerHTML = `<li style="color:white; text-align:center; padding:20px;">No results found</li>`;
-        return;
-      }
-      musicList.innerHTML = list.map((song, index) => `
-        <li class="music-item" data-name="${song.name.toLowerCase()}">
-          <div class="info" onclick="playSong('${encodeURIComponent(song.name)}','${encodeURIComponent(song.file)}','${encodeURIComponent(song.type)}')">
-            <span class="title">${song.name}</span>
-            <span style="font-size:12px;color:rgba(255,255,255,0.5)">[${song.type}]</span>
+  function displaySongs(list){
+    const musicList = document.getElementById('music-list');
+    if(list.length === 0){
+      musicList.innerHTML = `<li style="color:white; text-align:center; padding:20px;">No results found</li>`;
+      return;
+    }
+    musicList.innerHTML = list.map((song, index) => `
+      <li class="music-item" data-name="${song.name.toLowerCase()}">
+        <div class="info" onclick="playSong('${encodeURIComponent(song.name)}','${encodeURIComponent(song.file)}','${encodeURIComponent(song.type)}')">
+          <span class="title">${song.name}</span>
+          <span style="font-size:12px;color:rgba(255,255,255,0.5)">[${song.type}]</span>
+        </div>
+      </li>
+    `).join('');
+
+    // নতুন যুক্তি: scrollspy behaviour
+    // যখন স্ক্রল হবে, check করব কোন গান তালিকায় viewport এ আছে, সেই অনুযায়ী হাইলাইট হবে
+    attachScrollSpy();
+    updateActiveLetterHighlight();
+  }
+
+  function displayFolders(list){
+    const musicList = document.getElementById('music-list');
+    let html = '';
+    types.forEach(type => {
+      const songs = list.filter(s => s.type === type);
+      if(songs.length > 0){
+        songs.sort((a, b) => a.name.localeCompare(b.name));
+        html += `
+          <div class="folder-title">${type.toUpperCase()}</div>
+          <div class="folder-content">
+            ${songs.map(song=>`
+              <li class="music-item" data-name="${song.name.toLowerCase()}">
+                <div class="info" onclick="playSong('${encodeURIComponent(song.name)}','${encodeURIComponent(song.file)}','${encodeURIComponent(type)}')">
+                  ${song.name}
+                </div>
+              </li>
+            `).join('')}
           </div>
-        </li>
-      `).join('');
-
-      // হাইলাইট করা থাকলে অক্ষর update করো
-      updateActiveLetterHighlight();
-    }
-
-    function displayFolders(list){
-      const musicList = document.getElementById('music-list');
-      let html = '';
-      types.forEach(type => {
-        const songs = list.filter(s => s.type === type);
-        if(songs.length > 0){
-          songs.sort((a, b) => a.name.localeCompare(b.name));
-          html += `
-            <div class="folder-title">${type.toUpperCase()}</div>
-            <div class="folder-content">
-              ${songs.map(song=>`
-                <li class="music-item" data-name="${song.name.toLowerCase()}">
-                  <div class="info" onclick="playSong('${encodeURIComponent(song.name)}','${encodeURIComponent(song.file)}','${encodeURIComponent(type)}')">
-                    ${song.name}
-                  </div>
-                </li>
-              `).join('')}
-            </div>
-          `;
-        }
-      });
-      musicList.innerHTML = html || `<li style="color:white; text-align:center; padding:20px;">No folders found</li>`;
-
-      // ফোল্ডার টগল করতে হলে:
-      const folderTitles = document.querySelectorAll('.folder-title');
-      folderTitles.forEach(title => {
-        title.addEventListener('click', () => {
-          title.classList.toggle('active');
-        });
-      });
-    }
-
-    function playSong(nameEnc, fileEnc, folderEnc){
-      const name = decodeURIComponent(nameEnc);
-      const file = decodeURIComponent(fileEnc);
-      const folder = decodeURIComponent(folderEnc);
-      window.location.href = `song.html?name=${encodeURIComponent(name)}&file=${encodeURIComponent(file)}&folder=${encodeURIComponent(folder)}`;
-    }
-
-    function setupAlphabetNav() {
-      const nav = document.getElementById('alphabet-nav');
-      const lettersSet = new Set(musicData.map(s => s.name[0].toUpperCase()));
-      const letters = Array.from(lettersSet).sort();
-      nav.innerHTML = letters.map(letter =>
-        `<div data-letter="${letter}">${letter}</div>`
-      ).join('');
-
-      nav.querySelectorAll('div').forEach(div => {
-        div.addEventListener('click', () => {
-          const letter = div.dataset.letter.toLowerCase();
-          currentLetter = div.dataset.letter;
-          // হাইলাইট করা হবে
-          nav.querySelectorAll('div').forEach(d=> d.classList.remove('active-letter'));
-          div.classList.add('active-letter');
-          // এখন স্ক্রল করা হবে সেই সিরিয়ালের শুরুতে
-          scrollToLetter(letter);
-        });
-      });
-    }
-
-    function scrollToLetter(letter) {
-      const musicList = document.getElementById('music-list');
-      // সব .music-item গুলো দেখো
-      const items = musicList.querySelectorAll('.music-item[data-name]');
-      for (let item of items) {
-        const name = item.dataset.name;
-        if (name && name.startsWith(letter)) {
-          // স্ক্রল হবে
-          item.scrollIntoView({ behavior: 'auto', block: 'start' });
-          break;
-        }
+        `;
       }
-    }
-
-    function updateActiveLetterHighlight() {
-      if (!currentLetter) return;
-      const nav = document.getElementById('alphabet-nav');
-      nav.querySelectorAll('div').forEach(d => {
-        if (d.dataset.letter === currentLetter) {
-          d.classList.add('active-letter');
-        } else {
-          d.classList.remove('active-letter');
-        }
-      });
-    }
-
-    const tabs = document.querySelectorAll('.tab');
-    const searchInput = document.getElementById('searchInput');
-
-    tabs.forEach(tab=>{
-      tab.addEventListener('click', ()=>{
-        tabs.forEach(t=>t.classList.remove('active'));
-        tab.classList.add('active');
-        const activeTab = tab.dataset.tab;
-        if(activeTab==='songs') {
-          displaySongs(musicData);
-          setupAlphabetNav();
-        }
-        else if(activeTab==='folders') {
-          displayFolders(musicData);
-          document.getElementById('alphabet-nav').innerHTML = '';
-          currentLetter = null;
-        }
-        searchInput.value = '';
+    });
+    musicList.innerHTML = html || `<li style="color:white; text-align:center; padding:20px;">No folders found</li>`;
+    // ফোল্ডার টগল
+    const folderTitles = document.querySelectorAll('.folder-title');
+    folderTitles.forEach(title => {
+      title.addEventListener('click', () => {
+        title.classList.toggle('active');
       });
     });
+    // folders ট্যাবে scrollspy & alphabet-nav hide
+    removeScrollSpy();
+  }
 
-    searchInput.addEventListener('input', ()=>{
-      const query = searchInput.value.toLowerCase();
-      const filtered = musicData.filter(song => song.name.toLowerCase().includes(query));
-      const activeTab = document.querySelector('.tab.active').dataset.tab;
+  function playSong(nameEnc, fileEnc, folderEnc){
+    const name = decodeURIComponent(nameEnc);
+    const file = decodeURIComponent(fileEnc);
+    const folder = decodeURIComponent(folderEnc);
+    window.location.href = `song.html?name=${encodeURIComponent(name)}&file=${encodeURIComponent(file)}&folder=${encodeURIComponent(folder)}`;
+  }
+
+  function setupAlphabetNav() {
+    const nav = document.getElementById('alphabet-nav');
+    const lettersSet = new Set(musicData.map(s => s.name[0].toUpperCase()));
+    const letters = Array.from(lettersSet).sort();
+    nav.innerHTML = letters.map(letter =>
+      `<div data-letter="${letter}">${letter}</div>`
+    ).join('');
+
+    nav.querySelectorAll('div').forEach(div => {
+      div.addEventListener('click', () => {
+        const letter = div.dataset.letter.toLowerCase();
+        currentLetter = div.dataset.letter;
+        nav.querySelectorAll('div').forEach(d=> d.classList.remove('active-letter'));
+        div.classList.add('active-letter');
+        scrollToLetter(letter);
+      });
+    });
+  }
+
+  function scrollToLetter(letter) {
+    const musicList = document.getElementById('music-list');
+    const items = musicList.querySelectorAll('.music-item[data-name]');
+    for (let item of items) {
+      const name = item.dataset.name;
+      if (name && name.startsWith(letter)) {
+        item.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        break;
+      }
+    }
+  }
+
+  function updateActiveLetterHighlight() {
+    if (!currentLetter) return;
+    const nav = document.getElementById('alphabet-nav');
+    nav.querySelectorAll('div').forEach(d => {
+      if (d.dataset.letter === currentLetter) {
+        d.classList.add('active-letter');
+      } else {
+        d.classList.remove('active-letter');
+      }
+    });
+  }
+
+  // scrollspy: scroll‑event listener to detect which item is first visible, এবং হাইলাইট সেই লেটার
+  function attachScrollSpy() {
+    const musicList = document.getElementById('music-list');
+    musicList.addEventListener('scroll', onMusicListScroll);
+  }
+
+  function removeScrollSpy() {
+    const musicList = document.getElementById('music-list');
+    musicList.removeEventListener('scroll', onMusicListScroll);
+  }
+
+  function onMusicListScroll() {
+    const musicList = document.getElementById('music-list');
+    const items = musicList.querySelectorAll('.music-item[data-name]');
+    for (let item of items) {
+      const rect = item.getBoundingClientRect();
+      // musicList এর ভেতরের first visible item-এর জন্য check করা হচ্ছে
+      // "top" একটু adjust করা যেতে পারে
+      if (rect.top >= musicList.getBoundingClientRect().top + 10) {
+        // ঐ item-এর data-name এর প্রথম অক্ষর পেয়ে সেটি হাইলাইট
+        const firstChar = item.dataset.name.charAt(0).toUpperCase();
+        currentLetter = firstChar;
+        updateActiveLetterHighlight();
+        break;
+      }
+    }
+  }
+
+  const tabs = document.querySelectorAll('.tab');
+  const searchInput = document.getElementById('searchInput');
+
+  tabs.forEach(tab=>{
+    tab.addEventListener('click', ()=>{
+      tabs.forEach(t=>t.classList.remove('active'));
+      tab.classList.add('active');
+      const activeTab = tab.dataset.tab;
       if(activeTab==='songs') {
-        displaySongs(filtered);
+        displaySongs(musicData);
         setupAlphabetNav();
       }
       else if(activeTab==='folders') {
-        displayFolders(filtered);
+        displayFolders(musicData);
         document.getElementById('alphabet-nav').innerHTML = '';
         currentLetter = null;
       }
+      searchInput.value = '';
     });
+  });
 
-    // On load
-    loadAllMusic().then(()=>{
-      displaySongs(musicData);
+  searchInput.addEventListener('input', ()=>{
+    const query = searchInput.value.toLowerCase();
+    const filtered = musicData.filter(song => song.name.toLowerCase().includes(query));
+    const activeTab = document.querySelector('.tab.active').dataset.tab;
+    if(activeTab==='songs') {
+      displaySongs(filtered);
       setupAlphabetNav();
-    });
-  </script>
+    }
+    else if(activeTab==='folders') {
+      displayFolders(filtered);
+      document.getElementById('alphabet-nav').innerHTML = '';
+      currentLetter = null;
+    }
+  });
+
+  // On load
+  loadAllMusic().then(()=>{
+    displaySongs(musicData);
+    setupAlphabetNav();
+  });
+</script>
+
 </body>
 </html>
