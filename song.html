@@ -3,102 +3,200 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Now Playing</title>
+<title>Music Player - JSON Support</title>
+<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 <style>
-:root{
-    --primary:#ff3e78;
-    --secondary:#4e54ff;
-    --dark-bg:#0f0f13;
-    --card-bg:#1a1a24;
-    --text-primary:#fff;
-    --text-secondary:#b3b3b3;
-    --gradient: linear-gradient(135deg, var(--primary), var(--secondary));
-    --glass-bg: rgba(30,30,40,0.6);
-    --transition:all 0.3s ease;
+* { margin:0; padding:0; box-sizing:border-box; font-family: 'Roboto', sans-serif; }
+body {
+  background: url('https://i.imgur.com/uNWSHGy.png') no-repeat center center fixed;
+  background-size: cover;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  padding: 20px;
 }
-*{margin:0;padding:0;box-sizing:border-box;}
-body{
-    background: var(--dark-bg);
-    color: var(--text-primary);
-    font-family:'Poppins',sans-serif;
-    min-height:100vh;
-    display:flex;
-    justify-content:center;
-    align-items:center;
-    padding:2rem;
+.container {
+  width: 100%;
+  max-width: 400px;
+  background: rgba(255,255,255,0.07);
+  border-radius: 30px;
+  border: 1px solid rgba(255,255,255,0.2);
+  backdrop-filter: blur(15px) saturate(180%);
+  padding: 30px 20px;
+  text-align: center;
+  color: white;
+  box-shadow: 0 15px 50px rgba(0,0,0,0.5);
 }
-.container{
-    background: var(--card-bg);
-    border-radius:20px;
-    padding:2rem;
-    max-width:400px;
-    width:100%;
-    text-align:center;
-    box-shadow:0 10px 30px rgba(0,0,0,0.3);
-    backdrop-filter:blur(10px);
+.title { font-size: 24px; font-weight:700; margin-bottom:22px; }
+#progress { width: 100%; height: 8px; background: rgba(255,255,255,0.2); border-radius: 6px; overflow: hidden; margin-bottom: 25px; }
+#progress-filled { width:0%; height:100%; background: linear-gradient(90deg, #ff6b6b, #583D91); border-radius:6px; transition: width 0.2s ease; }
+.controls {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  margin: 30px 0;
 }
-h2{
-    font-size:1.5rem;
-    font-weight:700;
-    background: var(--gradient);
-    -webkit-background-clip:text;
-    background-clip:text;
-    -webkit-text-fill-color:transparent;
-    margin-bottom:0.5rem;
+.control-btn {
+  width: 55px;
+  height: 40px;
+  border-radius: 20px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  background: linear-gradient(135deg, #ff6b6b, #fcb045);
+  border: none;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.5);
+  transition: all 0.3s ease;
+  font-size: 18px;
+  color: white;
 }
-p{color:var(--text-secondary); margin-bottom:1.5rem;}
-audio{
-    width:100%;
-    margin-bottom:1.5rem;
-    border-radius:12px;
+.control-btn:hover {
+  transform: scale(1.1);
+  box-shadow: 0 0 15px rgba(255,107,107,0.8);
 }
-button{
-    padding:0.6rem 1.5rem;
-    border-radius:50px;
-    border:none;
-    background: var(--gradient);
-    color:#fff;
-    font-weight:600;
-    cursor:pointer;
-    transition: var(--transition);
+.play-btn {
+  width: 75px;
+  height: 50px;
+  font-size: 22px;
+  border-radius: 25px;
+  background: linear-gradient(135deg, #583D91, #7E5CD9);
+  box-shadow: 0 0 20px rgba(88,61,145,0.8);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transition: all 0.3s ease;
 }
-button:hover{
-    transform: translateY(-2px) scale(1.05);
-    box-shadow:0 6px 20px rgba(255,62,120,0.4);
+.play-btn:hover { transform: scale(1.05); box-shadow: 0 0 25px rgba(88,61,145,1); }
+.control-btn.active { box-shadow: 0 0 20px rgba(255,107,107,0.9); }
+.back-btn {
+  display: inline-block;
+  padding: 10px 25px;
+  border-radius: 25px;
+  background: rgba(255,255,255,0.15);
+  backdrop-filter: blur(8px);
+  color: white;
+  text-decoration: none;
+  font-weight: 500;
+  transition: 0.3s;
+  margin-top: 15px;
 }
+.back-btn:hover { background: rgba(255,255,255,0.3); }
 </style>
 </head>
 <body>
+
 <div class="container">
-    <h2 id="song-name">Song Name</h2>
-    <p id="song-artist">Artist</p>
-    <audio id="player" controls></audio>
-    <button onclick="goBack()">Back</button>
+  <div class="title" id="title">Loading...</div>
+  <div id="progress"><div id="progress-filled"></div></div>
+
+  <div class="controls">
+    <div class="control-btn" id="shuffle" title="Shuffle"><i class="fas fa-random"></i></div>
+    <div class="control-btn" id="prev" title="Previous"><i class="fas fa-backward"></i></div>
+    <div class="control-btn play-btn" id="play" title="Play/Pause"><i class="fas fa-play" id="play-icon"></i></div>
+    <div class="control-btn" id="next" title="Next"><i class="fas fa-forward"></i></div>
+    <div class="control-btn" id="repeat" title="Repeat"><i class="fas fa-redo"></i></div>
+  </div>
+
+  <audio id="audioPlayer"></audio>
+  <a href="index.html" class="back-btn">Back to Library</a>
 </div>
 
 <script>
-function goBack(){ window.history.back(); }
+// JSON Data
+const songs = [
+  { "name": "Shape of You", "file": "Let-it-happen-Slowed-Reverb.mp3" },
+  { "name": "Blinding Lights", "file": "Blinding-Lights.mp3" },
+  { "name": "Dance Monkey", "file": "Dance-Monkey.mp3" }
+];
 
-const params=new URLSearchParams(window.location.search);
-const type=params.get('type');
-const file=params.get('file');
-const player=document.getElementById('player');
-const songName=document.getElementById('song-name');
-const songArtist=document.getElementById('song-artist');
+let currentIndex = 0;
+let isPlaying = false;
+let isRepeat = false;
+let isShuffle = false;
 
-if(type && file){
-    fetch(`data/${type}.json`)
-    .then(res=>res.ok?res.json():[])
-    .then(data=>{
-        const song=data.find(s=>s.file===decodeURIComponent(file));
-        if(song){
-            songName.textContent=song.name;
-            songArtist.textContent=song.artist||'Unknown';
-            player.src=`songs/${type}/${song.file}`;
-        }
-    })
-    .catch(err=>console.error(err));
+const audio = document.getElementById('audioPlayer');
+const playBtn = document.getElementById('play');
+const playIcon = document.getElementById('play-icon');
+const title = document.getElementById('title');
+const progressFilled = document.getElementById('progress-filled');
+const shuffleBtn = document.getElementById('shuffle');
+const repeatBtn = document.getElementById('repeat');
+
+function loadSong(index){
+  const song = songs[index];
+  audio.src = song.file;
+  title.textContent = song.name;
 }
+
+// Play/Pause
+playBtn.addEventListener('click', ()=>{
+  if(isPlaying){
+    audio.pause();
+    playIcon.classList.remove('fa-pause');
+    playIcon.classList.add('fa-play');
+  } else {
+    audio.play();
+    playIcon.classList.remove('fa-play');
+    playIcon.classList.add('fa-pause');
+  }
+  isPlaying = !isPlaying;
+});
+
+// Progress bar
+audio.addEventListener('timeupdate', ()=>{
+  const percent = (audio.currentTime / audio.duration) * 100;
+  progressFilled.style.width = percent + '%';
+});
+
+// Next
+document.getElementById('next').addEventListener('click', ()=>{
+  if(isShuffle){
+    currentIndex = Math.floor(Math.random() * songs.length);
+  } else {
+    currentIndex = (currentIndex + 1) % songs.length;
+  }
+  loadSong(currentIndex);
+  audio.play();
+  playIcon.classList.remove('fa-play');
+  playIcon.classList.add('fa-pause');
+  isPlaying = true;
+});
+
+// Previous
+document.getElementById('prev').addEventListener('click', ()=>{
+  currentIndex = (currentIndex - 1 + songs.length) % songs.length;
+  loadSong(currentIndex);
+  audio.play();
+  playIcon.classList.remove('fa-play');
+  playIcon.classList.add('fa-pause');
+  isPlaying = true;
+});
+
+// Shuffle toggle
+shuffleBtn.addEventListener('click', ()=>{
+  isShuffle = !isShuffle;
+  shuffleBtn.classList.toggle('active', isShuffle);
+});
+
+// Repeat toggle
+repeatBtn.addEventListener('click', ()=>{
+  isRepeat = !isRepeat;
+  repeatBtn.classList.toggle('active', isRepeat);
+  audio.loop = isRepeat;
+});
+
+// Auto next song
+audio.addEventListener('ended', ()=>{
+  if(isRepeat) return;
+  document.getElementById('next').click();
+});
+
+// Initial load
+loadSong(currentIndex);
 </script>
+
 </body>
 </html>
