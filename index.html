@@ -15,7 +15,7 @@
     min-height: 100vh;
     display: flex;
     justify-content: center;
-    align-items: flex-start; /* উপরে বসানোর জন্য flex-start */
+    align-items: flex-start;
     padding: 50px 20px;
   }
   .container {
@@ -27,11 +27,9 @@
     padding: 30px;
     width: 100%;
     max-width: 900px;
-    display: flex;
   }
   h1 {
     color: white; text-align: center; margin-bottom: 20px;
-    width: 100%;
   }
   .search-bar {
     width: 100%; margin-bottom: 20px;
@@ -43,7 +41,6 @@
   .search-bar input::placeholder { color: rgba(255,255,255,0.7); }
   .tabs {
     display: flex; justify-content: space-around; margin-bottom: 20px;
-    width: 100%;
   }
   .tab {
     padding: 10px 20px; border-radius: 15px; cursor: pointer; color: white; font-weight: 500; transition: 0.3s;
@@ -53,26 +50,16 @@
   }
   .music-list {
     list-style: none;
-    width: 100%;
-    max-height: 520px;
-    overflow-y: auto;
-    scroll-behavior: smooth;
-    padding-right: 10px; /* scroll space */
   }
   .music-item {
     display: flex; align-items: center; justify-content: space-between;
     background: rgba(255,255,255,0.1); border-radius: 15px;
     padding: 12px 15px; margin-bottom: 10px; backdrop-filter: blur(8px);
     cursor: pointer; transition: 0.3s;
-    color: white;
-    user-select:none;
   }
   .music-item:hover { background: rgba(255,255,255,0.2); }
   .music-item .info {
     color:white;
-    display: block;
-    width: 100%;
-    text-decoration: none;
   }
   .music-item .info .title {
     font-weight:500; font-size:16px;
@@ -81,90 +68,64 @@
     color:white; margin-top:20px; font-weight:500; font-size:18px;
   }
 
-  /* Scrollbar hidden but scroll still works */
-  .music-list::-webkit-scrollbar {
-    width: 0px;
-    background: transparent;
+  /* নতুন alpha-index স্টাইল */
+  .alpha-index {
+    position: fixed;
+    right: 30px;
+    top: 100px;
+    height: calc(100vh - 120px); /* উপরে 100px এবং নিচে 20px স্পেস */
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between; /* স্পেস পুরোটা সমান করে দেবে */
+    user-select: none;
+    z-index: 1000;
+    padding: 4px 8px;
+    background: rgba(0,0,0,0.15);
+    border-radius: 12px;
+    font-weight: 700;
+    color: white;
+    font-size: 14px;
   }
-  .music-list {
-    -ms-overflow-style: none;  /* IE and Edge */
-    scrollbar-width: none;  /* Firefox */
+
+  .alpha-index div {
+    cursor: pointer;
+    padding: 4px 6px;
+    border-radius: 8px;
+    text-align: center;
+    transition: background 0.3s, color 0.3s;
   }
 
-  /* Alphabet Nav styles */
-/* ডানে A-Z-# নেভিগেশন */
-.alpha-nav {
-  position: absolute;
-  right: 20px;
-  top: 80px;
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-  user-select: none;
-  background: rgba(0,0,0,0.3);
-  padding: 10px 8px;
-  border-radius: 12px;
-  box-shadow: 0 0 10px rgba(0,0,0,0.5);
-  font-size: 14px;
-  letter-spacing: 1.5px;
-  max-height: 80vh;
-  overflow-y: auto;
-  scrollbar-width: none; /* Firefox */
-}
-/* Scrollbar পুরাপুরি লুকানো */
-.alpha-nav::-webkit-scrollbar {
-  display: none;
-}
-
-.alpha-nav div {
-  color: rgba(255,255,255,0.8);
-  font-weight: 700;
-  cursor: pointer;
-  padding: 6px 12px;
-  border-radius: 8px;
-  text-align: center;
-  transition: background-color 0.3s, color 0.3s, transform 0.2s;
-  user-select: none;
-}
-
-.alpha-nav div:hover {
-  background: rgba(255,255,255,0.25);
-  color: white;
-  transform: scale(1.1);
-}
-
-.alpha-nav div.active {
-  background: #ff4081;
-  color: white;
-  box-shadow: 0 0 8px #ff4081;
-  transform: scale(1.1);
-}
+  .alpha-index div:hover,
+  .alpha-index div.active {
+    background: rgba(255,255,255,0.3);
+    color: #000;
+  }
 </style>
 </head>
 <body>
   <div class="container">
-    <div style="flex:1; display:flex; flex-direction: column;">
-      <h1>My Music Library</h1>
+    <h1>My Music Library</h1>
 
-      <div class="search-bar">
-        <input type="text" id="searchInput" placeholder="Search by song..." />
-      </div>
-
-      <div class="tabs">
-        <div class="tab active" data-tab="songs">Songs</div>
-        <div class="tab" data-tab="folders">Folders</div>
-      </div>
-
-      <ul class="music-list" id="music-list"></ul>
+    <div class="search-bar">
+      <input type="text" id="searchInput" placeholder="Search by song..." />
     </div>
 
-    <div class="alphabet-nav" id="alphabet-nav"></div>
+    <div class="tabs">
+      <div class="tab active" data-tab="songs">Songs</div>
+      <div class="tab" data-tab="folders">Folders</div>
+    </div>
+
+    <ul class="music-list" id="music-list"></ul>
+  </div>
+
+  <!-- A-Z-# ইনডেক্স -->
+  <div class="alpha-index" id="alphaIndex">
+    <!-- JS দিয়ে অক্ষর বসবে -->
   </div>
 
 <script>
   const types = ['bangla','english','hindi','arabic','lofi','slowed-reverbed'];
   let musicData = [];
-  const alphabet = ['A','B','C','D','E','F','G','H','I','J','K','L','M','N','O','P','Q','R','S','T','U','V','W','X','Y','Z','#'];
 
   async function loadAllMusic() {
     let allSongs = [];
@@ -183,51 +144,22 @@
     musicData = allSongs;
   }
 
-  // Sort songs alphabetically by name A-Z
-  function sortSongsAZ(list){
-    return list.slice().sort((a,b) => a.name.localeCompare(b.name));
-  }
-
-  // Group songs by starting letter
-  function groupSongsByLetter(list){
-    const groups = {};
-    alphabet.forEach(letter => groups[letter] = []);
-    list.forEach(song => {
-      let firstChar = song.name[0].toUpperCase();
-      if(!alphabet.includes(firstChar)){
-        firstChar = '#';
-      }
-      groups[firstChar].push(song);
-    });
-    return groups;
-  }
-
-  // Display songs grouped with headers for each letter
   function displaySongs(list){
     const musicList = document.getElementById('music-list');
     if(list.length === 0){
       musicList.innerHTML = `<li style="color:white; text-align:center; padding:20px;">No results found</li>`;
       return;
     }
-    const grouped = groupSongsByLetter(sortSongsAZ(list));
-    let html = '';
-    alphabet.forEach(letter => {
-      if(grouped[letter].length){
-        html += `<div class="folder-title" id="letter-${letter}">${letter}</div>`;
-        html += grouped[letter].map(song => `
-          <li class="music-item" data-letter="${letter}">
-            <a href="song.html?name=${encodeURIComponent(song.name)}&file=${encodeURIComponent(song.file)}&folder=${encodeURIComponent(song.type)}" class="info">
-              <span class="title">${song.name}</span>
-              <span style="font-size:12px;color:rgba(255,255,255,0.5)">[${song.type}]</span>
-            </a>
-          </li>
-        `).join('');
-      }
-    });
-    musicList.innerHTML = html || `<li style="color:white; text-align:center; padding:20px;">No results found</li>`;
+    musicList.innerHTML = list.map(song => `
+      <li class="music-item">
+        <a href="song.html?name=${encodeURIComponent(song.name)}&file=${encodeURIComponent(song.file)}&folder=${encodeURIComponent(song.type)}" class="info" style="color:white;text-decoration:none;">
+          <span class="title">${song.name}</span>
+          <span style="font-size:12px;color:rgba(255,255,255,0.5)">[${song.type}]</span>
+        </a>
+      </li>
+    `).join('');
   }
 
-  // Display folders as before
   function displayFolders(list){
     const musicList = document.getElementById('music-list');
     let html = '';
@@ -247,65 +179,108 @@
     musicList.innerHTML = html || `<li style="color:white; text-align:center; padding:20px;">No folders found</li>`;
   }
 
-  // Build the alphabet nav on right side
-  function buildAlphabetNav(){
-    const nav = document.getElementById('alphabet-nav');
-    nav.innerHTML = '';
-    alphabet.forEach(letter=>{
-      const div = document.createElement('div');
-      div.textContent = letter;
-      div.dataset.letter = letter;
-      div.addEventListener('click', () => {
-        scrollToLetter(letter);
-        setActiveLetter(letter);
-      });
-      nav.appendChild(div);
-    });
-  }
+  // A-Z-# লেটার গুলো
+  const alphabet = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ#'.split('');
+  const alphaIndex = document.getElementById('alphaIndex');
+  const musicList = document.getElementById('music-list');
+  const searchInput = document.getElementById('searchInput');
+  const tabs = document.querySelectorAll('.tab');
 
-  // Scroll smoothly to the letter section in music list
-  function scrollToLetter(letter){
-    const el = document.getElementById(`letter-${letter}`);
-    if(el){
-      const musicList = document.getElementById('music-list');
-      // Scroll musicList container so that el is at top
-      musicList.scrollTo({
-        top: el.offsetTop,
-        behavior: 'smooth'
-      });
+  // ইনডেক্সে অক্ষর বসানো
+  alphabet.forEach(letter => {
+    const div = document.createElement('div');
+    div.textContent = letter;
+    div.addEventListener('click', () => {
+      // ক্লিক করলে ওই অক্ষরের প্রথম গানের জায়গায় স্ক্রল হবে
+      scrollToLetter(letter);
+    });
+    alphaIndex.appendChild(div);
+  });
+
+  // scrollToLetter ফাংশন - যেই অক্ষর থেকে শুরু হয় সেই গান পর্যন্ত স্ক্রল করবে
+  function scrollToLetter(letter) {
+    let filteredSongs = musicData;
+
+    // সার্চ ইমপুট থাকলে সেটা বিবেচনা করব না, সব গানে দেখব
+    if(searchInput.value.trim() !== '') filteredSongs = musicData;
+
+    // যেই তালিকার মধ্যে activeTab আছে সেটা দেখব (songs/folders)
+    const activeTab = document.querySelector('.tab.active').dataset.tab;
+
+    // songs tab হলে সরাসরি music-item এ স্ক্রল করব
+    if(activeTab === 'songs') {
+      // প্রথম গান যেটার name letter দিয়ে শুরু হয়
+      let targetSong = filteredSongs.find(s => s.name.charAt(0).toUpperCase() === letter);
+      if(!targetSong) {
+        if(letter === '#') {
+          // # হলে নামের প্রথম ক্যারেক্টার অক্ষর না হলে ধরব
+          targetSong = filteredSongs.find(s => !(/[A-Z]/.test(s.name.charAt(0).toUpperCase())));
+        }
+      }
+      if(targetSong) {
+        // ওই গানকে খুঁজে <a> এলিমেন্ট নেবো, তারপর scrollIntoView করব
+        const link = document.querySelector(`.music-item a[href*="${encodeURIComponent(targetSong.name)}"]`);
+        if(link) link.scrollIntoView({behavior: 'smooth', block: 'start'});
+      }
+    } else if(activeTab === 'folders') {
+      // ফোল্ডার ট্যাবে গুলো আলাদা আলাদা ভাগে আছে, তাই একই কাজ নাম দিয়ে করব
+      let targetSong = filteredSongs.find(s => s.name.charAt(0).toUpperCase() === letter);
+      if(!targetSong) {
+        if(letter === '#') {
+          targetSong = filteredSongs.find(s => !(/[A-Z]/.test(s.name.charAt(0).toUpperCase())));
+        }
+      }
+      if(targetSong) {
+        const link = document.querySelector(`.music-list a[href*="${encodeURIComponent(targetSong.name)}"]`);
+        if(link) link.scrollIntoView({behavior: 'smooth', block: 'start'});
+      }
     }
   }
 
-  // Set active letter highlight in alphabet nav
-  function setActiveLetter(letter){
-    const nav = document.getElementById('alphabet-nav');
-    nav.querySelectorAll('div').forEach(div=>{
-      div.classList.toggle('active-letter', div.dataset.letter === letter);
-    });
-  }
-
-  // Detect which letter is currently visible on scroll
-  function onMusicListScroll(){
-    const musicList = document.getElementById('music-list');
+  // scroll করে ডান পাশের অক্ষর হাইলাইট করা
+  function highlightLetterOnScroll() {
+    // স্ক্রল পজিশন
     const scrollTop = musicList.scrollTop;
+    const items = document.querySelectorAll('.music-item');
     let currentLetter = null;
-    for(let letter of alphabet){
-      const el = document.getElementById(`letter-${letter}`);
-      if(el){
-        if(el.offsetTop - musicList.offsetTop <= scrollTop + 20){
-          currentLetter = letter;
+
+    // যেহেতু musicList তে scroll হয় না, scroll হচ্ছে পুরো body বা window-এ, তাই আমরা window.scrollY নিবো
+
+    // window.scrollY থেকে container এর উপর ভিত্তি করে স্ক্রল পজিশন নিয়ে কাজ করব
+    const container = document.querySelector('.container');
+    const containerRect = container.getBoundingClientRect();
+
+    // activeLetter পাবে যেটা স্ক্রল অনুযায়ী প্রায় উপরের দিকে আছে
+    for(let i = 0; i < items.length; i++) {
+      const rect = items[i].getBoundingClientRect();
+      if(rect.top >= containerRect.top) {
+        const firstChar = items[i].querySelector('.title')?.textContent?.charAt(0).toUpperCase();
+        if(firstChar && alphabet.includes(firstChar)) {
+          currentLetter = firstChar;
+          break;
         } else {
+          currentLetter = '#';
           break;
         }
       }
     }
-    if(currentLetter){
-      setActiveLetter(currentLetter);
+    // ডিফল্ট ধরলে প্রথম অক্ষর
+    if(!currentLetter && items.length > 0){
+      const firstChar = items[0].querySelector('.title')?.textContent?.charAt(0).toUpperCase();
+      currentLetter = (firstChar && alphabet.includes(firstChar)) ? firstChar : '#';
+    }
+
+    // সব লেটার থেকে active ক্লাস সরাও
+    alphaIndex.querySelectorAll('div').forEach(div => div.classList.remove('active'));
+    // যেটা মেলালাম সেটাকে active দাও
+    if(currentLetter) {
+      const activeDiv = Array.from(alphaIndex.children).find(div => div.textContent === currentLetter);
+      if(activeDiv) activeDiv.classList.add('active');
     }
   }
 
-  const tabs = document.querySelectorAll('.tab');
-  const searchInput = document.getElementById('searchInput');
+  // scroll event window এ দিবো, কারণ music-list এ scroll হয় না
+  window.addEventListener('scroll', highlightLetterOnScroll);
 
   tabs.forEach(tab=>{
     tab.addEventListener('click', ()=>{
@@ -315,8 +290,8 @@
       if(activeTab==='songs') displaySongs(musicData);
       else if(activeTab==='folders') displayFolders(musicData);
       searchInput.value = '';
-      // Reset active letter highlight on tab change
-      setActiveLetter(null);
+      // ট্যাব পরিবর্তনের পর ইনডেক্স হাইলাইট রিফ্রেশ
+      setTimeout(highlightLetterOnScroll, 100);
     });
   });
 
@@ -326,16 +301,13 @@
     const activeTab = document.querySelector('.tab.active').dataset.tab;
     if(activeTab==='songs') displaySongs(filtered);
     else if(activeTab==='folders') displayFolders(filtered);
+
+    setTimeout(highlightLetterOnScroll, 100);
   });
 
-  // Init
-  loadAllMusic().then(()=>{
+  loadAllMusic().then(()=> {
     displaySongs(musicData);
-    buildAlphabetNav();
-
-    // Setup scroll listener for music list container
-    const musicList = document.getElementById('music-list');
-    musicList.addEventListener('scroll', onMusicListScroll);
+    highlightLetterOnScroll();
   });
 </script>
 
