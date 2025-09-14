@@ -6,149 +6,145 @@
 <title>Music Player</title>
 <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet" />
 <style>
-body {
-  height: 100%;
-  margin: 0;
-  padding: 0;
-  overflow: hidden; /* স্ক্রোল বন্ধ করে দেয় */
-  font-family: 'Roboto', sans-serif;
-  background: url('https://i.imgur.com/uNWSHGy.png') no-repeat center center fixed;
-  background-size: cover;
-  color: white;
-}
+  /* পুরো স্ক্রীন জুড়ে উচ্চতা ও স্ক্রোল বন্ধ */
+  html, body {
+    height: 100%;
+    margin: 0;
+    padding: 0;
+    overflow: hidden; /* স্ক্রল বন্ধ */
+    font-family: 'Roboto', sans-serif;
+    background: url('https://i.imgur.com/uNWSHGy.png') no-repeat center center fixed;
+    background-size: cover;
+    color: white;
+  }
 
-/* flex দিয়ে পুরো স্ক্রীন সেন্টার */
-body {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
+  /* flex দিয়ে body কে পুরো স্ক্রিনে কেন্দ্র করে */
+  body {
+    display: flex;
+    justify-content: center; /* হরিজন্টালি সেন্টার */
+    align-items: center;     /* ভার্টিকালি সেন্টার */
+  }
 
-/* প্লেয়ার বক্স */
-.container {
-  background: rgba(255,255,255,0.07);
-  border-radius: 30px;
-  border: 1px solid rgba(255,255,255,0.2);
-  backdrop-filter: blur(15px) saturate(180%);
-  padding: 30px 20px;
-  text-align: center;
-  width: 100%;
-  max-width: 400px;
-  box-shadow: 0 15px 50px rgba(0,0,0,0.5);
-
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  /* উচ্চতা সেট করলে মাঝখানে সেন্টার হবে বক্স */
-  /* কিন্তু height দেওয়া না হলে ভেতরের কন্টেন্ট অনুসারে হবে */
-}
-
-/* বাকি CSS একই থাকবে যেমন আগের */
-
-.title { 
-  font-size: 24px; 
-  font-weight: 700; 
-  margin-bottom: 22px; 
-}
-
-#progress { 
-  width: 100%; 
-  height: 8px; 
-  background: rgba(255,255,255,0.2); 
-  border-radius: 6px; 
-  overflow: hidden; 
-  margin-bottom: 25px; 
-}
-
-#progress-filled { 
-  width: 0%; 
-  height: 100%; 
-  background: linear-gradient(90deg, #ff6b6b, #583D91); 
-  border-radius: 6px; 
-  transition: width 0.2s ease; 
-}
-
-.controls {
-  display: flex;
-  justify-content: space-around;
-  align-items: center;
-  margin: 30px 0;
-  width: 100%;
-  max-width: 350px;
-}
-
-.control-btn {
-  width: 55px;
-  height: 40px;
-  border-radius: 20px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  cursor: pointer;
-  background: linear-gradient(135deg, #ff6b6b, #fcb045);
-  border: none;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.5);
-  transition: all 0.3s ease;
-  font-size: 18px;
-  color: white;
-}
-
-.control-btn:hover {
-  transform: scale(1.1);
-  box-shadow: 0 0 15px rgba(255,107,107,0.8);
-}
-
-.play-btn {
-  width: 75px;
-  height: 50px;
-  font-size: 22px;
-  border-radius: 25px;
-  background: linear-gradient(135deg, #583D91, #7E5CD9);
-  box-shadow: 0 0 20px rgba(88,61,145,0.8);
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  transition: all 0.3s ease;
-}
-
-.play-btn:hover { 
-  transform: scale(1.05); 
-  box-shadow: 0 0 25px rgba(88,61,145,1); 
-}
-
-.control-btn.active { 
-  box-shadow: 0 0 20px rgba(255,107,107,0.9); 
-}
-
-.back-btn {
-  display: inline-block;
-  padding: 10px 25px;
-  border-radius: 25px;
-  background: rgba(255,255,255,0.15);
-  backdrop-filter: blur(8px);
-  color: white;
-  text-decoration: none;
-  font-weight: 500;
-  transition: 0.3s;
-  margin-top: 15px;
-}
-
-.back-btn:hover { 
-  background: rgba(255,255,255,0.3); 
-}
-
-/* Responsive for small/mobile screens */
-@media (max-width: 450px) {
+  /* প্লেয়ার বক্স */
   .container {
-    max-width: 90vw;
-    padding: 20px 15px;
-    border-radius: 20px;
+    width: 100%;
+    max-width: 400px;
+    background: rgba(255, 255, 255, 0.07);
+    border-radius: 30px;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    backdrop-filter: blur(15px) saturate(180%);
+    padding: 30px 20px;
+    text-align: center;
+    box-shadow: 0 15px 50px rgba(0, 0, 0, 0.5);
   }
+
+  /* টাইটেল */
+  .title {
+    font-size: 24px;
+    font-weight: 700;
+    margin-bottom: 22px;
+  }
+
+  /* প্রগ্রেস বার */
+  #progress {
+    width: 100%;
+    height: 8px;
+    background: rgba(255, 255, 255, 0.2);
+    border-radius: 6px;
+    overflow: hidden;
+    margin-bottom: 25px;
+  }
+
+  #progress-filled {
+    width: 0%;
+    height: 100%;
+    background: linear-gradient(90deg, #ff6b6b, #583D91);
+    border-radius: 6px;
+    transition: width 0.2s ease;
+  }
+
+  /* কন্ট্রোল বাটনস */
   .controls {
-    max-width: 100%;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    margin: 30px 0;
+    width: 100%;
+    max-width: 350px;
   }
-}
+
+  .control-btn {
+    width: 55px;
+    height: 40px;
+    border-radius: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    background: linear-gradient(135deg, #ff6b6b, #fcb045);
+    border: none;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
+    transition: all 0.3s ease;
+    font-size: 18px;
+    color: white;
+  }
+
+  .control-btn:hover {
+    transform: scale(1.1);
+    box-shadow: 0 0 15px rgba(255, 107, 107, 0.8);
+  }
+
+  .play-btn {
+    width: 75px;
+    height: 50px;
+    font-size: 22px;
+    border-radius: 25px;
+    background: linear-gradient(135deg, #583D91, #7E5CD9);
+    box-shadow: 0 0 20px rgba(88, 61, 145, 0.8);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition: all 0.3s ease;
+  }
+
+  .play-btn:hover {
+    transform: scale(1.05);
+    box-shadow: 0 0 25px rgba(88, 61, 145, 1);
+  }
+
+  .control-btn.active {
+    box-shadow: 0 0 20px rgba(255, 107, 107, 0.9);
+  }
+
+  /* ব্যাক বাটন */
+  .back-btn {
+    display: inline-block;
+    padding: 10px 25px;
+    border-radius: 25px;
+    background: rgba(255, 255, 255, 0.15);
+    backdrop-filter: blur(8px);
+    color: white;
+    text-decoration: none;
+    font-weight: 500;
+    transition: 0.3s;
+    margin-top: 15px;
+  }
+
+  .back-btn:hover {
+    background: rgba(255, 255, 255, 0.3);
+  }
+
+  /* Responsive মোবাইলের জন্য */
+  @media (max-width: 450px) {
+    .container {
+      max-width: 90vw;
+      padding: 20px 15px;
+      border-radius: 20px;
+    }
+    .controls {
+      max-width: 100%;
+    }
+  }
 </style>
 </head>
 <body>
