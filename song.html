@@ -290,157 +290,136 @@
 </div>
 
 <script>
-  const params = new URLSearchParams(window.location.search);
-  const folder = params.get("folder");
-  const playlist = params.get("playlist") ? params.get("playlist").split(",") : [];
-  const names = params.get("names") ? params.get("names").split(",") : [];
-  let currentIndex = parseInt(params.get("current")) || 0;
+    const urlParams = new URLSearchParams(window.location.search);
+    const nameParam = urlParams.get('name');
+    const fileParam = urlParams.get('file');
+    const folderParam = urlParams.get('folder');
+    const playlistRaw = urlParams.get('playlist');
+    const namesRaw = urlParams.get('names');
+    const currentParam = urlParams.get('current');
 
-  if (!folder || playlist.length === 0 || names.length === 0) {
-    alert("ভুল বা অনুপস্থিত গান প্যারামিটার!");
-  }
+    console.log("---- URL PARAMETERS ----");
+    console.log("name:", nameParam);
+    console.log("file:", fileParam);
+    console.log("folder:", folderParam);
+    console.log("playlist:", playlistRaw);
+    console.log("names:", namesRaw);
+    console.log("currentIndex param:", currentParam);
 
-  const audio = document.getElementById("audio");
-  const title = document.getElementById("title");
-  const playBtn = document.getElementById("play");
-  const playIcon = document.getElementById("play-icon");
-  const prevBtn = document.getElementById("prev");
-  const nextBtn = document.getElementById("next");
-  const shuffleBtn = document.getElementById("shuffle");
-  const repeatBtn = document.getElementById("repeat");
-  const repeatIcon = document.getElementById("repeat-icon");
-  const progressBarContainer = document.getElementById("progress-bar-container");
-  const progressFilled = document.getElementById("progress-filled");
-  const currentTimeEl = document.getElementById("current-time");
-  const durationEl = document.getElementById("duration");
-  const volumeSlider = document.getElementById("volume");
+    // পার্স করা
+    const playlist = playlistRaw ? playlistRaw.split(",") : [];
+    const names = namesRaw ? namesRaw.split(",").map(n => decodeURIComponent(n)) : [];
+    const currentIndex = currentParam ? parseInt(currentParam) : 0;
 
-  let isPlaying = false;
-  let isShuffle = false;
-  let isRepeat = false;
+    console.log("Parsed playlist array:", playlist);
+    console.log("Parsed names array:", names);
+    console.log("Parsed currentIndex:", currentIndex);
 
-  function loadSong(index) {
-    const songFile = playlist[index];
-    const songName = names[index];
-    audio.src = `${folder}/${songFile}`;
-    title.textContent = songName;
-    resetProgress();
-  }
+    const audio = document.getElementById('audioPlayer');
+    const titleEl = document.getElementById('title');
+    const prevBtn = document.getElementById('prev');
+    const nextBtn = document.getElementById('next');
+    const playBtn = document.getElementById('play');
+    const shuffleBtn = document.getElementById('shuffle');
+    const repeatBtn = document.getElementById('repeat');
 
-  function resetProgress() {
-    progressFilled.style.width = "0%";
-    currentTimeEl.textContent = "0:00";
-    durationEl.textContent = "0:00";
-  }
+    let isPlaying = false;
+    let isShuffle = false;
+    let isRepeat = false;
 
-  function playSong() {
-    audio.play();
-    isPlaying = true;
-    playIcon.classList.remove("fa-play");
-    playIcon.classList.add("fa-pause");
-  }
-
-  function pauseSong() {
-    audio.pause();
-    isPlaying = false;
-    playIcon.classList.remove("fa-pause");
-    playIcon.classList.add("fa-play");
-  }
-
-  function togglePlayPause() {
-    if (isPlaying) {
-      pauseSong();
-    } else {
-      playSong();
+    function loadSong(idx) {
+      if (!folderParam || !playlist[idx]) {
+        console.error("কোডিং সমস্যা: folder অথবা playlist[idx] নেই", { folderParam, playlist, idx });
+        return;
+      }
+      const fileName = playlist[idx];
+      const songName = names[idx] || fileName;
+      const srcPath = `songs/${folderParam}/${fileName}`;
+      console.log("Loading song src:", srcPath);
+      audio.src = srcPath;
+      titleEl.textContent = songName;
     }
-  }
 
-  function formatTime(seconds) {
-    const mins = Math.floor(seconds / 60);
-    const secs = Math.floor(seconds % 60);
-    return mins + ":" + (secs < 10 ? "0" + secs : secs);
-  }
-
-  function nextSong() {
-    if (isShuffle) {
-      let newIndex;
-      do {
-        newIndex = Math.floor(Math.random() * playlist.length);
-      } while (newIndex === currentIndex && playlist.length > 1);
-      currentIndex = newIndex;
-    } else {
-      currentIndex = (currentIndex + 1) % playlist.length;
+    function playPause() {
+      if (isPlaying) {
+        audio.pause();
+        isPlaying = false;
+        playBtn.textContent = "Play";
+      } else {
+        audio.play().catch(e => console.error("Play error:", e));
+        isPlaying = true;
+        playBtn.textContent = "Pause";
+      }
     }
-    loadSong(currentIndex);
-    playSong();
-  }
 
-  function prevSong() {
-    currentIndex = (currentIndex - 1 + playlist.length) % playlist.length;
-    loadSong(currentIndex);
-    playSong();
-  }
+    function nextSong() {
+      if (playlist.length === 0) {
+        console.warn("Playlist খালি, Next নাই");
+        return;
+      }
+      if (isShuffle) {
+        let newIndex = Math.floor(Math.random() * playlist.length);
+        // যদি একই গান হয়, আবার চেক
+        if (playlist.length > 1) {
+          while (newIndex === currentIndex) {
+            newIndex = Math.floor(Math.random() * playlist.length);
+          }
+        }
+        current = newIndex;
+      } else {
+        current = (currentIndex + 1) % playlist.length;
+      }
+      loadSong(current);
+      audio.play().catch(e => console.error("Play error on next:", e));
+      isPlaying = true;
+    }
 
-  function toggleShuffle() {
-    isShuffle = !isShuffle;
-    shuffleBtn.classList.toggle("active", isShuffle);
-  }
+    function prevSong() {
+      if (playlist.length === 0) {
+        console.warn("Playlist খালি, Prev নাই");
+        return;
+      }
+      current = (currentIndex - 1 + playlist.length) % playlist.length;
+      loadSong(current);
+      audio.play().catch(e => console.error("Play error on prev:", e));
+      isPlaying = true;
+    }
 
-  function toggleRepeat() {
-    isRepeat = !isRepeat;
-    repeatBtn.classList.toggle("active", isRepeat);
-    repeatIcon.classList.toggle("fa-redo", !isRepeat);
-    repeatIcon.classList.toggle("fa-repeat", isRepeat);
-  }
-
-  audio.addEventListener("ended", () => {
-    if (isRepeat) {
-      loadSong(currentIndex);
-      playSong();
-    } else {
+    prevBtn.addEventListener('click', () => {
+      console.log("Prev button clicked");
+      prevSong();
+    });
+    playBtn.addEventListener('click', () => {
+      console.log("Play button clicked");
+      playPause();
+    });
+    nextBtn.addEventListener('click', () => {
+      console.log("Next button clicked");
       nextSong();
-    }
-  });
+    });
+    shuffleBtn.addEventListener('click', () => {
+      isShuffle = !isShuffle;
+      console.log("Shuffle toggled:", isShuffle);
+    });
+    repeatBtn.addEventListener('click', () => {
+      isRepeat = !isRepeat;
+      console.log("Repeat toggled:", isRepeat);
+    });
 
-  audio.addEventListener("timeupdate", () => {
-    if (audio.duration) {
-      const percent = (audio.currentTime / audio.duration) * 100;
-      progressFilled.style.width = percent + "%";
-      currentTimeEl.textContent = formatTime(audio.currentTime);
-      durationEl.textContent = formatTime(audio.duration);
-    }
-  });
+    audio.addEventListener('ended', () => {
+      console.log("Audio ended event");
+      if (isRepeat) {
+        loadSong(currentIndex);
+        audio.play().catch(e => console.error("Play error after repeat:", e));
+      } else {
+        nextSong();
+      }
+    });
 
-  progressBarContainer.addEventListener("click", (e) => {
-    const rect = progressBarContainer.getBoundingClientRect();
-    const clickX = e.clientX - rect.left;
-    const width = rect.width;
-    audio.currentTime = (clickX / width) * audio.duration;
-  });
-
-  playBtn.addEventListener("click", togglePlayPause);
-  prevBtn.addEventListener("click", prevSong);
-  nextBtn.addEventListener("click", nextSong);
-  shuffleBtn.addEventListener("click", toggleShuffle);
-  repeatBtn.addEventListener("click", toggleRepeat);
-
-  volumeSlider.addEventListener("input", () => {
-    audio.volume = volumeSlider.value;
-  });
-
-  // লোড হওয়ার সাথে সাথে গান লোড করবে
-  window.addEventListener("load", () => {
-    loadSong(currentIndex);
-    audio.volume = volumeSlider.value;
-  });
-
-  // স্পেস বার দিয়ে প্লে/পজ টগল
-  window.addEventListener("keydown", e => {
-    if (e.code === "Space") {
-      e.preventDefault();
-      togglePlayPause();
-    }
-  });
+    // শুরুতে গান লোড করা
+    window.addEventListener('load', () => {
+      loadSong(currentIndex);
+    });
 </script>
 
 </body>
