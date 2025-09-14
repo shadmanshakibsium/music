@@ -90,34 +90,46 @@
   }
 
   /* Alphabet Nav on right */
-  .alphabet-nav {
-    position: relative;
-    margin-left: 15px;
-    user-select: none;
-    display: flex;
-    flex-direction: column;
-    justify-content: flex-start;
-    max-height: 520px;
-  }
-  .alphabet-nav div {
-    padding: 6px 10px;
-    margin: 2px 0;
-    color: white;
-    font-weight: 600;
-    cursor: pointer;
-    border-radius: 8px;
-    transition: background-color 0.3s, color 0.3s;
-    text-align: center;
-    background: rgba(255,255,255,0.1);
-    min-width: 28px;
-  }
-  .alphabet-nav div:hover {
-    background: rgba(255,255,255,0.3);
-  }
-  .alphabet-nav div.active-letter {
-    background: #0099ff;
-    color: white;
-  }
+ /* Improved Alphabet Nav design */
+.alphabet-nav {
+  position: relative;
+  margin-left: 15px;
+  user-select: none;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  max-height: 520px;
+  background: rgba(0, 0, 0, 0.2);
+  border-radius: 12px;
+  padding: 10px 6px;
+  width: 40px;
+  box-shadow: 0 0 8px rgba(0,0,0,0.3);
+}
+.alphabet-nav div {
+  padding: 8px 0;
+  margin: 4px 0;
+  color: #eee;
+  font-weight: 700;
+  cursor: pointer;
+  border-radius: 50%;
+  transition: background-color 0.3s, color 0.3s, transform 0.2s;
+  text-align: center;
+  font-size: 14px;
+  user-select:none;
+}
+.alphabet-nav div:hover {
+  background: #0099ff;
+  color: white;
+  transform: scale(1.2);
+  box-shadow: 0 0 8px #0099ff;
+}
+.alphabet-nav div.active-letter {
+  background: #007acc;
+  color: white;
+  box-shadow: 0 0 10px #007acc;
+  transform: scale(1.3);
+  font-size: 15px;
+}
 </style>
 </head>
 <body>
