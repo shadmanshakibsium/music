@@ -92,45 +92,53 @@
   }
 
   /* Alphabet Nav styles */
-  .alphabet-nav {
-    margin-left: 15px;
-    user-select: none;
-    display: flex;
-    flex-direction: column;
-    justify-content: flex-start;
-    max-height: 520px;
-    background: rgba(255, 255, 255, 0.12);
-    border-radius: 15px;
-    padding: 12px 6px;
-    width: 42px;
-    box-shadow: 0 4px 12px rgba(0,0,0,0.25);
-    font-family: 'Roboto', sans-serif;
-  }
-  .alphabet-nav div {
-    padding: 8px 0;
-    margin: 6px 0;
-    color: #eee;
-    font-weight: 600;
-    cursor: pointer;
-    border-radius: 50%;
-    transition: background-color 0.3s ease, color 0.3s ease, transform 0.2s ease;
-    text-align: center;
-    font-size: 16px;
-    user-select: none;
-  }
-  .alphabet-nav div:hover {
-    background: #1e90ff;
-    color: white;
-    transform: scale(1.3);
-    box-shadow: 0 0 12px #1e90ff;
-  }
-  .alphabet-nav div.active-letter {
-    background: #005bbb;
-    color: white;
-    box-shadow: 0 0 14px #005bbb;
-    transform: scale(1.4);
-    font-size: 17px;
-  }
+/* ডানে A-Z-# নেভিগেশন */
+.alpha-nav {
+  position: absolute;
+  right: 20px;
+  top: 80px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  user-select: none;
+  background: rgba(0,0,0,0.3);
+  padding: 10px 8px;
+  border-radius: 12px;
+  box-shadow: 0 0 10px rgba(0,0,0,0.5);
+  font-size: 14px;
+  letter-spacing: 1.5px;
+  max-height: 80vh;
+  overflow-y: auto;
+  scrollbar-width: none; /* Firefox */
+}
+/* Scrollbar পুরাপুরি লুকানো */
+.alpha-nav::-webkit-scrollbar {
+  display: none;
+}
+
+.alpha-nav div {
+  color: rgba(255,255,255,0.8);
+  font-weight: 700;
+  cursor: pointer;
+  padding: 6px 12px;
+  border-radius: 8px;
+  text-align: center;
+  transition: background-color 0.3s, color 0.3s, transform 0.2s;
+  user-select: none;
+}
+
+.alpha-nav div:hover {
+  background: rgba(255,255,255,0.25);
+  color: white;
+  transform: scale(1.1);
+}
+
+.alpha-nav div.active {
+  background: #ff4081;
+  color: white;
+  box-shadow: 0 0 8px #ff4081;
+  transform: scale(1.1);
+}
 </style>
 </head>
 <body>
