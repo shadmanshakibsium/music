@@ -17,20 +17,25 @@
 }
 
 /* --------------------
-   Fixed Background & Scroll Fix for Android
+   HTML & Body Fix for Android Scroll
 -------------------- */
 html, body {
   height: 100%;
-  overflow-x: hidden;           /* horizontal scroll বন্ধ */
-  overflow-y: auto;             /* vertical scroll সচল */
-  overscroll-behavior-y: contain; /* scroll bounce আটকাবে */
-  touch-action: pan-x pan-y;    /* Android touch scroll stabilize */
+  width: 100%;
   margin: 0;
-  padding: 20px;                /* page padding */
+  padding: 20px;                 /* page padding */
+  overflow-x: hidden;            /* horizontal scroll বন্ধ */
+  overflow-y: auto;              /* vertical scroll সচল */
+  overscroll-behavior-y: contain; /* scroll bounce আটকাবে */
+  touch-action: pan-x pan-y;     /* Android touch scroll stabilize */
   color: white;
+  position: relative;
+  -webkit-overflow-scrolling: touch; /* smooth scrolling iOS */
 }
 
-/* Fixed background: scroll এ move হবে না */
+/* --------------------
+   Fixed Background
+-------------------- */
 body::before {
   content: '';
   position: fixed;
@@ -41,7 +46,6 @@ body::before {
   background: url('https://i.imgur.com/uNWSHGy.png') center/cover no-repeat;
   z-index: -1; /* সব content এর পিছনে থাকবে */
 }
-
 /* --------------------
    Container
 -------------------- */
