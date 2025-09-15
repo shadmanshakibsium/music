@@ -1,243 +1,63 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>Music Library</title>
-<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet" />
-<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet" />
-<style>
-  /* ----- তোমার index.html এর স্টাইল আগের মতো ----- */
-  * {margin:0; padding:0; box-sizing:border-box; font-family:'Roboto',sans-serif;}
-  body {
-    background: url('https://i.imgur.com/uNWSHGy.png') no-repeat center center fixed;
-    background-size: cover;
-    min-height: 100vh;
-    padding: 50px 20px;
-  }
-  .container {
-    backdrop-filter: blur(10px) saturate(180%);
-    -webkit-backdrop-filter: blur(10px) saturate(180%);
-    background-color: rgba(255, 255, 255, 0.1);
-    border-radius: 20px;
-    border: 1px solid rgba(255,255,255,0.2);
-    padding: 30px;
-    width: 100%;
-    max-width: 900px;
-    margin: auto;
-  }
-  h1 {color: white; text-align: center; margin-bottom: 20px;}
-  .search-bar {width: 100%; margin-bottom: 20px;}
-  .search-bar input {
-    width: 100%; padding: 12px 15px; border-radius: 15px; border: none; outline: none;
-    font-size: 16px; backdrop-filter: blur(8px); background: rgba(255,255,255,0.1); color: white;
-  }
-  .search-bar input::placeholder { color: rgba(255,255,255,0.7); }
-  .tabs {display: flex; justify-content: space-around; margin-bottom: 20px;}
-  .tab {padding: 10px 20px; border-radius: 15px; cursor: pointer; color: white; font-weight: 500; transition: 0.3s;}
-  .tab.active, .tab:hover {background: rgba(255,255,255,0.2); backdrop-filter: blur(8px);}
-  .music-list {list-style: none;}
-  .music-item {
-    display: flex; align-items: center; justify-content: space-between;
-    background: rgba(255,255,255,0.1); border-radius: 15px;
-    padding: 12px 15px; margin-bottom: 10px; backdrop-filter: blur(8px);
-    cursor: pointer; transition: 0.3s;
-  }
-  .music-item:hover { background: rgba(255,255,255,0.2); }
-  .music-item .info { color:white; width:100%; text-decoration:none; }
-  .music-item .title {font-weight:500; font-size:16px;}
-  .folder-title {
-    color:white; margin-top:20px; font-weight:700; font-size:24px;
-    cursor: pointer; user-select: none; padding: 10px 15px;
-    background: rgba(255,255,255,0.15); border-radius: 15px;
-  }
-  .folder-title:hover {background: rgba(255,255,255,0.3);}
-  .folder-songs {display:none; margin-bottom:15px; padding-left:0;}
-  .folder-songs.open {display:block;}
-  .alpha-index {
-    position: fixed; right: 30px; top: 100px;
-    height: calc(100vh - 120px);
-    display: flex; flex-direction: column; justify-content: space-between;
-    user-select: none; z-index: 1000; padding: 4px 8px;
-    background: rgba(0,0,0,0.15); border-radius: 12px;
-    font-weight: 700; color: white; font-size: 14px;
-  }
-  @media (max-width: 600px) {.alpha-index {display:none!important;} }
-  .alpha-index div {cursor: pointer; padding: 4px 6px; border-radius: 8px; text-align: center;}
-  .alpha-index div:hover, .alpha-index div.active {background: rgba(255,255,255,0.3); color:#000;}
-
-  /* ----- bottom player bar ----- */
-  #mini-player {
-    position: fixed; bottom: 0; left: 0; right: 0;
-    background: rgba(0,0,0,0.6); color: white;
-    padding: 10px 15px; display: none;
-    justify-content: space-between; align-items: center;
-    font-size: 14px; cursor: pointer;
-  }
-
-  /* ----- overlay full player (song.html design 그대로) ----- */
-  #full-player-overlay {
-    position: fixed; top:0; left:0; right:0; bottom:0;
-    background: rgba(0,0,0,0.85);
-    display: none; justify-content: center; align-items: center;
-    z-index: 2000;
-  }
-  #full-player-overlay .container {
-    max-width: 420px;
-    background: rgba(255, 255, 255, 0.08);
-    border-radius: 30px;
-    border: 1px solid rgba(255, 255, 255, 0.15);
-    backdrop-filter: blur(18px) saturate(180%);
-    padding: 28px 25px;
-    text-align: center;
-    box-shadow: 0 15px 40px rgba(0, 0, 0, 0.55);
-  }
-  .title {font-size: 26px; font-weight: 700; margin-bottom: 24px;}
-  #progress {display:flex; align-items:center; justify-content:space-between; width:100%; max-width:320px; margin:0 auto 30px auto;}
-  #progress-bar-container {flex-grow:1; height:10px; margin:0 10px; background: rgba(255,255,255,0.12); border-radius:8px; overflow:hidden; cursor:pointer;}
-  #progress-filled {background: linear-gradient(90deg,#ff6b6b,#583D91); height:100%; width:0;}
-  #current-time,#duration {width:40px; font-size:12px;}
-  .controls {display:flex; justify-content:space-around; align-items:center; margin:32px 0 28px; max-width:360px; margin-left:auto; margin-right:auto;}
-  .control-btn {width:50px; height:40px; border-radius:22px; display:flex; justify-content:center; align-items:center; cursor:pointer; background:linear-gradient(135deg,#ff6b6b,#fcb045); border:none; font-size:18px; color:white;}
-  .play-btn {width:74px; height:48px; font-size:22px; border-radius:26px; background:linear-gradient(135deg,#583D91,#7E5CD9);}
-  #volume-container {margin:16px 0; display:flex; align-items:center; justify-content:center; gap:14px;}
-  #volume {width:120px;}
-  .back-btn {display:inline-block; padding:10px 26px; border-radius:24px; background:rgba(255,255,255,0.15); color:white; text-decoration:none; font-weight:600; margin-top:16px; cursor:pointer;}
-</style>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Music Library</title>
+  <!-- FontAwesome -->
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet" />
+  <!-- CSS -->
+  <link rel="stylesheet" href="style.css" />
 </head>
 <body>
-  <div class="container">
-    <h1>My Music Library</h1>
-    <div class="search-bar"><input type="text" id="searchInput" placeholder="Search by song..." /></div>
-    <div class="tabs"><div class="tab active" data-tab="songs">Songs</div><div class="tab" data-tab="folders">Folders</div></div>
-    <ul class="music-list" id="music-list"></ul>
-  </div>
-  <div class="alpha-index" id="alphaIndex"></div>
 
-  <!-- bottom mini player -->
-  <div id="mini-player"><span id="mini-title">Song Name</span><span><span id="mini-current">0:00</span> / <span id="mini-duration">0:00</span></span></div>
-
-  <!-- overlay full player -->
-  <div id="full-player-overlay">
-    <div class="container">
-      <div id="title" class="title">Loading...</div>
-      <div id="progress">
-        <span id="current-time">0:00</span>
-        <div id="progress-bar-container"><div id="progress-filled"></div></div>
-        <span id="duration">0:00</span>
+  <!-- ========= Library View ========= -->
+  <div class="container library">
+    <div class="header">
+      <input type="text" id="searchInput" placeholder="Search music..." />
+      <div class="tabs">
+        <button class="tab active" data-tab="songs">Songs</button>
+        <button class="tab" data-tab="folders">Folders</button>
       </div>
-      <div class="controls">
-        <button class="control-btn" id="shuffle"><i class="fas fa-random"></i></button>
-        <button class="control-btn" id="prev"><i class="fas fa-backward"></i></button>
-        <button class="control-btn play-btn" id="play"><i class="fas fa-play" id="play-icon"></i></button>
-        <button class="control-btn" id="next"><i class="fas fa-forward"></i></button>
-        <button class="control-btn" id="repeat"><i class="fas fa-redo" id="repeat-icon"></i></button>
-      </div>
-      <div id="volume-container">
-        <i class="fas fa-volume-down"></i>
-        <input type="range" id="volume" min="0" max="1" step="0.01" value="1.0" />
-        <i class="fas fa-volume-up"></i>
-      </div>
-      <audio id="audio"></audio>
-      <div class="back-btn" id="back-btn">Back to Library</div>
     </div>
+
+    <ul id="music-list"></ul>
+
+    <div id="alphaIndex"></div>
   </div>
 
-<script>
-  /* আগের index.html এর JS এর সাথে player logic add করা */
-  const types = ['anime','arabic','bangla','edit audio','english','hindi','lofi','phonk','slowed-reverbed'];
-  let musicData = [];
-  let currentSong = null;
+  <!-- ========= Player View ========= -->
+  <div class="container player" style="display:none;">
+    <div id="title" class="title">Loading...</div>
 
-  async function loadAllMusic() {
-    let allSongs = [];
-    for(const type of types){
-      try{
-        const res = await fetch(`data/${type}.json`);
-        const data = await res.json();
-        data.forEach(song => {song.type = type;});
-        allSongs = allSongs.concat(data);
-      }catch(e){console.error(`Failed to load ${type}.json`, e);}
-    }
-    musicData = allSongs;
-  }
+    <div id="progress" title="Seek">
+      <span id="current-time">0:00</span>
+      <div id="progress-bar-container">
+        <div id="progress-filled"></div>
+      </div>
+      <span id="duration">0:00</span>
+    </div>
 
-  function sortSongs(list){return list.slice().sort((a,b)=>a.name.localeCompare(b.name));}
-  function displaySongs(list){
-    const sortedList = sortSongs(list);
-    const musicList = document.getElementById('music-list');
-    musicList.innerHTML = sortedList.map(song=>`
-      <li class="music-item" data-name="${song.name}" data-file="${song.file}" data-folder="${song.type}">
-        <span class="info"><span class="title">${song.name}</span><span style="font-size:12px;color:rgba(255,255,255,0.5)"> [${song.type}]</span></span>
-      </li>`).join('');
-    addPlayHandler();
-  }
+    <div class="controls">
+      <button class="control-btn" id="shuffle" title="Shuffle"><i class="fas fa-random"></i></button>
+      <button class="control-btn" id="prev" title="Previous"><i class="fas fa-backward"></i></button>
+      <button class="control-btn play-btn" id="play" title="Play/Pause"><i class="fas fa-play" id="play-icon"></i></button>
+      <button class="control-btn" id="next" title="Next"><i class="fas fa-forward"></i></button>
+      <button class="control-btn" id="repeat" title="Repeat"><i class="fas fa-redo" id="repeat-icon"></i></button>
+    </div>
 
-  function addPlayHandler(){
-    document.querySelectorAll('.music-item').forEach(item=>{
-      item.onclick=()=>{
-        const name=item.dataset.name, file=item.dataset.file, folder=item.dataset.folder;
-        playSong({name,file,folder});
-      }
-    });
-  }
+    <div id="volume-container">
+      <i class="fas fa-volume-down"></i>
+      <input type="range" id="volume" min="0" max="1" step="0.01" value="1.0" />
+      <i class="fas fa-volume-up"></i>
+    </div>
 
-  /* mini + full player controls */
-  const audio=document.getElementById("audio");
-  const mini=document.getElementById("mini-player");
-  const miniTitle=document.getElementById("mini-title");
-  const miniCurrent=document.getElementById("mini-current");
-  const miniDuration=document.getElementById("mini-duration");
+    <audio id="audio"></audio>
 
-  const overlay=document.getElementById("full-player-overlay");
-  const title=document.getElementById("title");
-  const playBtn=document.getElementById("play");
-  const playIcon=document.getElementById("play-icon");
-  const progressBarContainer=document.getElementById("progress-bar-container");
-  const progressFilled=document.getElementById("progress-filled");
-  const currentTimeEl=document.getElementById("current-time");
-  const durationEl=document.getElementById("duration");
-  const volumeSlider=document.getElementById("volume");
+    <button class="back-btn">Back to Library</button>
+  </div>
 
-  let isPlaying=false;
-  function playSong(song){
-    currentSong=song;
-    audio.src="songs/"+song.folder+"/"+song.file;
-    audio.play();
-    isPlaying=true;
-    mini.style.display="flex";
-    miniTitle.textContent=song.name;
-    title.textContent=song.name;
-    playIcon.classList.remove("fa-play");playIcon.classList.add("fa-pause");
-  }
-  function togglePlay(){
-    if(isPlaying){audio.pause();isPlaying=false;playIcon.classList.remove("fa-pause");playIcon.classList.add("fa-play");}
-    else {audio.play();isPlaying=true;playIcon.classList.remove("fa-play");playIcon.classList.add("fa-pause");}
-  }
-  playBtn.addEventListener("click",togglePlay);
-  audio.addEventListener("timeupdate",()=>{
-    if(audio.duration){
-      const percent=(audio.currentTime/audio.duration)*100;
-      progressFilled.style.width=percent+"%";
-      currentTimeEl.textContent=formatTime(audio.currentTime);
-      durationEl.textContent=formatTime(audio.duration);
-      miniCurrent.textContent=formatTime(audio.currentTime);
-      miniDuration.textContent=formatTime(audio.duration);
-    }
-  });
-  function formatTime(sec){const m=Math.floor(sec/60);const s=Math.floor(sec%60);return m+":"+(s<10?"0"+s:s);}
-  progressBarContainer.addEventListener("click",e=>{
-    const rect=progressBarContainer.getBoundingClientRect();
-    const clickX=e.clientX-rect.left;
-    audio.currentTime=(clickX/rect.width)*audio.duration;
-  });
-  volumeSlider.addEventListener("input",()=>{audio.volume=volumeSlider.value;});
-
-  /* mini to overlay */
-  mini.addEventListener("click",()=>{overlay.style.display="flex";});
-  document.getElementById("back-btn").addEventListener("click",()=>{overlay.style.display="none";});
-
-  loadAllMusic().then(()=>displaySongs(musicData));
-</script>
+  <!-- ========= JavaScript ========= -->
+  <script src="script.js"></script>
 </body>
 </html>
