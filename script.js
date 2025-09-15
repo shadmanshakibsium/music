@@ -214,15 +214,10 @@ nextBtn.addEventListener('click', ()=>{
 });
 
 // ---- Mini → Full Player ----
-function showMiniPlayer(){
-    miniPlayer.classList.remove('hidden');
-    miniPlayer.setAttribute('aria-hidden','false');
-}
-
 miniPlayer.addEventListener('click', ()=>{
-    playerView.classList.remove('hidden');
+    playerView.classList.remove('hidden');      // ফুল প্লেয়ার দেখাবে
     playerView.setAttribute('aria-hidden','false');
-    miniPlayer.classList.add('hidden'); // hide mini when full player visible
+    miniPlayer.classList.add('hidden');         // মিনি প্লেয়ার হাইড হবে
 });
 
 // ---- Full Player → Back to Library ----
