@@ -185,17 +185,17 @@ h1 {
 }
 
 /* --------------------
-   Folder Songs (No border, same as music-item)
+   Folder Songs (Responsive, same as music-item)
 -------------------- */
 .folder-songs .music-item {
-  width: 100%; /* Mobile: music-item এর সমান */
-  max-width: 900px; /* Desktop: same max-width as container/music-item */
-  margin: 0 auto 10px auto; /* centered & spacing same as music-item */
-  padding: 12px 15px; /* same padding as music-item */
-  border: none; /* no white line */
-  border-radius: 15px; /* same as music-item */
-  background: rgba(255,255,255,0.1); /* same blur background as music-item */
-  backdrop-filter: blur(8px); /* same blur */
+  width: 100%;                 /* Mobile full width */
+  max-width: 900px;            /* Desktop max-width same as container */
+  margin: 0 auto 10px auto;    /* centered with spacing like music-item */
+  padding: 12px 15px;          /* same padding as music-item */
+  border: none;                /* no white line */
+  border-radius: 15px;         /* same as music-item */
+  background: rgba(255,255,255,0.1); /* same blur background */
+  backdrop-filter: blur(8px);
   -webkit-backdrop-filter: blur(8px);
   display: flex;
   align-items: center;
@@ -207,6 +207,20 @@ h1 {
 /* hover effect same as music-item */
 .folder-songs .music-item:hover {
   background: rgba(255,255,255,0.2);
+}
+
+/* Desktop: 80% width centered */
+@media(min-width: 451px) {
+  .folder-songs .music-item {
+    width: 80%; 
+  }
+}
+
+/* Mobile: 100% full width stacked */
+@media(max-width: 450px) {
+  .folder-songs .music-item {
+    width: 100%;
+  }
 }
 /* Small fade animation */
 @keyframes fadeIn {
