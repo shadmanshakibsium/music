@@ -17,13 +17,23 @@
 
 *{box-sizing:border-box;margin:0;padding:0}
 html,body{height:100%;}
-body::before {
-  content: "";
-  position: fixed;
-  inset: 0;
-  background: linear-gradient(180deg, rgba(0, 0, 0, 0.1), rgba(0, 0, 0, 0.2)); /* হালকা কালো */
-  z-index: 0;
-  pointer-events: none;
+body{
+  font-family: 'Roboto', system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial;
+  background: var(--bg-img) no-repeat center center fixed;
+  background-size: cover;
+  color: var(--white);
+  padding: 32px 20px 140px;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  position: relative;
+}
+body::before{
+  content:"";
+  position:fixed;
+  inset:0;
+  background: linear-gradient(180deg, rgba(0,0,0,0.35), rgba(0,0,0,0.45));
+  z-index:0;
+  pointer-events:none;
 }
 
 /* --------------------
