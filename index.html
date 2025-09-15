@@ -1,194 +1,82 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>My Music</title>
-  <link rel="stylesheet" href="style.css">
-  <script src="https://kit.fontawesome.com/6e0c7c6b8d.js" crossorigin="anonymous"></script>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Music Library</title>
+  <link rel="stylesheet" href="style.css" />
 </head>
 <body>
-  <!-- ================= Library View ================= -->
-  <div class="container" id="library">
-    <h1>🎶 My Music</h1>
 
-    <!-- Search bar -->
+  <!-- ========== Library Section ========== -->
+  <div class="container" id="library-page">
+    <h1>My Music Library</h1>
+
+    <!-- Search -->
     <div class="search-bar">
       <input type="text" id="searchInput" placeholder="Search by song..." />
     </div>
 
     <!-- Tabs -->
     <div class="tabs">
-      <div class="tab active">All Songs</div>
-      <div class="tab">Folders</div>
-      <div class="tab">Favorites</div>
+      <div class="tab active" data-tab="songs">Songs</div>
+      <div class="tab" data-tab="folders">Folders</div>
     </div>
 
-    <!-- Song List -->
-    <ul class="music-list" id="music-list">
-      <li class="music-item">
-        <a href="#" class="info" data-file="song1.mp3" data-folder="default" data-name="Song One">
-          <span class="title">Song One</span>
-        </a>
-      </li>
-      <li class="music-item">
-        <a href="#" class="info" data-file="song2.mp3" data-folder="default" data-name="Song Two">
-          <span class="title">Song Two</span>
-        </a>
-      </li>
-      <li class="music-item">
-        <a href="#" class="info" data-file="song3.mp3" data-folder="default" data-name="Song Three">
-          <span class="title">Song Three</span>
-        </a>
-      </li>
-    </ul>
+    <!-- Song list -->
+    <ul class="music-list" id="music-list"></ul>
   </div>
 
-  <!-- ================= Mini Player (Bottom) ================= -->
-  <div id="mini-player" class="hidden">
-    <div class="song-info" id="mini-title">No song playing</div>
-    <div class="controls">
+  <!-- Alpha index (A-Z sidebar) -->
+  <div class="alpha-index" id="alphaIndex"></div>
+
+
+  <!-- ========== Mini Player (Bottom) ========== -->
+  <div class="mini-player" id="mini-player">
+    <div class="mini-info">
+      <span id="mini-title">No song playing</span>
       <span id="mini-time">0:00</span>
-      <button id="mini-play"><i class="fas fa-play"></i></button>
     </div>
+    <button id="mini-play">▶</button>
   </div>
 
-  <!-- ================= Full Player View ================= -->
-  <div id="full-player">
-    <h2 class="title" id="full-title">Loading...</h2>
 
-    <!-- Progress bar -->
-    <div id="progress">
-      <span id="current-time">0:00</span>
-      <div id="progress-bar-container">
-        <div id="progress-filled"></div>
+  <!-- ========== Full Player (Overlay) ========== -->
+  <div class="full-player" id="full-player">
+    <div class="player-container">
+      <div id="full-title" class="title">Loading...</div>
+
+      <!-- Progress -->
+      <div id="progress">
+        <span id="current-time">0:00</span>
+        <div id="progress-bar-container">
+          <div id="progress-filled"></div>
+        </div>
+        <span id="duration">0:00</span>
       </div>
-      <span id="duration">0:00</span>
-    </div>
 
-    <!-- Controls -->
-    <div class="controls">
-      <button class="control-btn" id="backward"><i class="fas fa-backward"></i></button>
-      <button class="control-btn play-btn" id="play-pause"><i class="fas fa-play"></i></button>
-      <button class="control-btn" id="forward"><i class="fas fa-forward"></i></button>
-    </div>
+      <!-- Controls -->
+      <div class="controls">
+        <button class="control-btn" id="shuffle"><i class="fas fa-random"></i></button>
+        <button class="control-btn" id="prev"><i class="fas fa-backward"></i></button>
+        <button class="control-btn play-btn" id="play-pause"><i class="fas fa-play"></i></button>
+        <button class="control-btn" id="next"><i class="fas fa-forward"></i></button>
+        <button class="control-btn" id="repeat"><i class="fas fa-redo"></i></button>
+      </div>
 
-    <!-- Volume -->
-    <div id="volume-container">
-      <i class="fas fa-volume-down"></i>
-      <input type="range" id="volume" min="0" max="1" step="0.01" value="1">
-      <i class="fas fa-volume-up"></i>
-    </div>
+      <!-- Volume -->
+      <div id="volume-container">
+        <i class="fas fa-volume-down"></i>
+        <input type="range" id="volume" min="0" max="1" step="0.01" value="1.0" />
+        <i class="fas fa-volume-up"></i>
+      </div>
 
-    <!-- Back -->
-    <button class="back-btn" onclick="backToLibrary()">🏠 Back to Library</button>
+      <!-- Back button -->
+      <button class="back-btn" id="back-to-library">Back to Library</button>
+    </div>
   </div>
 
-  <!-- ================= Script ================= -->
-  <script>
-    const audio = new Audio();
-    let currentSong = null;
-    let isPlaying = false;
-
-    const miniPlayer = document.getElementById("mini-player");
-    const miniTitle = document.getElementById("mini-title");
-    const miniTime = document.getElementById("mini-time");
-    const miniPlay = document.getElementById("mini-play");
-
-    const fullPlayer = document.getElementById("full-player");
-    const fullTitle = document.getElementById("full-title");
-    const playPauseBtn = document.getElementById("play-pause");
-    const currentTimeEl = document.getElementById("current-time");
-    const durationEl = document.getElementById("duration");
-    const progressFilled = document.getElementById("progress-filled");
-    const volumeSlider = document.getElementById("volume");
-
-    // ================== Song List Click ==================
-    document.querySelectorAll(".music-item .info").forEach(link => {
-      link.addEventListener("click", (e) => {
-        e.preventDefault();
-        const song = {
-          file: link.dataset.file,
-          folder: link.dataset.folder,
-          name: link.dataset.name
-        };
-        playSong(song);
-      });
-    });
-
-    // ================== Play Song ==================
-    function playSong(song) {
-      currentSong = song;
-      audio.src = "songs/" + song.folder + "/" + song.file;
-      audio.play();
-
-      // Mini player update
-      miniTitle.textContent = song.name;
-      miniPlayer.classList.remove("hidden");
-      isPlaying = true;
-      miniPlay.innerHTML = `<i class="fas fa-pause"></i>`;
-
-      // Full player update
-      fullTitle.textContent = song.name;
-      playPauseBtn.innerHTML = `<i class="fas fa-pause"></i>`;
-    }
-
-    // ================== Mini Player Play/Pause ==================
-    miniPlay.addEventListener("click", (e) => {
-      e.stopPropagation();
-      togglePlay();
-    });
-
-    // ================== Toggle Play ==================
-    function togglePlay() {
-      if (isPlaying) {
-        audio.pause();
-        isPlaying = false;
-        miniPlay.innerHTML = `<i class="fas fa-play"></i>`;
-        playPauseBtn.innerHTML = `<i class="fas fa-play"></i>`;
-      } else {
-        audio.play();
-        isPlaying = true;
-        miniPlay.innerHTML = `<i class="fas fa-pause"></i>`;
-        playPauseBtn.innerHTML = `<i class="fas fa-pause"></i>`;
-      }
-    }
-
-    // ================== Full Player Controls ==================
-    playPauseBtn.addEventListener("click", togglePlay);
-    document.getElementById("backward").addEventListener("click", () => audio.currentTime -= 10);
-    document.getElementById("forward").addEventListener("click", () => audio.currentTime += 10);
-
-    // ================== Time Update ==================
-    audio.addEventListener("timeupdate", () => {
-      miniTime.textContent = formatTime(audio.currentTime);
-      currentTimeEl.textContent = formatTime(audio.currentTime);
-      durationEl.textContent = formatTime(audio.duration);
-      progressFilled.style.width = ((audio.currentTime / audio.duration) * 100) + "%";
-    });
-
-    function formatTime(seconds) {
-      if (isNaN(seconds)) return "0:00";
-      const mins = Math.floor(seconds / 60);
-      const secs = Math.floor(seconds % 60);
-      return mins + ":" + (secs < 10 ? "0" + secs : secs);
-    }
-
-    // ================== Volume ==================
-    volumeSlider.addEventListener("input", () => {
-      audio.volume = volumeSlider.value;
-    });
-
-    // ================== Mini Player Click (Open Full) ==================
-    miniPlayer.addEventListener("click", () => {
-      document.getElementById("library").style.display = "none";
-      fullPlayer.style.display = "block";
-    });
-
-    // ================== Back to Library ==================
-    function backToLibrary() {
-      document.getElementById("library").style.display = "block";
-      fullPlayer.style.display = "none";
-    }
-  </script>
+  <!-- JS Link -->
+  <script src="script.js"></script>
 </body>
 </html>
