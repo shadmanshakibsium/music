@@ -152,10 +152,13 @@ h1 {
 /* --------------------
    Folders
 -------------------- */
-/* Folder Title: normal clickable, কিন্তু বড় container নয় */
+
+/* Folder Title: text centered, rest unchanged */
 .folder-title {
+  display: flex;           /* flex ব্যবহার করে text কে center করা সহজ */
+  align-items: center;     /* vertical center */
+  justify-content: center; /* horizontal center */
   color: white;
-  margin-top: 20px;
   font-weight: 700;
   font-size: 20px;
   cursor: pointer;
@@ -165,24 +168,10 @@ h1 {
   border-radius: 15px;
   border: 1px solid rgba(255,255,255,0.25);
   transition: background 0.3s, transform 0.2s;
-  margin-bottom: 8px;
+  margin: 10px auto 8px auto; /* centered horizontally */
   width: 80%;
-  margin-left: auto;
-  margin-right: auto; /* centered */
-}
-
-/* Folder Songs: hidden by default, open হলে শুধু গানগুলো দেখাবে */
-/* Folder container */
-/* Folder Title */
-.folder-title {
-  width: 80%;
-  height: 52px;
-  margin: 10px auto;
-  padding: 12px 16px;
-  background: rgba(255,255,255,0.12);
-  border-radius: 15px;
-  border: 1px solid rgba(255,255,255,0.25);
-  backdrop-filter: blur(8px); /* music item এর blur সমান */
+  height: 52px; /* আগের height রাখলাম */
+  backdrop-filter: blur(8px);
 }
 
 /* Folder Songs Items */
