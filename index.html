@@ -1,82 +1,79 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>My Music Library + Full Player</title>
-
-  <!-- Google Font -->
-  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
-
-  <!-- Font Awesome for controls -->
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-
-  <!-- External CSS -->
-  <link rel="stylesheet" href="style.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Music Player</title>
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
-  <!-- Header -->
-  <header class="site-header">
-    <h1>My Music Library</h1>
-  </header>
+    <!-- Site Header -->
+    <header class="site-header">
+        <h1>My Music Player</h1>
+    </header>
 
-  <!-- Library View -->
-  <main id="library-view" class="view">
+    <!-- Tabs -->
+    <div class="tabs">
+        <div class="tab active" data-tab="songs">Songs</div>
+        <div class="tab" data-tab="folders">Folders</div>
+    </div>
+
+    <!-- Search Bar -->
     <div class="search-bar">
-      <input type="text" id="searchInput" placeholder="Search songs..." aria-label="Search songs">
+        <input type="text" id="searchInput" placeholder="Search songs...">
     </div>
 
-    <div class="tabs" role="tablist" aria-label="Library tabs">
-      <button class="tab active" data-tab="songs" role="tab" aria-selected="true">Songs</button>
-      <button class="tab" data-tab="folders" role="tab" aria-selected="false">Folders</button>
+    <!-- Library / Song List -->
+    <div id="library-view"></div>
+
+    <!-- Mini Player -->
+    <div id="mini-player" class="hidden">
+        <div id="miniSongTitle">Song Name</div>
+        <div id="miniTime">0:00</div>
+        <button id="miniPlayPause">▶</button>
     </div>
 
-    <ul id="music-list" class="music-list" aria-live="polite">
-      <!-- Songs or folders injected here via JS -->
-    </ul>
-  </main>
+    <!-- Fullscreen Player View -->
+    <div id="player-view" class="hidden">
+        <div class="container">
+            <div class="title" id="currentSongTitle">Song Name</div>
 
-  <!-- Full Player View -->
-  <section id="player-view" class="view hidden" aria-hidden="true">
-    <div class="container">
-      <div class="title" id="currentSongTitle">Song Title</div>
+            <!-- Progress Bar -->
+            <div id="progress">
+                <span id="current-time">0:00</span>
+                <div id="progress-bar-container">
+                    <div id="progress-filled"></div>
+                </div>
+                <span id="duration">0:00</span>
+            </div>
 
-      <div id="progress">
-        <span id="current-time">0:00</span>
-        <div id="progress-bar-container"><div id="progress-filled"></div></div>
-        <span id="duration">0:00</span>
-      </div>
+            <!-- Controls -->
+            <div class="controls">
+                <button id="prevBtn" class="control-btn"><i class="fa fa-backward"></i></button>
+                <button id="playPauseBtn" class="play-btn">▶</button>
+                <button id="nextBtn" class="control-btn"><i class="fa fa-forward"></i></button>
+            </div>
 
-      <div class="controls">
-        <button class="control-btn" id="prevBtn">⏮</button>
-        <button class="control-btn play-btn" id="playPauseBtn">▶</button>
-        <button class="control-btn" id="nextBtn">⏭</button>
-      </div>
+            <!-- Volume -->
+            <div id="volume-container">
+                <i class="fa fa-volume-low"></i>
+                <input type="range" id="volume" min="0" max="1" step="0.01" value="0.5">
+                <i class="fa fa-volume-high"></i>
+            </div>
 
-      <div id="volume-container">
-        <i class="fas fa-volume-down"></i>
-        <input type="range" id="volume" min="0" max="1" step="0.01" value="1.0">
-        <i class="fas fa-volume-up"></i>
-      </div>
-
-      <button id="backToLibrary" class="back-btn" type="button">Back to Library</button>
+            <button id="backToLibrary" class="back-btn">Back to Library</button>
+        </div>
     </div>
-  </section>
 
-  <!-- Mini Player -->
-  <div id="mini-player" class="mini-player hidden" aria-hidden="true">
-    <div id="mini-info">
-      <span id="miniSongTitle">Song Title</span>
-      <span id="miniTime">0:00</span>
-    </div>
-    <button id="miniPlayPause">▶</button>
-  </div>
+    <!-- Audio Element -->
+    <audio id="audioPlayer"></audio>
 
-  <!-- Audio Element -->
-  <audio id="audioPlayer" preload="metadata"></audio>
+    <!-- Custom JS -->
+    <script src="script.js"></script>
 
-  <!-- External JS -->
-  <script src="script.js" defer></script>
 </body>
 </html>
