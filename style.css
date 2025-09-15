@@ -1,91 +1,228 @@
-/* General */
-body, html {
-  margin: 0;
-  padding: 0;
-  font-family: sans-serif;
-  color: #fff;
-  overflow-x: hidden;
+/* --------------------
+   Variables & Reset
+-------------------- */
+:root{
+  --bg-img: url('https://i.imgur.com/uNWSHGy.png');
+  --glass-bg: rgba(255,255,255,0.06);
+  --glass-border: rgba(255,255,255,0.12);
+  --accent-1: #ff6b6b;
+  --accent-2: #583D91;
+  --muted: rgba(255,255,255,0.65);
+  --white: #ffffff;
+  --radius: 14px;
+  --shadow-1: 0 8px 30px rgba(0,0,0,0.45);
+  --max-width: 980px;
+  --mini-height: 68px;
 }
 
-.background {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: url('https://i.imgur.com/uNWSHGy.png') no-repeat center center/cover;
-  z-index: -1;
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{height:100%}
+body{
+  font-family: 'Roboto', system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial;
+  background: var(--bg-img) no-repeat center center fixed;
+  background-size: cover;
+  color: var(--white);
+  -webkit-font-smoothing:antialiased;
+  -moz-osx-font-smoothing:grayscale;
+  padding: 32px 20px 120px; /* bottom padding for mini player */
 }
 
-.container {
+/* subtle overlay */
+body::before{
+  content:"";
+  position:fixed;
+  inset:0;
+  background: linear-gradient(180deg, rgba(0,0,0,0.35), rgba(0,0,0,0.45));
+  z-index:0;
+  pointer-events:none;
+}
+
+/* --------------------
+   Header
+-------------------- */
+.site-header{
+  max-width: var(--max-width);
+  margin: 0 auto 18px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  gap:12px;
+  padding: 8px 12px;
+  border-radius: var(--radius);
+  background: rgba(255,255,255,0.02);
+  border: 1px solid rgba(255,255,255,0.04);
+  z-index:2;
+  position:relative;
+}
+.site-header h1{
+  font-size:20px;
+  font-weight:700;
+  color: var(--white);
+}
+
+/* --------------------
+   Library container
+-------------------- */
+#library-view{
+  max-width: var(--max-width);
+  margin: 12px auto;
+  background: var(--glass-bg);
+  border-radius: var(--radius);
+  border: 1px solid var(--glass-border);
   padding: 20px;
+  box-shadow: var(--shadow-1);
+  overflow:hidden;
 }
 
-/* Glass effect boxes */
-.music-list .song {
-  background: rgba(255,255,255,0.1);
-  border: 1px solid rgba(255,255,255,0.2);
-  backdrop-filter: blur(10px);
-  margin: 10px 0;
-  padding: 10px 15px;
-  cursor: pointer;
-  border-radius: 10px;
-  transition: 0.3s;
+/* Search Bar */
+.search-bar{
+  margin-bottom: 14px;
+}
+.search-bar input{
+  width:100%;
+  padding:12px 14px;
+  border-radius: var(--radius);
+  border: 1px solid rgba(255,255,255,0.06);
+  background: rgba(255,255,255,0.03);
+  color: var(--white);
+  font-size: 15px;
+  outline:none;
+}
+.search-bar input::placeholder{
+  color: rgba(255,255,255,0.55);
 }
 
-.music-list .song:hover {
-  background: rgba(255,255,255,0.2);
+/* Tabs */
+.tabs{
+  display:flex;
+  gap:10px;
+  margin-bottom: 12px;
+}
+.tab{
+  padding:8px 14px;
+  border-radius: var(--radius);
+  background: transparent;
+  border:1px solid transparent;
+  color: var(--muted);
+  font-weight:600;
+  cursor:pointer;
+  transition: all .18s ease;
+}
+.tab:hover{ transform: translateY(-2px); }
+.tab.active{
+  color: var(--white);
+  background: linear-gradient(90deg, rgba(255,255,255,0.04), rgba(255,255,255,0.02));
+  border: 1px solid rgba(255,255,255,0.06);
 }
 
-/* Mini player */
-.mini-player {
+/* Music list */
+.music-list{
+  list-style:none;
+  max-height: calc(75vh);
+  overflow:auto;
+  padding-right:6px;
+  scrollbar-width: thin;
+  scrollbar-color: rgba(255,255,255,0.12) transparent;
+}
+
+/* individual item */
+.music-item{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:12px;
+  padding:12px 14px;
+  margin-bottom:10px;
+  border-radius: var(--radius);
+  background: rgba(255,255,255,0.02);
+  border:1px solid rgba(255,255,255,0.03);
+  cursor:pointer;
+  transition: transform .12s ease, background .12s ease;
+}
+.music-item:hover{
+  transform: translateY(-4px);
+  background: rgba(255,255,255,0.035);
+  box-shadow: 0 6px 18px rgba(0,0,0,0.35);
+}
+.music-item .info{
+  display:flex;
+  gap:10px;
+  align-items:center;
+  min-width:0;
+}
+.music-item .title{
+  font-weight:600;
+  color:var(--white);
+  font-size:15px;
+  white-space:nowrap;
+  overflow:hidden;
+  text-overflow:ellipsis;
+}
+.music-item .meta{
+  color: rgba(255,255,255,0.55);
+  font-size:13px;
+}
+
+/* --------------------
+   Mini Player
+-------------------- */
+.mini-player{
   position: fixed;
   bottom: 0;
-  left: 0; width: 100%;
+  left: 0;
+  width: 100%;
+  height: var(--mini-height);
   background: rgba(0,0,0,0.5);
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 10px 20px;
+  padding: 0 20px;
   cursor: pointer;
+  z-index:3;
+  border-top-left-radius: var(--radius);
+  border-top-right-radius: var(--radius);
+  backdrop-filter: blur(12px);
+}
+.mini-player button{
+  background:none;
+  border:none;
+  color:var(--white);
+  font-size:18px;
 }
 
-.mini-player button {
-  background: none;
-  border: none;
-  color: #fff;
-  font-size: 18px;
-}
-
-/* Fullscreen player */
-.fullscreen-player {
+/* --------------------
+   Fullscreen Player
+-------------------- */
+.fullscreen-player{
   position: fixed;
   top:0; left:0; width:100%; height:100%;
-  background: rgba(0,0,0,0.9);
+  background: rgba(0,0,0,0.95);
   display: none;
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  z-index:4;
 }
-
-.fs-header {
-  display: flex;
-  justify-content: space-between;
-  width: 90%;
-  font-size: 24px;
-  margin-bottom: 20px;
+.fs-header{
+  display:flex;
+  justify-content:space-between;
+  width:90%;
+  font-size:24px;
+  margin-bottom:20px;
 }
-
-.fs-controls button {
-  font-size: 24px;
-  margin: 10px;
-  background: none;
-  border: none;
-  color: #fff;
-  cursor: pointer;
+.fs-controls{
+  display:flex;
+  justify-content:center;
+  gap:20px;
 }
-
-audio {
-  width: 80%;
-  margin-bottom: 20px;
+.fs-controls button{
+  font-size:28px;
+  background:none;
+  border:none;
+  color:var(--white);
+  cursor:pointer;
+}
+audio{
+  width:80%;
+  margin-bottom:20px;
 }
