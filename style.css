@@ -354,33 +354,31 @@ h1 {
 }
 
 /* --------------------
-   Mini Player (Updated like music item, centered desktop)
+   Mini Player
 -------------------- */
 .mini-player {
   position: fixed;
   bottom: 0;
   left: 50%;
   transform: translateX(-50%);
-  width: 80%;                   /* desktop width */
-  max-width: 900px;             /* same as container */
-  background: rgba(255,255,255,0.1);
-  backdrop-filter: blur(8px);
+  width: 100%;
+  max-width: 900px; /* desktop max-width */
+  height: 68px;
+  background: rgba(255,255,255,0.1); /* same as music-item */
+  backdrop-filter: blur(8px); /* same blur */
   -webkit-backdrop-filter: blur(8px);
-  border-radius: 15px;
+  border-radius: 15px; /* same as music-item */
   border: 1px solid rgba(255,255,255,0.2);
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 12px 15px;
+  padding: 0 20px;
   cursor: pointer;
   z-index: 3;
-  transition: 0.3s;
+  transition: all .25s ease;
 }
 
-.mini-player:hover {
-  background: rgba(255,255,255,0.2);
-}
-
+/* Mini player buttons */
 .mini-player button {
   background: none;
   border: none;
@@ -388,13 +386,17 @@ h1 {
   font-size: 18px;
 }
 
-/* Mobile: full width */
-@media(max-width: 450px) {
+/* --------------------
+   Desktop vs Mobile Width
+-------------------- */
+@media (min-width: 451px) {
   .mini-player {
-    width: 100%;
-    left: 0;
-    transform: none;
-    border-radius: 14px 14px 0 0; /* top rounded only like before */
+    width: 80%; /* Desktop: centered 80% width */
   }
 }
 
+@media (max-width: 450px) {
+  .mini-player {
+    width: 100%; /* Mobile: full width */
+  }
+}
