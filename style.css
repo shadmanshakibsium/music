@@ -18,7 +18,12 @@
 *{box-sizing:border-box;margin:0;padding:0}
 html,body{height:100%;}
 body::before {
-  background: transparent;
+  content: "";
+  position: fixed;
+  inset: 0;
+  background: transparent; /* এটা দিলে আর সাদা স্ক্রিন হবে না */
+  pointer-events: none;
+  z-index: 0;
 }
 
 /* --------------------
