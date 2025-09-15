@@ -49,8 +49,6 @@ function loadSongs(lang) {
       musicData = data;
       filteredData = [...musicData];
       if (currentView === 'all') renderMusicList();
-      // ❌ অটো বাজানো বাদ, স্লো ফিক্স
-      // if(filteredData.length > 0) playSong(0);
     })
     .catch(err => console.error("Failed to load songs:", err));
 }
@@ -189,7 +187,7 @@ fsRepeatBtn.addEventListener('click', ()=>{
   updateRepeatUI();
 });
 function updateRepeatUI(){
-  fsRepeatBtn.style.color = repeatMode==='none'?'var(--white)':(repeatMode==='all'?'var(--accent-2)':'var(--accent-1)';
+  fsRepeatBtn.style.color = repeatMode==='none'?'var(--white)':(repeatMode==='all'?'var(--accent-2)':'var(--accent-1)');
 }
 
 // --------------------
@@ -261,3 +259,8 @@ tabs.forEach(tab=>{
     }
   });
 });
+
+// --------------------
+// Initial Load
+// --------------------
+loadSongs(currentList);
