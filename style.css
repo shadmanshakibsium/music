@@ -358,20 +358,20 @@ h1 {
 }
 
 /* Close Button */
-.back-btn{
-  display:inline-block;
-  padding:10px 26px;
-  border-radius:24px;
-  background: rgba(255,255,255,0.15);
-  backdrop-filter: blur(9px);
-  color:white;
-  text-decoration:none;
-  font-weight:600;
-  font-size:14.5px;
-  transition:0.3s;
-  margin-top:16px;
-  cursor:pointer;
-}
+  .back-btn {
+    display: inline-block;
+    padding: 10px 26px;
+    border-radius: 24px;
+    background: rgba(255, 255, 255, 0.15);
+    backdrop-filter: blur(9px);
+    color: white;
+    text-decoration: none;
+    font-weight: 600;
+    font-size: 14.5px;
+    transition: 0.3s;
+    margin-top: 16px;
+    user-select: none;
+  }
 .back-btn:hover{ background: rgba(255,255,255,0.3); }
 
 /* Responsive */
