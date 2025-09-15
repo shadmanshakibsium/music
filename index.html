@@ -3,20 +3,32 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Music Website</title>
+<title>Music Library</title>
 <link rel="stylesheet" href="style.css">
 <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
 </head>
 <body>
 
-<div class="background"></div>
-
-<div class="container">
+<!-- Header -->
+<div class="site-header">
   <h1>My Music Library</h1>
+</div>
 
-  <div class="music-list" id="music-list">
-    <!-- গান লিস্ট এখানে JS দিয়ে লোড হবে -->
+<!-- Library View -->
+<div id="library-view">
+  <!-- Search Bar -->
+  <div class="search-bar">
+    <input type="text" id="searchInput" placeholder="Search songs...">
   </div>
+
+  <!-- Language Tabs -->
+  <div class="tabs">
+    <div class="tab active" data-lang="bangla">Bangla</div>
+    <div class="tab" data-lang="english">English</div>
+  </div>
+
+  <!-- Music List -->
+  <ul class="music-list" id="music-list"></ul>
 </div>
 
 <!-- Mini Player -->
