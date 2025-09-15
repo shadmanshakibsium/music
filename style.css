@@ -173,62 +173,43 @@ h1 {
 
 /* Folder Songs: hidden by default, open হলে শুধু গানগুলো দেখাবে */
 /* Folder container */
-.folder-songs {
-  display: none; /* closed by default */
-  margin-bottom: 15px;
-  padding-left: 0;
+/* Folder Title */
+.folder-title {
+  width: 80%;
+  height: 52px;
+  margin: 10px auto;
+  padding: 12px 16px;
+  background: rgba(255,255,255,0.12);
+  border-radius: 15px;
+  border: 1px solid rgba(255,255,255,0.25);
+  backdrop-filter: blur(8px); /* music item এর blur সমান */
 }
 
-/* Open folder: show songs */
-.folder-songs.open {
-  display: block;
-  animation: fadeIn 0.3s ease-in-out;
-}
-
-/* Folder items: same as music-item */
+/* Folder Songs Items */
 .folder-songs .music-item {
-  width: 100%;                /* Mobile full width */
-  max-width: 900px;           /* Desktop max-width same as container */
-  margin: 0 auto 10px auto;   /* centered */
-  padding: 12px 15px;         /* same as music-item */
-  border: none;               /* remove white line */
-  border-radius: 15px;        /* same as music-item */
-  background: rgba(255,255,255,0.1);
-  backdrop-filter: blur(8px);
-  -webkit-backdrop-filter: blur(8px);
+  width: 80%;
+  height: 52px; /* music item height সমান */
+  margin: 6px auto;
+  padding: 10px 14px;
+  border-radius: 12px;
+  background: rgba(255,255,255,0.08);
+  border: 1px solid rgba(255,255,255,0.15);
   display: flex;
   align-items: center;
   justify-content: space-between;
-  cursor: pointer;
-  transition: 0.3s;
+  backdrop-filter: blur(8px); /* music item এর blur সমান */
 }
 
-/* Hover effect */
-.folder-songs .music-item:hover {
-  background: rgba(255,255,255,0.2);
-}
-
-/* Desktop: 80% width */
-@media(min-width: 451px) {
-  .folder-songs {
-    width: 80%;
-    margin-left: auto;
-    margin-right: auto;
-  }
-  .folder-songs .music-item {
-    width: 80%;
-  }
-}
-
-/* Mobile: 100% width */
-@media(max-width: 450px) {
-  .folder-songs {
-    width: 100%;
-  }
+/* ---------------- Mobile ---------------- */
+@media(max-width:450px) {
+  .folder-title,
   .folder-songs .music-item {
     width: 100%;
+    height: 52px; /* mobile এ music item এর সাথে সমান */
+    margin: 0 0 10px 0;
   }
 }
+
 /* Small fade animation */
 @keyframes fadeIn {
   from {opacity: 0; transform: translateY(-5px);}
