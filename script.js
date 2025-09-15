@@ -209,27 +209,59 @@ nextBtn.addEventListener('click', ()=>{
     loadSong(currentIndex);
 });
 
-// ---- Mini → Full Player ----
+// ---- Mini → Full Player Smooth ----
 function showMiniPlayer(){
     miniPlayer.classList.remove('hidden');
+    playerView.style.transition = 'transform 0.3s ease, opacity 0.3s ease';
     playerView.classList.add('hidden');
     libraryView.classList.remove('blur');
 }
 
-// Fullscreen toggle
-miniPlayer.addEventListener('click', ()=>{
+function openFullPlayer(){
     playerView.classList.remove('hidden');
+    playerView.style.opacity = '0';
+    playerView.style.transform = 'translateY(30px)';
     libraryView.classList.add('blur');
     miniPlayer.classList.add('hidden');
     document.body.classList.add('player-fullscreen');
-});
 
-// ---- Full Player → Back to Library ----
-backToLibraryBtn.addEventListener('click', ()=>{
-    playerView.classList.add('hidden');
-    libraryView.classList.remove('blur');
-    miniPlayer.classList.remove('hidden');
-    document.body.classList.remove('player-fullscreen');
+    requestAnimationFrame(()=>{
+        playerView.style.opacity = '1';
+        playerView.style.transform = 'translateY(0)';
+    });
+}
+miniPlayer.addEventListener('click', openFullPlayer);
+
+// ---- Full Player → Back to Library Smooth ----
+function closeFullPlayer(){
+    playerView.style.opacity = '1';
+    playerView.style.transform = 'translateY(0)';
+
+    requestAnimationFrame(()=>{
+        playerView.style.opacity = '0';
+        playerView.style.transform = 'translateY(30px)';
+    });
+
+    setTimeout(()=>{
+        playerView.classList.add('hidden');
+        libraryView.classList.remove('blur');
+        miniPlayer.classList.remove('hidden');
+        document.body.classList.remove('player-fullscreen');
+    }, 300);
+}
+backToLibraryBtn.addEventListener('click', closeFullPlayer);
+
+// ---- Swipe gestures for mobile ----
+let startY = 0;
+playerView.addEventListener('touchstart', e => { startY = e.touches[0].clientY; });
+playerView.addEventListener('touchend', e => {
+    const endY = e.changedTouches[0].clientY;
+    if(endY - startY > 60) closeFullPlayer(); // swipe down to close
+});
+miniPlayer.addEventListener('touchstart', e => { startY = e.touches[0].clientY; });
+miniPlayer.addEventListener('touchend', e => {
+    const endY = e.changedTouches[0].clientY;
+    if(startY - endY > 60) openFullPlayer(); // swipe up to open
 });
 
 // ---- Audio End ----
