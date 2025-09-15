@@ -2,9 +2,9 @@
    Global Reset & Body
 -------------------- */
 * {
-  margin:0;
-  padding:0;
-  box-sizing:border-box;
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
   font-family: 'Roboto', sans-serif;
 
   /* Mobile/Android tap highlight effect বন্ধ করা */
@@ -16,21 +16,21 @@
   user-select: none;
 }
 
-body {
-   height: 100%;
-  overflow-x: hidden; /* horizontal scroll বন্ধ */
-  overflow-y: auto;   /* vertical scroll সচল */
-  overscroll-behavior: none; /* scroll bounce বন্ধ করে দেয় */
-  touch-action: pan-x pan-y;  /* Android touch scroll stabilize */
-
-  min-height: 100vh;
-  padding: 50px 20px;
+/* --------------------
+   Fixed Background & Scroll Fix for Android
+-------------------- */
+html, body {
+  height: 100%;
+  overflow-x: hidden;           /* horizontal scroll বন্ধ */
+  overflow-y: auto;             /* vertical scroll সচল */
+  overscroll-behavior-y: contain; /* scroll bounce আটকাবে */
+  touch-action: pan-x pan-y;    /* Android touch scroll stabilize */
+  margin: 0;
+  padding: 20px;                /* page padding */
   color: white;
 }
 
-/* --------------------
-   Fixed Background for Android
--------------------- */
+/* Fixed background: scroll এ move হবে না */
 body::before {
   content: '';
   position: fixed;
