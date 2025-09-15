@@ -1,283 +1,217 @@
-// ================= Global Data =================
+// ====== index.js ======
 const types = ['anime','arabic','bangla','edit audio','english','hindi','lofi','phonk','slowed-reverbed'];
 let musicData = [];
-
-const audio = new Audio();
-let currentSong = null;
+let currentSongIndex = null;
 let isPlaying = false;
-let isShuffle = false;
-let isRepeat = false;
 
-// ================= DOM Elements =================
-const searchInput = document.getElementById("searchInput");
-const tabs = document.querySelectorAll(".tab");
-const musicList = document.getElementById("music-list");
-const alphaIndex = document.getElementById("alphaIndex");
+// DOM Elements
+const musicList = document.getElementById('music-list');
+const alphaIndex = document.getElementById('alphaIndex');
+const searchInput = document.getElementById('searchInput');
+const tabs = document.querySelectorAll('.tab');
 
-const miniPlayer = document.getElementById("mini-player");
-const miniTitle = document.getElementById("mini-title");
-const miniTime = document.getElementById("mini-time");
-const miniPlay = document.getElementById("mini-play");
+// Mini Player DOM
+const miniPlayer = document.getElementById('mini-player');
+const miniTitle = document.getElementById('mini-title');
+const miniAudio = document.getElementById('mini-audio');
+const miniPlayBtn = document.getElementById('mini-play');
+const miniPlayIcon = document.getElementById('mini-play-icon');
+const miniProgressBar = document.getElementById('mini-progress-filled');
+const miniCurrentTime = document.getElementById('mini-current-time');
+const miniDuration = document.getElementById('mini-duration');
 
-const fullPlayer = document.getElementById("full-player");
-const fullTitle = document.getElementById("full-title");
-const playPauseBtn = document.getElementById("play-pause");
-const currentTimeEl = document.getElementById("current-time");
-const durationEl = document.getElementById("duration");
-const progressFilled = document.getElementById("progress-filled");
-const progressBarContainer = document.getElementById("progress-bar-container");
-const volumeSlider = document.getElementById("volume");
-const backToLibrary = document.getElementById("back-to-library");
-
-const shuffleBtn = document.getElementById("shuffle");
-const prevBtn = document.getElementById("prev");
-const nextBtn = document.getElementById("next");
-const repeatBtn = document.getElementById("repeat");
-
-
-// ================= Load Music Data =================
+// Load all JSON music data
 async function loadAllMusic() {
   let allSongs = [];
-  for(const type of types){
-    try{
+  for (const type of types) {
+    try {
       const res = await fetch(`data/${type}.json`);
       const data = await res.json();
       data.forEach(song => song.type = type);
       allSongs = allSongs.concat(data);
-    } catch(e){
+    } catch (e) {
       console.error(`Failed to load ${type}.json`, e);
     }
   }
   musicData = allSongs;
-  displaySongs(musicData);
-  highlightActiveLetter();
 }
 
-
-// ================= Display =================
+// Sort songs alphabetically
 function sortSongs(list) {
-  return list.slice().sort((a,b) => a.name.localeCompare(b.name));
+  return list.slice().sort((a,b)=>{
+    const aChar = a.name.charAt(0).toUpperCase();
+    const bChar = b.name.charAt(0).toUpperCase();
+    const isALetter = /^[A-Z]$/.test(aChar);
+    const isBLetter = /^[A-Z]$/.test(bChar);
+    if(isALetter && !isBLetter) return -1;
+    if(!isALetter && isBLetter) return 1;
+    return a.name.toUpperCase() < b.name.toUpperCase() ? -1 : a.name.toUpperCase() > b.name.toUpperCase() ? 1 : 0;
+  });
 }
 
-function displaySongs(list){
-  const sorted = sortSongs(list);
-  if(sorted.length === 0){
-    musicList.innerHTML = `<li style="color:white; text-align:center; padding:20px;">No results found</li>`;
+// Display songs list
+function displaySongs(list) {
+  const sortedList = sortSongs(list);
+  if(sortedList.length === 0){
+    musicList.innerHTML = `<li style="color:white;text-align:center;padding:20px;">No results found</li>`;
     return;
   }
-  musicList.innerHTML = sorted.map(song => `
-    <li class="music-item" data-name="${song.name}" data-file="${song.file}" data-type="${song.type}">
-      <span class="info">
-        ${song.name} <small>[${song.type}]</small>
-      </span>
-    </li>
-  `).join("");
 
-  addSongClickHandlers();
+  musicList.innerHTML = sortedList.map((song,index)=>`
+    <li class="music-item" data-index="${index}">
+      <span class="title">${song.name}</span>
+      <span style="font-size:12px;color:rgba(255,255,255,0.5)"> [${song.type}]</span>
+    </li>
+  `).join('');
+
+  addPlayHandler();
 }
 
+// Display folders view
+const folderOpenState = {};
 function displayFolders(list){
-  const sorted = sortSongs(list);
-  let html = "";
-  types.forEach(type => {
-    const songs = sorted.filter(s => s.type === type);
-    if(songs.length > 0){
+  const sortedList = sortSongs(list);
+  let html = '';
+
+  types.forEach(type=>{
+    const songs = sortedList.filter(s=>s.type===type);
+    if(songs.length){
+      folderOpenState[type]=false;
       html += `
-        <div class="folder-title" data-type="${type}">${type.toUpperCase()}</div>
-        <ul class="folder-songs" data-type="${type}">
-          ${songs.map(song => `
-            <li class="music-item" data-name="${song.name}" data-file="${song.file}" data-type="${song.type}">
-              <span class="info">${song.name}</span>
-            </li>
-          `).join("")}
-        </ul>
-      `;
+      <div class="folder-title" data-type="${type}">${type.toUpperCase()}</div>
+      <ul class="folder-songs" data-type="${type}">
+        ${songs.map((song,index)=>`
+          <li class="music-item" data-index="${musicData.indexOf(song)}">${song.name}</li>
+        `).join('')}
+      </ul>`;
     }
   });
+
   musicList.innerHTML = html;
 
-  document.querySelectorAll('.folder-title').forEach(title => {
-    title.addEventListener("click", () => {
-      const type = title.getAttribute("data-type");
+  document.querySelectorAll('.folder-title').forEach(title=>{
+    title.addEventListener('click',()=>{
+      const type = title.getAttribute('data-type');
+      folderOpenState[type]=!folderOpenState[type];
       const ul = document.querySelector(`.folder-songs[data-type="${type}"]`);
-      ul.classList.toggle("open");
+      ul.classList.toggle('open');
     });
   });
 
-  addSongClickHandlers();
+  addPlayHandler();
 }
 
-
-// ================= Song Play =================
-function addSongClickHandlers(){
-  document.querySelectorAll(".music-item").forEach(item => {
-    item.addEventListener("click", () => {
-      const name = item.getAttribute("data-name");
-      const file = item.getAttribute("data-file");
-      const folder = item.getAttribute("data-type");
-      playSong({ name, file, type: folder });
-    });
+// Handle clicking songs to play in mini player
+function addPlayHandler(){
+  document.querySelectorAll('.music-item').forEach(item=>{
+    item.onclick = ()=>{
+      const index = parseInt(item.dataset.index);
+      if(!isNaN(index)){
+        playSong(index);
+      }
+    };
   });
 }
 
-function playSong(song){
-  currentSong = song;
-  audio.src = `songs/${song.type}/${song.file}`;
-  audio.play();
-  isPlaying = true;
-
-  // Mini player update
+// Mini Player controls
+function playSong(index){
+  const song = musicData[index];
+  if(!song) return;
+  currentSongIndex = index;
+  miniAudio.src = `songs/${song.file}`;
   miniTitle.textContent = song.name;
-  miniPlay.textContent = "⏸";
-  miniPlayer.style.display = "flex";
-
-  // Full player update
-  fullTitle.textContent = song.name;
+  miniAudio.play();
+  isPlaying = true;
+  miniPlayIcon.classList.remove('fa-play');
+  miniPlayIcon.classList.add('fa-pause');
+  miniPlayer.style.display = 'flex';
+  requestAnimationFrame(updateMiniProgress);
 }
 
-
-// ================= Mini Player =================
-miniPlay.addEventListener("click", () => {
-  if(!currentSong) return;
+function toggleMiniPlay(){
+  if(!currentSongIndex && currentSongIndex!==0) return;
   if(isPlaying){
-    audio.pause();
-    isPlaying = false;
-    miniPlay.textContent = "▶";
-    playPauseBtn.innerHTML = `<i class="fas fa-play"></i>`;
+    miniAudio.pause();
+    isPlaying=false;
+    miniPlayIcon.classList.remove('fa-pause');
+    miniPlayIcon.classList.add('fa-play');
   } else {
-    audio.play();
-    isPlaying = true;
-    miniPlay.textContent = "⏸";
-    playPauseBtn.innerHTML = `<i class="fas fa-pause"></i>`;
+    miniAudio.play();
+    isPlaying=true;
+    miniPlayIcon.classList.remove('fa-play');
+    miniPlayIcon.classList.add('fa-pause');
+    requestAnimationFrame(updateMiniProgress);
   }
-});
+}
 
-miniPlayer.addEventListener("click", (e) => {
-  if(e.target.id !== "mini-play"){
-    fullPlayer.style.display = "flex";
+// Mini player progress
+function updateMiniProgress(){
+  if(miniAudio.duration){
+    const percent = (miniAudio.currentTime/miniAudio.duration)*100;
+    miniProgressBar.style.width = percent + '%';
+    miniCurrentTime.textContent = formatTime(miniAudio.currentTime);
+    miniDuration.textContent = formatTime(miniAudio.duration);
   }
-});
-
-backToLibrary.addEventListener("click", () => {
-  fullPlayer.style.display = "none";
-});
-
-
-// ================= Full Player Controls =================
-playPauseBtn.addEventListener("click", () => {
-  if(!currentSong) return;
   if(isPlaying){
-    audio.pause();
-    isPlaying = false;
-    playPauseBtn.innerHTML = `<i class="fas fa-play"></i>`;
-    miniPlay.textContent = "▶";
-  } else {
-    audio.play();
-    isPlaying = true;
-    playPauseBtn.innerHTML = `<i class="fas fa-pause"></i>`;
-    miniPlay.textContent = "⏸";
+    requestAnimationFrame(updateMiniProgress);
   }
-});
+}
 
-volumeSlider.addEventListener("input", () => {
-  audio.volume = volumeSlider.value;
-});
-
-progressBarContainer.addEventListener("click", (e) => {
-  if(!audio.duration) return;
-  const rect = progressBarContainer.getBoundingClientRect();
-  const percent = (e.clientX - rect.left) / rect.width;
-  audio.currentTime = percent * audio.duration;
-});
-
-
-// ================= Update Time =================
+// Format time
 function formatTime(sec){
-  const m = Math.floor(sec / 60) || 0;
-  const s = Math.floor(sec % 60) || 0;
-  return `${m}:${s<10 ? "0"+s : s}`;
+  const m = Math.floor(sec/60);
+  const s = Math.floor(sec%60);
+  return m+':'+(s<10?'0'+s:s);
 }
 
-audio.addEventListener("timeupdate", () => {
-  if(audio.duration){
-    const percent = (audio.currentTime / audio.duration) * 100;
-    progressFilled.style.width = percent + "%";
-    currentTimeEl.textContent = formatTime(audio.currentTime);
-    durationEl.textContent = formatTime(audio.duration);
-    miniTime.textContent = formatTime(audio.currentTime);
-  }
+// Search input
+searchInput.addEventListener('input',()=>{
+  const q = searchInput.value.toLowerCase();
+  const filtered = musicData.filter(s=>s.name.toLowerCase().includes(q));
+  const activeTab = document.querySelector('.tab.active').dataset.tab;
+  if(activeTab==='songs') displaySongs(filtered);
+  else displayFolders(filtered);
 });
 
-
-// ================= Tabs & Search =================
-tabs.forEach(tab => {
-  tab.addEventListener("click", () => {
-    tabs.forEach(t => t.classList.remove("active"));
-    tab.classList.add("active");
-    searchInput.value = "";
-    if(tab.dataset.tab === "songs") displaySongs(musicData);
+// Tabs
+tabs.forEach(tab=>{
+  tab.addEventListener('click',()=>{
+    tabs.forEach(t=>t.classList.remove('active'));
+    tab.classList.add('active');
+    searchInput.value='';
+    const activeTab = tab.dataset.tab;
+    if(activeTab==='songs') displaySongs(musicData);
     else displayFolders(musicData);
-    highlightActiveLetter();
   });
 });
 
-searchInput.addEventListener("input", () => {
-  const query = searchInput.value.toLowerCase();
-  const filtered = musicData.filter(s => s.name.toLowerCase().includes(query));
-  const activeTab = document.querySelector(".tab.active").dataset.tab;
-  if(activeTab === "songs") displaySongs(filtered);
-  else displayFolders(filtered);
-  highlightActiveLetter();
-});
-
-
-// ================= Alpha Index =================
-const alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ#".split("");
-alphabet.forEach(letter => {
-  const div = document.createElement("div");
+// A-Z index
+const alphabet = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ#'.split('');
+alphabet.forEach(letter=>{
+  const div = document.createElement('div');
   div.textContent = letter;
-  div.addEventListener("click", () => scrollToLetter(letter));
+  div.addEventListener('click',()=>scrollToLetter(letter));
   alphaIndex.appendChild(div);
 });
 
 function scrollToLetter(letter){
-  const listItems = [...document.querySelectorAll(".music-item")];
+  const listItems = [...document.querySelectorAll('.music-item')];
   let target;
-  if(letter === "#"){
-    target = listItems.find(li => !/^[A-Z]/i.test(li.dataset.name.charAt(0)));
+  if(letter===' # '){
+    target=listItems.find(li=>{
+      const first = li.querySelector('.title').textContent.charAt(0).toUpperCase();
+      return !(/[A-Z]/.test(first));
+    });
   } else {
-    target = listItems.find(li => li.dataset.name.charAt(0).toUpperCase() === letter);
+    target=listItems.find(li=>li.querySelector('.title').textContent.charAt(0).toUpperCase()===letter);
   }
-  if(target){
-    target.scrollIntoView({behavior:"smooth", block:"start"});
-  }
+  if(target) target.scrollIntoView({behavior:'smooth',block:'start'});
 }
 
-function highlightActiveLetter(){
-  const listItems = [...document.querySelectorAll(".music-item")];
-  if(listItems.length === 0) return;
-  const scrollY = window.scrollY || window.pageYOffset;
-  let currentLetter = null;
-  for(const li of listItems){
-    const rect = li.getBoundingClientRect();
-    if(rect.top + window.scrollY > scrollY + 10){
-      const firstChar = li.dataset.name.charAt(0).toUpperCase();
-      currentLetter = /^[A-Z]$/.test(firstChar) ? firstChar : "#";
-      break;
-    }
-  }
-  if(!currentLetter){
-    const last = listItems[listItems.length-1].dataset.name;
-    const c = last.charAt(0).toUpperCase();
-    currentLetter = /^[A-Z]$/.test(c) ? c : "#";
-  }
-  [...alphaIndex.children].forEach(div => {
-    div.classList.toggle("active", div.textContent === currentLetter);
-  });
-}
+// Mini player buttons
+miniPlayBtn.addEventListener('click',toggleMiniPlay);
 
-window.addEventListener("scroll", highlightActiveLetter);
-
-
-// ================= Init =================
-loadAllMusic();
+// Load music and initialize
+loadAllMusic().then(()=>{
+  displaySongs(musicData);
+});
