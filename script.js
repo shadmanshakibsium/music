@@ -74,25 +74,29 @@ function loadFolders() {
 }
 
 function toggleFolder(folderName, folderEl) {
-  let listEl = folderEl.nextElementSibling; // .folder-songs চেক করি
+  let listEl = folderEl.nextElementSibling;
 
   if(listEl && listEl.classList.contains('folder-songs')){
-    // যদি আগে থেকেই আছে, শুধু display toggle কর
-    listEl.style.display = listEl.style.display === 'block' ? 'none' : 'block';
-    return; // exit, নতুন create করার দরকার নেই
+    // শুধু display toggle
+    if(listEl.style.display === 'block') {
+      listEl.style.display = 'none';
+    } else {
+      listEl.style.display = 'block';
+    }
+    return;
   }
 
-  // create ul for the first time
+  // প্রথমবার open করলে UL create
   listEl = document.createElement('ul');
   listEl.classList.add('folder-songs');
   listEl.style.marginTop = '8px';
   folderListEl.insertBefore(listEl, folderEl.nextSibling);
 
-  // fetch songs
   fetch(`data/${folderName}.json`)
     .then(res => res.json())
     .then(data => {
       const folderSongs = data.map(s => ({ ...s, folder: folderName }));
+
       folderSongs.forEach((song, index) => {
         const li = document.createElement('li');
         li.classList.add('music-item');
@@ -100,14 +104,17 @@ function toggleFolder(folderName, folderEl) {
 
         li.addEventListener('click', (e) => {
           e.stopPropagation();
-          musicData = folderSongs; 
-          filteredData = [...musicData]; 
+          musicData = folderSongs;
+          filteredData = [...musicData];
           currentIndex = index;
           playSong(index);
         });
 
         listEl.appendChild(li);
       });
+
+      // প্রথমবার open হলে display:block
+      listEl.style.display = 'block';
     })
     .catch(err => console.error(err));
 }
