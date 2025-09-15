@@ -74,20 +74,22 @@ function loadFolders() {
 }
 
 function toggleFolder(folderName, folderEl) {
-  // যদি ul আগে থেকেই থাকে, টগল করো
+  // চেক করো ul আগে থেকেই আছে
   let listEl = folderEl.querySelector('.folder-songs');
   if(listEl){
+    // টগল display
     listEl.style.display = listEl.style.display==='none' ? 'block' : 'none';
     return;
   }
 
-  // নতুন করে লিস্ট বানাও
+  // নতুন লিস্ট বানাও
   fetch(`data/${folderName}.json`)
     .then(res => res.json())
     .then(data => {
       listEl = document.createElement('ul');
       listEl.classList.add('folder-songs');
       listEl.style.marginTop = '8px';
+      folderEl.appendChild(listEl); // **append আগে করলাম**
 
       data.forEach((song, index)=>{
         const li = document.createElement('li');
@@ -95,8 +97,6 @@ function toggleFolder(folderName, folderEl) {
         li.innerHTML = `<div class="info"><span class="title">${song.name}</span></div>`;
 
         li.addEventListener('click', ()=>{
-          // playSong-এ folder info attach করতে হবে
-          const songWithFolder = {...song, folder: folderName};
           musicData = data.map(s => ({...s, folder: folderName}));
           filteredData = [...musicData];
           playSong(index);
@@ -104,11 +104,10 @@ function toggleFolder(folderName, folderEl) {
 
         listEl.appendChild(li);
       });
-
-      folderEl.appendChild(listEl);
     })
     .catch(err => console.error(`Failed to load ${folderName}.json`, err));
 }
+
 
 // --------------------
 // Render Music List
