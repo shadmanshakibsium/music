@@ -1,32 +1,20 @@
-/* ======== Common Reset & Font ======== */
+/* General Reset */
 * {
-  margin:0;
-  padding:0;
-  box-sizing:border-box;
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
   font-family: 'Roboto', sans-serif;
-  -webkit-tap-highlight-color: transparent !important;
 }
-
-/* ======== Background ======== */
 body {
   background: url('https://i.imgur.com/uNWSHGy.png') no-repeat center center fixed;
   background-size: cover;
   min-height: 100vh;
-  padding: 50px 20px;
   color: white;
+  padding: 50px 20px 80px; /* নিচে space mini player এর জন্য */
 }
 
-/* Overlay for song.html effect */
-body::before {
-  content: "";
-  position: fixed;
-  top: 0; left: 0; right: 0; bottom: 0;
-  background: rgba(0,0,0,0.25);
-  z-index: 0;
-}
-
-/* ======== Index Page Container ======== */
-.container.library {
+/* Container (Library view) */
+.container {
   backdrop-filter: blur(10px) saturate(180%);
   -webkit-backdrop-filter: blur(10px) saturate(180%);
   background-color: rgba(255, 255, 255, 0.1);
@@ -36,12 +24,8 @@ body::before {
   width: 100%;
   max-width: 900px;
   margin: auto;
-  position: relative;
-  z-index: 1;
 }
-
 h1 {
-  color: white;
   text-align: center;
   margin-bottom: 20px;
 }
@@ -50,7 +34,6 @@ h1 {
 .search-bar {
   width: 100%;
   margin-bottom: 20px;
-  position: relative;
 }
 .search-bar input {
   width: 100%;
@@ -67,19 +50,123 @@ h1 {
   color: rgba(255,255,255,0.7);
 }
 
-/* Bottom Mini Player */
+/* Tabs */
+.tabs {
+  display: flex;
+  justify-content: space-around;
+  margin-bottom: 20px;
+}
+.tab {
+  padding: 10px 20px;
+  border-radius: 15px;
+  cursor: pointer;
+  color: white;
+  font-weight: 500;
+  transition: 0.3s;
+}
+.tab.active, .tab:hover {
+  background: rgba(255,255,255,0.2);
+  backdrop-filter: blur(8px);
+}
+
+/* Music List */
+.music-list {
+  list-style: none;
+}
+.music-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: rgba(255,255,255,0.1);
+  border-radius: 15px;
+  padding: 12px 15px;
+  margin-bottom: 10px;
+  backdrop-filter: blur(8px);
+  cursor: pointer;
+  transition: 0.3s;
+}
+.music-item:hover {
+  background: rgba(255,255,255,0.2);
+}
+.music-item .info {
+  color: white;
+  width: 100%;
+  text-decoration: none;
+}
+.music-item .title {
+  font-weight: 500;
+  font-size: 16px;
+}
+
+/* Folder titles */
+.folder-title {
+  margin-top: 20px;
+  font-weight: 700;
+  font-size: 20px;
+  cursor: pointer;
+  padding: 10px 15px;
+  background: rgba(255,255,255,0.15);
+  border-radius: 15px;
+  transition: background 0.3s;
+}
+.folder-title:hover {
+  background: rgba(255,255,255,0.3);
+}
+.folder-songs {
+  display: none;
+  margin-bottom: 15px;
+  padding-left: 0;
+}
+.folder-songs.open {
+  display: block;
+}
+
+/* Alphabet Index */
+.alpha-index {
+  position: fixed;
+  right: 30px;
+  top: 100px;
+  height: calc(100vh - 120px);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  user-select: none;
+  z-index: 1000;
+  padding: 4px 8px;
+  background: rgba(0,0,0,0.15);
+  border-radius: 12px;
+  font-weight: 700;
+  color: white;
+  font-size: 14px;
+}
+.alpha-index div {
+  cursor: pointer;
+  padding: 4px 6px;
+  border-radius: 8px;
+  text-align: center;
+  transition: background 0.3s, color 0.3s;
+}
+.alpha-index div:hover,
+.alpha-index div.active {
+  background: rgba(255,255,255,0.3);
+  color: #000;
+}
+@media (max-width: 600px) {
+  .alpha-index { display: none !important; }
+}
+
+/* ================== Bottom Mini Player ================== */
 #mini-player {
   position: fixed;
   bottom: 0;
   left: 0;
   width: 100%;
-  background: rgba(0,0,0,0.7);
+  background: rgba(0,0,0,0.75);
   backdrop-filter: blur(10px);
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 10px 15px;
-  color: white;
+  padding: 12px 16px;
   font-size: 14px;
   z-index: 2000;
   cursor: pointer;
@@ -107,166 +194,35 @@ h1 {
   font-size: 18px;
   cursor: pointer;
 }
-#mini-player button:focus {
-  outline: none;
-}
-/* ======== Tabs ======== */
-.tabs {
-  display: flex;
-  justify-content: space-around;
-  margin-bottom: 20px;
-}
-.tab {
-  padding: 10px 20px;
-  border-radius: 15px;
-  cursor: pointer;
-  color: white;
-  font-weight: 500;
-  transition: 0.3s;
-}
-.tab.active,
-.tab:hover {
-  background: rgba(255,255,255,0.2);
-  backdrop-filter: blur(8px);
-}
+#mini-player button:focus { outline: none; }
 
-/* ======== Music List ======== */
-.music-list {
-  list-style: none;
-}
-.music-item {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  background: rgba(255,255,255,0.1);
-  border-radius: 15px;
-  padding: 12px 15px;
-  margin-bottom: 10px;
-  backdrop-filter: blur(8px);
-  cursor: pointer;
-  transition: 0.3s;
-  outline: none;
-}
-.music-item:hover {
-  background: rgba(255,255,255,0.2);
-}
-.music-item .info {
-  color:white;
-  width: 100%;
-  text-decoration: none;
-  outline: none;
-}
-.music-item .info .title {
-  font-weight:500;
-  font-size:16px;
-}
-
-/* ======== Folder View ======== */
-.folder-title {
-  color:white;
-  margin-top:20px;
-  font-weight:700;
-  font-size:24px;
-  cursor: pointer;
-  user-select: none;
-  padding: 10px 15px;
-  background: rgba(255,255,255,0.15);
-  border-radius: 15px;
-  transition: background 0.3s;
-}
-.folder-title:hover {
-  background: rgba(255,255,255,0.3);
-}
-.folder-songs {
+/* ================== Full Player View ================== */
+#full-player {
   display: none;
-  margin-bottom: 15px;
-  padding-left: 0;
-}
-.folder-songs.open {
-  display: block;
-}
-
-/* ======== Alphabet Index ======== */
-.alpha-index {
   position: fixed;
-  right: 30px;
-  top: 100px;
-  height: calc(100vh - 120px);
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  user-select: none;
-  z-index: 1000;
-  padding: 4px 8px;
-  background: rgba(0,0,0,0.15);
-  border-radius: 12px;
-  font-weight: 700;
+  inset: 0;
+  background: rgba(0,0,0,0.85);
+  backdrop-filter: blur(12px);
+  z-index: 3000;
   color: white;
-  font-size: 14px;
-  transition: all 0.3s ease;
-}
-.alpha-index div {
-  cursor: pointer;
-  padding: 4px 6px;
-  border-radius: 8px;
+  overflow-y: auto;
+  padding: 40px 20px;
   text-align: center;
-  transition: background 0.3s, color 0.3s;
-  white-space: nowrap;
 }
-.alpha-index div:hover,
-.alpha-index div.active {
-  background: rgba(255,255,255,0.3);
-  color: #000;
-}
-/* Hide on mobile */
-@media (max-width: 600px) {
-  .alpha-index {
-    display: none !important;
-  }
-}
-
-/* ======== Player (song.html style) ======== */
-.container.player {
-  width: 100%;
-  max-width: 420px;
-  background: rgba(255, 255, 255, 0.08);
-  border-radius: 30px;
-  border: 1px solid rgba(255, 255, 255, 0.15);
-  backdrop-filter: blur(18px) saturate(180%);
-  padding: 28px 25px;
-  text-align: center;
-  box-shadow: 0 15px 40px rgba(0, 0, 0, 0.55);
-  user-select: none;
-  position: relative;
-  z-index: 2;
-}
-
-.title {
+#full-player .title {
   font-size: 26px;
   font-weight: 700;
   margin-bottom: 24px;
-  letter-spacing: 0.7px;
 }
-
-/* Progress Bar */
-#progress {
+#full-player #progress {
   display: flex;
   align-items: center;
   justify-content: space-between;
   width: 100%;
   max-width: 320px;
-  cursor: pointer;
-  user-select: none;
-  color: #ddd;
-  font-size: 12px;
-  position: relative;
   margin: 0 auto 30px auto;
-}
-#current-time, #duration {
-  flex-shrink: 0;
-  width: 40px;
-  text-align: center;
-  z-index: 2;
+  cursor: pointer;
+  font-size: 12px;
 }
 #progress-bar-container {
   position: relative;
@@ -281,11 +237,7 @@ h1 {
   background: linear-gradient(90deg, #ff6b6b, #583D91);
   height: 100%;
   width: 0;
-  border-radius: 8px 0 0 8px;
-  pointer-events: none;
 }
-
-/* Controls */
 .controls {
   display: flex;
   justify-content: space-around;
@@ -305,14 +257,8 @@ h1 {
   cursor: pointer;
   background: linear-gradient(135deg, #ff6b6b, #fcb045);
   border: none;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
-  transition: all 0.3s ease;
   font-size: 18px;
   color: white;
-}
-.control-btn:hover {
-  transform: scale(1.1);
-  box-shadow: 0 0 15px rgba(255, 107, 107, 0.75);
 }
 .play-btn {
   width: 74px;
@@ -320,28 +266,13 @@ h1 {
   font-size: 22px;
   border-radius: 26px;
   background: linear-gradient(135deg, #583D91, #7E5CD9);
-  box-shadow: 0 0 20px rgba(88, 61, 145, 0.8);
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  transition: all 0.3s ease;
 }
-.play-btn:hover {
-  transform: scale(1.05);
-  box-shadow: 0 0 25px rgba(88, 61, 145, 1);
-}
-.control-btn.active {
-  box-shadow: 0 0 20px rgba(255, 107, 107, 0.9);
-}
-
-/* Volume */
 #volume-container {
   margin: 16px 0;
   display: flex;
   align-items: center;
   justify-content: center;
   gap: 14px;
-  color: white;
 }
 #volume {
   width: 120px;
@@ -351,31 +282,14 @@ h1 {
   background: rgba(255,255,255,0.3);
   border-radius: 6px;
   outline: none;
-  transition: background 0.3s ease;
-}
-#volume:hover {
-  background: rgba(255,255,255,0.5);
 }
 #volume::-webkit-slider-thumb {
   -webkit-appearance: none;
-  appearance: none;
   width: 16px;
   height: 16px;
   background: #ff6b6b;
-  cursor: pointer;
   border-radius: 50%;
-  box-shadow: 0 0 6px rgba(255, 107, 107, 0.85);
 }
-#volume::-moz-range-thumb {
-  width: 16px;
-  height: 16px;
-  background: #ff6b6b;
-  cursor: pointer;
-  border-radius: 50%;
-  box-shadow: 0 0 6px rgba(255, 107, 107, 0.85);
-}
-
-/* Back/Home Button */
 .back-btn {
   display: inline-block;
   padding: 10px 26px;
@@ -385,42 +299,5 @@ h1 {
   color: white;
   text-decoration: none;
   font-weight: 600;
-  font-size: 14.5px;
-  transition: 0.3s;
   margin-top: 16px;
-  user-select: none;
-}
-.back-btn:hover {
-  background: rgba(255, 255, 255, 0.3);
-}
-
-/* Responsive Player */
-@media (max-width: 450px) {
-  .container.player {
-    max-width: 95vw;
-    padding: 20px 15px;
-    border-radius: 22px;
-  }
-  .controls {
-    max-width: 100%;
-    gap: 8px;
-  }
-  #volume {
-    width: 110px;
-  }
-  .control-btn {
-    width: 44px;
-    height: 36px;
-    font-size: 16px;
-  }
-  .play-btn {
-    width: 68px;
-    height: 44px;
-    font-size: 20px;
-    border-radius: 22px;
-  }
-  #current-time, #duration {
-    font-size: 11px;
-    width: 36px;
-  }
 }
