@@ -3,10 +3,13 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>My Music Library</title>
+  <title>My Music Library + Full Player</title>
 
   <!-- Google Font -->
   <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+
+  <!-- Font Awesome for controls -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
   <!-- External CSS -->
   <link rel="stylesheet" href="style.css">
@@ -52,6 +55,12 @@
         <button id="prevBtn" class="control" type="button" aria-label="Previous">⏮</button>
         <button id="playPauseBtn" class="control play" type="button" aria-label="Play/Pause">▶</button>
         <button id="nextBtn" class="control" type="button" aria-label="Next">⏭</button>
+      </div>
+
+      <div id="volume-container">
+        <i class="fas fa-volume-down"></i>
+        <input type="range" id="volume" min="0" max="1" step="0.01" value="1.0" />
+        <i class="fas fa-volume-up"></i>
       </div>
     </div>
   </section>
