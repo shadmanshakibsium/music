@@ -224,12 +224,13 @@ h1 {
 .fullscreen-player{
   position: fixed;
   top:0; left:0; width:100%; height:100%;
-  background: rgba(0,0,0,0.95);
+  background: rgba(0,0,0,0.9);       /* page content hide করার জন্য slightly transparent black */
+  backdrop-filter: blur(12px);       /* পিছনের content blur হবে */
   display: none;
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  z-index:4;
+  z-index: 9999;                      /* সব content এর উপরে */
   padding: 20px;
 }
 .fullscreen-player .container{
