@@ -143,31 +143,39 @@ h1 {
 }
 
 /* --------------------
-   Mini Player (Old CSS)
+   Mini Player (Updated like music item)
 -------------------- */
-.mini-player{
+.mini-player {
   position: fixed;
   bottom: 0;
   left: 0;
   width: 100%;
-  height: 68px;
-  background: rgba(0,0,0,0.5);
+  max-width: 900px;       /* container সাথে মিলে যাবে */
+  margin: 0 auto;         /* centered on desktop */
+  background: rgba(255,255,255,0.1);   /* same as music-item */
+  backdrop-filter: blur(8px);           /* same blur as music-item */
+  -webkit-backdrop-filter: blur(8px);
+  border-radius: 15px;                  /* same as music-item */
+  border: 1px solid rgba(255,255,255,0.2);
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 0 20px;
+  padding: 12px 15px;
   cursor: pointer;
-  z-index:3;
-  border-top-left-radius: 14px;
-  border-top-right-radius: 14px;
-  backdrop-filter: blur(12px);
-  transition: all .25s ease;
+  z-index: 3;
+  transition: 0.3s;
 }
-.mini-player button{
-  background:none;
-  border:none;
-  color:white;
-  font-size:18px;
+
+.mini-player:hover {
+  background: rgba(255,255,255,0.2);
+}
+
+/* Button inside mini player */
+.mini-player button {
+  background: none;
+  border: none;
+  color: white;
+  font-size: 18px;
 }
 
 /* --------------------
