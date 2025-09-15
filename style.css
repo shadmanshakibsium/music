@@ -21,9 +21,9 @@ body::before {
   content: "";
   position: fixed;
   inset: 0;
-  background: transparent; /* এটা দিলে আর সাদা স্ক্রিন হবে না */
-  pointer-events: none;
+  background: linear-gradient(180deg, rgba(0, 0, 0, 0.1), rgba(0, 0, 0, 0.2)); /* হালকা কালো */
   z-index: 0;
+  pointer-events: none;
 }
 
 /* --------------------
