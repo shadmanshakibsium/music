@@ -164,14 +164,14 @@ function updatePlayButton(){
 // --------------------
 // Mini → Fullscreen
 // --------------------
-miniPlayer.addEventListener('click', () => {
+miniPlayer.addEventListener('click', ()=>{
   fullscreenPlayer.style.display = 'flex';
-  document.getElementById('main-content').style.display = 'none'; // hide all UI
+  miniPlayer.style.display = 'none';  // <-- এখানে মিনি প্লেয়ার লুকানো
 });
 
-fsCloseBtn.addEventListener('click', () => {
+fsCloseBtn.addEventListener('click', ()=>{
   fullscreenPlayer.style.display = 'none';
-  document.getElementById('main-content').style.display = 'block'; // show all UI
+  miniPlayer.style.display = 'flex';  // <-- এখানে মিনি প্লেয়ার দেখানো
 });
 
 // --------------------
