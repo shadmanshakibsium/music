@@ -1,50 +1,34 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="bn">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Music Library</title>
-  <link rel="stylesheet" href="style.css" />
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Music Player</title>
+  <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
-  <!-- ========== Library Section ========== -->
-  <div class="container" id="library-page">
-    <h1>My Music Library</h1>
-
-    <!-- Search -->
-    <div class="search-bar">
-      <input type="text" id="searchInput" placeholder="Search by song..." />
-    </div>
-
-    <!-- Tabs -->
-    <div class="tabs">
-      <div class="tab active" data-tab="songs">Songs</div>
-      <div class="tab" data-tab="folders">Folders</div>
-    </div>
-
-    <!-- Song list -->
-    <ul class="music-list" id="music-list"></ul>
+  <!-- 🔎 Search + Song List -->
+  <div id="song-list">
+    <input type="text" id="search" placeholder="Search song...">
+    <div class="music-item" data-src="song1.mp3" data-title="Song One">Song One</div>
+    <div class="music-item" data-src="song2.mp3" data-title="Song Two">Song Two</div>
+    <div class="music-item" data-src="song3.mp3" data-title="Song Three">Song Three</div>
   </div>
 
-  <!-- Alpha index (A-Z sidebar) -->
-  <div class="alpha-index" id="alphaIndex"></div>
-
-
-  <!-- ========== Mini Player (Bottom) ========== -->
-  <div class="mini-player" id="mini-player">
-    <div class="mini-info">
-      <span id="mini-title">No song playing</span>
-      <span id="mini-time">0:00</span>
+  <!-- 🎵 Mini Player -->
+  <div id="mini-player">
+    <div>
+      <div id="mini-title">No song playing</div>
+      <div id="mini-time">00:00</div>
     </div>
     <button id="mini-play">▶</button>
   </div>
 
-
-  <!-- ========== Full Player (Overlay) ========== -->
-  <div class="full-player" id="full-player">
-    <div class="player-container">
-      <div id="full-title" class="title">Loading...</div>
+  <!-- 🎶 Full Player -->
+  <div id="full-player">
+    <div class="container">
+      <div class="title" id="full-title">No song selected</div>
 
       <!-- Progress -->
       <div id="progress">
@@ -57,26 +41,23 @@
 
       <!-- Controls -->
       <div class="controls">
-        <button class="control-btn" id="shuffle"><i class="fas fa-random"></i></button>
-        <button class="control-btn" id="prev"><i class="fas fa-backward"></i></button>
-        <button class="control-btn play-btn" id="play-pause"><i class="fas fa-play"></i></button>
-        <button class="control-btn" id="next"><i class="fas fa-forward"></i></button>
-        <button class="control-btn" id="repeat"><i class="fas fa-redo"></i></button>
+        <button class="control-btn" id="prev">⏮</button>
+        <button class="play-btn" id="play">▶</button>
+        <button class="control-btn" id="next">⏭</button>
       </div>
 
       <!-- Volume -->
       <div id="volume-container">
-        <i class="fas fa-volume-down"></i>
-        <input type="range" id="volume" min="0" max="1" step="0.01" value="1.0" />
-        <i class="fas fa-volume-up"></i>
+        <span>🔊</span>
+        <input type="range" id="volume" min="0" max="1" step="0.01">
       </div>
 
-      <!-- Back button -->
-      <button class="back-btn" id="back-to-library">Back to Library</button>
+      <!-- Back Button -->
+      <button class="back-btn" id="back-btn">⬅ Home</button>
     </div>
   </div>
 
-  <!-- JS Link -->
+  <audio id="audio"></audio>
   <script src="script.js"></script>
 </body>
 </html>
