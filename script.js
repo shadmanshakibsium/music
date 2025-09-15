@@ -1,6 +1,7 @@
 // --------------------
 // Variables
 // --------------------
+const types = ['anime','arabic','bangla','edit audio','english','hindi','lofi','phonk','slowed-reverbed'];
 let currentView = 'all'; // 'all' or 'folders'
 let currentList = 'bangla';
 let musicData = [];
@@ -54,15 +55,12 @@ function loadSongs(lang) {
 }
 
 function loadFolders() {
-  const folders = ['bangla','english']; // Add folder names
   folderListEl.innerHTML = '';
-  folders.forEach(folder => {
+  types.forEach(folder => {
     const div = document.createElement('div');
     div.classList.add('folder-box');
     div.textContent = folder;
-    div.addEventListener('click', ()=>{
-      toggleFolder(folder, div);
-    });
+    div.addEventListener('click', ()=>toggleFolder(folder, div));
     folderListEl.appendChild(div);
   });
 }
@@ -92,7 +90,8 @@ function toggleFolder(folderName, folderEl){
         });
         folderEl.appendChild(listEl);
       }
-    });
+    })
+    .catch(err=>console.error(`Failed to load folder ${folderName}:`, err));
 }
 
 // --------------------
@@ -177,7 +176,7 @@ fsPrevBtn.addEventListener('click', playPrev);
 // --------------------
 fsShuffleBtn.addEventListener('click', ()=>{
   isShuffle = !isShuffle;
-  fsShuffleBtn.style.color = isShuffle ? 'var(--accent-1)' : 'var(--white)';
+  fsShuffleBtn.style.color = isShuffle ? '#ff6b6b' : 'white';
 });
 
 fsRepeatBtn.addEventListener('click', ()=>{
@@ -187,7 +186,7 @@ fsRepeatBtn.addEventListener('click', ()=>{
   updateRepeatUI();
 });
 function updateRepeatUI(){
-  fsRepeatBtn.style.color = repeatMode==='none'?'var(--white)':(repeatMode==='all'?'var(--accent-2)':'var(--accent-1)');
+  fsRepeatBtn.style.color = repeatMode==='none'?'white':(repeatMode==='all'?'#fcb045':'#ff6b6b');
 }
 
 // --------------------
