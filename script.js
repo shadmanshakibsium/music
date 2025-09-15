@@ -40,7 +40,7 @@ const progressBarContainer = document.getElementById('progress-bar-container');
 const volumeSlider = document.getElementById('fs-volume');
 
 // --------------------
-// Load All Songs (A-Z) for All Songs Tab
+// Load All Songs (A-Z)
 // --------------------
 function loadAllSongs() {
   musicData = [];
@@ -52,12 +52,11 @@ function loadAllSongs() {
       .then(res => res.json())
       .then(data => {
         data.forEach(song => {
-          song.folder = lang; // কোন ফোল্ডার/টাইপ থেকে এসেছে
+          song.folder = lang; // কোন ফোল্ডার/টাইপ
           musicData.push(song);
         });
         loadedCount++;
         if (loadedCount === types.length) {
-          // সব গান লোড হয়ে গেলে সাজানো হবে A-Z
           musicData.sort((a,b)=>a.name.localeCompare(b.name));
           filteredData = [...musicData];
           renderMusicList();
@@ -68,7 +67,7 @@ function loadAllSongs() {
 }
 
 // --------------------
-// Load Folders Tab
+// Load Folders
 // --------------------
 function loadFolders() {
   folderListEl.innerHTML = '';
@@ -256,7 +255,7 @@ searchInput.addEventListener('input', (e)=>{
 });
 
 // --------------------
-// Tabs (All / Folders)
+// Tabs
 // --------------------
 tabs.forEach(tab=>{
   tab.addEventListener('click', ()=>{
