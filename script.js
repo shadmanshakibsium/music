@@ -5,52 +5,26 @@ const types = ['anime','arabic','bangla','edit audio','english','hindi','lofi','
 let musicData = [];
 let currentIndex = 0;
 let isPlaying = false;
-let isShuffle = false;
 
 // ---- Elements ----
 const audio = document.getElementById('audioPlayer');
 const musicListEl = document.getElementById('music-list');
 const searchInput = document.getElementById('searchInput');
 const tabs = document.querySelectorAll('.tab');
-const alphaIndexEl = document.getElementById('alphaIndex');
-
 const miniPlayer = document.getElementById('mini-player');
 const miniSongTitle = document.getElementById('miniSongTitle');
 const miniTime = document.getElementById('miniTime');
 const miniPlayPause = document.getElementById('miniPlayPause');
-
 const playerView = document.getElementById('player-view');
 const currentSongTitle = document.getElementById('currentSongTitle');
 const backToLibraryBtn = document.getElementById('backToLibrary');
 const playPauseBtn = document.getElementById('playPauseBtn');
 const prevBtn = document.getElementById('prevBtn');
 const nextBtn = document.getElementById('nextBtn');
-
 const progressBarContainer = document.getElementById('progress-bar-container');
 const progressFilled = document.getElementById('progress-filled');
 const currentTimeEl = document.getElementById('current-time');
 const durationEl = document.getElementById('duration');
-
-// ---- Utility Functions ----
-function formatTime(sec){
-    const m = Math.floor(sec/60);
-    const s = Math.floor(sec%60);
-    return `${m}:${s<10?'0'+s:s}`;
-}
-
-// Show mini player
-function showMiniPlayer(){
-    miniPlayer.classList.remove('hidden');
-    miniPlayer.setAttribute('aria-hidden','false');
-}
-
-// Reset progress
-function resetProgress(){
-    progressFilled.style.width='0%';
-    currentTimeEl.textContent='0:00';
-    durationEl.textContent='0:00';
-    miniTime.textContent='0:00';
-}
 
 // ---- Load all JSON files ----
 async function loadAllMusic() {
@@ -181,7 +155,20 @@ function loadSong(index){
     playSong();
 }
 
-// ---- Progress Update ----
+// ---- Progress ----
+function resetProgress(){
+    progressFilled.style.width='0%';
+    currentTimeEl.textContent='0:00';
+    durationEl.textContent='0:00';
+    miniTime.textContent='0:00';
+}
+
+function formatTime(sec){
+    const m = Math.floor(sec/60);
+    const s = Math.floor(sec%60);
+    return `${m}:${s<10?'0'+s:s}`;
+}
+
 let rafId;
 function updateProgress(){
     if(audio.duration){
@@ -194,6 +181,7 @@ function updateProgress(){
     if(isPlaying) rafId = requestAnimationFrame(updateProgress);
 }
 
+// Click on progress bar
 progressBarContainer.addEventListener('click',(e)=>{
     const rect = progressBarContainer.getBoundingClientRect();
     const clickX = e.clientX - rect.left;
@@ -201,7 +189,7 @@ progressBarContainer.addEventListener('click',(e)=>{
     updateProgress();
 });
 
-// ---- Play / Pause ----
+// ---- Play/Pause ----
 function playSong(){
     audio.play();
     isPlaying=true;
@@ -215,11 +203,10 @@ function pauseSong(){
     playPauseBtn.textContent='▶';
     miniPlayPause.textContent='▶';
 }
-
 playPauseBtn.addEventListener('click', ()=>{ isPlaying?pauseSong():playSong(); });
 miniPlayPause.addEventListener('click', ()=>{ isPlaying?pauseSong():playSong(); });
 
-// ---- Prev / Next ----
+// ---- Prev/Next ----
 prevBtn.addEventListener('click', ()=>{
     currentIndex = (currentIndex-1+musicData.length)%musicData.length;
     loadSong(currentIndex);
@@ -230,18 +217,23 @@ nextBtn.addEventListener('click', ()=>{
 });
 
 // ---- Mini → Full Player ----
+function showMiniPlayer(){
+    miniPlayer.classList.remove('hidden');
+    miniPlayer.setAttribute('aria-hidden','false');
+}
+
 miniPlayer.addEventListener('click', ()=>{
     playerView.classList.remove('hidden');
     playerView.setAttribute('aria-hidden','false');
 });
 
-// ---- Back to library ----
+// ---- Full Player → Back to Library ----
 backToLibraryBtn.addEventListener('click', ()=>{
     playerView.classList.add('hidden');
     playerView.setAttribute('aria-hidden','true');
 });
 
-// ---- Audio ended ----
+// ---- Audio End ----
 audio.addEventListener('ended', ()=>{
     nextBtn.click();
 });
