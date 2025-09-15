@@ -2,7 +2,18 @@
    Global Reset & Body
 -------------------- */
 * {
-  margin:0; padding:0; box-sizing:border-box; font-family: 'Roboto', sans-serif;
+  margin:0;
+  padding:0;
+  box-sizing:border-box;
+  font-family: 'Roboto', sans-serif;
+
+  /* Mobile/Android tap highlight effect বন্ধ করা */
+  -webkit-tap-highlight-color: transparent; /* Chrome, Android */
+  -webkit-touch-callout: none;             /* iOS context menu disable */
+  -webkit-user-select: none;               /* text select prevent */
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
 }
 body {
   background: url('https://i.imgur.com/uNWSHGy.png') no-repeat center center fixed;
