@@ -9,29 +9,34 @@
 </head>
 <body>
 
-<!-- Header -->
-<div class="site-header">
-  <h1>My Music Library</h1>
-</div>
+<!-- Main Content Wrapper -->
+<div id="main-content">
 
-<!-- Tabs for All Songs / Folders -->
-<div class="tabs">
-  <div class="tab active" data-view="all">All Songs</div>
-  <div class="tab" data-view="folders">Folders</div>
-</div>
-
-<!-- All Songs View -->
-<div id="all-songs-view">
-  <div class="search-bar">
-    <input type="text" id="searchInput" placeholder="Search songs...">
+  <!-- Header -->
+  <div class="site-header">
+    <h1>My Music Library</h1>
   </div>
-  <ul class="music-list" id="music-list"></ul>
-</div>
 
-<!-- Folders View -->
-<div id="folders-view" style="display:none;">
-  <div id="folder-list"></div>
-</div>
+  <!-- Tabs for All Songs / Folders -->
+  <div class="tabs">
+    <div class="tab active" data-view="all">All Songs</div>
+    <div class="tab" data-view="folders">Folders</div>
+  </div>
+
+  <!-- All Songs View -->
+  <div id="all-songs-view">
+    <div class="search-bar">
+      <input type="text" id="searchInput" placeholder="Search songs...">
+    </div>
+    <ul class="music-list" id="music-list"></ul>
+  </div>
+
+  <!-- Folders View -->
+  <div id="folders-view" style="display:none;">
+    <div id="folder-list"></div>
+  </div>
+
+</div> <!-- end main-content -->
 
 <!-- Mini Player -->
 <div class="mini-player" id="mini-player">
