@@ -74,29 +74,38 @@ function loadFolders() {
 }
 
 function toggleFolder(folderName, folderEl) {
+  // যদি ul আগে থেকেই থাকে, টগল করো
+  let listEl = folderEl.querySelector('.folder-songs');
+  if(listEl){
+    listEl.style.display = listEl.style.display==='none' ? 'block' : 'none';
+    return;
+  }
+
+  // নতুন করে লিস্ট বানাও
   fetch(`data/${folderName}.json`)
     .then(res => res.json())
     .then(data => {
-      let listEl = folderEl.querySelector('.folder-songs');
-      if(listEl){
-        listEl.style.display = listEl.style.display==='none' ? 'block' : 'none';
-      } else {
-        listEl = document.createElement('ul');
-        listEl.classList.add('folder-songs');
-        listEl.style.marginTop='8px';
-        data.forEach((song,index)=>{
-          const li = document.createElement('li');
-          li.classList.add('music-item');
-          li.textContent = song.name;
-          li.addEventListener('click', ()=>{
-            musicData = data.map(s => ({...s, folder: folderName}));
-            filteredData = [...musicData];
-            playSong(index);
-          });
-          listEl.appendChild(li);
+      listEl = document.createElement('ul');
+      listEl.classList.add('folder-songs');
+      listEl.style.marginTop = '8px';
+
+      data.forEach((song, index)=>{
+        const li = document.createElement('li');
+        li.classList.add('music-item');
+        li.innerHTML = `<div class="info"><span class="title">${song.name}</span></div>`;
+
+        li.addEventListener('click', ()=>{
+          // playSong-এ folder info attach করতে হবে
+          const songWithFolder = {...song, folder: folderName};
+          musicData = data.map(s => ({...s, folder: folderName}));
+          filteredData = [...musicData];
+          playSong(index);
         });
-        folderEl.appendChild(listEl);
-      }
+
+        listEl.appendChild(li);
+      });
+
+      folderEl.appendChild(listEl);
     })
     .catch(err => console.error(`Failed to load ${folderName}.json`, err));
 }
