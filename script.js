@@ -74,42 +74,42 @@ function loadFolders() {
 }
 
 function toggleFolder(folderName, folderEl) {
-  let listEl = folderEl.querySelector('.folder-songs');
+  let listEl = folderEl.nextElementSibling; // .folder-songs চেক করি
 
-  if (!listEl) {
-    // create ul and append
-    listEl = document.createElement('ul');
-    listEl.classList.add('folder-songs');
-    listEl.style.marginTop = '8px';
-    folderListEl.insertBefore(listEl, folderEl.nextSibling);
-
-    // fetch songs
-    fetch(`data/${folderName}.json`)
-      .then(res => res.json())
-      .then(data => {
-        const folderSongs = data.map(s => ({ ...s, folder: folderName }));
-
-        folderSongs.forEach((song, index) => {
-          const li = document.createElement('li');
-          li.classList.add('music-item');
-          li.innerHTML = `<div class="info"><span class="title">${song.name}</span></div>`;
-
-          li.addEventListener('click', (e) => {
-            e.stopPropagation(); // prevent folder toggle
-            musicData = folderSongs; 
-            filteredData = [...musicData]; 
-            currentIndex = index; // set currentIndex
-            playSong(index); // play the song
-          });
-
-          listEl.appendChild(li);
-        });
-      })
-      .catch(err => console.error(err));
+  if(listEl && listEl.classList.contains('folder-songs')){
+    // যদি আগে থেকেই আছে, শুধু display toggle কর
+    listEl.style.display = listEl.style.display === 'block' ? 'none' : 'block';
+    return; // exit, নতুন create করার দরকার নেই
   }
 
-  // toggle ul display when clicking folder title
-  listEl.style.display = listEl.style.display === 'block' ? 'none' : 'block';
+  // create ul for the first time
+  listEl = document.createElement('ul');
+  listEl.classList.add('folder-songs');
+  listEl.style.marginTop = '8px';
+  folderListEl.insertBefore(listEl, folderEl.nextSibling);
+
+  // fetch songs
+  fetch(`data/${folderName}.json`)
+    .then(res => res.json())
+    .then(data => {
+      const folderSongs = data.map(s => ({ ...s, folder: folderName }));
+      folderSongs.forEach((song, index) => {
+        const li = document.createElement('li');
+        li.classList.add('music-item');
+        li.innerHTML = `<div class="info"><span class="title">${song.name}</span></div>`;
+
+        li.addEventListener('click', (e) => {
+          e.stopPropagation();
+          musicData = folderSongs; 
+          filteredData = [...musicData]; 
+          currentIndex = index;
+          playSong(index);
+        });
+
+        listEl.appendChild(li);
+      });
+    })
+    .catch(err => console.error(err));
 }
 // --------------------
 // Render Music List
