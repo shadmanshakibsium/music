@@ -149,7 +149,6 @@ body::before{
   background: rgba(255,255,255,0.035);
   box-shadow: 0 6px 18px rgba(0,0,0,0.35);
 }
-
 .music-item .info{
   display:flex;
   gap:10px;
@@ -234,12 +233,14 @@ body.player-fullscreen #player-view{
   transform: scale(1);
 }
 
-/* Hide mini-player in fullscreen */
-body.player-fullscreen #mini-player{
-  opacity: 0 !important;
-  pointer-events: none;
+/* Hide mini-player, header, library in fullscreen */
+body.player-fullscreen #mini-player,
+body.player-fullscreen #library-view,
+body.player-fullscreen .site-header {
+  display: none !important;
 }
 
+/* Player active */
 #player-view:not(.hidden){
   opacity:1;
   transform: translateY(0);
