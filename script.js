@@ -49,42 +49,42 @@ function loadSongs(lang) {
       musicData = data;
       filteredData = [...musicData];
       if (currentView === 'all') renderMusicList();
-      if (filteredData.length > 0) playSong(0);
+      // ❌ অটো বাজানো বাদ, স্লো ফিক্স
+      // if(filteredData.length > 0) playSong(0);
     })
     .catch(err => console.error("Failed to load songs:", err));
 }
 
 function loadFolders() {
-  const folders = ['bangla', 'english']; // Add folder names
+  const folders = ['bangla','english']; // Add folder names
   folderListEl.innerHTML = '';
   folders.forEach(folder => {
     const div = document.createElement('div');
     div.classList.add('folder-box');
     div.textContent = folder;
-    div.addEventListener('click', () => {
+    div.addEventListener('click', ()=>{
       toggleFolder(folder, div);
     });
     folderListEl.appendChild(div);
   });
 }
 
-function toggleFolder(folderName, folderEl) {
+function toggleFolder(folderName, folderEl){
   fetch(`data/${folderName}.json`)
-    .then(res => res.json())
-    .then(data => {
+    .then(res=>res.json())
+    .then(data=>{
       let listEl = folderEl.querySelector('.folder-songs');
-      if (listEl) {
-        // toggle visibility
-        listEl.style.display = listEl.style.display === 'none' ? 'block' : 'none';
+      if(listEl){
+        listEl.style.display = listEl.style.display==='none' ? 'block' : 'none';
       } else {
         listEl = document.createElement('ul');
         listEl.classList.add('folder-songs');
-        listEl.style.marginTop = '8px';
-        data.forEach((song, index) => {
+        listEl.style.marginTop='8px';
+        data.forEach((song,index)=>{
           const li = document.createElement('li');
           li.classList.add('music-item');
           li.textContent = song.name;
-          li.addEventListener('click', () => {
+          li.addEventListener('click', ()=>{
             currentList = folderName;
             musicData = data;
             filteredData = [...data];
@@ -102,11 +102,11 @@ function toggleFolder(folderName, folderEl) {
 // --------------------
 function renderMusicList() {
   musicListEl.innerHTML = '';
-  filteredData.forEach((song, index) => {
+  filteredData.forEach((song,index)=>{
     const li = document.createElement('li');
     li.classList.add('music-item');
     li.innerHTML = `<div class="info"><span class="title">${song.name}</span></div>`;
-    li.addEventListener('click', () => playSong(index));
+    li.addEventListener('click',()=>playSong(index));
     musicListEl.appendChild(li);
   });
 }
@@ -114,7 +114,7 @@ function renderMusicList() {
 // --------------------
 // Play Song
 // --------------------
-function playSong(index) {
+function playSong(index){
   currentIndex = index;
   const song = filteredData[index];
   fsAudio.src = `songs/${currentList}/${song.file}`;
@@ -128,10 +128,10 @@ function playSong(index) {
 // --------------------
 // Update UI
 // --------------------
-function updateMiniPlayer(title) { miniTitle.textContent = title; }
-function updateFullscreenPlayer(title) { fsTitle.textContent = title; }
-function updatePlayButton() {
-  if (isPlaying) {
+function updateMiniPlayer(title){ miniTitle.textContent = title; }
+function updateFullscreenPlayer(title){ fsTitle.textContent = title; }
+function updatePlayButton(){
+  if(isPlaying){
     fsPlayBtn.innerHTML = '<i class="fa fa-pause"></i>';
     miniPlayBtn.innerHTML = '<i class="fa fa-pause"></i>';
   } else {
@@ -143,32 +143,32 @@ function updatePlayButton() {
 // --------------------
 // Mini → Fullscreen
 // --------------------
-miniPlayer.addEventListener('click', () => fullscreenPlayer.style.display = 'flex');
-fsCloseBtn.addEventListener('click', () => fullscreenPlayer.style.display = 'none');
+miniPlayer.addEventListener('click',()=>fullscreenPlayer.style.display='flex');
+fsCloseBtn.addEventListener('click',()=>fullscreenPlayer.style.display='none');
 
 // --------------------
 // Play/Pause
 // --------------------
 function togglePlay() {
-  if (isPlaying) { fsAudio.pause(); }
+  if(isPlaying){ fsAudio.pause(); }
   else { fsAudio.play(); }
 }
 fsPlayBtn.addEventListener('click', togglePlay);
-miniPlayBtn.addEventListener('click', (e) => { e.stopPropagation(); togglePlay(); });
-fsAudio.addEventListener('play', () => { isPlaying = true; updatePlayButton(); });
-fsAudio.addEventListener('pause', () => { isPlaying = false; updatePlayButton(); });
+miniPlayBtn.addEventListener('click', (e)=>{ e.stopPropagation(); togglePlay(); });
+fsAudio.addEventListener('play', ()=>{ isPlaying = true; updatePlayButton(); });
+fsAudio.addEventListener('pause', ()=>{ isPlaying = false; updatePlayButton(); });
 
 // --------------------
 // Next / Prev
 // --------------------
-function playNext() {
-  if (isShuffle) currentIndex = Math.floor(Math.random() * filteredData.length);
-  else currentIndex = (currentIndex + 1) % filteredData.length;
+function playNext(){
+  if(isShuffle) currentIndex = Math.floor(Math.random()*filteredData.length);
+  else currentIndex = (currentIndex+1)%filteredData.length;
   playSong(currentIndex);
 }
-function playPrev() {
-  if (isShuffle) currentIndex = Math.floor(Math.random() * filteredData.length);
-  else currentIndex = (currentIndex - 1 + filteredData.length) % filteredData.length;
+function playPrev(){
+  if(isShuffle) currentIndex = Math.floor(Math.random()*filteredData.length);
+  else currentIndex = (currentIndex-1+filteredData.length)%filteredData.length;
   playSong(currentIndex);
 }
 fsNextBtn.addEventListener('click', playNext);
@@ -177,71 +177,66 @@ fsPrevBtn.addEventListener('click', playPrev);
 // --------------------
 // Shuffle & Repeat
 // --------------------
-fsShuffleBtn.addEventListener('click', () => {
+fsShuffleBtn.addEventListener('click', ()=>{
   isShuffle = !isShuffle;
   fsShuffleBtn.style.color = isShuffle ? 'var(--accent-1)' : 'var(--white)';
 });
 
-fsRepeatBtn.addEventListener('click', () => {
-  if (repeatMode === 'none') repeatMode = 'all';
-  else if (repeatMode === 'all') repeatMode = 'one';
-  else repeatMode = 'none';
+fsRepeatBtn.addEventListener('click', ()=>{
+  if(repeatMode==='none') repeatMode='all';
+  else if(repeatMode==='all') repeatMode='one';
+  else repeatMode='none';
   updateRepeatUI();
 });
-function updateRepeatUI() {
-  fsRepeatBtn.style.color =
-    repeatMode === 'none'
-      ? 'var(--white)'
-      : (repeatMode === 'all'
-        ? 'var(--accent-2)'
-        : 'var(--accent-1)');
+function updateRepeatUI(){
+  fsRepeatBtn.style.color = repeatMode==='none'?'var(--white)':(repeatMode==='all'?'var(--accent-2)':'var(--accent-1)';
 }
 
 // --------------------
 // Auto Next / Repeat
 // --------------------
-fsAudio.addEventListener('ended', () => {
-  if (repeatMode === 'one') playSong(currentIndex);
-  else if (repeatMode === 'all') playNext();
+fsAudio.addEventListener('ended', ()=>{
+  if(repeatMode==='one') playSong(currentIndex);
+  else if(repeatMode==='all') playNext();
   else {
-    if (currentIndex < filteredData.length - 1) playNext();
-    else { fsAudio.pause(); isPlaying = false; updatePlayButton(); }
+    if(currentIndex<filteredData.length-1) playNext();
+    else { fsAudio.pause(); isPlaying=false; updatePlayButton(); }
   }
 });
 
 // --------------------
 // Progress Bar
 // --------------------
-fsAudio.addEventListener('timeupdate', () => {
-  if (fsAudio.duration) {
-    const percent = (fsAudio.currentTime / fsAudio.duration) * 100;
-    progressFilled.style.width = percent + '%';
+fsAudio.addEventListener('timeupdate', ()=>{
+  if(fsAudio.duration){
+    const percent = (fsAudio.currentTime/fsAudio.duration)*100;
+    progressFilled.style.width = percent+'%';
     currentTimeEl.textContent = formatTime(fsAudio.currentTime);
     durationEl.textContent = formatTime(fsAudio.duration);
   }
 });
-progressBarContainer.addEventListener('click', (e) => {
+progressBarContainer.addEventListener('click',(e)=>{
   const rect = progressBarContainer.getBoundingClientRect();
   const clickX = e.clientX - rect.left;
-  fsAudio.currentTime = (clickX / rect.width) * fsAudio.duration;
+  fsAudio.currentTime = (clickX/rect.width)*fsAudio.duration;
 });
-function formatTime(seconds) {
-  const mins = Math.floor(seconds / 60);
-  const secs = Math.floor(seconds % 60);
-  return mins + ':' + (secs < 10 ? '0' + secs : secs);
+function formatTime(seconds){
+  const mins = Math.floor(seconds/60);
+  const secs = Math.floor(seconds%60);
+  return mins + ':' + (secs<10?'0'+secs:secs);
 }
 
 // --------------------
 // Volume
 // --------------------
-volumeSlider.addEventListener('input', () => {
+volumeSlider.addEventListener('input', ()=>{
   fsAudio.volume = volumeSlider.value;
 });
 
 // --------------------
 // Search
 // --------------------
-searchInput.addEventListener('input', (e) => {
+searchInput.addEventListener('input', (e)=>{
   const query = e.target.value.toLowerCase();
   filteredData = musicData.filter(song => song.name.toLowerCase().includes(query));
   renderMusicList();
@@ -250,24 +245,19 @@ searchInput.addEventListener('input', (e) => {
 // --------------------
 // Tabs (All / Folders)
 // --------------------
-tabs.forEach(tab => {
-  tab.addEventListener('click', () => {
-    tabs.forEach(t => t.classList.remove('active'));
+tabs.forEach(tab=>{
+  tab.addEventListener('click', ()=>{
+    tabs.forEach(t=>t.classList.remove('active'));
     tab.classList.add('active');
     currentView = tab.dataset.view;
-    if (currentView === 'all') {
-      allSongsView.style.display = 'block';
-      foldersView.style.display = 'none';
+    if(currentView==='all'){
+      allSongsView.style.display='block';
+      foldersView.style.display='none';
       loadSongs(currentList);
     } else {
-      allSongsView.style.display = 'none';
-      foldersView.style.display = 'block';
+      allSongsView.style.display='none';
+      foldersView.style.display='block';
       loadFolders();
     }
   });
 });
-
-// --------------------
-// Init
-// --------------------
-loadSongs(currentList);
