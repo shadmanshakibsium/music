@@ -17,6 +17,12 @@
 }
 
 body {
+   height: 100%;
+  overflow-x: hidden; /* horizontal scroll বন্ধ */
+  overflow-y: auto;   /* vertical scroll সচল */
+  overscroll-behavior: none; /* scroll bounce বন্ধ করে দেয় */
+  touch-action: pan-x pan-y;  /* Android touch scroll stabilize */
+
   min-height: 100vh;
   padding: 50px 20px;
   color: white;
