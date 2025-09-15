@@ -23,6 +23,7 @@ const progressBarContainer = document.getElementById('progress-bar-container');
 const progressFilled = document.getElementById('progress-filled');
 const currentTimeEl = document.getElementById('current-time');
 const durationEl = document.getElementById('duration');
+const libraryView = document.getElementById('library-view');
 
 // ---- Load all JSON files ----
 async function loadAllMusic() {
@@ -33,9 +34,7 @@ async function loadAllMusic() {
             const data = await res.json();
             data.forEach(song => song.type = type);
             allSongs = allSongs.concat(data);
-        } catch (e) {
-            console.error(`Failed to load ${type}.json`, e);
-        }
+        } catch (e) { console.error(`Failed to load ${type}.json`, e); }
     }
     musicData = allSongs;
 }
@@ -160,13 +159,11 @@ function resetProgress(){
     durationEl.textContent='0:00';
     miniTime.textContent='0:00';
 }
-
 function formatTime(sec){
     const m = Math.floor(sec/60);
     const s = Math.floor(sec%60);
     return `${m}:${s<10?'0'+s:s}`;
 }
-
 let rafId;
 function updateProgress(){
     if(audio.duration){
@@ -178,7 +175,6 @@ function updateProgress(){
     }
     if(isPlaying) rafId = requestAnimationFrame(updateProgress);
 }
-
 progressBarContainer.addEventListener('click',(e)=>{
     const rect = progressBarContainer.getBoundingClientRect();
     const clickX = e.clientX - rect.left;
@@ -187,19 +183,8 @@ progressBarContainer.addEventListener('click',(e)=>{
 });
 
 // ---- Play/Pause ----
-function playSong(){
-    audio.play();
-    isPlaying=true;
-    playPauseBtn.textContent='⏸';
-    miniPlayPause.textContent='⏸';
-    updateProgress();
-}
-function pauseSong(){
-    audio.pause();
-    isPlaying=false;
-    playPauseBtn.textContent='▶';
-    miniPlayPause.textContent='▶';
-}
+function playSong(){ audio.play(); isPlaying=true; playPauseBtn.textContent='⏸'; miniPlayPause.textContent='⏸'; updateProgress(); }
+function pauseSong(){ audio.pause(); isPlaying=false; playPauseBtn.textContent='▶'; miniPlayPause.textContent='▶'; }
 playPauseBtn.addEventListener('click', ()=>{ isPlaying?pauseSong():playSong(); });
 miniPlayPause.addEventListener('click', ()=>{ isPlaying?pauseSong():playSong(); });
 
@@ -215,22 +200,20 @@ nextBtn.addEventListener('click', ()=>{
 
 // ---- Mini → Full Player ----
 miniPlayer.addEventListener('click', ()=>{
-    playerView.classList.remove('hidden');      // ফুল প্লেয়ার দেখাবে
-    playerView.setAttribute('aria-hidden','false');
-    miniPlayer.classList.add('hidden');         // মিনি প্লেয়ার হাইড হবে
+    playerView.classList.remove('hidden');
+    libraryView.classList.add('blur');  // library blur
+    miniPlayer.classList.add('hidden');
 });
 
 // ---- Full Player → Back to Library ----
 backToLibraryBtn.addEventListener('click', ()=>{
     playerView.classList.add('hidden');
-    playerView.setAttribute('aria-hidden','true');
-    miniPlayer.classList.remove('hidden'); // show mini again
+    libraryView.classList.remove('blur');
+    miniPlayer.classList.remove('hidden');
 });
 
 // ---- Audio End ----
-audio.addEventListener('ended', ()=>{
-    nextBtn.click();
-});
+audio.addEventListener('ended', ()=>{ nextBtn.click(); });
 
 // ---- Init ----
 window.addEventListener('load', async ()=>{
