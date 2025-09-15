@@ -11,7 +11,6 @@ html, body {
   color: white;
 }
 
-/* Overlay Blur */
 body::before {
   content: "";
   position: fixed;
@@ -33,7 +32,7 @@ body {
   margin-bottom: 100px; /* space for mini player */
 }
 
-.music-item {
+#song-list .music-item {
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -47,11 +46,11 @@ body {
   transition: 0.3s;
 }
 
-.music-item:hover {
+#song-list .music-item:hover {
   background: rgba(255, 255, 255, 0.18);
 }
 
-.music-item .info {
+#song-list .music-item .info {
   font-size: 15px;
   font-weight: 500;
 }
@@ -75,17 +74,17 @@ body {
   cursor: pointer;
 }
 
-#mini-title {
+#mini-player #mini-title {
   font-size: 14px;
   font-weight: 600;
 }
 
-#mini-time {
+#mini-player #mini-time {
   font-size: 12px;
   opacity: 0.85;
 }
 
-#mini-play {
+#mini-player #mini-play {
   width: 34px;
   height: 34px;
   border-radius: 50%;
@@ -105,7 +104,7 @@ body {
 #full-player {
   position: fixed;
   top: 0; left: 0; right: 0; bottom: 0;
-  display: none; /* default hidden */
+  display: none; /* hidden by default */
   justify-content: center;
   align-items: center;
   z-index: 100;
@@ -131,7 +130,7 @@ body {
   letter-spacing: 0.7px;
 }
 
-/* Progress Bar Section */
+/* Progress */
 #full-player #progress {
   display: flex;
   align-items: center;
@@ -146,7 +145,7 @@ body {
   margin: 0 auto 30px auto;
 }
 
-#full-player #current-time, 
+#full-player #current-time,
 #full-player #duration {
   flex-shrink: 0;
   width: 40px;
@@ -318,7 +317,7 @@ body {
     font-size: 20px;
     border-radius: 22px;
   }
-  #full-player #current-time, 
+  #full-player #current-time,
   #full-player #duration {
     font-size: 11px;
     width: 36px;
