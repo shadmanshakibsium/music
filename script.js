@@ -212,35 +212,34 @@ nextBtn.addEventListener('click', ()=>{
 // ---- Mini → Full Player ----
 function showMiniPlayer(){
     miniPlayer.classList.remove('hidden');
-    playerView.style.transition = 'transform 0.3s ease, opacity 0.3s ease';
     playerView.classList.add('hidden');
     libraryView.classList.remove('blur');
 }
+
 function openFullPlayer(){
     playerView.classList.remove('hidden');
-    playerView.style.opacity = '0';
-    playerView.style.transform = 'translateY(30px)';
     libraryView.classList.add('blur');
     miniPlayer.classList.add('hidden');
     document.body.classList.add('player-fullscreen');
 
+    playerView.style.opacity = '0';
+    playerView.style.transform = 'translateY(30px)';
     requestAnimationFrame(()=>{
         playerView.style.opacity = '1';
         playerView.style.transform = 'translateY(0)';
     });
 }
+
 miniPlayer.addEventListener('click', openFullPlayer);
 
 // ---- Full Player → Back ----
 function closeFullPlayer(){
     playerView.style.opacity = '1';
     playerView.style.transform = 'translateY(0)';
-
     requestAnimationFrame(()=>{
         playerView.style.opacity = '0';
         playerView.style.transform = 'translateY(30px)';
     });
-
     setTimeout(()=>{
         playerView.classList.add('hidden');
         libraryView.classList.remove('blur');
