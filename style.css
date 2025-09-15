@@ -353,6 +353,30 @@ h1 {
   #fs-volume{width:110px;}
 }
 
+/* Desktop: 80% width centered */
+@media(min-width: 451px) {
+  .search-bar input {
+    width: 80%;
+    margin-left: auto;
+    margin-right: auto;
+    display: block;
+  }
+  .music-item {
+    width: 80%;
+    margin: 0 auto 10px auto;
+  }
+}
+
+/* Mobile: full width stacked */
+@media(max-width: 450px) {
+  .search-bar input,
+  .music-item {
+    width: 100%;
+    margin: 0 0 10px 0;
+    display: block;
+  }
+}
+
 /* --------------------
    Mini Player (Updated like music item)
 -------------------- */
