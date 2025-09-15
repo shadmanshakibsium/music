@@ -215,30 +215,31 @@ function showMiniPlayer(){
     playerView.classList.add('hidden');
     libraryView.classList.remove('blur');
 }
+function openFullPlayer(e){
+    // Only trigger if clicked outside controls
+    if(e.target.closest('.control-btn, #miniPlayPause')) return;
 
-function openFullPlayer(){
     playerView.classList.remove('hidden');
     libraryView.classList.add('blur');
     miniPlayer.classList.add('hidden');
     document.body.classList.add('player-fullscreen');
 
-    playerView.style.opacity = '0';
-    playerView.style.transform = 'translateY(30px)';
+    playerView.style.opacity='0';
+    playerView.style.transform='scale(0.9)';
     requestAnimationFrame(()=>{
-        playerView.style.opacity = '1';
-        playerView.style.transform = 'translateY(0)';
+        playerView.style.opacity='1';
+        playerView.style.transform='scale(1)';
     });
 }
-
 miniPlayer.addEventListener('click', openFullPlayer);
 
 // ---- Full Player → Back ----
 function closeFullPlayer(){
-    playerView.style.opacity = '1';
-    playerView.style.transform = 'translateY(0)';
+    playerView.style.opacity='1';
+    playerView.style.transform='scale(1)';
     requestAnimationFrame(()=>{
-        playerView.style.opacity = '0';
-        playerView.style.transform = 'translateY(30px)';
+        playerView.style.opacity='0';
+        playerView.style.transform='scale(0.9)';
     });
     setTimeout(()=>{
         playerView.classList.add('hidden');
