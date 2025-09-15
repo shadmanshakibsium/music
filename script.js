@@ -40,29 +40,21 @@ const progressBarContainer = document.getElementById('progress-bar-container');
 const volumeSlider = document.getElementById('fs-volume');
 
 // --------------------
-// Load All Songs (A-Z)
+// Load All Songs (A-Z) using Promise.all
 // --------------------
 function loadAllSongs() {
-  musicData = [];
-  filteredData = [];
-  let loadedCount = 0;
-
-  types.forEach(lang => {
+  const promises = types.map(lang =>
     fetch(`data/${lang}.json`)
       .then(res => res.json())
-      .then(data => {
-        data.forEach(song => {
-          song.folder = lang; // কোন ফোল্ডার/টাইপ
-          musicData.push(song);
-        });
-        loadedCount++;
-        if (loadedCount === types.length) {
-          musicData.sort((a,b)=>a.name.localeCompare(b.name));
-          filteredData = [...musicData];
-          renderMusicList();
-        }
-      })
-      .catch(err => console.error(`Failed to load ${lang}.json`, err));
+      .then(data => data.map(song => ({...song, folder: lang})))
+      .catch(err => { console.error(`Failed to load ${lang}.json`, err); return []; })
+  );
+
+  Promise.all(promises).then(results => {
+    musicData = results.flat();
+    musicData.sort((a,b) => a.name.localeCompare(b.name));
+    filteredData = [...musicData];
+    renderMusicList();
   });
 }
 
@@ -97,8 +89,8 @@ function toggleFolder(folderName, folderEl) {
           li.classList.add('music-item');
           li.textContent = song.name;
           li.addEventListener('click', ()=>{
-            musicData = data;
-            filteredData = [...data];
+            musicData = data.map(s => ({...s, folder: folderName}));
+            filteredData = [...musicData];
             playSong(index);
           });
           listEl.appendChild(li);
