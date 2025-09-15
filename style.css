@@ -193,37 +193,6 @@ body::before{
   text-align:center;
 }
 
-/* Alphabet index */
-.alpha-index{
-  position: fixed;
-  right: 20px;
-  top: 120px;
-  z-index: 60;
-  display:flex;
-  flex-direction:column;
-  gap:6px;
-  padding:8px;
-  background: rgba(0,0,0,0.18);
-  border-radius:10px;
-  font-weight:700;
-  color:var(--white);
-  border:1px solid rgba(255,255,255,0.03);
-}
-.alpha-index div{
-  padding:6px 8px;
-  border-radius:6px;
-  text-align:center;
-  cursor:pointer;
-  font-size:13px;
-  color: rgba(255,255,255,0.8);
-}
-.alpha-index div:hover,
-.alpha-index div.active{
-  background: rgba(255,255,255,0.12);
-  color:#000;
-}
-@media (max-width:700px){.alpha-index{ display:none }}
-
 /* --------------------
    Player View (full + fullscreen)
 -------------------- */
@@ -242,6 +211,9 @@ body::before{
   opacity:0;
   transform: translateY(20px);
   transition: opacity 0.25s ease, transform 0.25s ease;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
 /* Fullscreen overlay style */
@@ -272,84 +244,165 @@ body.player-fullscreen #mini-player{
   transform: translateY(0);
 }
 
-.player-header{
-  display:flex;
-  gap:10px;
-  align-items:center;
-  justify-content:space-between;
-  margin-bottom:14px;
+.container{
+  width: 100%;
+  max-width: 420px;
+  background: rgba(255, 255, 255, 0.08);
+  border-radius: 30px;
+  border: 1px solid rgba(255,255,255,0.15);
+  backdrop-filter: blur(18px) saturate(180%);
+  padding: 28px 25px;
+  text-align: center;
+  box-shadow: 0 15px 40px rgba(0,0,0,0.55);
+  user-select: none;
 }
-.back-btn{
-  background: rgba(255,255,255,0.04);
-  border: 1px solid rgba(255,255,255,0.04);
+
+.title{
+  font-size: 26px;
+  font-weight: 700;
+  margin-bottom: 24px;
+  letter-spacing: 0.7px;
   color: var(--white);
-  padding:8px 12px;
-  border-radius:10px;
-  font-weight:600;
-  cursor:pointer;
-}
-.song-title{
-  font-size:18px;
-  font-weight:700;
-  text-align:center;
-  flex:1;
-  margin-left:8px;
 }
 
 /* Progress */
 #progress{
   display:flex;
   align-items:center;
-  gap:10px;
-  margin-bottom:16px;
+  justify-content:space-between;
+  width:100%;
+  max-width:320px;
+  cursor:pointer;
   user-select:none;
+  color: #ddd;
+  font-size: 12px;
+  position: relative;
+  margin: 0 auto 30px auto;
 }
 #current-time, #duration{
-  min-width:48px;
+  flex-shrink:0;
+  width:40px;
   text-align:center;
-  color:var(--muted);
-  font-size:13px;
 }
 #progress-bar-container{
-  flex:1;
+  position:relative;
+  flex-grow:1;
   height:10px;
-  background: rgba(255,255,255,0.06);
+  margin:0 10px;
+  background: rgba(255, 255, 255, 0.12);
   border-radius:8px;
   overflow:hidden;
-  cursor:pointer;
-  position:relative;
-  border:1px solid rgba(255,255,255,0.03);
 }
 #progress-filled{
-  height:100%;
-  width:0%;
   background: linear-gradient(90deg, var(--accent-1), var(--accent-2));
+  height:100%;
+  width:0;
   border-radius:8px 0 0 8px;
-  transition: width .12s linear;
+  pointer-events:none;
 }
 
 /* Controls */
 .controls{
   display:flex;
+  justify-content:space-around;
+  align-items:center;
+  margin:32px 0 28px;
+  max-width:360px;
+  margin-left:auto;
+  margin-right:auto;
+}
+.control-btn{
+  width:50px;
+  height:40px;
+  border-radius:22px;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  cursor:pointer;
+  background: linear-gradient(135deg, var(--accent-1), #fcb045);
+  border:none;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.5);
+  transition: all 0.3s ease;
+  font-size:18px;
+  color:white;
+}
+.control-btn:hover{
+  transform: scale(1.1);
+  box-shadow: 0 0 15px rgba(255,107,107,0.75);
+}
+.play-btn{
+  width:74px;
+  height:48px;
+  font-size:22px;
+  border-radius:26px;
+  background: linear-gradient(135deg, var(--accent-2), #7E5CD9);
+  box-shadow: 0 0 20px rgba(88,61,145,0.8);
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  transition: all 0.3s ease;
+}
+.play-btn:hover{
+  transform: scale(1.05);
+  box-shadow: 0 0 25px rgba(88,61,145,1);
+}
+.control-btn.active{
+  box-shadow: 0 0 20px rgba(255,107,107,0.9);
+}
+
+/* Volume */
+#volume-container{
+  margin:16px 0;
+  display:flex;
   align-items:center;
   justify-content:center;
   gap:14px;
-  margin-bottom:8px;
+  color:white;
 }
-.control{
-  background: linear-gradient(135deg, rgba(255,255,255,0.03), rgba(255,255,255,0.01));
-  border:1px solid rgba(255,255,255,0.04);
-  padding:10px 12px;
-  border-radius: 10px;
+#volume{
+  width:120px;
   cursor:pointer;
-  font-size:16px;
+  -webkit-appearance:none;
+  height:5px;
+  background: rgba(255,255,255,0.3);
+  border-radius:6px;
+  outline:none;
+  transition: background 0.3s ease;
 }
-.control.play{
-  padding:12px 18px;
-  border-radius: 14px;
-  background: linear-gradient(90deg, var(--accent-2), var(--accent-1));
-  color: #fff;
-  box-shadow: 0 8px 26px rgba(88,61,145,0.18);
+#volume:hover{ background: rgba(255,255,255,0.5); }
+#volume::-webkit-slider-thumb{
+  -webkit-appearance:none;
+  width:16px;height:16px;
+  background: var(--accent-1);
+  cursor:pointer;
+  border-radius:50%;
+  box-shadow:0 0 6px rgba(255,107,107,0.85);
+}
+#volume::-moz-range-thumb{
+  width:16px;height:16px;
+  background: var(--accent-1);
+  cursor:pointer;
+  border-radius:50%;
+  box-shadow:0 0 6px rgba(255,107,107,0.85);
+}
+
+/* Back button */
+.back-btn{
+  display:inline-block;
+  padding:10px 26px;
+  border-radius:24px;
+  background: rgba(255,255,255,0.15);
+  backdrop-filter: blur(9px);
+  color:white;
+  text-decoration:none;
+  font-weight:600;
+  font-size:14.5px;
+  transition:0.3s;
+  margin-top:16px;
+  user-select:none;
+}
+.back-btn:hover{
+  background: rgba(255,255,255,0.3);
 }
 
 /* Mini Player */
@@ -377,7 +430,6 @@ body.player-fullscreen #mini-player{
   pointer-events:none;
   transform: translateY(30px);
 }
-
 #mini-player #miniSongTitle{
   font-weight:600;
   font-size:15px;
@@ -393,10 +445,10 @@ body.player-fullscreen #mini-player{
 }
 #mini-player button{
   background: linear-gradient(90deg, var(--accent-2), var(--accent-1));
-  border: none;
-  color: #fff;
+  border:none;
+  color:#fff;
   padding:10px 12px;
-  border-radius: 10px;
+  border-radius:10px;
   cursor:pointer;
   font-weight:700;
 }
