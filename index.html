@@ -1,63 +1,82 @@
 <!DOCTYPE html>
-<html lang="bn">
+<html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Music Player</title>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>My Music Library</title>
+
+  <!-- font (optional) -->
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+
+  <!-- External CSS (you will receive style.css separately) -->
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
-  <!-- 🔎 Search + Song List -->
-  <div id="song-list">
-    <input type="text" id="search" placeholder="Search song...">
-    <div class="music-item" data-src="song1.mp3" data-title="Song One">Song One</div>
-    <div class="music-item" data-src="song2.mp3" data-title="Song Two">Song Two</div>
-    <div class="music-item" data-src="song3.mp3" data-title="Song Three">Song Three</div>
-  </div>
+  <!-- Header -->
+  <header class="site-header">
+    <h1>My Music Library</h1>
+  </header>
 
-  <!-- 🎵 Mini Player -->
-  <div id="mini-player">
-    <div>
-      <div id="mini-title">No song playing</div>
-      <div id="mini-time">00:00</div>
+  <!-- Main library view (visible by default) -->
+  <main id="library-view" class="view">
+    <div class="search-bar">
+      <input type="text" id="searchInput" placeholder="Search songs..." aria-label="Search songs">
     </div>
-    <button id="mini-play">▶</button>
-  </div>
 
-  <!-- 🎶 Full Player -->
-  <div id="full-player">
-    <div class="container">
-      <div class="title" id="full-title">No song selected</div>
+    <div class="tabs" role="tablist" aria-label="Library tabs">
+      <button class="tab active" data-tab="songs" role="tab" aria-selected="true">Songs</button>
+      <button class="tab" data-tab="folders" role="tab" aria-selected="false">Folders</button>
+    </div>
 
-      <!-- Progress -->
-      <div id="progress">
+    <!-- Music list: JS will populate this element (no hard-coded <li>) -->
+    <ul id="music-list" class="music-list" aria-live="polite">
+      <!-- songs injected here by script.js -->
+    </ul>
+  </main>
+
+  <!-- Full player view (song.html equivalent). Hidden by default; shown by JS -->
+  <section id="player-view" class="view hidden" aria-hidden="true">
+    <div class="player-header">
+      <button id="backToLibrary" class="back-btn" type="button" aria-label="Back to library">← Home</button>
+      <h2 id="currentSongTitle" class="song-title">Song Title</h2>
+    </div>
+
+    <div class="player-content">
+      <!-- Progress / controls / extra UI will be rendered/styled via CSS & JS -->
+      <div id="progress" class="progress">
         <span id="current-time">0:00</span>
-        <div id="progress-bar-container">
-          <div id="progress-filled"></div>
-        </div>
+        <div id="progress-bar-container"><div id="progress-filled"></div></div>
         <span id="duration">0:00</span>
       </div>
 
-      <!-- Controls -->
-      <div class="controls">
-        <button class="control-btn" id="prev">⏮</button>
-        <button class="play-btn" id="play">▶</button>
-        <button class="control-btn" id="next">⏭</button>
+      <div class="controls" id="player-controls">
+        <!-- buttons (play/pause/next/etc.) will be wired by script.js -->
+        <button id="prevBtn" class="control" type="button" aria-label="Previous">⏮</button>
+        <button id="playPauseBtn" class="control play" type="button" aria-label="Play/Pause">▶</button>
+        <button id="nextBtn" class="control" type="button" aria-label="Next">⏭</button>
       </div>
-
-      <!-- Volume -->
-      <div id="volume-container">
-        <span>🔊</span>
-        <input type="range" id="volume" min="0" max="1" step="0.01">
-      </div>
-
-      <!-- Back Button -->
-      <button class="back-btn" id="back-btn">⬅ Home</button>
     </div>
+  </section>
+
+  <!-- Bottom mini-player (hidden until a song is selected) -->
+  <div id="mini-player" class="mini-player hidden" aria-hidden="true">
+    <div id="mini-info">
+      <span id="miniSongTitle">Song Title</span>
+      <span id="miniTime">0:00</span>
+    </div>
+    <button id="miniPlayPause" type="button" aria-label="Play/Pause">▶</button>
   </div>
 
-  <audio id="audio"></audio>
-  <script src="script.js"></script>
+  <!-- Alphabet index (A-Z + #) — JS will populate if needed -->
+  <div id="alphaIndex" class="alpha-index" aria-hidden="false">
+    <!-- populated by script.js -->
+  </div>
+
+  <!-- Hidden audio element used by both mini & full player -->
+  <audio id="audioPlayer" preload="metadata"></audio>
+
+  <!-- External JS (you will receive script.js separately) -->
+  <script src="script.js" defer></script>
 </body>
 </html>
