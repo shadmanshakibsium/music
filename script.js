@@ -32,34 +32,24 @@ async function loadAllMusic() {
         try {
             const res = await fetch(`data/${type}.json`);
             const data = await res.json();
-            data.forEach(song => song.type = type);
+            data.forEach(song => {
+                song.type = type;
+            });
             allSongs = allSongs.concat(data);
-        } catch (e) { console.error(`Failed to load ${type}.json`, e); }
+        } catch (e) {
+            console.error(`Failed to load ${type}.json`, e);
+        }
     }
     musicData = allSongs;
 }
 
-// ---- Sort Songs Alphabetically ----
-function sortSongs(list) {
-    return list.slice().sort((a,b)=>{
-        const aChar = a.name.charAt(0).toUpperCase();
-        const bChar = b.name.charAt(0).toUpperCase();
-        const isALetter = /^[A-Z]$/.test(aChar);
-        const isBLetter = /^[A-Z]$/.test(bChar);
-        if(isALetter && !isBLetter) return -1;
-        if(!isALetter && isBLetter) return 1;
-        return a.name.toUpperCase() < b.name.toUpperCase() ? -1 : a.name.toUpperCase() > b.name.toUpperCase() ? 1 : 0;
-    });
-}
-
 // ---- Display Songs ----
 function displaySongs(list) {
-    const sortedList = sortSongs(list);
-    if(sortedList.length === 0){
+    if(list.length === 0){
         musicListEl.innerHTML = '<li class="no-results">No results found</li>';
         return;
     }
-    musicListEl.innerHTML = sortedList.map((song,index)=>`
+    musicListEl.innerHTML = list.map((song,index)=>`
         <li class="music-item" data-index="${index}">
             <div class="info">
                 <span class="title">${song.name}</span>
@@ -71,14 +61,11 @@ function displaySongs(list) {
 }
 
 // ---- Display Folders ----
-const folderState = {};
 function displayFolders(list){
-    const sortedList = sortSongs(list);
     let html = '';
     types.forEach(type=>{
-        const songs = sortedList.filter(s=>s.type===type);
+        const songs = list.filter(s=>s.type===type);
         if(songs.length){
-            folderState[type] = false;
             html += `
                 <div class="folder-title" data-type="${type}">${type.toUpperCase()}</div>
                 <ul class="folder-songs" data-type="${type}">
@@ -100,9 +87,7 @@ function displayFolders(list){
 
     document.querySelectorAll('.folder-title').forEach(title=>{
         title.addEventListener('click', ()=>{
-            const type = title.dataset.type;
-            folderState[type] = !folderState[type];
-            const ul = document.querySelector(`.folder-songs[data-type="${type}"]`);
+            const ul = document.querySelector(`.folder-songs[data-type="${title.dataset.type}"]`);
             ul.classList.toggle('open');
         });
     });
@@ -148,9 +133,14 @@ function addMusicItemHandlers(){
 function loadSong(index){
     const song = musicData[index];
     if(!song) return;
+
+    // Load audio
     audio.src = `songs/${song.type}/${song.file}`;
+
+    // Update titles
     currentSongTitle.textContent = song.name;
     miniSongTitle.textContent = song.name;
+
     resetProgress();
     playSong();
 }
