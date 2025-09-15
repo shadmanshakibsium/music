@@ -3,7 +3,6 @@
 // --------------------
 const types = ['anime','arabic','bangla','edit audio','english','hindi','lofi','phonk','slowed-reverbed'];
 let currentView = 'all'; // 'all' or 'folders'
-let currentList = 'bangla';
 let musicData = [];
 let filteredData = [];
 let currentIndex = 0;
@@ -41,34 +40,52 @@ const progressBarContainer = document.getElementById('progress-bar-container');
 const volumeSlider = document.getElementById('fs-volume');
 
 // --------------------
-// Load Songs / Folders
+// Load All Songs (A-Z) for All Songs Tab
 // --------------------
-function loadSongs(lang) {
-  fetch(`data/${lang}.json`)
-    .then(res => res.json())
-    .then(data => {
-      musicData = data;
-      filteredData = [...musicData];
-      if (currentView === 'all') renderMusicList();
-    })
-    .catch(err => console.error("Failed to load songs:", err));
+function loadAllSongs() {
+  musicData = [];
+  filteredData = [];
+  let loadedCount = 0;
+
+  types.forEach(lang => {
+    fetch(`data/${lang}.json`)
+      .then(res => res.json())
+      .then(data => {
+        data.forEach(song => {
+          song.folder = lang; // কোন ফোল্ডার/টাইপ থেকে এসেছে
+          musicData.push(song);
+        });
+        loadedCount++;
+        if (loadedCount === types.length) {
+          // সব গান লোড হয়ে গেলে সাজানো হবে A-Z
+          musicData.sort((a,b)=>a.name.localeCompare(b.name));
+          filteredData = [...musicData];
+          renderMusicList();
+        }
+      })
+      .catch(err => console.error(`Failed to load ${lang}.json`, err));
+  });
 }
 
+// --------------------
+// Load Folders Tab
+// --------------------
 function loadFolders() {
   folderListEl.innerHTML = '';
   types.forEach(folder => {
     const div = document.createElement('div');
-    div.classList.add('folder-box');
+    div.classList.add('folder-title');
     div.textContent = folder;
-    div.addEventListener('click', ()=>toggleFolder(folder, div));
+
+    div.addEventListener('click', () => toggleFolder(folder, div));
     folderListEl.appendChild(div);
   });
 }
 
-function toggleFolder(folderName, folderEl){
+function toggleFolder(folderName, folderEl) {
   fetch(`data/${folderName}.json`)
-    .then(res=>res.json())
-    .then(data=>{
+    .then(res => res.json())
+    .then(data => {
       let listEl = folderEl.querySelector('.folder-songs');
       if(listEl){
         listEl.style.display = listEl.style.display==='none' ? 'block' : 'none';
@@ -81,7 +98,6 @@ function toggleFolder(folderName, folderEl){
           li.classList.add('music-item');
           li.textContent = song.name;
           li.addEventListener('click', ()=>{
-            currentList = folderName;
             musicData = data;
             filteredData = [...data];
             playSong(index);
@@ -91,7 +107,7 @@ function toggleFolder(folderName, folderEl){
         folderEl.appendChild(listEl);
       }
     })
-    .catch(err=>console.error(`Failed to load folder ${folderName}:`, err));
+    .catch(err => console.error(`Failed to load ${folderName}.json`, err));
 }
 
 // --------------------
@@ -114,7 +130,7 @@ function renderMusicList() {
 function playSong(index){
   currentIndex = index;
   const song = filteredData[index];
-  fsAudio.src = `songs/${currentList}/${song.file}`;
+  fsAudio.src = `songs/${song.folder}/${song.file}`;
   fsAudio.play();
   isPlaying = true;
   updateMiniPlayer(song.name);
@@ -247,10 +263,11 @@ tabs.forEach(tab=>{
     tabs.forEach(t=>t.classList.remove('active'));
     tab.classList.add('active');
     currentView = tab.dataset.view;
+
     if(currentView==='all'){
       allSongsView.style.display='block';
       foldersView.style.display='none';
-      loadSongs(currentList);
+      loadAllSongs();
     } else {
       allSongsView.style.display='none';
       foldersView.style.display='block';
@@ -262,4 +279,4 @@ tabs.forEach(tab=>{
 // --------------------
 // Initial Load
 // --------------------
-loadSongs(currentList);
+loadAllSongs();
