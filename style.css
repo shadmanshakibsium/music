@@ -1,5 +1,3 @@
-/* style.css - FINAL VERSION */
-
 /* --------------------
    Variables & Reset
 -------------------- */
@@ -28,7 +26,6 @@ body{
   -moz-osx-font-smoothing:grayscale;
   padding: 32px 20px 100px;
 }
-
 body::before{
   content:"";
   position:fixed;
@@ -358,12 +355,6 @@ body::before{
   transform: translateY(30px);
 }
 
-#mini-player .mini-left{
-  display:flex;
-  align-items:center;
-  gap:12px;
-  min-width:0;
-}
 #mini-player #miniSongTitle{
   font-weight:600;
   font-size:15px;
