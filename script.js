@@ -164,14 +164,20 @@ function updatePlayButton(){
 // --------------------
 // Mini → Fullscreen
 // --------------------
+// Mini → Fullscreen
 miniPlayer.addEventListener('click', ()=>{
   fullscreenPlayer.style.display = 'flex';
-  miniPlayer.style.display = 'none';  // <-- এখানে মিনি প্লেয়ার লুকানো
+  miniPlayer.style.display = 'none';         // মিনি প্লেয়ার লুকানো
+  allSongsView.style.display = 'none';       // গান লিস্ট লুকানো
+  foldersView.style.display = 'none';        // ফোল্ডার লিস্ট লুকানো
 });
 
+// Close fullscreen
 fsCloseBtn.addEventListener('click', ()=>{
   fullscreenPlayer.style.display = 'none';
-  miniPlayer.style.display = 'flex';  // <-- এখানে মিনি প্লেয়ার দেখানো
+  miniPlayer.style.display = 'flex';         // মিনি প্লেয়ার দেখানো
+  if(currentView==='all') allSongsView.style.display = 'block';
+  else foldersView.style.display = 'block';
 });
 
 // --------------------
