@@ -150,66 +150,65 @@ h1 {
 }
 
 /* --------------------
-Folders
--------------------- /
-/ Folder Title: normal clickable, কিন্তু বড় container নয় /
+   Folders
+-------------------- */
+/* Folder Title: normal clickable, কিন্তু বড় container নয় */
 .folder-title {
-color: white;
-margin-top: 20px;
-font-weight: 700;
-font-size: 20px;
-cursor: pointer;
-user-select: none;
-padding: 12px 16px;
-background: rgba(255, 255, 255, 0.12);
-border-radius: 15px;
-border: 1px solid rgba(255,255,255,0.25);
-transition: background 0.3s, transform 0.2s;
-margin-bottom: 8px;
-width: 80%;
-margin-left: auto;
-margin-right: auto; / centered */
+  color: white;
+  margin-top: 20px;
+  font-weight: 700;
+  font-size: 20px;
+  cursor: pointer;
+  user-select: none;
+  padding: 12px 16px;
+  background: rgba(255, 255, 255, 0.12);
+  border-radius: 15px;
+  border: 1px solid rgba(255,255,255,0.25);
+  transition: background 0.3s, transform 0.2s;
+  margin-bottom: 8px;
+  width: 80%;
+  margin-left: auto;
+  margin-right: auto; /* centered */
 }
 
-/* Folder Songs: hidden by default, open হলে শুধু গানগুলো দেখাবে /
-/ Folder container /
-/ Folder Title /
+/* Folder Songs: hidden by default, open হলে শুধু গানগুলো দেখাবে */
+/* Folder container */
+/* Folder Title */
 .folder-title {
-width: 80%;
-height: 52px;
-margin: 10px auto;
-padding: 12px 16px;
-background: rgba(255,255,255,0.12);
-border-radius: 15px;
-border: 1px solid rgba(255,255,255,0.25);
-backdrop-filter: blur(8px); / music item এর blur সমান */
+  width: 80%;
+  height: 52px;
+  margin: 10px auto;
+  padding: 12px 16px;
+  background: rgba(255,255,255,0.12);
+  border-radius: 15px;
+  border: 1px solid rgba(255,255,255,0.25);
+  backdrop-filter: blur(8px); /* music item এর blur সমান */
 }
 
-/* Folder Songs Items /
+/* Folder Songs Items */
 .folder-songs .music-item {
-width: 80%;
-height: 43px; / music item height সমান /
-margin: 6px auto;
-padding: 10px 14px;
-border-radius: 12px;
-background: rgba(255,255,255,0.08);
-border: 1px solid rgba(255,255,255,0.15);
-display: flex;
-align-items: center;
-justify-content: space-between;
-backdrop-filter: blur(8px); / music item এর blur সমান */
+  width: 80%;
+  height: 43px; /* music item height সমান */
+  margin: 6px auto;
+  padding: 10px 14px;
+  border-radius: 12px;
+  background: rgba(255,255,255,0.08);
+  border: 1px solid rgba(255,255,255,0.15);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  backdrop-filter: blur(8px); /* music item এর blur সমান */
 }
 
-/* ---------------- Mobile ---------------- /
+/* ---------------- Mobile ---------------- */
 @media(max-width:450px) {
-.folder-title,
-.folder-songs .music-item {
-width: 100%;
-height: 43px; / mobile এ music item এর সাথে সমান */
-margin: 0 0 10px 0;
+  .folder-title,
+  .folder-songs .music-item {
+    width: 100%;
+    height: 43px; /* mobile এ music item এর সাথে সমান */
+    margin: 0 0 10px 0;
+  }
 }
-}
-
 /* Small fade animation */
 @keyframes fadeIn {
   from {opacity: 0; transform: translateY(-5px);}
