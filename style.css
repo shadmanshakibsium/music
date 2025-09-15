@@ -16,7 +16,7 @@
   user-select: none;
 }
 body {
-  background: url('https://i.imgur.com/uNWSHGy.png') no-repeat center center fixed;
+  background: url('https://i.imgur.com/uNWSHGy.png') no-repeat center center;
   background-size: cover;
   min-height: 100vh;
   padding: 50px 20px;
