@@ -14,21 +14,23 @@
   <h1>My Music Library</h1>
 </div>
 
-<!-- Library View -->
-<div id="library-view">
-  <!-- Search Bar -->
+<!-- Tabs for All Songs / Folders -->
+<div class="tabs">
+  <div class="tab active" data-view="all">All Songs</div>
+  <div class="tab" data-view="folders">Folders</div>
+</div>
+
+<!-- All Songs View -->
+<div id="all-songs-view">
   <div class="search-bar">
     <input type="text" id="searchInput" placeholder="Search songs...">
   </div>
-
-  <!-- Language Tabs -->
-  <div class="tabs">
-    <div class="tab active" data-lang="bangla">Bangla</div>
-    <div class="tab" data-lang="english">English</div>
-  </div>
-
-  <!-- Music List -->
   <ul class="music-list" id="music-list"></ul>
+</div>
+
+<!-- Folders View -->
+<div id="folders-view" style="display:none;">
+  <div id="folder-list"></div>
 </div>
 
 <!-- Mini Player -->
