@@ -209,14 +209,13 @@ nextBtn.addEventListener('click', ()=>{
     loadSong(currentIndex);
 });
 
-// ---- Mini → Full Player Smooth ----
+// ---- Mini → Full Player ----
 function showMiniPlayer(){
     miniPlayer.classList.remove('hidden');
     playerView.style.transition = 'transform 0.3s ease, opacity 0.3s ease';
     playerView.classList.add('hidden');
     libraryView.classList.remove('blur');
 }
-
 function openFullPlayer(){
     playerView.classList.remove('hidden');
     playerView.style.opacity = '0';
@@ -232,7 +231,7 @@ function openFullPlayer(){
 }
 miniPlayer.addEventListener('click', openFullPlayer);
 
-// ---- Full Player → Back to Library Smooth ----
+// ---- Full Player → Back ----
 function closeFullPlayer(){
     playerView.style.opacity = '1';
     playerView.style.transform = 'translateY(0)';
@@ -251,17 +250,17 @@ function closeFullPlayer(){
 }
 backToLibraryBtn.addEventListener('click', closeFullPlayer);
 
-// ---- Swipe gestures for mobile ----
+// ---- Swipe gestures ----
 let startY = 0;
 playerView.addEventListener('touchstart', e => { startY = e.touches[0].clientY; });
 playerView.addEventListener('touchend', e => {
     const endY = e.changedTouches[0].clientY;
-    if(endY - startY > 60) closeFullPlayer(); // swipe down to close
+    if(endY - startY > 60) closeFullPlayer();
 });
 miniPlayer.addEventListener('touchstart', e => { startY = e.touches[0].clientY; });
 miniPlayer.addEventListener('touchend', e => {
     const endY = e.changedTouches[0].clientY;
-    if(startY - endY > 60) openFullPlayer(); // swipe up to open
+    if(startY - endY > 60) openFullPlayer();
 });
 
 // ---- Audio End ----
