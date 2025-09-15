@@ -96,7 +96,7 @@ function toggleFolder(folderName, folderEl) {
           li.innerHTML = `<div class="info"><span class="title">${song.name}</span></div>`;
 
           li.addEventListener('click', () => {
-            // set current songs to this folder
+            e.stopPropagation();
             musicData = folderSongs;
             filteredData = [...musicData];
             playSong(index);
