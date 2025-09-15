@@ -93,30 +93,41 @@ body::before{
   border: 1px solid var(--accent-1);
 }
 
-/* Tabs */
+/* --------------------
+   Tabs
+-------------------- */
 .tabs{
   display:flex;
-  gap:10px;
-  margin-bottom: 12px;
+  justify-content:center;
+  gap:14px;
+  margin-bottom: 18px;
 }
 .tab{
-  padding:8px 14px;
+  flex:1;
+  text-align:center;
+  padding:10px 14px;
   border-radius: var(--radius);
-  background: transparent;
-  border:1px solid transparent;
+  background: rgba(255,255,255,0.03);
+  border:1px solid rgba(255,255,255,0.08);
   color: var(--muted);
   font-weight:600;
   cursor:pointer;
   transition: all .18s ease;
 }
-.tab:hover{ transform: translateY(-2px); }
+.tab:hover{ 
+  transform: translateY(-2px); 
+  background: rgba(255,255,255,0.08);
+}
 .tab.active{
   color: var(--white);
-  background: linear-gradient(90deg, rgba(255,255,255,0.04), rgba(255,255,255,0.02));
-  border: 1px solid rgba(255,255,255,0.06);
+  background: linear-gradient(135deg, rgba(255,255,255,0.12), rgba(255,255,255,0.05));
+  border: 1px solid rgba(255,255,255,0.18);
+  box-shadow: 0 4px 14px rgba(0,0,0,0.35);
 }
 
-/* Music List */
+/* --------------------
+   Music List
+-------------------- */
 .music-list{
   list-style:none;
   max-height: calc(75vh);
@@ -159,10 +170,10 @@ body::before{
 #folder-list{
   display:flex;
   flex-direction:column;
-  gap:10px;
+  gap:12px;
 }
 .folder-box{
-  padding:12px 16px;
+  padding:14px 16px;
   border-radius: var(--radius);
   background: rgba(255,255,255,0.05);
   border: 1px solid rgba(255,255,255,0.12);
@@ -170,15 +181,24 @@ body::before{
   font-weight:600;
   transition: all .25s ease;
   backdrop-filter: blur(6px);
+  position:relative;
 }
+.folder-box::after{
+  content: "▾";
+  position:absolute;
+  right:18px;
+  font-size:14px;
+  transition: transform .25s ease;
+}
+.folder-box.open::after{ transform: rotate(180deg); }
 .folder-box:hover{
   transform: translateY(-3px);
   background: rgba(255,255,255,0.12);
 }
 .folder-songs{
   list-style:none;
-  margin-top:8px;
-  padding-left:12px;
+  margin-top:10px;
+  padding-left:14px;
   max-height: 400px;
   overflow:auto;
   display:none;
