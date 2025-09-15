@@ -122,38 +122,41 @@ h1 {
   color: white;
   margin-top: 20px;
   font-weight: 700;
-  font-size: 20px; /* উপরের কোডে 24px, চাইলে 20px রাখো যাতে music-item এর সাথে balanced হয় */
+  font-size: 20px;
   cursor: pointer;
   user-select: none;
-  padding: 12px 16px; /* একটু বড় padding */
-  background: rgba(255, 255, 255, 0.12); /* translucent background */
+  padding: 12px 16px;
+  background: rgba(255, 255, 255, 0.12);
   border-radius: 15px;
-  border: 1px solid rgba(255,255,255,0.25); /* subtle border for glass effect */
+  border: 1px solid rgba(255,255,255,0.25);
   transition: background 0.3s, transform 0.2s;
+  margin-bottom: 8px;
+  width: 80%;
+  margin-left: auto;
+  margin-right: auto; /* centered */
 }
-
 .folder-title:hover {
   background: rgba(255,255,255,0.25);
-  transform: scale(1.02); /* subtle hover scale */
+  transform: scale(1.02);
 }
 
-/* Folder songs container */
+/* Folder Songs Container */
 .folder-songs {
   display: none;
   margin-bottom: 15px;
   padding-left: 0;
 }
 
-/* Open folder */
+/* Open folder (when JS adds .open) */
 .folder-songs.open {
   display: block;
-  animation: fadeIn 0.3s ease-in-out; /* smooth fade-in */
+  animation: fadeIn 0.3s ease-in-out;
 }
 
 /* Songs inside folder */
 .folder-songs .music-item {
-  width: 95%;
-  margin: 6px auto;
+  width: 80%;
+  margin: 6px auto; /* centered inside folder */
   padding: 10px 14px;
   border-radius: 12px;
   background: rgba(255,255,255,0.08);
@@ -403,5 +406,3 @@ h1 {
     display: block;
   }
 }
-
-
