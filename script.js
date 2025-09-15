@@ -74,38 +74,43 @@ function loadFolders() {
 }
 
 function toggleFolder(folderName, folderEl) {
-let listEl = folderEl.querySelector('.folder-songs');
+  let listEl = folderEl.querySelector('.folder-songs');
 
-if (listEl) {
-  listEl.style.display = listEl.style.display === 'none' ? 'block' : 'none';
-  return;
+  if (!listEl) {
+    // create ul
+    listEl = document.createElement('ul');
+    listEl.classList.add('folder-songs');
+    listEl.style.marginTop = '8px';
+    folderEl.appendChild(listEl);
+
+    // fetch songs
+    fetch(`data/${folderName}.json`)
+      .then(res => res.json())
+      .then(data => {
+        // save songs inside folder
+        const folderSongs = data.map(s => ({ ...s, folder: folderName }));
+
+        folderSongs.forEach((song, index) => {
+          const li = document.createElement('li');
+          li.classList.add('music-item');
+          li.innerHTML = `<div class="info"><span class="title">${song.name}</span></div>`;
+
+          li.addEventListener('click', () => {
+            // set current songs to this folder
+            musicData = folderSongs;
+            filteredData = [...musicData];
+            playSong(index);
+          });
+
+          listEl.appendChild(li);
+        });
+      })
+      .catch(err => console.error(err));
+  }
+
+  // toggle ul display
+  listEl.style.display = listEl.style.display === 'block' ? 'none' : 'block';
 }
-
-// নতুন লিস্ট বানাও
-listEl = document.createElement('ul');
-listEl.classList.add('folder-songs');
-listEl.style.marginTop = '8px';
-folderEl.appendChild(listEl); // প্রথমে append
-
-// fetch + render
-fetch(`data/${folderName}.json`)
-  .then(res => res.json())
-  .then(data => {
-    data.forEach((song, index) => {
-      const li = document.createElement('li');
-      li.classList.add('music-item');
-      li.innerHTML = `<div class="info"><span class="title">${song.name}</span></div>`;
-
-      li.addEventListener('click', () => {
-        musicData = data.map(s => ({ ...s, folder: folderName }));
-        filteredData = [...musicData];
-        playSong(index);
-      });
-
-      listEl.appendChild(li);
-    });
-  })
-
 // --------------------
 // Render Music List
 // --------------------
