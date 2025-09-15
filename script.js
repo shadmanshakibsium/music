@@ -215,10 +215,13 @@ function showMiniPlayer(){
     playerView.classList.add('hidden');
     libraryView.classList.remove('blur');
 }
+
+// Fullscreen toggle
 miniPlayer.addEventListener('click', ()=>{
     playerView.classList.remove('hidden');
-    libraryView.classList.add('blur');  // library blur
+    libraryView.classList.add('blur');
     miniPlayer.classList.add('hidden');
+    document.body.classList.add('player-fullscreen');
 });
 
 // ---- Full Player → Back to Library ----
@@ -226,6 +229,7 @@ backToLibraryBtn.addEventListener('click', ()=>{
     playerView.classList.add('hidden');
     libraryView.classList.remove('blur');
     miniPlayer.classList.remove('hidden');
+    document.body.classList.remove('player-fullscreen');
 });
 
 // ---- Audio End ----
