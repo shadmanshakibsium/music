@@ -82,13 +82,16 @@ function displayFolders(list){
             html += `
                 <div class="folder-title" data-type="${type}">${type.toUpperCase()}</div>
                 <ul class="folder-songs" data-type="${type}">
-                    ${songs.map((song,index)=>`
-                        <li class="music-item" data-index="${index}">
-                            <div class="info">
-                                <span class="title">${song.name}</span>
-                            </div>
-                        </li>
-                    `).join('')}
+                    ${songs.map(song=>{
+                        const dataIndex = musicData.indexOf(song);
+                        return `
+                            <li class="music-item" data-index="${dataIndex}">
+                                <div class="info">
+                                    <span class="title">${song.name}</span>
+                                </div>
+                            </li>
+                        `;
+                    }).join('')}
                 </ul>
             `;
         }
@@ -216,7 +219,6 @@ function showMiniPlayer(){
     libraryView.classList.remove('blur');
 }
 function openFullPlayer(e){
-    // Only trigger if clicked outside controls
     if(e.target.closest('.control-btn, #miniPlayPause')) return;
 
     playerView.classList.remove('hidden');
