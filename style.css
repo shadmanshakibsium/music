@@ -1,12 +1,8 @@
-/* style.css
-   For: index.html (skeleton) + integrated player view
-   - Keep selectors consistent with provided HTML
-   - Responsive and modern glassmorphism look
-*/
+/* style.css - FINAL VERSION */
 
 /* --------------------
    Variables & Reset
-   -------------------- */
+-------------------- */
 :root{
   --bg-img: url('https://i.imgur.com/uNWSHGy.png');
   --glass-bg: rgba(255,255,255,0.06);
@@ -21,7 +17,7 @@
   --mini-height: 68px;
 }
 
-*{box-sizing: border-box; margin:0; padding:0}
+*{box-sizing:border-box;margin:0;padding:0}
 html,body{height:100%}
 body{
   font-family: 'Roboto', system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial;
@@ -30,10 +26,9 @@ body{
   color: var(--white);
   -webkit-font-smoothing:antialiased;
   -moz-osx-font-smoothing:grayscale;
-  padding: 32px 20px 100px; /* bottom padding so content not hidden behind mini player */
+  padding: 32px 20px 100px;
 }
 
-/* subtle overlay so content readable */
 body::before{
   content:"";
   position:fixed;
@@ -45,7 +40,7 @@ body::before{
 
 /* --------------------
    App container & header
-   -------------------- */
+-------------------- */
 .site-header{
   max-width: var(--max-width);
   margin: 0 auto 18px;
@@ -69,7 +64,7 @@ body::before{
 
 /* --------------------
    Main container (library)
-   -------------------- */
+-------------------- */
 #library-view{
   max-width: var(--max-width);
   margin: 12px auto;
@@ -80,6 +75,11 @@ body::before{
   border: 1px solid var(--glass-border);
   padding: 20px;
   box-shadow: var(--shadow-1);
+  transition: filter 0.25s ease;
+}
+#library-view.blur{
+  filter: blur(3px);
+  pointer-events: none;
 }
 
 /* Search Bar */
@@ -152,7 +152,6 @@ body::before{
   background: rgba(255,255,255,0.035);
   box-shadow: 0 6px 18px rgba(0,0,0,0.35);
 }
-
 .music-item .info{
   display:flex;
   gap:10px;
@@ -172,7 +171,7 @@ body::before{
   font-size:13px;
 }
 
-/* Folder title and folder-songs (if using folder view) */
+/* Folder title & folder-songs */
 .folder-title{
   margin-top: 10px;
   padding:10px 12px;
@@ -191,16 +190,13 @@ body::before{
 }
 .folder-songs.open{ display:block; }
 
-/* No results */
 .no-results{
   padding:22px;
   color: rgba(255,255,255,0.7);
   text-align:center;
 }
 
-/* --------------------
-   Alphabet index (A-Z #)
-   -------------------- */
+/* Alphabet index */
 .alpha-index{
   position: fixed;
   right: 20px;
@@ -229,32 +225,33 @@ body::before{
   background: rgba(255,255,255,0.12);
   color:#000;
 }
-
-/* Hide on small screens */
-@media (max-width:700px){
-  .alpha-index{ display:none }
-}
+@media (max-width:700px){.alpha-index{ display:none }}
 
 /* --------------------
-   Player View (full) - center modal-like on small screens,
-   inline section on wide screens
-   -------------------- */
-.view{ position: relative }
+   Player View (full)
+-------------------- */
+.view{ position: relative; }
 .hidden{ display:none !important; }
 
-/* Mini → Full Player transition smoother */
-#player-view {
-  transition: opacity 0.25s ease, transform 0.25s ease;
+#player-view{
+  max-width: 560px;
+  margin: 18px auto 0;
+  background: linear-gradient(180deg, rgba(255,255,255,0.03), rgba(255,255,255,0.02));
+  border-radius: 16px;
+  border: 1px solid var(--glass-border);
+  padding: 18px;
+  box-shadow: var(--shadow-1);
+  z-index: 40;
+  opacity:0;
   transform: translateY(20px);
-  opacity: 0;
+  transition: opacity 0.25s ease, transform 0.25s ease;
 }
 
-#player-view:not(.hidden) {
+#player-view:not(.hidden){
+  opacity:1;
   transform: translateY(0);
-  opacity: 1;
 }
 
-/* player header */
 .player-header{
   display:flex;
   gap:10px;
@@ -279,7 +276,7 @@ body::before{
   margin-left:8px;
 }
 
-/* progress */
+/* Progress */
 #progress{
   display:flex;
   align-items:center;
@@ -311,7 +308,7 @@ body::before{
   transition: width .12s linear;
 }
 
-/* controls */
+/* Controls */
 .controls{
   display:flex;
   align-items:center;
@@ -335,19 +332,7 @@ body::before{
   box-shadow: 0 8px 26px rgba(88,61,145,0.18);
 }
 
-/* volume / extras (if used later) */
-.volume-row{
-  margin-top:6px;
-  display:flex;
-  align-items:center;
-  gap:10px;
-  color:var(--muted);
-  font-size:13px;
-}
-
-/* --------------------
-   Bottom Mini Player
-   -------------------- */
+/* Mini Player */
 #mini-player{
   position: fixed;
   left: 20px;
@@ -365,8 +350,14 @@ body::before{
   gap:12px;
   box-shadow: 0 12px 30px rgba(0,0,0,0.5);
   transform: translateY(0);
-  transition: transform .18s ease, opacity .18s ease;
+  transition: transform .25s ease, opacity .25s ease;
 }
+#mini-player.hidden{
+  opacity:0;
+  pointer-events:none;
+  transform: translateY(30px);
+}
+
 #mini-player .mini-left{
   display:flex;
   align-items:center;
@@ -396,29 +387,17 @@ body::before{
   font-weight:700;
 }
 
-#mini-player.hidden {
-  opacity: 0;
-  pointer-events: none;
-  transform: translateY(30px); /* slide down slightly */
-  transition: transform 0.25s ease, opacity 0.25s ease;
-}
-
-/* --------------------
-   Scrollbar styling (subtle)
-   -------------------- */
+/* Scrollbars */
 .music-list::-webkit-scrollbar{ width:10px }
 .music-list::-webkit-scrollbar-track{ background:transparent }
 .music-list::-webkit-scrollbar-thumb{ background: rgba(255,255,255,0.06); border-radius:8px }
 
-/* --------------------
-   Responsive tweaks
-   -------------------- */
+/* Responsive tweaks */
 @media (max-width:900px){
   body{ padding-bottom:140px }
   #player-view{ margin: 14px 10px 90px; }
   #library-view{ padding:14px; margin-bottom:20px }
 }
-
 @media (max-width:520px){
   .site-header h1{ font-size:16px }
   .music-item{ padding:10px }
@@ -430,7 +409,7 @@ body::before{
   #current-time, #duration{ min-width:40px; font-size:12px }
 }
 
-/* small accessibility focus outlines (low-contrast) */
+/* Accessibility */
 .tab:focus, .music-item:focus, .control:focus, .back-btn:focus, #mini-player button:focus {
   outline: 3px solid rgba(88,61,145,0.12);
   outline-offset: 2px;
