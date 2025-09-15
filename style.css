@@ -40,11 +40,11 @@ h1 {
    Search Bar
 -------------------- */
 .search-bar {
-  width: 80%;
+  width: 100%;
   margin-bottom: 20px;
 }
 .search-bar input {
-  width: 80%;
+  width: 100%;
   padding: 12px 15px;
   border-radius: 15px;
   border: none;
@@ -99,13 +99,7 @@ h1 {
   transition: 0.3s;
   -webkit-tap-highlight-color: transparent;
   outline: none;
-
-  /* নতুন কোড - width সীমিত */
-  width: 80%;       /* পিসিতে একটু ছোট দেখাবে */
-  margin-left: auto; 
-  margin-right: auto;
 }
-
 .music-item:hover {
   background: rgba(255,255,255,0.2);
 }
@@ -340,4 +334,19 @@ h1 {
   .play-btn{width:68px;height:44px;font-size:20px;border-radius:22px;}
   #current-time,#duration{font-size:11px;width:36px;}
   #fs-volume{width:110px;}
+}
+
+/* Desktop: search bar and music items narrower */
+@media(min-width: 451px) {
+  .search-bar input {
+    width: 80%;
+    margin-left: auto;
+    margin-right: auto;
+    display: block;
+  }
+  .music-item {
+    width: 80%;
+    margin-left: auto;
+    margin-right: auto;
+  }
 }
