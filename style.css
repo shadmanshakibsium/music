@@ -1,224 +1,156 @@
 /* --------------------
-   Variables & Reset
+   Global Reset & Body
 -------------------- */
-:root{
-  --bg-img: url('https://i.imgur.com/uNWSHGy.png');
-  --glass-bg: rgba(255,255,255,0.06);
-  --glass-border: rgba(255,255,255,0.12);
-  --accent-1: #ff6b6b;
-  --accent-2: #583D91;
-  --muted: rgba(255,255,255,0.65);
-  --white: #ffffff;
-  --radius: 14px;
-  --shadow-1: 0 8px 30px rgba(0,0,0,0.45);
-  --max-width: 980px;
-  --mini-height: 68px;
+* {
+  margin:0; padding:0; box-sizing:border-box; font-family: 'Roboto', sans-serif;
+}
+body {
+  background: url('https://i.imgur.com/uNWSHGy.png') no-repeat center center fixed;
+  background-size: cover;
+  min-height: 100vh;
+  padding: 50px 20px;
+  color: white;
 }
 
-*{box-sizing:border-box;margin:0;padding:0}
-html,body{height:100%;}
-body{
-  font-family: 'Roboto', system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial;
-  background: var(--bg-img) no-repeat center center fixed;
-  background-size: cover;
-  color: var(--white);
-  padding: 32px 20px 140px;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  position: relative;
-}
-body::before{
-  content:"";
-  position:fixed;
-  inset:0;
-  background: linear-gradient(180deg, rgba(0,0,0,0.35), rgba(0,0,0,0.45));
-  z-index:0;
-  pointer-events:none;
+/* --------------------
+   Container
+-------------------- */
+.container {
+  backdrop-filter: blur(10px) saturate(180%);
+  -webkit-backdrop-filter: blur(10px) saturate(180%);
+  background-color: rgba(255, 255, 255, 0.1);
+  border-radius: 20px;
+  border: 1px solid rgba(255,255,255,0.2);
+  padding: 30px;
+  width: 100%;
+  max-width: 900px;
+  margin: auto;
 }
 
 /* --------------------
    Header
 -------------------- */
-.site-header{
-  max-width: var(--max-width);
-  margin: 0 auto 18px;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  gap:12px;
-  padding: 8px 12px;
-  border-radius: var(--radius);
-  background: rgba(255,255,255,0.02);
-  border: 1px solid rgba(255,255,255,0.04);
-  z-index:2;
-  position:relative;
-}
-.site-header h1{
-  font-size:22px;
-  font-weight:700;
-  color: var(--white);
+h1 {
+  color: white;
+  text-align: center;
+  margin-bottom: 20px;
 }
 
 /* --------------------
-   Library container
+   Search Bar
 -------------------- */
-#library-view{
-  max-width: var(--max-width);
-  margin: 12px auto;
-  background: var(--glass-bg);
-  border-radius: var(--radius);
-  border: 1px solid var(--glass-border);
-  padding: 20px;
-  box-shadow: var(--shadow-1);
-  overflow:hidden;
+.search-bar {
+  width: 100%;
+  margin-bottom: 20px;
 }
-
-/* Search Bar */
-.search-bar{
-  margin-bottom: 14px;
+.search-bar input {
+  width: 100%;
+  padding: 12px 15px;
+  border-radius: 15px;
+  border: none;
+  outline: none;
+  font-size: 16px;
+  backdrop-filter: blur(8px);
+  background: rgba(255,255,255,0.1);
+  color: white;
 }
-.search-bar input{
-  width:100%;
-  padding:12px 14px;
-  border-radius: var(--radius);
-  border: 1px solid rgba(255,255,255,0.06);
-  background: rgba(255,255,255,0.03);
-  color: var(--white);
-  font-size: 15px;
-  outline:none;
-  transition: background .2s ease, border .2s ease;
-}
-.search-bar input:focus{
-  background: rgba(255,255,255,0.08);
-  border: 1px solid var(--accent-1);
+.search-bar input::placeholder {
+  color: rgba(255,255,255,0.7);
 }
 
 /* --------------------
    Tabs
 -------------------- */
-.tabs{
-  display:flex;
-  justify-content:center;
-  gap:14px;
-  margin-bottom: 18px;
+.tabs {
+  display: flex;
+  justify-content: space-around;
+  margin-bottom: 20px;
 }
-.tab{
-  flex:1;
-  text-align:center;
-  padding:10px 14px;
-  border-radius: var(--radius);
-  background: rgba(255,255,255,0.03);
-  border:1px solid rgba(255,255,255,0.08);
-  color: var(--muted);
-  font-weight:600;
-  cursor:pointer;
-  transition: all .18s ease;
+.tab {
+  padding: 10px 20px;
+  border-radius: 15px;
+  cursor: pointer;
+  color: white;
+  font-weight: 500;
+  transition: 0.3s;
 }
-.tab:hover{ 
-  transform: translateY(-2px); 
-  background: rgba(255,255,255,0.08);
-}
-.tab.active{
-  color: var(--white);
-  background: linear-gradient(135deg, rgba(255,255,255,0.12), rgba(255,255,255,0.05));
-  border: 1px solid rgba(255,255,255,0.18);
-  box-shadow: 0 4px 14px rgba(0,0,0,0.35);
+.tab.active,
+.tab:hover {
+  background: rgba(255,255,255,0.2);
+  backdrop-filter: blur(8px);
 }
 
 /* --------------------
-   Music List
+   Music List & Items
 -------------------- */
-.music-list{
-  list-style:none;
-  max-height: calc(75vh);
-  overflow:auto;
-  padding-right:6px;
-  scrollbar-width: thin;
-  scrollbar-color: rgba(255,255,255,0.12) transparent;
+.music-list {
+  list-style: none;
 }
-.music-item{
-  display:flex;
-  align-items:center;
-  justify-content:space-between;
-  gap:12px;
-  padding:14px 16px;
-  margin-bottom:12px;
-  border-radius: var(--radius);
-  background: rgba(255,255,255,0.06);
-  border:1px solid rgba(255,255,255,0.12);
-  cursor:pointer;
-  transition: transform .2s ease, background .2s ease, box-shadow .2s ease;
+.music-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: rgba(255,255,255,0.1);
+  border-radius: 15px;
+  padding: 12px 15px;
+  margin-bottom: 10px;
   backdrop-filter: blur(8px);
+  cursor: pointer;
+  transition: 0.3s;
+  -webkit-tap-highlight-color: transparent;
+  outline: none;
 }
-.music-item:hover{
-  transform: translateY(-5px);
-  background: rgba(255,255,255,0.12);
-  box-shadow: 0 8px 25px rgba(0,0,0,0.4);
+.music-item:hover {
+  background: rgba(255,255,255,0.2);
 }
-.music-item .title{
-  font-weight:600;
-  color:var(--white);
-  font-size:15px;
-  white-space:nowrap;
-  overflow:hidden;
-  text-overflow:ellipsis;
+.music-item .info {
+  color:white;
+  width: 100%;
+  text-decoration: none;
+  -webkit-tap-highlight-color: transparent;
+  outline: none;
+}
+.music-item .info .title {
+  font-weight:500;
+  font-size:16px;
 }
 
 /* --------------------
    Folders
 -------------------- */
-#folder-list{
-  display:flex;
-  flex-direction:column;
-  gap:12px;
+.folder-title {
+  color:white;
+  margin-top:20px;
+  font-weight:700;
+  font-size:24px;
+  cursor: pointer;
+  user-select: none;
+  padding: 10px 15px;
+  background: rgba(255,255,255,0.15);
+  border-radius: 15px;
+  transition: background 0.3s;
 }
-.folder-box{
-  padding:14px 16px;
-  border-radius: var(--radius);
-  background: rgba(255,255,255,0.05);
-  border: 1px solid rgba(255,255,255,0.12);
-  cursor:pointer;
-  font-weight:600;
-  transition: all .25s ease;
-  backdrop-filter: blur(6px);
-  position:relative;
+.folder-title:hover {
+  background: rgba(255,255,255,0.3);
 }
-.folder-box::after{
-  content: "▾";
-  position:absolute;
-  right:18px;
-  font-size:14px;
-  transition: transform .25s ease;
+.folder-songs {
+  display: none;
+  margin-bottom: 15px;
+  padding-left: 0;
 }
-.folder-box.open::after{ transform: rotate(180deg); }
-.folder-box:hover{
-  transform: translateY(-3px);
-  background: rgba(255,255,255,0.12);
-}
-.folder-songs{
-  list-style:none;
-  margin-top:10px;
-  padding-left:14px;
-  max-height: 400px;
-  overflow:auto;
-  display:none;
-}
-.folder-songs.open{ display:block; }
-.folder-songs .music-item{
-  background: rgba(255,255,255,0.04);
-  border: 1px solid rgba(255,255,255,0.08);
-  font-size:14px;
+.folder-songs.open {
+  display: block;
 }
 
 /* --------------------
-   Mini Player
+   Mini Player (Old CSS)
 -------------------- */
 .mini-player{
   position: fixed;
   bottom: 0;
   left: 0;
   width: 100%;
-  height: var(--mini-height);
+  height: 68px;
   background: rgba(0,0,0,0.5);
   display: flex;
   justify-content: space-between;
@@ -226,20 +158,20 @@ body::before{
   padding: 0 20px;
   cursor: pointer;
   z-index:3;
-  border-top-left-radius: var(--radius);
-  border-top-right-radius: var(--radius);
+  border-top-left-radius: 14px;
+  border-top-right-radius: 14px;
   backdrop-filter: blur(12px);
   transition: all .25s ease;
 }
 .mini-player button{
   background:none;
   border:none;
-  color:var(--white);
+  color:white;
   font-size:18px;
 }
 
 /* --------------------
-   Fullscreen Player
+   Fullscreen Player (Old CSS)
 -------------------- */
 .fullscreen-player{
   position: fixed;
@@ -270,7 +202,6 @@ body::before{
   margin-bottom: 24px;
   letter-spacing: 0.7px;
 }
-
 /* Progress Bar */
 #progress{
   display:flex;
