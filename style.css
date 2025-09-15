@@ -143,7 +143,7 @@ h1 {
 }
 
 /* --------------------
-   Mini Player
+   Mini Player (Old CSS)
 -------------------- */
 .mini-player{
   position: fixed;
@@ -171,7 +171,7 @@ h1 {
 }
 
 /* --------------------
-   Fullscreen Player
+   Fullscreen Player (Old CSS)
 -------------------- */
 .fullscreen-player{
   position: fixed;
@@ -326,9 +326,7 @@ h1 {
 }
 .back-btn:hover{ background: rgba(255,255,255,0.3); }
 
-/* --------------------
-   Responsive
--------------------- */
+/* Responsive */
 @media(max-width:450px){
   .fullscreen-player .container{padding:20px 15px;border-radius:22px;}
   .controls{gap:8px;}
@@ -336,14 +334,4 @@ h1 {
   .play-btn{width:68px;height:44px;font-size:20px;border-radius:22px;}
   #current-time,#duration{font-size:11px;width:36px;}
   #fs-volume{width:110px;}
-}
-
-/* --------------------
-   Desktop: Music List Max Height
--------------------- */
-@media(min-width:768px){
-  .music-list, .folder-songs {
-    max-height: 500px;
-    overflow-y: auto;
-  }
 }
