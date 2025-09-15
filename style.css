@@ -172,29 +172,28 @@ h1 {
 }
 
 /* Folder Songs: hidden by default, open হলে শুধু গানগুলো দেখাবে */
+/* Folder container */
 .folder-songs {
-  display: none;
+  display: none; /* closed by default */
   margin-bottom: 15px;
   padding-left: 0;
 }
 
-/* Open folder: শুধু গানগুলো দেখাবে, বড় container নয় */
+/* Open folder: show songs */
 .folder-songs.open {
   display: block;
   animation: fadeIn 0.3s ease-in-out;
 }
 
-/* --------------------
-   Folder Songs (Responsive, same as music-item)
--------------------- */
+/* Folder items: same as music-item */
 .folder-songs .music-item {
-  width: 100%;                 /* Mobile full width */
-  max-width: 900px;            /* Desktop max-width same as container */
-  margin: 0 auto 10px auto;    /* centered with spacing like music-item */
-  padding: 12px 15px;          /* same padding as music-item */
-  border: none;                /* no white line */
-  border-radius: 15px;         /* same as music-item */
-  background: rgba(255,255,255,0.1); /* same blur background */
+  width: 100%;                /* Mobile full width */
+  max-width: 900px;           /* Desktop max-width same as container */
+  margin: 0 auto 10px auto;   /* centered */
+  padding: 12px 15px;         /* same as music-item */
+  border: none;               /* remove white line */
+  border-radius: 15px;        /* same as music-item */
+  background: rgba(255,255,255,0.1);
   backdrop-filter: blur(8px);
   -webkit-backdrop-filter: blur(8px);
   display: flex;
@@ -204,20 +203,28 @@ h1 {
   transition: 0.3s;
 }
 
-/* hover effect same as music-item */
+/* Hover effect */
 .folder-songs .music-item:hover {
   background: rgba(255,255,255,0.2);
 }
 
-/* Desktop: 80% width centered */
+/* Desktop: 80% width */
 @media(min-width: 451px) {
+  .folder-songs {
+    width: 80%;
+    margin-left: auto;
+    margin-right: auto;
+  }
   .folder-songs .music-item {
-    width: 80%; 
+    width: 80%;
   }
 }
 
-/* Mobile: 100% full width stacked */
+/* Mobile: 100% width */
 @media(max-width: 450px) {
+  .folder-songs {
+    width: 100%;
+  }
   .folder-songs .music-item {
     width: 100%;
   }
