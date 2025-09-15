@@ -141,6 +141,24 @@ h1 {
 .folder-songs.open {
   display: block;
 }
+/* Folder/Category Box */
+.folder {
+  background: var(--glass-bg);
+  border: 1px solid var(--glass-border);
+  backdrop-filter: blur(10px);
+  border-radius: 12px;
+  padding: 10px 16px;
+  margin: 6px;
+  text-align: center;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.folder:hover {
+  background: rgba(255, 255, 255, 0.15);
+  transform: translateY(-2px);
+}
 
 /* --------------------
    Mini Player
