@@ -118,6 +118,7 @@ h1 {
 /* --------------------
    Folders
 -------------------- */
+/* Folder Title: normal clickable, কিন্তু বড় container নয় */
 .folder-title {
   color: white;
   margin-top: 20px;
@@ -135,32 +136,32 @@ h1 {
   margin-left: auto;
   margin-right: auto; /* centered */
 }
-.folder-title:hover {
-  background: rgba(255,255,255,0.25);
-  transform: scale(1.02);
-}
 
-/* Folder Songs Container */
+/* Folder Songs: hidden by default, open হলে শুধু গানগুলো দেখাবে */
 .folder-songs {
   display: none;
   margin-bottom: 15px;
   padding-left: 0;
 }
 
-/* Open folder (when JS adds .open) */
+/* Open folder: শুধু গানগুলো দেখাবে, বড় container নয় */
 .folder-songs.open {
   display: block;
   animation: fadeIn 0.3s ease-in-out;
 }
 
-/* Songs inside folder */
+/* Folder songs: all songs এর সমান বক্স, 80% width */
 .folder-songs .music-item {
   width: 80%;
+  height: 52px; /* all songs tab এর সমান হাইট */
   margin: 6px auto; /* centered inside folder */
   padding: 10px 14px;
   border-radius: 12px;
   background: rgba(255,255,255,0.08);
   border: 1px solid rgba(255,255,255,0.15);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
 }
 
 /* Small fade animation */
