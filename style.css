@@ -225,7 +225,7 @@ body::before{
 @media (max-width:700px){.alpha-index{ display:none }}
 
 /* --------------------
-   Player View (full)
+   Player View (full + fullscreen)
 -------------------- */
 .view{ position: relative; }
 .hidden{ display:none !important; }
@@ -242,6 +242,29 @@ body::before{
   opacity:0;
   transform: translateY(20px);
   transition: opacity 0.25s ease, transform 0.25s ease;
+}
+
+/* Fullscreen overlay style */
+body.player-fullscreen #player-view{
+  position: fixed;
+  inset: 0;
+  max-width: 500px;
+  margin: auto;
+  border-radius: 16px;
+  background: rgba(0,0,0,0.85);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  z-index: 9999;
+  opacity: 1;
+  transform: scale(1);
+}
+
+/* Hide mini-player in fullscreen */
+body.player-fullscreen #mini-player{
+  opacity: 0 !important;
+  pointer-events: none;
 }
 
 #player-view:not(.hidden){
