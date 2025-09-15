@@ -38,18 +38,40 @@
 </div>
 
 <!-- Fullscreen Player -->
-<div class="fullscreen-player" id="fullscreen-player">
-  <div class="fs-header">
-    <span id="fs-title">Song Name</span>
-    <button id="fs-close"><i class="fa fa-times"></i></button>
-  </div>
-  <audio id="audio" controls></audio>
-  <div class="fs-controls">
-    <button id="prev"><i class="fa fa-backward"></i></button>
-    <button id="play"><i class="fa fa-play"></i></button>
-    <button id="next"><i class="fa fa-forward"></i></button>
-    <button id="shuffle"><i class="fa fa-random"></i></button>
-    <button id="repeat"><i class="fa fa-repeat"></i></button>
+<div class="fullscreen-player" id="fullscreen-player" style="display:none;">
+  <div class="container">
+    <div class="title" id="fs-title">Song Name</div>
+
+    <!-- Progress Bar -->
+    <div id="progress">
+      <span id="current-time">0:00</span>
+      <div id="progress-bar-container">
+        <div id="progress-filled"></div>
+      </div>
+      <span id="duration">0:00</span>
+    </div>
+
+    <!-- Controls -->
+    <div class="controls">
+      <button class="control-btn" id="fs-shuffle" title="Shuffle"><i class="fas fa-random"></i></button>
+      <button class="control-btn" id="fs-prev" title="Previous"><i class="fas fa-backward"></i></button>
+      <button class="control-btn play-btn" id="fs-play" title="Play/Pause"><i class="fas fa-play" id="fs-play-icon"></i></button>
+      <button class="control-btn" id="fs-next" title="Next"><i class="fas fa-forward"></i></button>
+      <button class="control-btn" id="fs-repeat" title="Repeat"><i class="fas fa-redo" id="fs-repeat-icon"></i></button>
+    </div>
+
+    <!-- Volume -->
+    <div id="volume-container">
+      <i class="fas fa-volume-down"></i>
+      <input type="range" id="fs-volume" min="0" max="1" step="0.01" value="1.0">
+      <i class="fas fa-volume-up"></i>
+    </div>
+
+    <!-- Close Button -->
+    <button class="back-btn" id="fs-close">Close</button>
+
+    <!-- Audio -->
+    <audio id="fs-audio"></audio>
   </div>
 </div>
 
