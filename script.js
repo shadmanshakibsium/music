@@ -164,8 +164,15 @@ function updatePlayButton(){
 // --------------------
 // Mini → Fullscreen
 // --------------------
-miniPlayer.addEventListener('click',()=>fullscreenPlayer.style.display='flex');
-fsCloseBtn.addEventListener('click',()=>fullscreenPlayer.style.display='none');
+miniPlayer.addEventListener('click', () => {
+  fullscreenPlayer.style.display = 'flex';
+  document.getElementById('main-content').style.display = 'none'; // hide all UI
+});
+
+fsCloseBtn.addEventListener('click', () => {
+  fullscreenPlayer.style.display = 'none';
+  document.getElementById('main-content').style.display = 'block'; // show all UI
+});
 
 // --------------------
 // Play/Pause
