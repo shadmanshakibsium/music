@@ -217,7 +217,9 @@ body::before{
   align-items: center;
 }
 
-/* Fullscreen overlay style */
+/* --------------------
+   Fullscreen for PC + overlay
+-------------------- */
 body.player-fullscreen {
   padding:0;
   margin:0;
@@ -227,12 +229,13 @@ body.player-fullscreen {
   background: var(--bg-img) no-repeat center center fixed;
   background-size: cover;
 }
+
 body.player-fullscreen #player-view{
   position: fixed;
   inset: 0;
   width: 100%;
   height: 100%;
-  margin: 0 auto;
+  margin: 0;
   border-radius: 0;
   background: rgba(0,0,0,0.85);
   display: flex;
@@ -243,7 +246,8 @@ body.player-fullscreen #player-view{
   opacity: 1;
   transform: scale(1);
 }
-/* Hide mini-player, header, library in fullscreen */
+
+/* Hide other elements in fullscreen */
 body.player-fullscreen #mini-player,
 body.player-fullscreen #library-view,
 body.player-fullscreen .site-header {
@@ -256,6 +260,9 @@ body.player-fullscreen .site-header {
   transform: translateY(0);
 }
 
+/* --------------------
+   Container styles (glass) 
+-------------------- */
 .container{
   width: 100%;
   max-width: 420px;
