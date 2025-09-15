@@ -22,12 +22,11 @@ body{
   background: var(--bg-img) no-repeat center center fixed;
   background-size: cover;
   color: var(--white);
-  -webkit-font-smoothing:antialiased;
-  -moz-osx-font-smoothing:grayscale;
-  padding: 32px 20px 120px; /* bottom padding for mini player */
+  padding: 32px 20px 120px;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
-/* subtle overlay */
 body::before{
   content:"";
   position:fixed;
@@ -55,7 +54,7 @@ body::before{
   position:relative;
 }
 .site-header h1{
-  font-size:20px;
+  font-size:22px;
   font-weight:700;
   color: var(--white);
 }
@@ -87,9 +86,11 @@ body::before{
   color: var(--white);
   font-size: 15px;
   outline:none;
+  transition: background .2s ease, border .2s ease;
 }
-.search-bar input::placeholder{
-  color: rgba(255,255,255,0.55);
+.search-bar input:focus{
+  background: rgba(255,255,255,0.08);
+  border: 1px solid var(--accent-1);
 }
 
 /* Tabs */
@@ -115,7 +116,7 @@ body::before{
   border: 1px solid rgba(255,255,255,0.06);
 }
 
-/* Music list */
+/* Music List */
 .music-list{
   list-style:none;
   max-height: calc(75vh);
@@ -125,31 +126,27 @@ body::before{
   scrollbar-color: rgba(255,255,255,0.12) transparent;
 }
 
-/* individual item */
+/* Individual Music Item (Glass Box) */
 .music-item{
   display:flex;
   align-items:center;
   justify-content:space-between;
   gap:12px;
-  padding:12px 14px;
-  margin-bottom:10px;
+  padding:14px 16px;
+  margin-bottom:12px;
   border-radius: var(--radius);
-  background: rgba(255,255,255,0.02);
-  border:1px solid rgba(255,255,255,0.03);
+  background: rgba(255,255,255,0.06);
+  border:1px solid rgba(255,255,255,0.12);
   cursor:pointer;
-  transition: transform .12s ease, background .12s ease;
+  transition: transform .2s ease, background .2s ease, box-shadow .2s ease;
+  backdrop-filter: blur(8px);
 }
 .music-item:hover{
-  transform: translateY(-4px);
-  background: rgba(255,255,255,0.035);
-  box-shadow: 0 6px 18px rgba(0,0,0,0.35);
+  transform: translateY(-5px);
+  background: rgba(255,255,255,0.12);
+  box-shadow: 0 8px 25px rgba(0,0,0,0.4);
 }
-.music-item .info{
-  display:flex;
-  gap:10px;
-  align-items:center;
-  min-width:0;
-}
+
 .music-item .title{
   font-weight:600;
   color:var(--white);
@@ -157,10 +154,6 @@ body::before{
   white-space:nowrap;
   overflow:hidden;
   text-overflow:ellipsis;
-}
-.music-item .meta{
-  color: rgba(255,255,255,0.55);
-  font-size:13px;
 }
 
 /* --------------------
@@ -221,6 +214,10 @@ body::before{
   border:none;
   color:var(--white);
   cursor:pointer;
+  transition: transform .15s ease;
+}
+.fs-controls button:hover{
+  transform: scale(1.2);
 }
 audio{
   width:80%;
