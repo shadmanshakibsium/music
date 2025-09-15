@@ -378,38 +378,50 @@ h1 {
 }
 
 /* --------------------
-   Mini Player (Updated like music item)
+   Mini Player
 -------------------- */
 .mini-player {
   position: fixed;
   bottom: 0;
-  left: 0;
+  left: 50%;
+  transform: translateX(-50%);
   width: 100%;
-  max-width: 900px;       /* container সাথে মিলে যাবে */
-  margin: 0 auto;         /* centered on desktop */
-  background: rgba(255,255,255,0.1);   /* same as music-item */
-  backdrop-filter: blur(8px);           /* same blur as music-item */
+  max-width: 900px; /* desktop max-width */
+  height: 68px;
+  background: rgba(255,255,255,0.1); /* same as music-item */
+  backdrop-filter: blur(8px); /* same blur */
   -webkit-backdrop-filter: blur(8px);
-  border-radius: 15px;                  /* same as music-item */
+  border-radius: 15px; /* same as music-item */
   border: 1px solid rgba(255,255,255,0.2);
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 12px 15px;
+  padding: 0 20px;
   cursor: pointer;
   z-index: 3;
-  transition: 0.3s;
+  transition: all .25s ease;
 }
 
-.mini-player:hover {
-  background: rgba(255,255,255,0.2);
-}
-
-/* Button inside mini player */
+/* Mini player buttons */
 .mini-player button {
   background: none;
   border: none;
   color: white;
   font-size: 18px;
+}
+
+/* --------------------
+   Desktop vs Mobile Width
+-------------------- */
+@media (min-width: 451px) {
+  .mini-player {
+    width: 80%; /* Desktop: centered 80% width */
+  }
+}
+
+@media (max-width: 450px) {
+  .mini-player {
+    width: 100%; /* Mobile: full width */
+  }
 }
 
