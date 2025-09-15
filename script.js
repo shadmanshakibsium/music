@@ -183,8 +183,19 @@ progressBarContainer.addEventListener('click',(e)=>{
 });
 
 // ---- Play/Pause ----
-function playSong(){ audio.play(); isPlaying=true; playPauseBtn.textContent='⏸'; miniPlayPause.textContent='⏸'; updateProgress(); }
-function pauseSong(){ audio.pause(); isPlaying=false; playPauseBtn.textContent='▶'; miniPlayPause.textContent='▶'; }
+function playSong(){ 
+    audio.play(); 
+    isPlaying=true; 
+    playPauseBtn.textContent='⏸'; 
+    miniPlayPause.textContent='⏸'; 
+    updateProgress(); 
+}
+function pauseSong(){ 
+    audio.pause(); 
+    isPlaying=false; 
+    playPauseBtn.textContent='▶'; 
+    miniPlayPause.textContent='▶'; 
+}
 playPauseBtn.addEventListener('click', ()=>{ isPlaying?pauseSong():playSong(); });
 miniPlayPause.addEventListener('click', ()=>{ isPlaying?pauseSong():playSong(); });
 
@@ -199,6 +210,11 @@ nextBtn.addEventListener('click', ()=>{
 });
 
 // ---- Mini → Full Player ----
+function showMiniPlayer(){
+    miniPlayer.classList.remove('hidden');
+    playerView.classList.add('hidden');
+    libraryView.classList.remove('blur');
+}
 miniPlayer.addEventListener('click', ()=>{
     playerView.classList.remove('hidden');
     libraryView.classList.add('blur');  // library blur
