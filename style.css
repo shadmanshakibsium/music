@@ -242,16 +242,16 @@ body::before{
 .view{ position: relative }
 .hidden{ display:none !important; }
 
-/* Player view container */
-#player-view{
-  max-width: 560px;
-  margin: 18px auto 0;
-  background: linear-gradient(180deg, rgba(255,255,255,0.03), rgba(255,255,255,0.02));
-  border-radius: 16px;
-  border: 1px solid var(--glass-border);
-  padding: 18px;
-  box-shadow: var(--shadow-1);
-  z-index: 40;
+/* Mini → Full Player transition smoother */
+#player-view {
+  transition: opacity 0.25s ease, transform 0.25s ease;
+  transform: translateY(20px);
+  opacity: 0;
+}
+
+#player-view:not(.hidden) {
+  transform: translateY(0);
+  opacity: 1;
 }
 
 /* player header */
@@ -396,11 +396,11 @@ body::before{
   font-weight:700;
 }
 
-/* hide/show transitions */
-.hidden{
-  opacity:0;
-  pointer-events:none;
-  transform: translateY(8px);
+#mini-player.hidden {
+  opacity: 0;
+  pointer-events: none;
+  transform: translateY(30px); /* slide down slightly */
+  transition: transform 0.25s ease, opacity 0.25s ease;
 }
 
 /* --------------------
