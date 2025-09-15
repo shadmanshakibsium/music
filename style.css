@@ -122,32 +122,32 @@ h1 {
   color: white;
   margin-top: 20px;
   font-weight: 700;
-  font-size: 20px;
+  font-size: 20px; /* উপরের কোডে 24px, চাইলে 20px রাখো যাতে music-item এর সাথে balanced হয় */
   cursor: pointer;
   user-select: none;
-  padding: 12px 16px;
-  background: rgba(255, 255, 255, 0.12);
+  padding: 12px 16px; /* একটু বড় padding */
+  background: rgba(255, 255, 255, 0.12); /* translucent background */
   border-radius: 15px;
-  border: 1px solid rgba(255,255,255,0.25);
+  border: 1px solid rgba(255,255,255,0.25); /* subtle border for glass effect */
   transition: background 0.3s, transform 0.2s;
-  margin-bottom: 8px;
-}
-.folder-title:hover {
-  background: rgba(255,255,255,0.25);
-  transform: scale(1.02);
 }
 
-/* Folder Songs Container */
+.folder-title:hover {
+  background: rgba(255,255,255,0.25);
+  transform: scale(1.02); /* subtle hover scale */
+}
+
+/* Folder songs container */
 .folder-songs {
   display: none;
   margin-bottom: 15px;
   padding-left: 0;
 }
 
-/* Open folder (when JS adds .open) */
+/* Open folder */
 .folder-songs.open {
   display: block;
-  animation: fadeIn 0.3s ease-in-out;
+  animation: fadeIn 0.3s ease-in-out; /* smooth fade-in */
 }
 
 /* Songs inside folder */
