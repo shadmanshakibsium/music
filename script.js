@@ -5,10 +5,9 @@ const types = ['anime','arabic','bangla','edit audio','english','hindi','lofi','
 let musicData = [];
 let currentIndex = 0;
 let isPlaying = false;
-let isRepeat = false;
 let isShuffle = false;
 
-// Elements
+// ---- Elements ----
 const audio = document.getElementById('audioPlayer');
 const musicListEl = document.getElementById('music-list');
 const searchInput = document.getElementById('searchInput');
@@ -31,6 +30,27 @@ const progressBarContainer = document.getElementById('progress-bar-container');
 const progressFilled = document.getElementById('progress-filled');
 const currentTimeEl = document.getElementById('current-time');
 const durationEl = document.getElementById('duration');
+
+// ---- Utility Functions ----
+function formatTime(sec){
+    const m = Math.floor(sec/60);
+    const s = Math.floor(sec%60);
+    return `${m}:${s<10?'0'+s:s}`;
+}
+
+// Show mini player
+function showMiniPlayer(){
+    miniPlayer.classList.remove('hidden');
+    miniPlayer.setAttribute('aria-hidden','false');
+}
+
+// Reset progress
+function resetProgress(){
+    progressFilled.style.width='0%';
+    currentTimeEl.textContent='0:00';
+    durationEl.textContent='0:00';
+    miniTime.textContent='0:00';
+}
 
 // ---- Load all JSON files ----
 async function loadAllMusic() {
@@ -104,7 +124,6 @@ function displayFolders(list){
     });
     musicListEl.innerHTML = html;
 
-    // toggle folders
     document.querySelectorAll('.folder-title').forEach(title=>{
         title.addEventListener('click', ()=>{
             const type = title.dataset.type;
@@ -117,7 +136,7 @@ function displayFolders(list){
     addMusicItemHandlers();
 }
 
-// ---- Handle Tab Switching ----
+// ---- Tab Switching ----
 tabs.forEach(tab=>{
     tab.addEventListener('click', ()=>{
         tabs.forEach(t=>t.classList.remove('active'));
@@ -138,7 +157,7 @@ searchInput.addEventListener('input', ()=>{
     else displayFolders(filtered);
 });
 
-// ---- Music Item Click Handlers ----
+// ---- Music Item Click ----
 function addMusicItemHandlers(){
     document.querySelectorAll('.music-item').forEach(item=>{
         item.addEventListener('click', ()=>{
@@ -162,20 +181,7 @@ function loadSong(index){
     playSong();
 }
 
-// ---- Progress ----
-function resetProgress(){
-    progressFilled.style.width='0%';
-    currentTimeEl.textContent='0:00';
-    durationEl.textContent='0:00';
-    miniTime.textContent='0:00';
-}
-
-function formatTime(sec){
-    const m = Math.floor(sec/60);
-    const s = Math.floor(sec%60);
-    return `${m}:${s<10?'0'+s:s}`;
-}
-
+// ---- Progress Update ----
 let rafId;
 function updateProgress(){
     if(audio.duration){
@@ -188,7 +194,6 @@ function updateProgress(){
     if(isPlaying) rafId = requestAnimationFrame(updateProgress);
 }
 
-// Click on progress bar
 progressBarContainer.addEventListener('click',(e)=>{
     const rect = progressBarContainer.getBoundingClientRect();
     const clickX = e.clientX - rect.left;
@@ -196,7 +201,7 @@ progressBarContainer.addEventListener('click',(e)=>{
     updateProgress();
 });
 
-// ---- Play/Pause ----
+// ---- Play / Pause ----
 function playSong(){
     audio.play();
     isPlaying=true;
@@ -210,22 +215,21 @@ function pauseSong(){
     playPauseBtn.textContent='▶';
     miniPlayPause.textContent='▶';
 }
+
 playPauseBtn.addEventListener('click', ()=>{ isPlaying?pauseSong():playSong(); });
 miniPlayPause.addEventListener('click', ()=>{ isPlaying?pauseSong():playSong(); });
 
-// ---- Prev/Next ----
+// ---- Prev / Next ----
 prevBtn.addEventListener('click', ()=>{
-    if(isShuffle) currentIndex = Math.floor(Math.random()*musicData.length);
-    else currentIndex = (currentIndex-1+musicData.length)%musicData.length;
+    currentIndex = (currentIndex-1+musicData.length)%musicData.length;
     loadSong(currentIndex);
 });
 nextBtn.addEventListener('click', ()=>{
-    if(isShuffle) currentIndex = Math.floor(Math.random()*musicData.length);
-    else currentIndex = (currentIndex+1)%musicData.length;
+    currentIndex = (currentIndex+1)%musicData.length;
     loadSong(currentIndex);
 });
 
-// ---- Mini player click → full player ----
+// ---- Mini → Full Player ----
 miniPlayer.addEventListener('click', ()=>{
     playerView.classList.remove('hidden');
     playerView.setAttribute('aria-hidden','false');
@@ -237,7 +241,7 @@ backToLibraryBtn.addEventListener('click', ()=>{
     playerView.setAttribute('aria-hidden','true');
 });
 
-// ---- Audio End ----
+// ---- Audio ended ----
 audio.addEventListener('ended', ()=>{
     nextBtn.click();
 });
