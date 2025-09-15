@@ -1,3 +1,7 @@
+// --------------------
+// Variables
+// --------------------
+let currentView = 'all'; // 'all' or 'folders'
 let currentList = 'bangla';
 let musicData = [];
 let filteredData = [];
@@ -6,9 +10,12 @@ let isPlaying = false;
 let isShuffle = false;
 let repeatMode = 'none';
 
+const tabs = document.querySelectorAll('.tabs .tab');
+const allSongsView = document.getElementById('all-songs-view');
+const foldersView = document.getElementById('folders-view');
 const musicListEl = document.getElementById('music-list');
 const searchInput = document.getElementById('searchInput');
-const tabs = document.querySelectorAll('.tab');
+const folderListEl = document.getElementById('folder-list');
 
 // Mini Player
 const miniPlayer = document.getElementById('mini-player');
@@ -33,7 +40,7 @@ const progressBarContainer = document.getElementById('progress-bar-container');
 const volumeSlider = document.getElementById('fs-volume');
 
 // --------------------
-// Load Songs
+// Load Songs / Folders
 // --------------------
 function loadSongs(lang) {
   fetch(`data/${lang}.json`)
@@ -41,15 +48,55 @@ function loadSongs(lang) {
     .then(data => {
       musicData = data;
       filteredData = [...musicData];
-      renderMusicList();
-      if(filteredData.length > 0){
-        playSong(0);
-      }
+      if(currentView === 'all') renderMusicList();
+      if(filteredData.length > 0) playSong(0);
     })
     .catch(err => console.error("Failed to load songs:", err));
 }
 
-loadSongs(currentList);
+function loadFolders() {
+  const folders = ['bangla','english']; // Add folder names
+  folderListEl.innerHTML = '';
+  folders.forEach(folder => {
+    const div = document.createElement('div');
+    div.classList.add('folder-box');
+    div.textContent = folder;
+    div.addEventListener('click', ()=>{
+      toggleFolder(folder, div);
+    });
+    folderListEl.appendChild(div);
+  });
+}
+
+function toggleFolder(folderName, folderEl){
+  // Load songs in that folder
+  fetch(`data/${folderName}.json`)
+    .then(res=>res.json())
+    .then(data=>{
+      let listEl = folderEl.querySelector('.folder-songs');
+      if(listEl){
+        // toggle visibility
+        listEl.style.display = listEl.style.display==='none'?'block':'none';
+      } else {
+        listEl = document.createElement('ul');
+        listEl.classList.add('folder-songs');
+        listEl.style.marginTop='8px';
+        data.forEach((song,index)=>{
+          const li = document.createElement('li');
+          li.classList.add('music-item');
+          li.textContent = song.name;
+          li.addEventListener('click', ()=>{
+            currentList = folderName;
+            musicData = data;
+            filteredData = [...data];
+            playSong(index);
+          });
+          listEl.appendChild(li);
+        });
+        folderEl.appendChild(listEl);
+      }
+    });
+}
 
 // --------------------
 // Render Music List
@@ -109,7 +156,6 @@ function togglePlay() {
 }
 fsPlayBtn.addEventListener('click', togglePlay);
 miniPlayBtn.addEventListener('click', (e)=>{ e.stopPropagation(); togglePlay(); });
-
 fsAudio.addEventListener('play', ()=>{ isPlaying = true; updatePlayButton(); });
 fsAudio.addEventListener('pause', ()=>{ isPlaying = false; updatePlayButton(); });
 
@@ -143,7 +189,6 @@ fsRepeatBtn.addEventListener('click', ()=>{
   else repeatMode='none';
   updateRepeatUI();
 });
-
 function updateRepeatUI(){
   fsRepeatBtn.style.color = repeatMode==='none'?'var(--white)':(repeatMode==='all'?'var(--accent-2)':'var(--accent-1)');
 }
@@ -171,13 +216,11 @@ fsAudio.addEventListener('timeupdate', ()=>{
     durationEl.textContent = formatTime(fsAudio.duration);
   }
 });
-
 progressBarContainer.addEventListener('click',(e)=>{
   const rect = progressBarContainer.getBoundingClientRect();
   const clickX = e.clientX - rect.left;
   fsAudio.currentTime = (clickX/rect.width)*fsAudio.duration;
 });
-
 function formatTime(seconds){
   const mins = Math.floor(seconds/60);
   const secs = Math.floor(seconds%60);
@@ -201,14 +244,21 @@ searchInput.addEventListener('input', (e)=>{
 });
 
 // --------------------
-// Tabs
+// Tabs (All / Folders)
 // --------------------
 tabs.forEach(tab=>{
   tab.addEventListener('click', ()=>{
     tabs.forEach(t=>t.classList.remove('active'));
     tab.classList.add('active');
-    currentList = tab.dataset.lang;
-    searchInput.value = '';
-    loadSongs(currentList);
+    currentView = tab.dataset.view;
+    if(currentView==='all'){
+      allSongsView.style.display='block';
+      foldersView.style.display='none';
+      loadSongs(currentList);
+    } else {
+      allSongsView.style.display='none';
+      foldersView.style.display='block';
+      loadFolders();
+    }
   });
 });
