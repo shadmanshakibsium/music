@@ -1,79 +1,46 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Music Player</title>
-    <!-- Font Awesome -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <!-- Custom CSS -->
-    <link rel="stylesheet" href="style.css">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Music Website</title>
+<link rel="stylesheet" href="style.css">
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
 </head>
 <body>
 
-    <!-- Site Header -->
-    <header class="site-header">
-        <h1>My Music Player</h1>
-    </header>
+<div class="background"></div>
 
-    <!-- Tabs -->
-    <div class="tabs">
-        <div class="tab active" data-tab="songs">Songs</div>
-        <div class="tab" data-tab="folders">Folders</div>
-    </div>
+<div class="container">
+  <h1>My Music Library</h1>
 
-    <!-- Search Bar -->
-    <div class="search-bar">
-        <input type="text" id="searchInput" placeholder="Search songs...">
-    </div>
+  <div class="music-list" id="music-list">
+    <!-- গান লিস্ট এখানে JS দিয়ে লোড হবে -->
+  </div>
+</div>
 
-    <!-- Library / Song List -->
-    <div id="library-view"></div>
+<!-- Mini Player -->
+<div class="mini-player" id="mini-player">
+  <div id="mini-title">No song playing</div>
+  <button id="mini-play"><i class="fa fa-play"></i></button>
+</div>
 
-    <!-- Mini Player -->
-    <div id="mini-player" class="hidden">
-        <div id="miniSongTitle">Song Name</div>
-        <div id="miniTime">0:00</div>
-        <button id="miniPlayPause">▶</button>
-    </div>
+<!-- Fullscreen Player -->
+<div class="fullscreen-player" id="fullscreen-player">
+  <div class="fs-header">
+    <span id="fs-title">Song Name</span>
+    <button id="fs-close"><i class="fa fa-times"></i></button>
+  </div>
+  <audio id="audio" controls></audio>
+  <div class="fs-controls">
+    <button id="prev"><i class="fa fa-backward"></i></button>
+    <button id="play"><i class="fa fa-play"></i></button>
+    <button id="next"><i class="fa fa-forward"></i></button>
+    <button id="shuffle"><i class="fa fa-random"></i></button>
+    <button id="repeat"><i class="fa fa-repeat"></i></button>
+  </div>
+</div>
 
-    <!-- Fullscreen Player View -->
-    <div id="player-view" class="hidden">
-        <div class="container">
-            <div class="title" id="currentSongTitle">Song Name</div>
-
-            <!-- Progress Bar -->
-            <div id="progress">
-                <span id="current-time">0:00</span>
-                <div id="progress-bar-container">
-                    <div id="progress-filled"></div>
-                </div>
-                <span id="duration">0:00</span>
-            </div>
-
-            <!-- Controls -->
-            <div class="controls">
-                <button id="prevBtn" class="control-btn"><i class="fa fa-backward"></i></button>
-                <button id="playPauseBtn" class="play-btn">▶</button>
-                <button id="nextBtn" class="control-btn"><i class="fa fa-forward"></i></button>
-            </div>
-
-            <!-- Volume -->
-            <div id="volume-container">
-                <i class="fa fa-volume-low"></i>
-                <input type="range" id="volume" min="0" max="1" step="0.01" value="0.5">
-                <i class="fa fa-volume-high"></i>
-            </div>
-
-            <button id="backToLibrary" class="back-btn">Back to Library</button>
-        </div>
-    </div>
-
-    <!-- Audio Element -->
-    <audio id="audioPlayer"></audio>
-
-    <!-- Custom JS -->
-    <script src="script.js"></script>
-
+<script src="script.js"></script>
 </body>
 </html>
