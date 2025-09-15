@@ -22,12 +22,11 @@ body{
   background: var(--bg-img) no-repeat center center fixed;
   background-size: cover;
   color: var(--white);
-  padding: 32px 20px 120px;
+  padding: 32px 20px 140px;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   position: relative;
 }
-
 body::before{
   content:"";
   position:fixed;
@@ -126,8 +125,6 @@ body::before{
   scrollbar-width: thin;
   scrollbar-color: rgba(255,255,255,0.12) transparent;
 }
-
-/* Individual Music Item (Glass Box) */
 .music-item{
   display:flex;
   align-items:center;
@@ -147,7 +144,6 @@ body::before{
   background: rgba(255,255,255,0.12);
   box-shadow: 0 8px 25px rgba(0,0,0,0.4);
 }
-
 .music-item .title{
   font-weight:600;
   color:var(--white);
@@ -155,6 +151,43 @@ body::before{
   white-space:nowrap;
   overflow:hidden;
   text-overflow:ellipsis;
+}
+
+/* --------------------
+   Folders
+-------------------- */
+#folder-list{
+  display:flex;
+  flex-direction:column;
+  gap:10px;
+}
+.folder-box{
+  padding:12px 16px;
+  border-radius: var(--radius);
+  background: rgba(255,255,255,0.05);
+  border: 1px solid rgba(255,255,255,0.12);
+  cursor:pointer;
+  font-weight:600;
+  transition: all .25s ease;
+  backdrop-filter: blur(6px);
+}
+.folder-box:hover{
+  transform: translateY(-3px);
+  background: rgba(255,255,255,0.12);
+}
+.folder-songs{
+  list-style:none;
+  margin-top:8px;
+  padding-left:12px;
+  max-height: 400px;
+  overflow:auto;
+  display:none;
+}
+.folder-songs.open{ display:block; }
+.folder-songs .music-item{
+  background: rgba(255,255,255,0.04);
+  border: 1px solid rgba(255,255,255,0.08);
+  font-size:14px;
 }
 
 /* --------------------
