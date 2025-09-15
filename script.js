@@ -81,7 +81,7 @@ function toggleFolder(folderName, folderEl) {
     listEl = document.createElement('ul');
     listEl.classList.add('folder-songs');
     listEl.style.marginTop = '8px';
-    folderEl.appendChild(listEl);
+    folderListEl.insertBefore(listEl, folderEl.nextSibling);
 
     // fetch songs
     fetch(`data/${folderName}.json`)
