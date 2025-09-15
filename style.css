@@ -350,3 +350,13 @@ h1 {
     margin-right: auto;
   }
 }
+
+/* Mobile: full width */
+@media(max-width: 450px) {
+  .search-bar input,
+  .music-item {
+    width: 100%;
+    margin: 0;
+    display: block;
+  }
+}
