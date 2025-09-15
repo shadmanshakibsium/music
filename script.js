@@ -1,5 +1,3 @@
-// script.js
-
 // ---- Config ----
 const types = ['anime','arabic','bangla','edit audio','english','hindi','lofi','phonk','slowed-reverbed'];
 let musicData = [];
@@ -42,7 +40,7 @@ async function loadAllMusic() {
     musicData = allSongs;
 }
 
-// ---- Sort alphabetically, # last ----
+// ---- Sort Songs Alphabetically ----
 function sortSongs(list) {
     return list.slice().sort((a,b)=>{
         const aChar = a.name.charAt(0).toUpperCase();
@@ -55,7 +53,7 @@ function sortSongs(list) {
     });
 }
 
-// ---- Display Songs List ----
+// ---- Display Songs ----
 function displaySongs(list) {
     const sortedList = sortSongs(list);
     if(sortedList.length === 0){
@@ -73,7 +71,7 @@ function displaySongs(list) {
     addMusicItemHandlers();
 }
 
-// ---- Display Folders View ----
+// ---- Display Folders ----
 const folderState = {};
 function displayFolders(list){
     const sortedList = sortSongs(list);
@@ -110,7 +108,7 @@ function displayFolders(list){
     addMusicItemHandlers();
 }
 
-// ---- Tab Switching ----
+// ---- Tabs ----
 tabs.forEach(tab=>{
     tab.addEventListener('click', ()=>{
         tabs.forEach(t=>t.classList.remove('active'));
@@ -181,7 +179,6 @@ function updateProgress(){
     if(isPlaying) rafId = requestAnimationFrame(updateProgress);
 }
 
-// Click on progress bar
 progressBarContainer.addEventListener('click',(e)=>{
     const rect = progressBarContainer.getBoundingClientRect();
     const clickX = e.clientX - rect.left;
@@ -225,12 +222,14 @@ function showMiniPlayer(){
 miniPlayer.addEventListener('click', ()=>{
     playerView.classList.remove('hidden');
     playerView.setAttribute('aria-hidden','false');
+    miniPlayer.classList.add('hidden'); // hide mini when full player visible
 });
 
 // ---- Full Player → Back to Library ----
 backToLibraryBtn.addEventListener('click', ()=>{
     playerView.classList.add('hidden');
     playerView.setAttribute('aria-hidden','true');
+    miniPlayer.classList.remove('hidden'); // show mini again
 });
 
 // ---- Audio End ----
