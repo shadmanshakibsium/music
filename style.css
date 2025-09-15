@@ -40,11 +40,11 @@ h1 {
    Search Bar
 -------------------- */
 .search-bar {
-  width: 100%;
+  width: 80%;
   margin-bottom: 20px;
 }
 .search-bar input {
-  width: 100%;
+  width: 80%;
   padding: 12px 15px;
   border-radius: 15px;
   border: none;
@@ -101,7 +101,7 @@ h1 {
   outline: none;
 
   /* নতুন কোড - width সীমিত */
-  width: 95%;       /* পিসিতে একটু ছোট দেখাবে */
+  width: 80%;       /* পিসিতে একটু ছোট দেখাবে */
   margin-left: auto; 
   margin-right: auto;
 }
