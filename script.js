@@ -1,217 +1,249 @@
-// ====== index.js ======
+// script.js
+
+// ---- Config ----
 const types = ['anime','arabic','bangla','edit audio','english','hindi','lofi','phonk','slowed-reverbed'];
 let musicData = [];
-let currentSongIndex = null;
+let currentIndex = 0;
 let isPlaying = false;
+let isRepeat = false;
+let isShuffle = false;
 
-// DOM Elements
-const musicList = document.getElementById('music-list');
-const alphaIndex = document.getElementById('alphaIndex');
+// Elements
+const audio = document.getElementById('audioPlayer');
+const musicListEl = document.getElementById('music-list');
 const searchInput = document.getElementById('searchInput');
 const tabs = document.querySelectorAll('.tab');
+const alphaIndexEl = document.getElementById('alphaIndex');
 
-// Mini Player DOM
 const miniPlayer = document.getElementById('mini-player');
-const miniTitle = document.getElementById('mini-title');
-const miniAudio = document.getElementById('mini-audio');
-const miniPlayBtn = document.getElementById('mini-play');
-const miniPlayIcon = document.getElementById('mini-play-icon');
-const miniProgressBar = document.getElementById('mini-progress-filled');
-const miniCurrentTime = document.getElementById('mini-current-time');
-const miniDuration = document.getElementById('mini-duration');
+const miniSongTitle = document.getElementById('miniSongTitle');
+const miniTime = document.getElementById('miniTime');
+const miniPlayPause = document.getElementById('miniPlayPause');
 
-// Load all JSON music data
+const playerView = document.getElementById('player-view');
+const currentSongTitle = document.getElementById('currentSongTitle');
+const backToLibraryBtn = document.getElementById('backToLibrary');
+const playPauseBtn = document.getElementById('playPauseBtn');
+const prevBtn = document.getElementById('prevBtn');
+const nextBtn = document.getElementById('nextBtn');
+
+const progressBarContainer = document.getElementById('progress-bar-container');
+const progressFilled = document.getElementById('progress-filled');
+const currentTimeEl = document.getElementById('current-time');
+const durationEl = document.getElementById('duration');
+
+// ---- Load all JSON files ----
 async function loadAllMusic() {
-  let allSongs = [];
-  for (const type of types) {
-    try {
-      const res = await fetch(`data/${type}.json`);
-      const data = await res.json();
-      data.forEach(song => song.type = type);
-      allSongs = allSongs.concat(data);
-    } catch (e) {
-      console.error(`Failed to load ${type}.json`, e);
+    let allSongs = [];
+    for (const type of types) {
+        try {
+            const res = await fetch(`data/${type}.json`);
+            const data = await res.json();
+            data.forEach(song => song.type = type);
+            allSongs = allSongs.concat(data);
+        } catch (e) {
+            console.error(`Failed to load ${type}.json`, e);
+        }
     }
-  }
-  musicData = allSongs;
+    musicData = allSongs;
 }
 
-// Sort songs alphabetically
+// ---- Sort alphabetically, # last ----
 function sortSongs(list) {
-  return list.slice().sort((a,b)=>{
-    const aChar = a.name.charAt(0).toUpperCase();
-    const bChar = b.name.charAt(0).toUpperCase();
-    const isALetter = /^[A-Z]$/.test(aChar);
-    const isBLetter = /^[A-Z]$/.test(bChar);
-    if(isALetter && !isBLetter) return -1;
-    if(!isALetter && isBLetter) return 1;
-    return a.name.toUpperCase() < b.name.toUpperCase() ? -1 : a.name.toUpperCase() > b.name.toUpperCase() ? 1 : 0;
-  });
+    return list.slice().sort((a,b)=>{
+        const aChar = a.name.charAt(0).toUpperCase();
+        const bChar = b.name.charAt(0).toUpperCase();
+        const isALetter = /^[A-Z]$/.test(aChar);
+        const isBLetter = /^[A-Z]$/.test(bChar);
+        if(isALetter && !isBLetter) return -1;
+        if(!isALetter && isBLetter) return 1;
+        return a.name.toUpperCase() < b.name.toUpperCase() ? -1 : a.name.toUpperCase() > b.name.toUpperCase() ? 1 : 0;
+    });
 }
 
-// Display songs list
+// ---- Display Songs List ----
 function displaySongs(list) {
-  const sortedList = sortSongs(list);
-  if(sortedList.length === 0){
-    musicList.innerHTML = `<li style="color:white;text-align:center;padding:20px;">No results found</li>`;
-    return;
-  }
-
-  musicList.innerHTML = sortedList.map((song,index)=>`
-    <li class="music-item" data-index="${index}">
-      <span class="title">${song.name}</span>
-      <span style="font-size:12px;color:rgba(255,255,255,0.5)"> [${song.type}]</span>
-    </li>
-  `).join('');
-
-  addPlayHandler();
-}
-
-// Display folders view
-const folderOpenState = {};
-function displayFolders(list){
-  const sortedList = sortSongs(list);
-  let html = '';
-
-  types.forEach(type=>{
-    const songs = sortedList.filter(s=>s.type===type);
-    if(songs.length){
-      folderOpenState[type]=false;
-      html += `
-      <div class="folder-title" data-type="${type}">${type.toUpperCase()}</div>
-      <ul class="folder-songs" data-type="${type}">
-        ${songs.map((song,index)=>`
-          <li class="music-item" data-index="${musicData.indexOf(song)}">${song.name}</li>
-        `).join('')}
-      </ul>`;
+    const sortedList = sortSongs(list);
+    if(sortedList.length === 0){
+        musicListEl.innerHTML = '<li class="no-results">No results found</li>';
+        return;
     }
-  });
+    musicListEl.innerHTML = sortedList.map((song,index)=>`
+        <li class="music-item" data-index="${index}">
+            <div class="info">
+                <span class="title">${song.name}</span>
+                <span class="meta">[${song.type}]</span>
+            </div>
+        </li>
+    `).join('');
+    addMusicItemHandlers();
+}
 
-  musicList.innerHTML = html;
-
-  document.querySelectorAll('.folder-title').forEach(title=>{
-    title.addEventListener('click',()=>{
-      const type = title.getAttribute('data-type');
-      folderOpenState[type]=!folderOpenState[type];
-      const ul = document.querySelector(`.folder-songs[data-type="${type}"]`);
-      ul.classList.toggle('open');
+// ---- Display Folders View ----
+const folderState = {};
+function displayFolders(list){
+    const sortedList = sortSongs(list);
+    let html = '';
+    types.forEach(type=>{
+        const songs = sortedList.filter(s=>s.type===type);
+        if(songs.length){
+            folderState[type] = false;
+            html += `
+                <div class="folder-title" data-type="${type}">${type.toUpperCase()}</div>
+                <ul class="folder-songs" data-type="${type}">
+                    ${songs.map((song,index)=>`
+                        <li class="music-item" data-index="${index}">
+                            <div class="info">
+                                <span class="title">${song.name}</span>
+                            </div>
+                        </li>
+                    `).join('')}
+                </ul>
+            `;
+        }
     });
-  });
+    musicListEl.innerHTML = html;
 
-  addPlayHandler();
+    // toggle folders
+    document.querySelectorAll('.folder-title').forEach(title=>{
+        title.addEventListener('click', ()=>{
+            const type = title.dataset.type;
+            folderState[type] = !folderState[type];
+            const ul = document.querySelector(`.folder-songs[data-type="${type}"]`);
+            ul.classList.toggle('open');
+        });
+    });
+
+    addMusicItemHandlers();
 }
 
-// Handle clicking songs to play in mini player
-function addPlayHandler(){
-  document.querySelectorAll('.music-item').forEach(item=>{
-    item.onclick = ()=>{
-      const index = parseInt(item.dataset.index);
-      if(!isNaN(index)){
-        playSong(index);
-      }
-    };
-  });
-}
-
-// Mini Player controls
-function playSong(index){
-  const song = musicData[index];
-  if(!song) return;
-  currentSongIndex = index;
-  miniAudio.src = `songs/${song.file}`;
-  miniTitle.textContent = song.name;
-  miniAudio.play();
-  isPlaying = true;
-  miniPlayIcon.classList.remove('fa-play');
-  miniPlayIcon.classList.add('fa-pause');
-  miniPlayer.style.display = 'flex';
-  requestAnimationFrame(updateMiniProgress);
-}
-
-function toggleMiniPlay(){
-  if(!currentSongIndex && currentSongIndex!==0) return;
-  if(isPlaying){
-    miniAudio.pause();
-    isPlaying=false;
-    miniPlayIcon.classList.remove('fa-pause');
-    miniPlayIcon.classList.add('fa-play');
-  } else {
-    miniAudio.play();
-    isPlaying=true;
-    miniPlayIcon.classList.remove('fa-play');
-    miniPlayIcon.classList.add('fa-pause');
-    requestAnimationFrame(updateMiniProgress);
-  }
-}
-
-// Mini player progress
-function updateMiniProgress(){
-  if(miniAudio.duration){
-    const percent = (miniAudio.currentTime/miniAudio.duration)*100;
-    miniProgressBar.style.width = percent + '%';
-    miniCurrentTime.textContent = formatTime(miniAudio.currentTime);
-    miniDuration.textContent = formatTime(miniAudio.duration);
-  }
-  if(isPlaying){
-    requestAnimationFrame(updateMiniProgress);
-  }
-}
-
-// Format time
-function formatTime(sec){
-  const m = Math.floor(sec/60);
-  const s = Math.floor(sec%60);
-  return m+':'+(s<10?'0'+s:s);
-}
-
-// Search input
-searchInput.addEventListener('input',()=>{
-  const q = searchInput.value.toLowerCase();
-  const filtered = musicData.filter(s=>s.name.toLowerCase().includes(q));
-  const activeTab = document.querySelector('.tab.active').dataset.tab;
-  if(activeTab==='songs') displaySongs(filtered);
-  else displayFolders(filtered);
-});
-
-// Tabs
+// ---- Handle Tab Switching ----
 tabs.forEach(tab=>{
-  tab.addEventListener('click',()=>{
-    tabs.forEach(t=>t.classList.remove('active'));
-    tab.classList.add('active');
-    searchInput.value='';
-    const activeTab = tab.dataset.tab;
-    if(activeTab==='songs') displaySongs(musicData);
-    else displayFolders(musicData);
-  });
-});
-
-// A-Z index
-const alphabet = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ#'.split('');
-alphabet.forEach(letter=>{
-  const div = document.createElement('div');
-  div.textContent = letter;
-  div.addEventListener('click',()=>scrollToLetter(letter));
-  alphaIndex.appendChild(div);
-});
-
-function scrollToLetter(letter){
-  const listItems = [...document.querySelectorAll('.music-item')];
-  let target;
-  if(letter===' # '){
-    target=listItems.find(li=>{
-      const first = li.querySelector('.title').textContent.charAt(0).toUpperCase();
-      return !(/[A-Z]/.test(first));
+    tab.addEventListener('click', ()=>{
+        tabs.forEach(t=>t.classList.remove('active'));
+        tab.classList.add('active');
+        searchInput.value='';
+        const activeTab = tab.dataset.tab;
+        if(activeTab==='songs') displaySongs(musicData);
+        else displayFolders(musicData);
     });
-  } else {
-    target=listItems.find(li=>li.querySelector('.title').textContent.charAt(0).toUpperCase()===letter);
-  }
-  if(target) target.scrollIntoView({behavior:'smooth',block:'start'});
+});
+
+// ---- Search ----
+searchInput.addEventListener('input', ()=>{
+    const query = searchInput.value.toLowerCase();
+    const filtered = musicData.filter(song=>song.name.toLowerCase().includes(query));
+    const activeTab = document.querySelector('.tab.active').dataset.tab;
+    if(activeTab==='songs') displaySongs(filtered);
+    else displayFolders(filtered);
+});
+
+// ---- Music Item Click Handlers ----
+function addMusicItemHandlers(){
+    document.querySelectorAll('.music-item').forEach(item=>{
+        item.addEventListener('click', ()=>{
+            const index = parseInt(item.dataset.index);
+            if(isNaN(index)) return;
+            currentIndex = index;
+            loadSong(currentIndex);
+            showMiniPlayer();
+        });
+    });
 }
 
-// Mini player buttons
-miniPlayBtn.addEventListener('click',toggleMiniPlay);
+// ---- Load Song ----
+function loadSong(index){
+    const song = musicData[index];
+    if(!song) return;
+    audio.src = `songs/${song.type}/${song.file}`;
+    currentSongTitle.textContent = song.name;
+    miniSongTitle.textContent = song.name;
+    resetProgress();
+    playSong();
+}
 
-// Load music and initialize
-loadAllMusic().then(()=>{
-  displaySongs(musicData);
+// ---- Progress ----
+function resetProgress(){
+    progressFilled.style.width='0%';
+    currentTimeEl.textContent='0:00';
+    durationEl.textContent='0:00';
+    miniTime.textContent='0:00';
+}
+
+function formatTime(sec){
+    const m = Math.floor(sec/60);
+    const s = Math.floor(sec%60);
+    return `${m}:${s<10?'0'+s:s}`;
+}
+
+let rafId;
+function updateProgress(){
+    if(audio.duration){
+        const percent = (audio.currentTime/audio.duration)*100;
+        progressFilled.style.width = percent+'%';
+        currentTimeEl.textContent = formatTime(audio.currentTime);
+        durationEl.textContent = formatTime(audio.duration);
+        miniTime.textContent = formatTime(audio.currentTime);
+    }
+    if(isPlaying) rafId = requestAnimationFrame(updateProgress);
+}
+
+// Click on progress bar
+progressBarContainer.addEventListener('click',(e)=>{
+    const rect = progressBarContainer.getBoundingClientRect();
+    const clickX = e.clientX - rect.left;
+    audio.currentTime = (clickX/rect.width)*audio.duration;
+    updateProgress();
+});
+
+// ---- Play/Pause ----
+function playSong(){
+    audio.play();
+    isPlaying=true;
+    playPauseBtn.textContent='⏸';
+    miniPlayPause.textContent='⏸';
+    updateProgress();
+}
+function pauseSong(){
+    audio.pause();
+    isPlaying=false;
+    playPauseBtn.textContent='▶';
+    miniPlayPause.textContent='▶';
+}
+playPauseBtn.addEventListener('click', ()=>{ isPlaying?pauseSong():playSong(); });
+miniPlayPause.addEventListener('click', ()=>{ isPlaying?pauseSong():playSong(); });
+
+// ---- Prev/Next ----
+prevBtn.addEventListener('click', ()=>{
+    if(isShuffle) currentIndex = Math.floor(Math.random()*musicData.length);
+    else currentIndex = (currentIndex-1+musicData.length)%musicData.length;
+    loadSong(currentIndex);
+});
+nextBtn.addEventListener('click', ()=>{
+    if(isShuffle) currentIndex = Math.floor(Math.random()*musicData.length);
+    else currentIndex = (currentIndex+1)%musicData.length;
+    loadSong(currentIndex);
+});
+
+// ---- Mini player click → full player ----
+miniPlayer.addEventListener('click', ()=>{
+    playerView.classList.remove('hidden');
+    playerView.setAttribute('aria-hidden','false');
+});
+
+// ---- Back to library ----
+backToLibraryBtn.addEventListener('click', ()=>{
+    playerView.classList.add('hidden');
+    playerView.setAttribute('aria-hidden','true');
+});
+
+// ---- Audio End ----
+audio.addEventListener('ended', ()=>{
+    nextBtn.click();
+});
+
+// ---- Init ----
+window.addEventListener('load', async ()=>{
+    await loadAllMusic();
+    displaySongs(musicData);
 });
