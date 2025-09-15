@@ -167,15 +167,19 @@ function updatePlayButton(){
 // Mini → Fullscreen
 miniPlayer.addEventListener('click', ()=>{
   fullscreenPlayer.style.display = 'flex';
-  miniPlayer.style.display = 'none';         // মিনি প্লেয়ার লুকানো
-  allSongsView.style.display = 'none';       // গান লিস্ট লুকানো
-  foldersView.style.display = 'none';        // ফোল্ডার লিস্ট লুকানো
+  miniPlayer.style.display = 'none';           // মিনি প্লেয়ার লুকানো
+  document.querySelector('.site-header').style.display = 'none'; // হেডার লুকানো
+  document.querySelector('.tabs').style.display = 'none';        // ট্যাব লুকানো
+  allSongsView.style.display = 'none';        // গান লিস্ট লুকানো
+  foldersView.style.display = 'none';         // ফোল্ডার লিস্ট লুকানো
 });
 
 // Close fullscreen
 fsCloseBtn.addEventListener('click', ()=>{
   fullscreenPlayer.style.display = 'none';
-  miniPlayer.style.display = 'flex';         // মিনি প্লেয়ার দেখানো
+  miniPlayer.style.display = 'flex';           // মিনি প্লেয়ার দেখানো
+  document.querySelector('.site-header').style.display = 'block'; // হেডার দেখানো
+  document.querySelector('.tabs').style.display = 'flex';         // ট্যাব দেখানো
   if(currentView==='all') allSongsView.style.display = 'block';
   else foldersView.style.display = 'block';
 });
