@@ -138,7 +138,8 @@ function renderMusicList() {
         <span style="font-size:12px; color:rgba(255,255,255,0.5); margin-left:8px;">[${song.folder}]</span>
       </div>`;
     li.classList.add('fade-in');
-    if (index === currentIndex) li.classList.add('playing');
+    // শুধু যখন গানের индекс বর্তমান সুর বাজাচ্ছে, তখন হাইলাইট হবে
+    if (index === currentIndex && isPlaying) li.classList.add('playing');
     li.addEventListener('click', () => playSong(index));
     musicListEl.appendChild(li);
   });
@@ -150,10 +151,14 @@ function renderMusicList() {
   }
 }
 
+
 // --------------------
 // Play Song
 // --------------------
 function playSong(index) {
+  // প্রথমে গান বাজানো হবে না, যদি প্লেয়ার আগের থেকেই কিছু বাজাচ্ছে
+  if (currentIndex === index && isPlaying) return;
+
   currentIndex = index;
   const song = filteredData[index];
   fsAudio.src = `songs/${song.folder}/${song.file}`;
