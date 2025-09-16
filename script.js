@@ -64,13 +64,13 @@ function loadAllSongs() {
       .catch(err => { console.error(`Failed to load ${lang}.json`, err); return []; })
   );
 
-  Promise.all(promises).then(results => {
-    musicData = results.flat();
-    musicData.sort((a,b) => a.name.localeCompare(b.name));
-    filteredData = [...musicData];
-    renderMusicList();
-  });
-}
+Promise.all(promises).then(results => {
+  musicData = results.flat();
+  musicData.sort((a,b) => a.name.localeCompare(b.name));
+  filteredData = [...musicData];
+  renderMusicList();
+  allSongsView.scrollTop = scrollPosition; // আগের scroll পজিশন রিস্টোর করবে
+});
 
 // --------------------
 // Load Folders
@@ -164,6 +164,9 @@ function playSong(index){
   updateMiniPlayer(song.name);
   updateFullscreenPlayer(song.name);
   updatePlayButton();
+
+  // নতুন গান প্লে হলে সেটাকে স্ক্রল করো যদি দরকার হয়
+  scrollToCurrentSong();
 }
 
 // --------------------
@@ -213,8 +216,15 @@ fsCloseBtn.addEventListener('click', () => {
 
 function scrollToCurrentSong() {
   const currentItem = document.querySelector(`.music-item[data-index="${currentIndex}"]`);
-  if (currentItem) {
-    currentItem.scrollIntoView({ behavior: 'auto', block: 'center' });
+  if (!currentItem) return;
+
+  const parent = currentView === 'all' ? allSongsView : foldersView;
+  const parentRect = parent.getBoundingClientRect();
+  const itemRect = currentItem.getBoundingClientRect();
+
+  // যদি আইটেম পুরোপুরি parent এর ভেতরে না থাকে, তখন scroll করো
+  if (itemRect.top < parentRect.top || itemRect.bottom > parentRect.bottom) {
+    currentItem.scrollIntoView({ behavior: 'smooth', block: 'center' });
   }
 }
 
