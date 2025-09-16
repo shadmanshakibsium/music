@@ -162,11 +162,9 @@ function updatePlayButton(){
   }
 }
 
-// --------------------
 // Mini → Fullscreen
-// --------------------
 miniPlayer.addEventListener('click', () => {
-  // নতুন এই লাইন যোগ করো: আগের scroll position save করো
+  // fullscreen এ যাওয়ার আগে scroll position সেভ করো
   if (currentView === 'all') {
     scrollPosition = allSongsView.scrollTop;
   } else {
@@ -192,14 +190,14 @@ fsCloseBtn.addEventListener('click', () => {
     allSongsView.style.display = 'block';
     foldersView.style.display = 'none';
 
-    // আগের scroll position restore করো, কোন scrollIntoView নেই
+    // আগের scroll position restore করো
     allSongsView.scrollTop = scrollPosition;
 
   } else {
     allSongsView.style.display = 'none';
     foldersView.style.display = 'block';
 
-    // আগের scroll position restore করো, কোন scrollIntoView নেই
+    // আগের scroll position restore করো
     foldersView.scrollTop = scrollPosition;
   }
 });
