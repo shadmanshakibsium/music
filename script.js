@@ -175,34 +175,47 @@ miniPlayer.addEventListener('click', ()=>{
 });
 
 // Close fullscreen
-fsCloseBtn.addEventListener('click', ()=>{
+fsCloseBtn.addEventListener('click', () => {
   fullscreenPlayer.style.display = 'none';
   miniPlayer.style.display = 'flex';
   document.querySelector('.site-header').style.display = 'block';
   document.querySelector('.tabs').style.display = 'flex';
 
-  if(currentView === 'all') {
+  if (currentView === 'all') {
     allSongsView.style.display = 'block';
     foldersView.style.display = 'none';
 
-    // Scroll করার অংশ মুছে ফেলো:
-    // const currentSongEl = musicListEl.querySelector(`.music-item[data-index="${currentIndex}"]`);
-    // if (currentSongEl) {
-    //   currentSongEl.scrollIntoView({ behavior: 'smooth', block: 'center' });
-    // }
+    // প্লে করা গানের এলিমেন্ট খুঁজে পাও
+    const currentSongEl = musicListEl.querySelector(`.music-item[data-index="${currentIndex}"]`);
+
+    if (currentSongEl) {
+      // প্লে করা গান সামনে নিয়ে যাও, কোনো smooth animation ছাড়াই
+      currentSongEl.scrollIntoView({ behavior: 'auto', block: 'center' });
+    } else {
+      // না পেলে আগের scroll restore করো
+      allSongsView.scrollTop = scrollPosition;
+    }
 
   } else {
     allSongsView.style.display = 'none';
     foldersView.style.display = 'block';
 
-    // এই অংশও মুছে ফেলো:
-    // const folderLists = document.querySelectorAll('.folder-songs');
-    // folderLists.forEach(list => {
-    //   const songEl = list.querySelector(`.music-item[data-index="${currentIndex}"]`);
-    //   if (songEl) {
-    //     songEl.scrollIntoView({ behavior: 'smooth', block: 'center' });
-    //   }
-    // });
+    // ফোল্ডার লিস্টের মধ্যে প্লে করা গান খুঁজো
+    const folderLists = document.querySelectorAll('.folder-songs');
+    let found = false;
+    folderLists.forEach(list => {
+      if (found) return;
+      const songEl = list.querySelector(`.music-item[data-index="${currentIndex}"]`);
+      if (songEl) {
+        songEl.scrollIntoView({ behavior: 'auto', block: 'center' });
+        found = true;
+      }
+    });
+
+    // যদি না পাওয়া যায়, আগের scroll restore করো
+    if (!found) {
+      foldersView.scrollTop = scrollPosition;
+    }
   }
 });
 
