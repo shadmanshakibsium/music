@@ -192,15 +192,37 @@ fsCloseBtn.addEventListener('click', () => {
     allSongsView.style.display = 'block';
     foldersView.style.display = 'none';
 
-    // এখানে আগের scroll position restore করো, animation ছাড়াই
-    allSongsView.scrollTop = scrollPosition;
+    // প্লে করা গানের এলিমেন্ট খুঁজে পাও
+    const currentSongEl = musicListEl.querySelector(`.music-item[data-index="${currentIndex}"]`);
+
+    if (currentSongEl) {
+      // প্লে করা গান সামনে নিয়ে যাও, কোনো smooth animation ছাড়াই
+      currentSongEl.scrollIntoView({ behavior: 'auto', block: 'center' });
+    } else {
+      // না পেলে আগের scroll restore করো
+      allSongsView.scrollTop = scrollPosition;
+    }
 
   } else {
     allSongsView.style.display = 'none';
     foldersView.style.display = 'block';
 
-    // ফোল্ডার ভিউর জন্য scroll restore করো
-    foldersView.scrollTop = scrollPosition;
+    // ফোল্ডার লিস্টের মধ্যে প্লে করা গান খুঁজো
+    const folderLists = document.querySelectorAll('.folder-songs');
+    let found = false;
+    folderLists.forEach(list => {
+      if (found) return;
+      const songEl = list.querySelector(`.music-item[data-index="${currentIndex}"]`);
+      if (songEl) {
+        songEl.scrollIntoView({ behavior: 'auto', block: 'center' });
+        found = true;
+      }
+    });
+
+    // যদি না পাওয়া যায়, আগের scroll restore করো
+    if (!found) {
+      foldersView.scrollTop = scrollPosition;
+    }
   }
 });
 
