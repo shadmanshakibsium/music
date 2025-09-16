@@ -128,26 +128,18 @@ function toggleFolder(folderName, folderEl) {
 // --------------------
 function renderMusicList() {
   musicListEl.innerHTML = '';
-  filteredData.forEach((song) => {
+  filteredData.forEach((song, index) => {
     const li = document.createElement('li');
     li.classList.add('music-item');
-    // ✅ index এর বদলে ইউনিক key ব্যবহার করি
-    li.setAttribute('data-key', `${song.folder}/${song.file}`);
+    li.setAttribute('data-index', index);
     li.innerHTML = `
       <div class="info">
         <span class="title">${song.name}</span>
         <span style="font-size:12px; color:rgba(255,255,255,0.5); margin-left:8px;">[${song.folder}]</span>
       </div>`;
     li.classList.add('fade-in');
-
-    // ✅ এখন currentIndex মিলিয়ে চেক না করে, currentSongKey দিয়ে হাইলাইট করবো
-    if (currentSongKey === `${song.folder}/${song.file}` && isPlaying) {
-      li.classList.add('playing');
-    }
-
-    // ✅ playSong কে data-key দিয়ে কল করো
-    li.addEventListener('click', () => playSongByKey(`${song.folder}/${song.file}`));
-
+    if (index === currentIndex) li.classList.add('playing');
+    li.addEventListener('click', () => playSong(index));
     musicListEl.appendChild(li);
   });
 
@@ -158,32 +150,39 @@ function renderMusicList() {
   }
 }
 
-
 // --------------------
-// Play Song (key দিয়ে)
+// Play Song
 // --------------------
-function playSongByKey(key) {
-  // প্রথমে যদি আগেই সেই গান বাজে, তবে কিছু করার দরকার নেই
-  if (currentSongKey === key && isPlaying) return;
+function playSong(index) {
+  currentIndex = index;
+  const song = filteredData[index];
+  
+  // প্রথমে সকল `.playing` ক্লাস সরান
+  document.querySelectorAll('.music-item.playing').forEach(el => el.classList.remove('playing'));
 
-  // ✅ গানের তথ্য বের করো
-  const song = filteredData.find(s => `${s.folder}/${s.file}` === key);
-  if (!song) return;
-
-  currentSongKey = key;
-  currentIndex = filteredData.indexOf(song); // চাইলে index রাখতে পারেন
+  // এখন বর্তমান গানটি প্লে করুন
   fsAudio.src = `songs/${song.folder}/${song.file}`;
   fsAudio.play();
   isPlaying = true;
+
+  // "All Songs" ভিউ থেকে নতুন .playing ক্লাস যোগ করুন
+  const currentPlayingEl = musicListEl.querySelector(`.music-item[data-index="${index}"]`);
+  if (currentPlayingEl) {
+    currentPlayingEl.classList.add('playing');
+  }
+
+  // "Folders" ভিউতে প্লে করা গান খুঁজে .playing ক্লাস যোগ করুন
+  const folderLists = document.querySelectorAll('.folder-songs');
+  folderLists.forEach(list => {
+    const songEl = list.querySelector(`.music-item[data-index="${index}"]`);
+    if (songEl) {
+      songEl.classList.add('playing');
+    }
+  });
+
   updateMiniPlayer(song.name);
   updateFullscreenPlayer(song.name);
   updatePlayButton();
-
-  // আগের .playing ক্লাসগুলো সরাও (সব ভিউ থেকে)
-  document.querySelectorAll('.music-item.playing').forEach(el => el.classList.remove('playing'));
-
-  // ✅ সব ভিউতে একই key মিলিয়ে হাইলাইট করো
-  document.querySelectorAll(`.music-item[data-key="${key}"]`).forEach(el => el.classList.add('playing'));
 }
 
 // --------------------
@@ -396,3 +395,5 @@ tabs.forEach(tab=>{
 // Initial Load
 // --------------------
 loadAllSongs();
+
+
