@@ -91,6 +91,12 @@ h1 {
 .search-bar input::placeholder {
   color: rgba(255,255,255,0.7);
 }
+#songCount {
+  margin-top: 8px;
+  font-size: 14px;
+  color: rgba(255, 255, 255, 0.75);
+  text-align: right;
+}
 
 /* --------------------
    Tabs
