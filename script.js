@@ -76,13 +76,9 @@ function loadFolders() {
 function toggleFolder(folderName, folderEl) {
   let listEl = folderEl.nextElementSibling;
 
-  if(listEl && listEl.classList.contains('folder-songs')){
+  if (listEl && listEl.classList.contains('folder-songs')) {
     // শুধু display toggle
-    if(listEl.style.display === 'block') {
-      listEl.style.display = 'none';
-    } else {
-      listEl.style.display = 'block';
-    }
+    listEl.style.display = listEl.style.display === 'block' ? 'none' : 'block';
     return;
   }
 
@@ -95,7 +91,9 @@ function toggleFolder(folderName, folderEl) {
   fetch(`data/${folderName}.json`)
     .then(res => res.json())
     .then(data => {
-      const folderSongs = data.map(s => ({ ...s, folder: folderName }));
+      const folderSongs = data
+        .map(s => ({ ...s, folder: folderName }))
+        .sort((a, b) => a.name.localeCompare(b.name)); // ✅ গানগুলো A-Z অনুযায়ী সাজানো
 
       folderSongs.forEach((song, index) => {
         const li = document.createElement('li');
