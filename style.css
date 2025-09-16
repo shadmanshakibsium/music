@@ -25,7 +25,7 @@ html, body {
   margin: 0;
   padding: 20px;                 /* page padding */
   overflow-x: hidden;            /* horizontal scroll বন্ধ */
-  overflow-y: hidden;              /* vertical scroll সচল */
+  overflow-y: auto;              /* vertical scroll সচল */
   overscroll-behavior-y: contain; /* scroll bounce আটকাবে */
   touch-action: pan-x pan-y;     /* Android touch scroll stabilize */
   color: white;
@@ -119,6 +119,12 @@ h1 {
 -------------------- */
 .music-list {
   list-style: none;
+  overflow-y: auto; /* এই লাইন যোগ করো */
+  -ms-overflow-style: none;  /* IE, Edge */
+  scrollbar-width: none;     /* Firefox */
+}
+.music-list::-webkit-scrollbar {
+  display: none; /* Chrome, Safari, Opera */
 }
 .music-item {
   display: flex;
