@@ -183,12 +183,7 @@ function updatePlayButton(){
 
 // Mini → Fullscreen
 miniPlayer.addEventListener('click', () => {
-  // এইটা ফুলস্ক্রিনে যাওয়ার আগে স্ক্রল পজিশন সেভ করবে
-  if (currentView === 'all') {
-    scrollPosition = allSongsView.scrollTop;
-  } else {
-    scrollPosition = foldersView.scrollTop;
-  }
+  scrollPosition = currentView === 'all' ? allSongsView.scrollTop : foldersView.scrollTop;
 
   fullscreenPlayer.style.display = 'flex';
   miniPlayer.style.display = 'none';
@@ -208,15 +203,11 @@ fsCloseBtn.addEventListener('click', () => {
   if (currentView === 'all') {
     allSongsView.style.display = 'block';
     foldersView.style.display = 'none';
-
-    // ✅ স্ক্রল রিস্টোর করার পরিবর্তে → স্ক্রল করে প্লেয়িং আইটেম দেখাও
-    scrollToCurrentSong();
-
+    allSongsView.scrollTop = scrollPosition;  // ✅ আগের পজিশনে ফিরিয়ে নিচ্ছে
   } else {
     allSongsView.style.display = 'none';
     foldersView.style.display = 'block';
-
-    scrollToCurrentSong(); // ফোল্ডার ভিউতেও চাইলে
+    foldersView.scrollTop = scrollPosition;  // ✅ আগের পজিশনে ফিরিয়ে নিচ্ছে
   }
 });
 
