@@ -64,20 +64,17 @@ function loadAllSongs() {
       .catch(err => { console.error(`Failed to load ${lang}.json`, err); return []; })
   );
 
-  Promise.all(promises).then(results => {
-    musicData = results.flat();
-    musicData.sort((a,b) => a.name.localeCompare(b.name));
-    filteredData = [...musicData];
-    renderMusicList();
+Promise.all(promises).then(results => {
+  musicData = results.flat();
+  musicData.sort((a,b) => a.name.localeCompare(b.name));
+  filteredData = [...musicData];
+  renderMusicList();
 
-    // এখন কারেন্ট গান আছে কি না চেক করো
-    if(currentIndex !== null && currentIndex >= 0 && currentIndex < filteredData.length){
-      // একটু দেরি দিয়ে স্ক্রল করো
-      setTimeout(scrollToCurrentSong, 100);
-    } else {
-      allSongsView.scrollTop = scrollPosition; // নাহলে পুরানো scroll রিস্টোর করো
-    }
-  });
+  // ❌ এটা বাদ দাও
+  // setTimeout(scrollToCurrentSong, 100);
+
+  allSongsView.scrollTop = scrollPosition;
+});
 }
 
 // --------------------
@@ -173,8 +170,11 @@ function playSong(index){
   updateFullscreenPlayer(song.name);
   updatePlayButton();
 
-  scrollPosition = 0; // এটা রাখতে পারো, বা না রাখতেও পারো
-  // scrollToCurrentSong();   <-- এই লাইনটি কমেন্ট আউট বা সরিয়ে দাও
+  // ❌ নিচের লাইনটা মুছে ফেলো (scroll reset করা হবে না)
+  // scrollPosition = 0;
+
+  // ❌ গান প্লে হলে স্ক্রল করার দরকার নাই
+  // scrollToCurrentSong();
 }
 
 // --------------------
@@ -214,10 +214,7 @@ fsCloseBtn.addEventListener('click', () => {
   if (currentView === 'all') {
     allSongsView.style.display = 'block';
     foldersView.style.display = 'none';
-
-    // setTimeout(scrollToCurrentSong, 100);  <-- এই লাইনটা সরাও
-    // তোমার আগের scrollPosition নিজেই থাকবে scrollTop এ (যদি আগেই সেট করে রাখো)
-    allSongsView.scrollTop = scrollPosition; // আগের scroll position রিস্টোর করো
+    allSongsView.scrollTop = scrollPosition; // 🔁 আগের scroll restore
   } else {
     allSongsView.style.display = 'none';
     foldersView.style.display = 'block';
