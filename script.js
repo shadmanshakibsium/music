@@ -1,7 +1,7 @@
 // --------------------
 // Variables
 // --------------------
-const types = ['anime','arabic','bangla','edit audio','electronic','english','hindi','others','lofi','phonk','remix','slowed-reverbed'];
+const types = ['anime','arabic','bangla','edit audio','electronic','english','hindi','others','phonk','remix','slowed-reverbed'];
 let currentView = 'all'; // 'all' or 'folders'
 let musicData = [];
 let filteredData = [];
