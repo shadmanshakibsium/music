@@ -177,32 +177,32 @@ miniPlayer.addEventListener('click', ()=>{
 // Close fullscreen
 fsCloseBtn.addEventListener('click', ()=>{
   fullscreenPlayer.style.display = 'none';
-  miniPlayer.style.display = 'flex';           // মিনি প্লেয়ার দেখানো
-  document.querySelector('.site-header').style.display = 'block'; // হেডার দেখানো
-  document.querySelector('.tabs').style.display = 'flex';         // ট্যাব দেখানো
+  miniPlayer.style.display = 'flex';
+  document.querySelector('.site-header').style.display = 'block';
+  document.querySelector('.tabs').style.display = 'flex';
 
   if(currentView === 'all') {
     allSongsView.style.display = 'block';
     foldersView.style.display = 'none';
 
-    // ✅ যেই গান বাজছে, সেটাতে স্ক্রল করে যাও
-    const currentSongEl = musicListEl.querySelector(`.music-item[data-index="${currentIndex}"]`);
-    if (currentSongEl) {
-      currentSongEl.scrollIntoView({ behavior: 'smooth', block: 'center' });
-    }
+    // Scroll করার অংশ মুছে ফেলো:
+    // const currentSongEl = musicListEl.querySelector(`.music-item[data-index="${currentIndex}"]`);
+    // if (currentSongEl) {
+    //   currentSongEl.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    // }
 
   } else {
     allSongsView.style.display = 'none';
     foldersView.style.display = 'block';
 
-    // ✅ ফোল্ডারভিত্তিক ভিউ হলে স্ক্রল করাও
-    const folderLists = document.querySelectorAll('.folder-songs');
-    folderLists.forEach(list => {
-      const songEl = list.querySelector(`.music-item[data-index="${currentIndex}"]`);
-      if (songEl) {
-        songEl.scrollIntoView({ behavior: 'smooth', block: 'center' });
-      }
-    });
+    // এই অংশও মুছে ফেলো:
+    // const folderLists = document.querySelectorAll('.folder-songs');
+    // folderLists.forEach(list => {
+    //   const songEl = list.querySelector(`.music-item[data-index="${currentIndex}"]`);
+    //   if (songEl) {
+    //     songEl.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    //   }
+    // });
   }
 });
 
