@@ -132,24 +132,17 @@ function renderMusicList() {
     const li = document.createElement('li');
     li.classList.add('music-item');
     li.setAttribute('data-index', index);
-
     li.innerHTML = `
       <div class="info">
         <span class="title">${song.name}</span>
         <span style="font-size:12px; color:rgba(255,255,255,0.5); margin-left:8px;">[${song.folder}]</span>
       </div>`;
-
-    // 👇 Add fade animation
     li.classList.add('fade-in');
-
-    if (index === currentIndex) {
-      li.classList.add('playing');
-    }
-
+    if (index === currentIndex) li.classList.add('playing');
     li.addEventListener('click', () => playSong(index));
     musicListEl.appendChild(li);
   });
-}
+
   // ✅ Total song count update
   const songCountEl = document.getElementById('songCount');
   if (songCountEl) {
