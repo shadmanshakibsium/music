@@ -133,12 +133,14 @@ function renderMusicList() {
     li.classList.add('music-item');
     li.setAttribute('data-index', index);
 
-    // Show folder name (like [english]) beside the song name
     li.innerHTML = `
       <div class="info">
         <span class="title">${song.name}</span>
         <span style="font-size:12px; color:rgba(255,255,255,0.5); margin-left:8px;">[${song.folder}]</span>
       </div>`;
+
+    // 👇 Add fade animation
+    li.classList.add('fade-in');
 
     if (index === currentIndex) {
       li.classList.add('playing');
