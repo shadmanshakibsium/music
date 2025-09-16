@@ -135,8 +135,9 @@ h1 {
   outline: none;
 }
 .music-item.playing .title {
-  color: purple;
-  font-weight: bold;
+  color: #9b59b6;       /* হালকা পার্পল */
+  font-weight: 700;     /* বেশ শক্ত বোল্ড */
+  font-size: 1.2rem;    /* একটু বড় সাইজ */
 }
 .music-item:hover {
   background: rgba(255,255,255,0.2);
