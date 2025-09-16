@@ -98,6 +98,7 @@ function toggleFolder(folderName, folderEl) {
       folderSongs.forEach((song, index) => {
         const li = document.createElement('li');
         li.classList.add('music-item');
+        li.setAttribute('data-index', index);
         li.innerHTML = `<div class="info"><span class="title">${song.name}</span></div>`;
 
         li.addEventListener('click', (e) => {
@@ -124,6 +125,7 @@ function renderMusicList() {
   filteredData.forEach((song,index)=>{
     const li = document.createElement('li');
     li.classList.add('music-item');
+    li.setAttribute('data-index', index);
     li.innerHTML = `<div class="info"><span class="title">${song.name}</span></div>`;
     li.addEventListener('click',()=>playSong(index));
     musicListEl.appendChild(li);
@@ -178,8 +180,30 @@ fsCloseBtn.addEventListener('click', ()=>{
   miniPlayer.style.display = 'flex';           // মিনি প্লেয়ার দেখানো
   document.querySelector('.site-header').style.display = 'block'; // হেডার দেখানো
   document.querySelector('.tabs').style.display = 'flex';         // ট্যাব দেখানো
-  if(currentView==='all') allSongsView.style.display = 'block';
-  else foldersView.style.display = 'block';
+
+  if(currentView === 'all') {
+    allSongsView.style.display = 'block';
+    foldersView.style.display = 'none';
+
+    // ✅ যেই গান বাজছে, সেটাতে স্ক্রল করে যাও
+    const currentSongEl = musicListEl.querySelector(`.music-item[data-index="${currentIndex}"]`);
+    if (currentSongEl) {
+      currentSongEl.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    }
+
+  } else {
+    allSongsView.style.display = 'none';
+    foldersView.style.display = 'block';
+
+    // ✅ ফোল্ডারভিত্তিক ভিউ হলে স্ক্রল করাও
+    const folderLists = document.querySelectorAll('.folder-songs');
+    folderLists.forEach(list => {
+      const songEl = list.querySelector(`.music-item[data-index="${currentIndex}"]`);
+      if (songEl) {
+        songEl.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      }
+    });
+  }
 });
 
 // --------------------
