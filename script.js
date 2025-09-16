@@ -71,7 +71,7 @@ Promise.all(promises).then(results => {
   renderMusicList();
   allSongsView.scrollTop = scrollPosition; // আগের scroll পজিশন রিস্টোর করবে
 });
-
+}
 // --------------------
 // Load Folders
 // --------------------
