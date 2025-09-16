@@ -173,9 +173,8 @@ function playSong(index){
   updateFullscreenPlayer(song.name);
   updatePlayButton();
 
-  setTimeout(() => {
-    scrollToCurrentSong();
-  }, 200);  // একটু দেরি দিয়ে স্ক্রল করানো যাতে DOM রেন্ডার হয়ে যায়
+  // এখানে কোনো স্ক্রল করা যাবে না, তাই scrollToCurrentSong() মুছে ফেলো
+  // scrollPosition = 0;  // এটা ও থাকলে বাদ দাও
 }
 
 // --------------------
@@ -215,14 +214,17 @@ fsCloseBtn.addEventListener('click', () => {
   if (currentView === 'all') {
     allSongsView.style.display = 'block';
     foldersView.style.display = 'none';
+
+    // আগের scroll position এ নিয়ে যাও, কোনো অটো স্ক্রল হবে না
+    allSongsView.scrollTop = scrollPosition;
   } else {
     allSongsView.style.display = 'none';
     foldersView.style.display = 'block';
+
+    foldersView.scrollTop = scrollPosition;
   }
 
-  setTimeout(() => {
-    scrollToCurrentSong();
-  }, 200);  // fullscreen থেকে বের হওয়ার পরে স্ক্রল ঠিক করার জন্য
+  // scrollToCurrentSong() কল করো না
 });
 
 function scrollToCurrentSong() {
