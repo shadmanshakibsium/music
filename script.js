@@ -251,10 +251,26 @@ fsAudio.addEventListener('timeupdate', ()=>{
     durationEl.textContent = formatTime(fsAudio.duration);
   }
 });
-progressBarContainer.addEventListener('click',(e)=>{
+progressBarContainer.addEventListener('click', (e) => {
   const rect = progressBarContainer.getBoundingClientRect();
   const clickX = e.clientX - rect.left;
-  fsAudio.currentTime = (clickX/rect.width)*fsAudio.duration;
+  const clickPercent = (clickX / rect.width);
+  const clickTime = clickPercent * fsAudio.duration;
+
+  // ভিজ্যুয়াল প্রগ্রেস আপডেট
+  progressFilled.style.width = (clickPercent * 100) + '%';
+  currentTimeEl.textContent = formatTime(clickTime);
+
+  // গান যদি এখনও লোড না হয়, তাহলে wait করা হবে
+  if (!fsAudio.readyState || fsAudio.readyState < 2) {
+    const onCanPlay = () => {
+      fsAudio.currentTime = clickTime;
+      fsAudio.removeEventListener('canplay', onCanPlay);
+    };
+    fsAudio.addEventListener('canplay', onCanPlay);
+  } else {
+    fsAudio.currentTime = clickTime;
+  }
 });
 function formatTime(seconds){
   const mins = Math.floor(seconds/60);
