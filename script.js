@@ -173,8 +173,8 @@ function playSong(index){
   updateFullscreenPlayer(song.name);
   updatePlayButton();
 
-  // এখানে কোনো স্ক্রল করা যাবে না, তাই scrollToCurrentSong() মুছে ফেলো
-  // scrollPosition = 0;  // এটা ও থাকলে বাদ দাও
+  scrollPosition = 0; // এটা রাখতে পারো, বা না রাখতেও পারো
+  // scrollToCurrentSong();   <-- এই লাইনটি কমেন্ট আউট বা সরিয়ে দাও
 }
 
 // --------------------
@@ -215,16 +215,14 @@ fsCloseBtn.addEventListener('click', () => {
     allSongsView.style.display = 'block';
     foldersView.style.display = 'none';
 
-    // আগের scroll position এ নিয়ে যাও, কোনো অটো স্ক্রল হবে না
-    allSongsView.scrollTop = scrollPosition;
+    // setTimeout(scrollToCurrentSong, 100);  <-- এই লাইনটা সরাও
+    // তোমার আগের scrollPosition নিজেই থাকবে scrollTop এ (যদি আগেই সেট করে রাখো)
+    allSongsView.scrollTop = scrollPosition; // আগের scroll position রিস্টোর করো
   } else {
     allSongsView.style.display = 'none';
     foldersView.style.display = 'block';
-
     foldersView.scrollTop = scrollPosition;
   }
-
-  // scrollToCurrentSong() কল করো না
 });
 
 function scrollToCurrentSong() {
