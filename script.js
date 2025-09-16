@@ -133,14 +133,22 @@ function renderMusicList() {
     li.classList.add('music-item');
     li.setAttribute('data-index', index);
 
+    // 🎯 এলোমেলো X-পজিশন ও ঘূর্ণন (random horizontal offset & rotation)
+    const xOffset = Math.floor(Math.random() * 200 - 100); // -100 থেকে +100px
+    const rotation = Math.floor(Math.random() * 60 - 30);  // -30deg থেকে +30deg
+
+    li.style.setProperty('--x-offset', `${xOffset}px`);
+    li.style.setProperty('--rotate', `${rotation}deg`);
+    
+    // ✅ Delay দিতে চাইলে (optional, একটার পর একটা পড়ুক)
+    const randomDelay = Math.floor(Math.random() * 400); // 0-400ms
+    li.style.animationDelay = `${randomDelay}ms`;
+
     li.innerHTML = `
       <div class="info">
         <span class="title">${song.name}</span>
         <span style="font-size:12px; color:rgba(255,255,255,0.5); margin-left:8px;">[${song.folder}]</span>
       </div>`;
-
-    // 👇 Add fade animation
-    li.classList.add('fade-in');
 
     if (index === currentIndex) {
       li.classList.add('playing');
