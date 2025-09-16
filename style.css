@@ -133,7 +133,10 @@ h1 {
   transition: 0.3s;
   -webkit-tap-highlight-color: transparent;
   outline: none;
-  animation: fallIn 0.6s ease forwards;
+  animation-name: fallIn;
+  animation-duration: 0.7s;
+  animation-fill-mode: forwards;
+  animation-timing-function: cubic-bezier(0.22, 1, 0.36, 1);
 }
 
 .music-item.playing .title {
@@ -458,7 +461,7 @@ h1 {
 @keyframes fallIn {
   0% {
     opacity: 0;
-    transform: translateY(-120px) translateX(var(--x-offset, 0px)) rotate(var(--rotate, 0deg));
+    transform: translateY(-80px) translateX(var(--x-offset, 0px)) rotate(var(--rotate, 0deg));
   }
   100% {
     opacity: 1;
@@ -466,3 +469,18 @@ h1 {
   }
 }
 
+.music-item:nth-child(1)  { --x-offset: -20px;  --rotate: -5deg;  animation-delay: 0.1s;  }
+.music-item:nth-child(2)  { --x-offset: 15px;   --rotate: 8deg;   animation-delay: 0.25s; }
+.music-item:nth-child(3)  { --x-offset: -10px;  --rotate: -7deg;  animation-delay: 0.4s;  }
+.music-item:nth-child(4)  { --x-offset: 18px;   --rotate: 5deg;   animation-delay: 0.55s; }
+.music-item:nth-child(5)  { --x-offset: -15px;  --rotate: -3deg;  animation-delay: 0.7s;  }
+.music-item:nth-child(6)  { --x-offset: 22px;   --rotate: 10deg;  animation-delay: 0.85s; }
+.music-item:nth-child(7)  { --x-offset: -18px;  --rotate: -8deg;  animation-delay: 1.0s;  }
+.music-item:nth-child(8)  { --x-offset: 12px;   --rotate: 6deg;   animation-delay: 1.15s; }
+.music-item:nth-child(9)  { --x-offset: -12px;  --rotate: -4deg;  animation-delay: 1.3s;  }
+.music-item:nth-child(10) { --x-offset: 20px;   --rotate: 9deg;   animation-delay: 1.45s; }
+.music-item:nth-child(11) { --x-offset: -17px;  --rotate: -6deg;  animation-delay: 1.6s;  }
+.music-item:nth-child(12) { --x-offset: 14px;   --rotate: 7deg;   animation-delay: 1.75s; }
+.music-item:nth-child(13) { --x-offset: -14px;  --rotate: -5deg;  animation-delay: 1.9s;  }
+.music-item:nth-child(14) { --x-offset: 16px;   --rotate: 8deg;   animation-delay: 2.05s; }
+.music-item:nth-child(15) { --x-offset: -19px;  --rotate: -7deg;  animation-delay: 2.2s;  }
