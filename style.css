@@ -118,16 +118,8 @@ h1 {
    Music List & Items
 -------------------- */
 .music-list {
-  scrollbar-width: none; /* Firefox */
-  -ms-overflow-style: none;  /* IE & Edge */
-  overflow-y: scroll; /* স্ক্রল চালু থাকবে */
+  list-style: none;
 }
-
-.music-list::-webkit-scrollbar {
-  width: 0px;
-  background: transparent; /* Chrome, Safari, Opera */
-}
-
 .music-item {
   display: flex;
   align-items: center;
