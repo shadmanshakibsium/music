@@ -139,18 +139,17 @@ function toggleFolder(folderName, folderEl) {
 // --------------------
 function renderMusicList() {
   musicListEl.innerHTML = '';
-  filteredData.forEach((song,index)=>{
+  filteredData.forEach((song, index) => {
     const li = document.createElement('li');
     li.classList.add('music-item');
     li.setAttribute('data-index', index);
     li.innerHTML = `<div class="info"><span class="title">${song.name}</span></div>`;
-    li.addEventListener('click',()=>playSong(index));
+    li.addEventListener('click', () => playSong(index));
     musicListEl.appendChild(li);
   });
 
-  // scroll position রিস্টোর করো
   if (currentView === 'all') {
-    allSongsView.scrollTop = scrollPosition;
+    allSongsView.scrollTop = scrollPosition;  // আগের জায়গায় স্ক্রল রাখবে
   }
 }
 // --------------------
@@ -184,7 +183,7 @@ function updatePlayButton(){
 
 // Mini → Fullscreen
 miniPlayer.addEventListener('click', () => {
-  // fullscreen এ যাওয়ার আগে scroll position সেভ করো
+  // এইটা ফুলস্ক্রিনে যাওয়ার আগে স্ক্রল পজিশন সেভ করবে
   if (currentView === 'all') {
     scrollPosition = allSongsView.scrollTop;
   } else {
@@ -210,14 +209,13 @@ fsCloseBtn.addEventListener('click', () => {
     allSongsView.style.display = 'block';
     foldersView.style.display = 'none';
 
-    // আগের scroll position restore করো
-    allSongsView.scrollTop = scrollPosition;
-
+    // এখানে কোনো renderMusicList() বা loadAllSongs() কল হবে না
+    allSongsView.scrollTop = scrollPosition;  // আগের scroll position ঠিকমতো রিস্টোর করো
   } else {
     allSongsView.style.display = 'none';
     foldersView.style.display = 'block';
 
-    // আগের scroll position restore করো
+    // এখানে কোনো loadFolders() বা renderMusicList() কল হবে না
     foldersView.scrollTop = scrollPosition;
   }
 });
@@ -331,6 +329,7 @@ volumeSlider.addEventListener('input', ()=>{
 searchInput.addEventListener('input', (e)=>{
   const query = e.target.value.toLowerCase();
   filteredData = musicData.filter(song => song.name.toLowerCase().includes(query));
+  scrollPosition = 0;  // সার্চে নতুন লিস্ট, scroll শুরুতে যাবে
   renderMusicList();
 });
 
@@ -342,6 +341,8 @@ tabs.forEach(tab=>{
     tabs.forEach(t=>t.classList.remove('active'));
     tab.classList.add('active');
     currentView = tab.dataset.view;
+
+    scrollPosition = 0;  // এটাকে যোগ করতে পারো, নতুন ভিউ লোড হলে scroll শুরুতে যাবে
 
     if(currentView==='all'){
       allSongsView.style.display='block';
