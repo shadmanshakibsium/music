@@ -156,33 +156,26 @@ function renderMusicList() {
 function playSong(index) {
   currentIndex = index;
   const song = filteredData[index];
-  
-  // প্রথমে সকল `.playing` ক্লাস সরান
-  document.querySelectorAll('.music-item.playing').forEach(el => el.classList.remove('playing'));
-
-  // এখন বর্তমান গানটি প্লে করুন
   fsAudio.src = `songs/${song.folder}/${song.file}`;
   fsAudio.play();
   isPlaying = true;
-
-  // "All Songs" ভিউ থেকে নতুন .playing ক্লাস যোগ করুন
-  const currentPlayingEl = musicListEl.querySelector(`.music-item[data-index="${index}"]`);
-  if (currentPlayingEl) {
-    currentPlayingEl.classList.add('playing');
-  }
-
-  // "Folders" ভিউতে প্লে করা গান খুঁজে .playing ক্লাস যোগ করুন
-  const folderLists = document.querySelectorAll('.folder-songs');
-  folderLists.forEach(list => {
-    const songEl = list.querySelector(`.music-item[data-index="${index}"]`);
-    if (songEl) {
-      songEl.classList.add('playing');
-    }
-  });
-
   updateMiniPlayer(song.name);
   updateFullscreenPlayer(song.name);
   updatePlayButton();
+
+  // আগের .playing ক্লাসগুলো সরাও (দুটি ভিউ থেকেই)
+  document.querySelectorAll('.music-item.playing').forEach(el => el.classList.remove('playing'));
+
+  // "All Songs" ভিউ থেকে নতুন .playing ক্লাস যোগ করো
+  const currentPlayingEl = musicListEl.querySelector(`.music-item[data-index="${index}"]`);
+  if (currentPlayingEl) currentPlayingEl.classList.add('playing');
+
+  // "Folders" ভিউতে একই গান খুঁজে .playing ক্লাস যোগ করো
+  const folderLists = document.querySelectorAll('.folder-songs');
+  folderLists.forEach(list => {
+    const songEl = list.querySelector(`.music-item[data-index="${index}"]`);
+    if (songEl) songEl.classList.add('playing');
+  });
 }
 
 // --------------------
@@ -395,5 +388,3 @@ tabs.forEach(tab=>{
 // Initial Load
 // --------------------
 loadAllSongs();
-
-
