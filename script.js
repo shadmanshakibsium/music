@@ -101,6 +101,11 @@ function toggleFolder(folderName, folderEl) {
         li.setAttribute('data-index', index);
         li.innerHTML = `<div class="info"><span class="title">${song.name}</span></div>`;
 
+        // যদি এই গানটি বাজছে তাহলে .playing ক্লাস লাগাও
+        if (musicData === folderSongs && index === currentIndex) {
+          li.classList.add('playing');
+        }
+
         li.addEventListener('click', (e) => {
           e.stopPropagation();
           musicData = folderSongs;
@@ -117,6 +122,7 @@ function toggleFolder(folderName, folderEl) {
     })
     .catch(err => console.error(err));
 }
+
 // --------------------
 // Render Music List
 // --------------------
@@ -127,6 +133,11 @@ function renderMusicList() {
     li.classList.add('music-item');
     li.setAttribute('data-index', index);
     li.innerHTML = `<div class="info"><span class="title">${song.name}</span></div>`;
+
+    if(index === currentIndex) {
+      li.classList.add('playing');
+    }
+
     li.addEventListener('click',()=>playSong(index));
     musicListEl.appendChild(li);
   });
@@ -135,7 +146,7 @@ function renderMusicList() {
 // --------------------
 // Play Song
 // --------------------
-function playSong(index){
+function playSong(index) {
   currentIndex = index;
   const song = filteredData[index];
   fsAudio.src = `songs/${song.folder}/${song.file}`;
@@ -144,6 +155,20 @@ function playSong(index){
   updateMiniPlayer(song.name);
   updateFullscreenPlayer(song.name);
   updatePlayButton();
+
+  // আগের .playing ক্লাসগুলো সরাও (দুটি ভিউ থেকেই)
+  document.querySelectorAll('.music-item.playing').forEach(el => el.classList.remove('playing'));
+
+  // "All Songs" ভিউ থেকে নতুন .playing ক্লাস যোগ করো
+  const currentPlayingEl = musicListEl.querySelector(`.music-item[data-index="${index}"]`);
+  if (currentPlayingEl) currentPlayingEl.classList.add('playing');
+
+  // "Folders" ভিউতে একই গান খুঁজে .playing ক্লাস যোগ করো
+  const folderLists = document.querySelectorAll('.folder-songs');
+  folderLists.forEach(list => {
+    const songEl = list.querySelector(`.music-item[data-index="${index}"]`);
+    if (songEl) songEl.classList.add('playing');
+  });
 }
 
 // --------------------
