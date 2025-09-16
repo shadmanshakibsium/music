@@ -134,6 +134,10 @@ h1 {
   -webkit-tap-highlight-color: transparent;
   outline: none;
 }
+.music-item.playing .title {
+  color: purple;
+  font-weight: bold;
+}
 .music-item:hover {
   background: rgba(255,255,255,0.2);
 }
