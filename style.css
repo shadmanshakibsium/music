@@ -135,9 +135,9 @@ h1 {
   outline: none;
 }
 .music-item.playing .title {
-  color: #9b59b6;       /* হালকা পার্পল */
-  font-weight: 700;     /* বেশ শক্ত বোল্ড */
-  font-size: 1.2rem;    /* একটু বড় সাইজ */
+  color: #8a2be2; /* হালকা পার্পল */
+  font-weight: 600; /* মাঝারি বোল্ড */
+  font-size: 1.2rem !important;
 }
 .music-item:hover {
   background: rgba(255,255,255,0.2);
