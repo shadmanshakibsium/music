@@ -40,6 +40,19 @@ const durationEl = document.getElementById('duration');
 const progressBarContainer = document.getElementById('progress-bar-container');
 const volumeSlider = document.getElementById('fs-volume');
 
+// scroll ইভেন্ট লিসেনার বসাও এখানে
+allSongsView.addEventListener('scroll', () => {
+  if (currentView === 'all') {
+    scrollPosition = allSongsView.scrollTop;
+  }
+});
+
+foldersView.addEventListener('scroll', () => {
+  if (currentView === 'folders') {
+    scrollPosition = foldersView.scrollTop;
+  }
+});
+
 // --------------------
 // Load All Songs (A-Z) using Promise.all
 // --------------------
@@ -72,6 +85,9 @@ function loadFolders() {
     div.addEventListener('click', () => toggleFolder(folder, div));
     folderListEl.appendChild(div);
   });
+
+  // ফোল্ডার ভিউ লোড হলে আগের scroll position রিস্টোর করো
+  foldersView.scrollTop = scrollPosition;
 }
 
 function toggleFolder(folderName, folderEl) {
@@ -131,8 +147,12 @@ function renderMusicList() {
     li.addEventListener('click',()=>playSong(index));
     musicListEl.appendChild(li);
   });
-}
 
+  // scroll position রিস্টোর করো
+  if (currentView === 'all') {
+    allSongsView.scrollTop = scrollPosition;
+  }
+}
 // --------------------
 // Play Song
 // --------------------
