@@ -173,8 +173,9 @@ function playSong(index){
   updateFullscreenPlayer(song.name);
   updatePlayButton();
 
-  scrollPosition = 0; // গানের জন্য scrollPosition ওভাররাইড করো
-  scrollToCurrentSong();
+  setTimeout(() => {
+    scrollToCurrentSong();
+  }, 200);  // একটু দেরি দিয়ে স্ক্রল করানো যাতে DOM রেন্ডার হয়ে যায়
 }
 
 // --------------------
@@ -214,50 +215,36 @@ fsCloseBtn.addEventListener('click', () => {
   if (currentView === 'all') {
     allSongsView.style.display = 'block';
     foldersView.style.display = 'none';
-
-    setTimeout(scrollToCurrentSong, 100);
   } else {
     allSongsView.style.display = 'none';
     foldersView.style.display = 'block';
-
-    setTimeout(scrollToCurrentSong, 100);
   }
+
+  setTimeout(() => {
+    scrollToCurrentSong();
+  }, 200);  // fullscreen থেকে বের হওয়ার পরে স্ক্রল ঠিক করার জন্য
 });
 
 function scrollToCurrentSong() {
   if(currentIndex === null || currentIndex === undefined) return;
 
   if(currentView === 'all') {
-    // All songs view
     const currentItem = allSongsView.querySelector(`.music-item[data-index="${currentIndex}"]`);
     if (!currentItem) return;
 
-    const parentRect = allSongsView.getBoundingClientRect();
-    const itemRect = currentItem.getBoundingClientRect();
-
-    if (itemRect.top < parentRect.top || itemRect.bottom > parentRect.bottom) {
-      currentItem.scrollIntoView({ behavior: 'smooth', block: 'center' });
-    }
-
+    currentItem.scrollIntoView({ behavior: 'smooth', block: 'center' });
   } else if(currentView === 'folders') {
-    // Folder view: find the .music-item inside folder-songs lists
-    const folderSongsContainers = document.querySelectorAll('.folder-songs');
+    // folder view-তে গানের আইটেম খোঁজা
+    const folderSongsLists = document.querySelectorAll('.folder-songs');
     let foundItem = null;
 
-    folderSongsContainers.forEach(container => {
-      const item = container.querySelector(`.music-item[data-index="${currentIndex}"]`);
+    folderSongsLists.forEach(list => {
+      const item = list.querySelector(`.music-item[data-index="${currentIndex}"]`);
       if(item) foundItem = item;
     });
 
     if(!foundItem) return;
-
-    const parent = foldersView;
-    const parentRect = parent.getBoundingClientRect();
-    const itemRect = foundItem.getBoundingClientRect();
-
-    if (itemRect.top < parentRect.top || itemRect.bottom > parentRect.bottom) {
-      foundItem.scrollIntoView({ behavior: 'smooth', block: 'center' });
-    }
+    foundItem.scrollIntoView({ behavior: 'smooth', block: 'center' });
   }
 }
 
