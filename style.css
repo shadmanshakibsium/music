@@ -59,6 +59,10 @@ body::before {
   width: 100%;
   max-width: 900px;
   margin: auto;
+
+  /* নতুন যোগ করুন */
+  height: calc(100vh - 68px - 40px); /* 68px = মিনি প্লেয়ার, 40px = body padding (20px top + 20px bottom) */
+  overflow-y: auto;
 }
 
 /* --------------------
