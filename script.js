@@ -128,17 +128,23 @@ function toggleFolder(folderName, folderEl) {
 // --------------------
 function renderMusicList() {
   musicListEl.innerHTML = '';
-  filteredData.forEach((song,index)=>{
+  filteredData.forEach((song, index) => {
     const li = document.createElement('li');
     li.classList.add('music-item');
     li.setAttribute('data-index', index);
-    li.innerHTML = `<div class="info"><span class="title">${song.name}</span></div>`;
 
-    if(index === currentIndex) {
+    // Show folder name (like [english]) beside the song name
+    li.innerHTML = `
+      <div class="info">
+        <span class="title">${song.name}</span>
+        <span style="font-size:12px; color:rgba(255,255,255,0.5); margin-left:8px;">[${song.folder}]</span>
+      </div>`;
+
+    if (index === currentIndex) {
       li.classList.add('playing');
     }
 
-    li.addEventListener('click',()=>playSong(index));
+    li.addEventListener('click', () => playSong(index));
     musicListEl.appendChild(li);
   });
 }
