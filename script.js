@@ -150,6 +150,12 @@ function renderMusicList() {
     musicListEl.appendChild(li);
   });
 }
+  // ✅ Total song count update
+  const songCountEl = document.getElementById('songCount');
+  if (songCountEl) {
+    songCountEl.textContent = `Total Songs: ${filteredData.length}`;
+  }
+}
 
 // --------------------
 // Play Song
