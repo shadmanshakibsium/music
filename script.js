@@ -64,14 +64,22 @@ function loadAllSongs() {
       .catch(err => { console.error(`Failed to load ${lang}.json`, err); return []; })
   );
 
-Promise.all(promises).then(results => {
-  musicData = results.flat();
-  musicData.sort((a,b) => a.name.localeCompare(b.name));
-  filteredData = [...musicData];
-  renderMusicList();
-  allSongsView.scrollTop = scrollPosition; // আগের scroll পজিশন রিস্টোর করবে
-});
+  Promise.all(promises).then(results => {
+    musicData = results.flat();
+    musicData.sort((a,b) => a.name.localeCompare(b.name));
+    filteredData = [...musicData];
+    renderMusicList();
+
+    // এখন কারেন্ট গান আছে কি না চেক করো
+    if(currentIndex !== null && currentIndex >= 0 && currentIndex < filteredData.length){
+      // একটু দেরি দিয়ে স্ক্রল করো
+      setTimeout(scrollToCurrentSong, 100);
+    } else {
+      allSongsView.scrollTop = scrollPosition; // নাহলে পুরানো scroll রিস্টোর করো
+    }
+  });
 }
+
 // --------------------
 // Load Folders
 // --------------------
@@ -165,7 +173,7 @@ function playSong(index){
   updateFullscreenPlayer(song.name);
   updatePlayButton();
 
-  // নতুন গান প্লে হলে সেটাকে স্ক্রল করো যদি দরকার হয়
+  scrollPosition = 0; // গানের জন্য scrollPosition ওভাররাইড করো
   scrollToCurrentSong();
 }
 
@@ -206,15 +214,18 @@ fsCloseBtn.addEventListener('click', () => {
   if (currentView === 'all') {
     allSongsView.style.display = 'block';
     foldersView.style.display = 'none';
-    allSongsView.scrollTop = scrollPosition;  // ✅ আগের পজিশনে ফিরিয়ে নিচ্ছে
+
+    setTimeout(scrollToCurrentSong, 100);
   } else {
     allSongsView.style.display = 'none';
     foldersView.style.display = 'block';
-    foldersView.scrollTop = scrollPosition;  // ✅ আগের পজিশনে ফিরিয়ে নিচ্ছে
+    foldersView.scrollTop = scrollPosition;
   }
 });
 
 function scrollToCurrentSong() {
+  if(currentIndex === null || currentIndex === undefined) return;
+
   const currentItem = document.querySelector(`.music-item[data-index="${currentIndex}"]`);
   if (!currentItem) return;
 
@@ -222,7 +233,7 @@ function scrollToCurrentSong() {
   const parentRect = parent.getBoundingClientRect();
   const itemRect = currentItem.getBoundingClientRect();
 
-  // যদি আইটেম পুরোপুরি parent এর ভেতরে না থাকে, তখন scroll করো
+  // আইটেম যদি পুরোপুরি দেখা না যায় তাহলে স্ক্রল করো
   if (itemRect.top < parentRect.top || itemRect.bottom > parentRect.bottom) {
     currentItem.scrollIntoView({ behavior: 'smooth', block: 'center' });
   }
