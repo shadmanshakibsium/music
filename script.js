@@ -209,16 +209,23 @@ fsCloseBtn.addEventListener('click', () => {
     allSongsView.style.display = 'block';
     foldersView.style.display = 'none';
 
-    // এখানে কোনো renderMusicList() বা loadAllSongs() কল হবে না
-    allSongsView.scrollTop = scrollPosition;  // আগের scroll position ঠিকমতো রিস্টোর করো
+    // ✅ স্ক্রল রিস্টোর করার পরিবর্তে → স্ক্রল করে প্লেয়িং আইটেম দেখাও
+    scrollToCurrentSong();
+
   } else {
     allSongsView.style.display = 'none';
     foldersView.style.display = 'block';
 
-    // এখানে কোনো loadFolders() বা renderMusicList() কল হবে না
-    foldersView.scrollTop = scrollPosition;
+    scrollToCurrentSong(); // ফোল্ডার ভিউতেও চাইলে
   }
 });
+
+function scrollToCurrentSong() {
+  const currentItem = document.querySelector(`.music-item[data-index="${currentIndex}"]`);
+  if (currentItem) {
+    currentItem.scrollIntoView({ behavior: 'auto', block: 'center' });
+  }
+}
 
 // --------------------
 // Play/Pause
