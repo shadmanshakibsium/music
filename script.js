@@ -219,23 +219,45 @@ fsCloseBtn.addEventListener('click', () => {
   } else {
     allSongsView.style.display = 'none';
     foldersView.style.display = 'block';
-    foldersView.scrollTop = scrollPosition;
+
+    setTimeout(scrollToCurrentSong, 100);
   }
 });
 
 function scrollToCurrentSong() {
   if(currentIndex === null || currentIndex === undefined) return;
 
-  const currentItem = document.querySelector(`.music-item[data-index="${currentIndex}"]`);
-  if (!currentItem) return;
+  if(currentView === 'all') {
+    // All songs view
+    const currentItem = allSongsView.querySelector(`.music-item[data-index="${currentIndex}"]`);
+    if (!currentItem) return;
 
-  const parent = currentView === 'all' ? allSongsView : foldersView;
-  const parentRect = parent.getBoundingClientRect();
-  const itemRect = currentItem.getBoundingClientRect();
+    const parentRect = allSongsView.getBoundingClientRect();
+    const itemRect = currentItem.getBoundingClientRect();
 
-  // আইটেম যদি পুরোপুরি দেখা না যায় তাহলে স্ক্রল করো
-  if (itemRect.top < parentRect.top || itemRect.bottom > parentRect.bottom) {
-    currentItem.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    if (itemRect.top < parentRect.top || itemRect.bottom > parentRect.bottom) {
+      currentItem.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    }
+
+  } else if(currentView === 'folders') {
+    // Folder view: find the .music-item inside folder-songs lists
+    const folderSongsContainers = document.querySelectorAll('.folder-songs');
+    let foundItem = null;
+
+    folderSongsContainers.forEach(container => {
+      const item = container.querySelector(`.music-item[data-index="${currentIndex}"]`);
+      if(item) foundItem = item;
+    });
+
+    if(!foundItem) return;
+
+    const parent = foldersView;
+    const parentRect = parent.getBoundingClientRect();
+    const itemRect = foundItem.getBoundingClientRect();
+
+    if (itemRect.top < parentRect.top || itemRect.bottom > parentRect.bottom) {
+      foundItem.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    }
   }
 }
 
