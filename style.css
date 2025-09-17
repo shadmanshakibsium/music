@@ -76,7 +76,8 @@ h1 {
 .search-bar {
   position: relative;
   width: 100%;
-  margin-bottom: 20px;
+  max-width: 400px; /* প্রয়োজন অনুযায়ী পরিবর্তন করো */
+  margin: 20px auto; /* সেন্টার এলাইন এবং নিচে মার্জিন */
 }
 
 .search-bar input {
@@ -90,6 +91,7 @@ h1 {
   backdrop-filter: blur(8px);
   background: rgba(255,255,255,0.1);
   color: white;
+  box-sizing: border-box; /* ইনপুটের সাইজ ঠিক রাখে */
 }
 
 .search-bar input::placeholder {
@@ -103,10 +105,11 @@ h1 {
   transform: translateY(-50%);
   color: rgba(255, 255, 255, 0.7);
   font-size: 14px;
-  pointer-events: none; /* ক্লিক প্রভাব নেই */
+  pointer-events: none;
   user-select: none;
   font-weight: 500;
   white-space: nowrap;
+  z-index: 10; /* ইনপুটের উপরে থাকবে */
 }
 
 /* --------------------
