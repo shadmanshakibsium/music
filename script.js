@@ -131,8 +131,11 @@ function renderMusicList() {
   filteredData.forEach((song, index) => {
     const li = document.createElement('li');
     li.classList.add('music-item');
-    li.setAttribute('data-index', index);
 
+    // fade-in ক্লাস যোগ করা হচ্ছে
+    li.classList.add('fade-in');
+
+    li.setAttribute('data-index', index);
     li.innerHTML = `
       <div class="info">
         <span class="title">${song.name}</span>
