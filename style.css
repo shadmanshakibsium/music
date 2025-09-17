@@ -71,35 +71,17 @@ h1 {
 }
 
 /* --------------------
-   Search Bar
+   Search Bar with Count inside input container
 -------------------- */
-/* Search Bar Container */
 .search-bar {
   width: 100%;
-  max-width: 900px;  /* পিসির ম্যাক্সিমাম সাইজ */
-  margin: 0 auto 20px auto;
-  position: relative; /* songCount absolute করার জন্য */
+  margin-bottom: 20px;
+  position: relative; /* Absolute positioning এর জন্য */
 }
 
-/* ইনপুটের প্রস্থ ডিভাইস অনুযায়ী */
-@media (min-width: 451px) {
-  .search-bar input {
-    width: 80%;
-    padding: 12px 130px 12px 15px; /* ডান পাশে songCount এর জায়গা রাখলাম */
-    box-sizing: border-box;
-  }
-}
-
-@media (max-width: 450px) {
-  .search-bar input {
-    width: 100%;
-    padding: 12px 130px 12px 15px; /* ডান পাশে জায়গা রাখলাম */
-    box-sizing: border-box;
-  }
-}
-
-/* ইনপুট ফিল্ড স্টাইল */
 .search-bar input {
+  width: 100%;
+  padding: 12px 50px 12px 15px; /* ডান পাশে সংখ্যা দেখানোর জন্য স্পেস */
   border-radius: 15px;
   border: none;
   outline: none;
@@ -107,25 +89,44 @@ h1 {
   backdrop-filter: blur(8px);
   background: rgba(255,255,255,0.1);
   color: white;
+  box-sizing: border-box; /* padding সহ width ঠিক রাখবে */
 }
 
-/* placeholder কালার */
 .search-bar input::placeholder {
   color: rgba(255,255,255,0.7);
 }
 
-/* songCount ডান পাশে ইনপুটের ভিতরে absolute */
-#songCount {
+/* সংখ্যা দেখানোর এলিমেন্ট */
+.search-bar .count {
   position: absolute;
   top: 50%;
-  right: 30px; /* ইনপুটের ডানদিক থেকে দূরত্ব */
+  right: 15px;
   transform: translateY(-50%);
-  font-size: 14px;
-  color: rgba(255, 255, 255, 0.7);
-  pointer-events: none;
-  user-select: none;
-  white-space: nowrap;
-  font-weight: 500;
+  color: rgba(255,255,255,0.7);
+  font-weight: 600;
+  font-size: 16px;
+  pointer-events: none;  /* ক্লিক এড়াতে */
+  user-select: none;     /* কপি বা সিলেক্ট এড়াতে */
+  font-family: 'Roboto', sans-serif;
+}
+
+/* Responsive: Desktop - ইনপুট ৮০% */
+@media (min-width: 451px) {
+  .search-bar input {
+    width: 80%;
+    margin-left: auto;
+    margin-right: auto;
+    display: block;
+  }
+}
+
+/* Responsive: Mobile - ইনপুট ১০০% */
+@media (max-width: 450px) {
+  .search-bar input {
+    width: 100%;
+    margin: 0 0 10px 0;
+    display: block;
+  }
 }
 
 /* --------------------
@@ -464,30 +465,6 @@ h1 {
   .play-btn{width:68px;height:44px;font-size:20px;border-radius:22px;}
   #current-time,#duration{font-size:11px;width:36px;}
   #fs-volume{width:110px;}
-}
-
-/* Desktop: 80% width centered */
-@media(min-width: 451px) {
-  .search-bar input {
-    width: 80%;
-    margin-left: auto;
-    margin-right: auto;
-    display: block;
-  }
-  .music-item {
-    width: 80%;
-    margin: 0 auto 10px auto;
-  }
-}
-
-/* Mobile: full width stacked */
-@media(max-width: 450px) {
-  .search-bar input,
-  .music-item {
-    width: 100%;
-    margin: 0 0 10px 0;
-    display: block;
-  }
 }
 
 .fade-in {
