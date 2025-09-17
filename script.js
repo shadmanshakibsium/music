@@ -356,10 +356,13 @@ volumeSlider.addEventListener('input', ()=>{
 // --------------------
 // Search
 // --------------------
+const searchCountEl = document.getElementById('search-count'); // ✅ এই লাইনটা উপরে add করো
+
 searchInput.addEventListener('input', (e)=>{
   const query = e.target.value.toLowerCase();
   filteredData = musicData.filter(song => song.name.toLowerCase().includes(query));
   renderMusicList();
+  searchCountEl.textContent = `Total: ${filteredData.length}`; // ✅ এই লাইনটা Add করো
 });
 
 // --------------------
