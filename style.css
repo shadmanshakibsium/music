@@ -74,7 +74,7 @@ h1 {
    Search Bar
 -------------------- */
 .search-bar {
-  position: relative; /* container কে relative করতে হবে */
+  position: relative;
   width: 100%;
   margin-bottom: 20px;
 }
@@ -82,6 +82,7 @@ h1 {
 .search-bar input {
   width: 100%;
   padding: 12px 15px;
+  padding-right: 100px;  /* ডান দিকে কাউন্টের জায়গা */
   border-radius: 15px;
   border: none;
   outline: none;
@@ -89,7 +90,6 @@ h1 {
   backdrop-filter: blur(8px);
   background: rgba(255,255,255,0.1);
   color: white;
-  padding-right: 100px; /* ডান পাশে কাউন্টের জায়গা রাখলাম */
 }
 
 .search-bar input::placeholder {
@@ -99,11 +99,11 @@ h1 {
 .search-count {
   position: absolute;
   top: 50%;
-  right: 20px;
+  right: 20px;  /* ইনপুটের ডান পাশে */
   transform: translateY(-50%);
   color: rgba(255, 255, 255, 0.7);
   font-size: 14px;
-  pointer-events: none;
+  pointer-events: none; /* ক্লিক প্রভাব নেই */
   user-select: none;
   font-weight: 500;
   white-space: nowrap;
