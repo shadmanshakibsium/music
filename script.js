@@ -1,4 +1,3 @@
-
 // --------------------
 // Variables
 // --------------------
@@ -140,9 +139,9 @@ function renderMusicList() {
         <span style="font-size:12px; color:rgba(255,255,255,0.5); margin-left:8px;">[${song.folder}]</span>
       </div>`;
 
-if (isPlaying && index === currentIndex) {
-  li.classList.add('playing');
-}
+    if (index === currentIndex) {
+      li.classList.add('playing');
+    }
 
     li.addEventListener('click', () => playSong(index));
     musicListEl.appendChild(li);
@@ -168,16 +167,19 @@ function playSong(index) {
   updateFullscreenPlayer(song.name);
   updatePlayButton();
 
-  // সব .playing ক্লাস সরাও
+  // আগের .playing ক্লাসগুলো সরাও (দুটি ভিউ থেকেই)
   document.querySelectorAll('.music-item.playing').forEach(el => el.classList.remove('playing'));
 
-  // ✅ শুধু তখনই highlight করো, যখন আমরা "All Songs" ভিউতে আছি এবং All Songs data ব্যবহার করছি
-  if (currentView === 'all' && filteredData === musicData) {
-    const currentPlayingEl = musicListEl.querySelector(`.music-item[data-index="${index}"]`);
-    if (currentPlayingEl) currentPlayingEl.classList.add('playing');
-  }
+  // "All Songs" ভিউ থেকে নতুন .playing ক্লাস যোগ করো
+  const currentPlayingEl = musicListEl.querySelector(`.music-item[data-index="${index}"]`);
+  if (currentPlayingEl) currentPlayingEl.classList.add('playing');
 
-  // ❌ আর ফোল্ডার ভিউতে কোনো .playing ক্লাস লাগানো হবে না
+  // "Folders" ভিউতে একই গান খুঁজে .playing ক্লাস যোগ করো
+  const folderLists = document.querySelectorAll('.folder-songs');
+  folderLists.forEach(list => {
+    const songEl = list.querySelector(`.music-item[data-index="${index}"]`);
+    if (songEl) songEl.classList.add('playing');
+  });
 }
 
 // --------------------
