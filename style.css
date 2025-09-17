@@ -482,17 +482,18 @@ h1 {
   #fs-volume{width:110px;}
 }
 
-.fade-in {
-  animation: fadeIn 0.5s ease forwards;
-}
-
+/* fade-in animation */
 @keyframes fadeIn {
-  0% {
+  from {
     opacity: 0;
     transform: translateY(10px);
   }
-  100% {
+  to {
     opacity: 1;
     transform: translateY(0);
   }
+}
+
+.music-item.fade-in {
+  animation: fadeIn 0.5s ease forwards;
 }
