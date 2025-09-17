@@ -99,6 +99,7 @@ function toggleFolder(folderName, folderEl) {
         const li = document.createElement('li');
         li.classList.add('music-item');
         li.setAttribute('data-index', index);
+        li.setAttribute('data-file', song.file);
         li.innerHTML = `<div class="info"><span class="title">${song.name}</span></div>`;
 
         // যদি এই গানটি বাজছে তাহলে .playing ক্লাস লাগাও
@@ -167,18 +168,24 @@ function playSong(index) {
   updateFullscreenPlayer(song.name);
   updatePlayButton();
 
-  // আগের .playing ক্লাসগুলো সরাও (দুটি ভিউ থেকেই)
+  // আগের সব .playing ক্লাস সরানো
   document.querySelectorAll('.music-item.playing').forEach(el => el.classList.remove('playing'));
 
-  // "All Songs" ভিউ থেকে নতুন .playing ক্লাস যোগ করো
+  // All Songs থেকে .playing ক্লাস যোগ করা
   const currentPlayingEl = musicListEl.querySelector(`.music-item[data-index="${index}"]`);
   if (currentPlayingEl) currentPlayingEl.classList.add('playing');
 
-  // "Folders" ভিউতে একই গান খুঁজে .playing ক্লাস যোগ করো
+  // Folders থেকে .playing ক্লাস যোগ করা (folder+file মিলিয়ে)
   const folderLists = document.querySelectorAll('.folder-songs');
   folderLists.forEach(list => {
-    const songEl = list.querySelector(`.music-item[data-index="${index}"]`);
-    if (songEl) songEl.classList.add('playing');
+    list.querySelectorAll('.music-item').forEach(li => {
+      const liFile = li.getAttribute('data-file');
+      const folderName = li.closest('.folder-songs').previousElementSibling.textContent.trim();
+
+      if (folderName === song.folder && liFile === song.file) {
+        li.classList.add('playing');
+      }
+    });
   });
 }
 
