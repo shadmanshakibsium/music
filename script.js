@@ -167,16 +167,16 @@ function playSong(index) {
   updateFullscreenPlayer(song.name);
   updatePlayButton();
 
-  // আগের .playing ক্লাসগুলো সরাও (দুটি ভিউ থেকেই)
+  // সব .playing ক্লাস সরাও
   document.querySelectorAll('.music-item.playing').forEach(el => el.classList.remove('playing'));
 
-  // ✅ শুধু All Songs ভিউতে .playing ক্লাস লাগাও
-  const currentPlayingEl = musicListEl.querySelector(`.music-item[data-index="${index}"]`);
-  if (currentView === 'all' && currentPlayingEl) {
-    currentPlayingEl.classList.add('playing');
+  // ✅ শুধু তখনই highlight করো, যখন আমরা "All Songs" ভিউতে আছি এবং All Songs data ব্যবহার করছি
+  if (currentView === 'all' && filteredData === musicData) {
+    const currentPlayingEl = musicListEl.querySelector(`.music-item[data-index="${index}"]`);
+    if (currentPlayingEl) currentPlayingEl.classList.add('playing');
   }
 
-  // ❌ ফোল্ডার ভিউতে আর .playing ক্লাস লাগানো হবে না
+  // ❌ আর ফোল্ডার ভিউতে কোনো .playing ক্লাস লাগানো হবে না
 }
 
 // --------------------
