@@ -61,18 +61,6 @@ function loadAllSongs() {
 // --------------------
 // Load Folders
 // --------------------
-function loadFolders() {
-  folderListEl.innerHTML = '';
-  types.forEach(folder => {
-    const div = document.createElement('div');
-    div.classList.add('folder-title');
-    div.textContent = folder;
-
-    div.addEventListener('click', () => toggleFolder(folder, div));
-    folderListEl.appendChild(div);
-  });
-}
-
 function toggleFolder(folderName, folderEl) {
   let listEl = folderEl.nextElementSibling;
 
@@ -93,7 +81,7 @@ function toggleFolder(folderName, folderEl) {
     .then(data => {
       const folderSongs = data
         .map(s => ({ ...s, folder: folderName }))
-        .sort((a, b) => a.name.localeCompare(b.name)); // ✅ গানগুলো A-Z অনুযায়ী সাজানো
+        .sort((a, b) => a.name.localeCompare(b.name)); // গানগুলো A-Z অনুযায়ী সাজানো
 
       folderSongs.forEach((song, index) => {
         const li = document.createElement('li');
@@ -101,17 +89,21 @@ function toggleFolder(folderName, folderEl) {
         li.setAttribute('data-index', index);
         li.innerHTML = `<div class="info"><span class="title">${song.name}</span></div>`;
 
-        // যদি এই গানটি বাজছে তাহলে .playing ক্লাস লাগাও
-        if (musicData === folderSongs && index === currentIndex) {
-          li.classList.add('playing');
-        }
-
+        // 🎯 এখানে ফিক্স করা কোড:
         li.addEventListener('click', (e) => {
           e.stopPropagation();
-          musicData = folderSongs;
-          filteredData = [...musicData];
-          currentIndex = index;
-          playSong(index);
+
+          // ফোল্ডারের গানগুলো filteredData হিসাবে সেট
+          filteredData = [...folderSongs];
+          const clickedSong = folderSongs[index];
+
+          // All Songs এর মধ্যে গানটার index বের করা
+          currentIndex = musicData.findIndex(s =>
+            s.name === clickedSong.name && s.folder === clickedSong.folder
+          );
+
+          // গান চালানো
+          playSong(currentIndex);
         });
 
         listEl.appendChild(li);
