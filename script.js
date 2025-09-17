@@ -38,7 +38,6 @@ const currentTimeEl = document.getElementById('current-time');
 const durationEl = document.getElementById('duration');
 const progressBarContainer = document.getElementById('progress-bar-container');
 const volumeSlider = document.getElementById('fs-volume');
-const searchCountEl = document.getElementById('search-count'); // ✅ এই লাইনটা উপরে add করো
 
 // --------------------
 // Load All Songs (A-Z) using Promise.all
@@ -148,6 +147,12 @@ function renderMusicList() {
     li.addEventListener('click', () => playSong(index));
     musicListEl.appendChild(li);
   });
+
+  // গান সংখ্যা দেখানোর অংশ
+  const songCountEl = document.getElementById('song-count');
+  if (songCountEl) {
+    songCountEl.textContent = `Total songs: ${filteredData.length}`;
+  }
 }
 
 // --------------------
@@ -357,12 +362,10 @@ volumeSlider.addEventListener('input', ()=>{
 // --------------------
 // Search
 // --------------------
-searchInput.addEventListener('input', (e) => {
+searchInput.addEventListener('input', (e)=>{
   const query = e.target.value.toLowerCase();
   filteredData = musicData.filter(song => song.name.toLowerCase().includes(query));
   renderMusicList();
-  console.log('Filtered songs:', filteredData.length);
-  searchCountEl.textContent = `Total: ${filteredData.length}`;
 });
 
 // --------------------
