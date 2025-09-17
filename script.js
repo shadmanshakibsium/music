@@ -163,7 +163,7 @@ function renderMusicList() {
 
   const songCountEl = document.getElementById('songCount');
   if (songCountEl) {
-    songCountEl.textContent = `Total Songs: ${filteredData.length}`;
+    animateCountUp(songCountEl, filteredData.length, 6000);
   }
 }
 
@@ -405,3 +405,20 @@ tabs.forEach(tab=>{
 // Initial Load
 // --------------------
 loadAllSongs();
+
+// --------------------
+// animateCountUp
+// --------------------
+function animateCountUp(element, target, duration = 5000) {
+  let start = 0;
+  const stepTime = Math.abs(Math.floor(duration / target)); // প্রতিটি সংখ্যার জন্য সময়
+
+  const timer = setInterval(() => {
+    start += 1;
+    element.textContent = `Total Songs: ${start}`;
+    if (start >= target) {
+      clearInterval(timer);
+    }
+  }, stepTime);
+}
+
