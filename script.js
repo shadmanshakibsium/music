@@ -93,7 +93,7 @@ function toggleFolder(folderName, folderEl) {
     .then(data => {
       const folderSongs = data
         .map(s => ({ ...s, folder: folderName }))
-        .sort((a, b) => a.name.localeCompare(b.name)); // গানগুলো A-Z অনুযায়ী সাজানো
+        .sort((a, b) => a.name.localeCompare(b.name)); // ✅ গানগুলো A-Z অনুযায়ী সাজানো
 
       folderSongs.forEach((song, index) => {
         const li = document.createElement('li');
@@ -101,20 +101,17 @@ function toggleFolder(folderName, folderEl) {
         li.setAttribute('data-index', index);
         li.innerHTML = `<div class="info"><span class="title">${song.name}</span></div>`;
 
+        // যদি এই গানটি বাজছে তাহলে .playing ক্লাস লাগাও
+        if (musicData === folderSongs && index === currentIndex) {
+          li.classList.add('playing');
+        }
+
         li.addEventListener('click', (e) => {
           e.stopPropagation();
-
-          // ফোল্ডারের গানগুলো filteredData হিসাবে সেট
-          filteredData = [...folderSongs];
-          const clickedSong = folderSongs[index];
-
-          // All Songs এর মধ্যে গানটার index বের করা
-          currentIndex = musicData.findIndex(s =>
-            s.name === clickedSong.name && s.folder === clickedSong.folder
-          );
-
-          // গান চালানো
-          playSong(currentIndex);
+          musicData = folderSongs;
+          filteredData = [...musicData];
+          currentIndex = index;
+          playSong(index);
         });
 
         listEl.appendChild(li);
@@ -142,17 +139,11 @@ function renderMusicList() {
         <span style="font-size:12px; color:rgba(255,255,255,0.5); margin-left:8px;">[${song.folder}]</span>
       </div>`;
 
-    if (index === currentIndex) {
-      li.classList.add('playing');
-    }
+if (isPlaying && index === currentIndex) {
+  li.classList.add('playing');
+}
 
-    li.addEventListener('click', () => {
-      // All Songs থেকে গান বাজালে filteredData = musicData হওয়া দরকার
-      filteredData = [...musicData];
-      currentIndex = index;
-      playSong(index);
-    });
-
+    li.addEventListener('click', () => playSong(index));
     musicListEl.appendChild(li);
   });
 
@@ -176,14 +167,16 @@ function playSong(index) {
   updateFullscreenPlayer(song.name);
   updatePlayButton();
 
-  // আগের .playing ক্লাসগুলো সরাও (দুটি ভিউ থেকেই)
+  // সব .playing ক্লাস সরাও
   document.querySelectorAll('.music-item.playing').forEach(el => el.classList.remove('playing'));
 
-  // শুধু তখনই highlight করো, যখন আমরা "All Songs" ভিউতে আছি
-  if (currentView === 'all') {
-    const currentPlayingEl = musicListEl.querySelector(`.music-item[data-index="${currentIndex}"]`);
+  // ✅ শুধু তখনই highlight করো, যখন আমরা "All Songs" ভিউতে আছি এবং All Songs data ব্যবহার করছি
+  if (currentView === 'all' && filteredData === musicData) {
+    const currentPlayingEl = musicListEl.querySelector(`.music-item[data-index="${index}"]`);
     if (currentPlayingEl) currentPlayingEl.classList.add('playing');
   }
+
+  // ❌ আর ফোল্ডার ভিউতে কোনো .playing ক্লাস লাগানো হবে না
 }
 
 // --------------------
@@ -204,7 +197,8 @@ function updatePlayButton(){
 // --------------------
 // Mini → Fullscreen
 // --------------------
-miniPlayer.addEventListener('click', ()=> {
+// Mini → Fullscreen
+miniPlayer.addEventListener('click', ()=>{
   fullscreenPlayer.style.display = 'flex';
   miniPlayer.style.display = 'none';           // মিনি প্লেয়ার লুকানো
   document.querySelector('.site-header').style.display = 'none'; // হেডার লুকানো
@@ -230,7 +224,11 @@ fsCloseBtn.addEventListener('click', () => {
     if (currentSongEl) {
       // প্লে করা গান সামনে নিয়ে যাও, কোনো smooth animation ছাড়াই
       currentSongEl.scrollIntoView({ behavior: 'auto', block: 'center' });
+    } else {
+      // না পেলে আগের scroll restore করো
+      allSongsView.scrollTop = scrollPosition;
     }
+
   } else {
     allSongsView.style.display = 'none';
     foldersView.style.display = 'block';
@@ -246,6 +244,11 @@ fsCloseBtn.addEventListener('click', () => {
         found = true;
       }
     });
+
+    // যদি না পাওয়া যায়, আগের scroll restore করো
+    if (!found) {
+      foldersView.scrollTop = scrollPosition;
+    }
   }
 });
 
@@ -280,100 +283,109 @@ fsPrevBtn.addEventListener('click', playPrev);
 // --------------------
 // Shuffle & Repeat
 // --------------------
-fsShuffleBtn.addEventListener('click', () => {
+fsShuffleBtn.addEventListener('click', ()=>{
   isShuffle = !isShuffle;
-  fsShuffleBtn.classList.toggle('active', isShuffle);
+  fsShuffleBtn.style.color = isShuffle ? '#ff6b6b' : 'white';
 });
 
-fsRepeatBtn.addEventListener('click', () => {
-  if(repeatMode === 'none') repeatMode = 'one';
-  else if(repeatMode === 'one') repeatMode = 'all';
-  else repeatMode = 'none';
+fsRepeatBtn.addEventListener('click', ()=>{
+  if(repeatMode==='none') repeatMode='all';
+  else if(repeatMode==='all') repeatMode='one';
+  else repeatMode='none';
+  updateRepeatUI();
+});
+function updateRepeatUI(){
+  fsRepeatBtn.style.color = repeatMode==='none'?'white':(repeatMode==='all'?'#fcb045':'#ff6b6b');
+}
 
-  fsRepeatBtn.dataset.mode = repeatMode;
+// --------------------
+// Auto Next / Repeat
+// --------------------
+fsAudio.addEventListener('ended', ()=>{
+  if(repeatMode==='one') playSong(currentIndex);
+  else if(repeatMode==='all') playNext();
+  else {
+    if(currentIndex<filteredData.length-1) playNext();
+    else { fsAudio.pause(); isPlaying=false; updatePlayButton(); }
+  }
 });
 
 // --------------------
 // Progress Bar
 // --------------------
-fsAudio.addEventListener('timeupdate', () => {
+fsAudio.addEventListener('timeupdate', ()=>{
   if(fsAudio.duration){
-    const percent = (fsAudio.currentTime / fsAudio.duration) * 100;
-    progressFilled.style.width = percent + '%';
-
-    // Update time display
+    const percent = (fsAudio.currentTime/fsAudio.duration)*100;
+    progressFilled.style.width = percent+'%';
     currentTimeEl.textContent = formatTime(fsAudio.currentTime);
     durationEl.textContent = formatTime(fsAudio.duration);
   }
 });
+progressBarContainer.addEventListener('click', (e) => {
+  const rect = progressBarContainer.getBoundingClientRect();
+  const clickX = e.clientX - rect.left;
+  const clickPercent = (clickX / rect.width);
+  const clickTime = clickPercent * fsAudio.duration;
 
-progressBarContainer.addEventListener('click', e => {
-  const width = progressBarContainer.clientWidth;
-  const clickX = e.offsetX;
-  const duration = fsAudio.duration;
-  if(duration){
-    fsAudio.currentTime = (clickX / width) * duration;
+  // ভিজ্যুয়াল প্রগ্রেস আপডেট
+  progressFilled.style.width = (clickPercent * 100) + '%';
+  currentTimeEl.textContent = formatTime(clickTime);
+
+  // গান যদি এখনও লোড না হয়, তাহলে wait করা হবে
+  if (!fsAudio.readyState || fsAudio.readyState < 2) {
+    const onCanPlay = () => {
+      fsAudio.currentTime = clickTime;
+      fsAudio.removeEventListener('canplay', onCanPlay);
+    };
+    fsAudio.addEventListener('canplay', onCanPlay);
+  } else {
+    fsAudio.currentTime = clickTime;
   }
 });
-
-function formatTime(sec) {
-  const minutes = Math.floor(sec / 60);
-  const seconds = Math.floor(sec % 60);
-  return `${minutes}:${seconds < 10 ? '0' : ''}${seconds}`;
+function formatTime(seconds){
+  const mins = Math.floor(seconds/60);
+  const secs = Math.floor(seconds%60);
+  return mins + ':' + (secs<10?'0'+secs:secs);
 }
 
 // --------------------
-// Volume Control
+// Volume
 // --------------------
-volumeSlider.addEventListener('input', () => {
+volumeSlider.addEventListener('input', ()=>{
   fsAudio.volume = volumeSlider.value;
 });
 
 // --------------------
 // Search
 // --------------------
-searchInput.addEventListener('input', () => {
-  const val = searchInput.value.toLowerCase();
-  if(currentView === 'all'){
-    filteredData = musicData.filter(s => s.name.toLowerCase().includes(val));
-    currentIndex = 0;
-    renderMusicList();
-  }
+searchInput.addEventListener('input', (e)=>{
+  const query = e.target.value.toLowerCase();
+  filteredData = musicData.filter(song => song.name.toLowerCase().includes(query));
+  renderMusicList();
 });
 
 // --------------------
-// Tab Switching
+// Tabs
 // --------------------
-tabs.forEach(tab => {
-  tab.addEventListener('click', () => {
-    tabs.forEach(t => t.classList.remove('active'));
+tabs.forEach(tab=>{
+  tab.addEventListener('click', ()=>{
+    tabs.forEach(t=>t.classList.remove('active'));
     tab.classList.add('active');
+    currentView = tab.dataset.view;
 
-    if(tab.dataset.tab === 'all-songs'){
-      currentView = 'all';
-      allSongsView.style.display = 'block';
-      foldersView.style.display = 'none';
-
-      filteredData = [...musicData];
-      currentIndex = 0;
-      renderMusicList();
-
-    } else if(tab.dataset.tab === 'folders'){
-      currentView = 'folders';
-      allSongsView.style.display = 'none';
-      foldersView.style.display = 'block';
+    if(currentView==='all'){
+      allSongsView.style.display='block';
+      foldersView.style.display='none';
+      loadAllSongs();
+    } else {
+      allSongsView.style.display='none';
+      foldersView.style.display='block';
       loadFolders();
     }
   });
 });
 
 // --------------------
-// Init
+// Initial Load
 // --------------------
-window.onload = () => {
-  loadAllSongs();
-  // প্রথমে All Songs দেখাবে
-  currentView = 'all';
-  filteredData = [...musicData];
-  renderMusicList();
-};
+loadAllSongs();
