@@ -128,12 +128,19 @@ function toggleFolder(folderName, folderEl) {
 // --------------------
 function renderMusicList() {
   musicListEl.innerHTML = '';
+
+  const hasSeenAnimation = localStorage.getItem('hasSeenFadeInAnimation');
+
   filteredData.forEach((song, index) => {
     const li = document.createElement('li');
     li.classList.add('music-item');
 
-    // fade-in ক্লাস যোগ করা হচ্ছে
-    li.classList.add('fade-in');
+    if (!hasSeenAnimation) {
+      li.classList.add('fade-in');
+      li.addEventListener('animationend', () => {
+        li.classList.remove('fade-in');
+      });
+    }
 
     li.setAttribute('data-index', index);
     li.innerHTML = `
@@ -150,7 +157,10 @@ function renderMusicList() {
     musicListEl.appendChild(li);
   });
 
-  // গান সংখ্যা আপডেট করা হচ্ছে
+  if (!hasSeenAnimation) {
+    localStorage.setItem('hasSeenFadeInAnimation', 'true');
+  }
+
   const songCountEl = document.getElementById('songCount');
   if (songCountEl) {
     songCountEl.textContent = `Total Songs: ${filteredData.length}`;
