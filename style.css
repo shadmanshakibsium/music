@@ -74,40 +74,47 @@ h1 {
    Search Bar
 -------------------- */
 .search-bar {
-  display: flex;
-  align-items: center;
-  gap: 15px;
+  position: relative;
   width: 100%;
-  max-width: 900px; /* তোমার container এর মতো বড় */
+  max-width: 900px;
   margin: 0 auto 20px auto;
-  padding: 0 10px; /* একটু প্যাডিং চাইলে */
-  box-sizing: border-box;
+}
+
+@media (min-width: 451px) {
+  .search-bar input {
+    width: 80%;
+    padding: 12px 130px 12px 15px; /* ডান পাশে জায়গা */
+  }
+}
+
+@media (max-width: 450px) {
+  .search-bar input {
+    width: 100%;
+    padding: 12px 130px 12px 15px; /* ডান পাশে জায়গা */
+  }
 }
 
 .search-bar input {
-  flex-grow: 1; /* ইনপুট যত জায়গা পাবে নিতে পারবে */
-  padding: 12px 15px;
   border-radius: 15px;
   border: none;
   outline: none;
   font-size: 16px;
   backdrop-filter: blur(8px);
-  background: rgba(255, 255, 255, 0.1);
+  background: rgba(255,255,255,0.1);
   color: white;
-  min-width: 0; /* flexbox এ বাধা কমাতে */
-}
-
-.search-bar input::placeholder {
-  color: rgba(255, 255, 255, 0.7);
+  box-sizing: border-box;
 }
 
 #songCount {
-  white-space: nowrap;
+  position: absolute;
+  top: 50%;
+  right: 20px;
+  transform: translateY(-50%);
   font-size: 14px;
   color: rgba(255, 255, 255, 0.7);
-  pointer-events: none; /* ক্লিক-ইনটার‌্যাকশন বন্ধ */
-  user-select: none;    /* সিলেকশন বন্ধ */
-  flex-shrink: 0;       /* ছোট হবে না */
+  pointer-events: none;
+  user-select: none;
+  white-space: nowrap;
 }
 
 /* --------------------
