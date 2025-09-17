@@ -139,9 +139,9 @@ function renderMusicList() {
         <span style="font-size:12px; color:rgba(255,255,255,0.5); margin-left:8px;">[${song.folder}]</span>
       </div>`;
 
-    if (index === currentIndex) {
-      li.classList.add('playing');
-    }
+if (isPlaying && index === currentIndex) {
+  li.classList.add('playing');
+}
 
     li.addEventListener('click', () => playSong(index));
     musicListEl.appendChild(li);
