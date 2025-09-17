@@ -133,7 +133,6 @@ function renderMusicList() {
     li.classList.add('music-item');
     li.setAttribute('data-index', index);
 
-    // Show folder name (like [english]) beside the song name
     li.innerHTML = `
       <div class="info">
         <span class="title">${song.name}</span>
@@ -148,10 +147,10 @@ function renderMusicList() {
     musicListEl.appendChild(li);
   });
 
-  // গান সংখ্যা দেখানোর অংশ
-  const songCountEl = document.getElementById('song-count');
+  // গান সংখ্যা আপডেট করা হচ্ছে
+  const songCountEl = document.getElementById('songCount');
   if (songCountEl) {
-    songCountEl.textContent = `Total songs: ${filteredData.length}`;
+    songCountEl.textContent = `Total Songs: ${filteredData.length}`;
   }
 }
 
