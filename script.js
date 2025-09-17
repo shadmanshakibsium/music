@@ -38,6 +38,7 @@ const currentTimeEl = document.getElementById('current-time');
 const durationEl = document.getElementById('duration');
 const progressBarContainer = document.getElementById('progress-bar-container');
 const volumeSlider = document.getElementById('fs-volume');
+const searchCountEl = document.getElementById('search-count'); // ✅ এই লাইনটা উপরে add করো
 
 // --------------------
 // Load All Songs (A-Z) using Promise.all
@@ -356,8 +357,6 @@ volumeSlider.addEventListener('input', ()=>{
 // --------------------
 // Search
 // --------------------
-const searchCountEl = document.getElementById('search-count'); // ✅ এই লাইনটা উপরে add করো
-
 searchInput.addEventListener('input', (e)=>{
   const query = e.target.value.toLowerCase();
   filteredData = musicData.filter(song => song.name.toLowerCase().includes(query));
