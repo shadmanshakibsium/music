@@ -71,20 +71,17 @@ h1 {
 }
 
 /* --------------------
-   searchbar
+   Search Bar
 -------------------- */
 .search-bar {
-  position: relative;
   width: 100%;
-  max-width: 400px;  /* তোমার ইচ্ছা অনুযায়ী */
-  margin: 20px auto;
-  box-sizing: border-box;
+  margin-bottom: 20px;
+  position: relative; /* ✅ এইটা নতুন */
 }
 
 .search-bar input {
   width: 100%;
-  padding: 12px 15px;
-  padding-right: 80px;  /* ডান দিকে কাউন্টের জায়গা */
+  padding: 12px 140px 12px 15px; /* ✅ ডান পাশে জায়গা রাখলাম */
   border-radius: 15px;
   border: none;
   outline: none;
@@ -92,41 +89,21 @@ h1 {
   backdrop-filter: blur(8px);
   background: rgba(255,255,255,0.1);
   color: white;
-  box-sizing: border-box;
-  display: block;
 }
 
-/* Desktop: input ৮০% */
-@media (min-width: 451px) {
-  .search-bar input {
-    width: 80%;
-    margin: 0 auto;  /* সেন্টার করতে */
-    display: block;
-  }
+.search-bar input::placeholder {
+  color: rgba(255,255,255,0.7);
 }
 
-/* Mobile: input ১০০% */
-@media (max-width: 450px) {
-  .search-bar input {
-    width: 100%;
-    margin: 0;
-    display: block;
-  }
-}
-
-/* কাউন্ট স্টাইল */
-.search-count {
-  position: absolute;
+#songCount {
+  position: absolute;         /* ✅ ইনপুটের উপর বসানোর জন্য */
   top: 50%;
-  right: 20px;           /* ইনপুটের ভেতরে ডান পাশে */
+  right: 20px;
   transform: translateY(-50%);
-  color: rgba(255, 255, 255, 0.7);
   font-size: 14px;
-  pointer-events: none;  /* ক্লিক এ সমস্যা না হয় */
-  user-select: none;
-  font-weight: 500;
+  color: rgba(255, 255, 255, 0.7);
+  pointer-events: none;
   white-space: nowrap;
-  z-index: 10;
 }
 
 /* --------------------
@@ -171,6 +148,7 @@ h1 {
   -webkit-tap-highlight-color: transparent;
   outline: none;
 }
+
 .music-item.playing .title {
   color: #8a2be2; /* হালকা পার্পল */
   font-weight: 600; /* মাঝারি বোল্ড */
@@ -464,6 +442,30 @@ h1 {
   .play-btn{width:68px;height:44px;font-size:20px;border-radius:22px;}
   #current-time,#duration{font-size:11px;width:36px;}
   #fs-volume{width:110px;}
+}
+
+/* Desktop: 80% width centered */
+@media(min-width: 451px) {
+  .search-bar input {
+    width: 80%;
+    margin-left: auto;
+    margin-right: auto;
+    display: block;
+  }
+  .music-item {
+    width: 80%;
+    margin: 0 auto 10px auto;
+  }
+}
+
+/* Mobile: full width stacked */
+@media(max-width: 450px) {
+  .search-bar input,
+  .music-item {
+    width: 100%;
+    margin: 0 0 10px 0;
+    display: block;
+  }
 }
 
 .fade-in {
