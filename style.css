@@ -73,27 +73,32 @@ h1 {
 /* --------------------
    Search Bar
 -------------------- */
+/* -------------------- Search Bar -------------------- */
 .search-bar {
-  position: relative;
   width: 100%;
-  max-width: 900px;
+  max-width: 900px;  /* পিসিতে সীমাবদ্ধ সাইজ */
   margin: 0 auto 20px auto;
+  position: relative; /* songCount absolute করার জন্য */
 }
 
+/* ডিভাইস অনুযায়ী ইনপুট প্রস্থ */
 @media (min-width: 451px) {
   .search-bar input {
     width: 80%;
-    padding: 12px 130px 12px 15px; /* ডান পাশে জায়গা */
+    padding: 12px 130px 12px 15px; /* ডান দিকে songCount জায়গা রাখলাম */
+    box-sizing: border-box;
   }
 }
 
 @media (max-width: 450px) {
   .search-bar input {
     width: 100%;
-    padding: 12px 130px 12px 15px; /* ডান পাশে জায়গা */
+    padding: 12px 130px 12px 15px; /* ডান দিকে জায়গা */
+    box-sizing: border-box;
   }
 }
 
+/* ইনপুটের বাকি স্টাইল */
 .search-bar input {
   border-radius: 15px;
   border: none;
@@ -102,19 +107,25 @@ h1 {
   backdrop-filter: blur(8px);
   background: rgba(255,255,255,0.1);
   color: white;
-  box-sizing: border-box;
 }
 
+/* placeholder এর কালার */
+.search-bar input::placeholder {
+  color: rgba(255,255,255,0.7);
+}
+
+/* songCount ডান দিকে ইনপুটের ভিতরে দেখাবে */
 #songCount {
   position: absolute;
   top: 50%;
-  right: 20px;
+  right: 30px;  /* একটু ইনপুটের ভেতর */
   transform: translateY(-50%);
   font-size: 14px;
   color: rgba(255, 255, 255, 0.7);
   pointer-events: none;
   user-select: none;
   white-space: nowrap;
+  font-weight: 500;
 }
 
 /* --------------------
