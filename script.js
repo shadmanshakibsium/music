@@ -170,16 +170,13 @@ function playSong(index) {
   // আগের .playing ক্লাসগুলো সরাও (দুটি ভিউ থেকেই)
   document.querySelectorAll('.music-item.playing').forEach(el => el.classList.remove('playing'));
 
-  // "All Songs" ভিউ থেকে নতুন .playing ক্লাস যোগ করো
+  // ✅ শুধু All Songs ভিউতে .playing ক্লাস লাগাও
   const currentPlayingEl = musicListEl.querySelector(`.music-item[data-index="${index}"]`);
-  if (currentPlayingEl) currentPlayingEl.classList.add('playing');
+  if (currentView === 'all' && currentPlayingEl) {
+    currentPlayingEl.classList.add('playing');
+  }
 
-  // "Folders" ভিউতে একই গান খুঁজে .playing ক্লাস যোগ করো
-  const folderLists = document.querySelectorAll('.folder-songs');
-  folderLists.forEach(list => {
-    const songEl = list.querySelector(`.music-item[data-index="${index}"]`);
-    if (songEl) songEl.classList.add('playing');
-  });
+  // ❌ ফোল্ডার ভিউতে আর .playing ক্লাস লাগানো হবে না
 }
 
 // --------------------
