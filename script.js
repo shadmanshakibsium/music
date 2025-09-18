@@ -409,7 +409,7 @@ loadAllSongs();
 // --------------------
 // animateCountUp
 // --------------------
-function animateCountUp(element, target, duration = 5000) {
+function animateCountUp(element, target, duration = 2500) {
   let start = 0;
   const stepTime = Math.abs(Math.floor(duration / target)); // প্রতিটি সংখ্যার জন্য সময়
 
