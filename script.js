@@ -422,3 +422,14 @@ function animateCountUp(element, target, duration = 5000) {
   }, stepTime);
 }
 
+// --------------------
+// Keyboard Shortcut: Spacebar → Play/Pause
+// --------------------
+document.addEventListener('keydown', (e) => {
+  // যদি স্পেসবার চাপা হয় এবং ফোকাস ইনপুট বা টেক্সট এরিয়াতে না থাকে
+  const isInput = ['INPUT', 'TEXTAREA'].includes(document.activeElement.tagName);
+  if (e.code === 'Space' && !isInput) {
+    e.preventDefault(); // স্ক্রল বন্ধ করে
+    togglePlay(); // প্লে বা পজ করে
+  }
+});
