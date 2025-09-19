@@ -439,8 +439,8 @@ document.addEventListener('keydown', (e) => {
 // --------------------
 const waveformCanvas = document.getElementById('waveform-canvas');
 const wctx = waveformCanvas.getContext('2d');
+const fsAudio = document.getElementById('fsAudio');
 
-// Resize canvas to fit container/screen
 function resizeWaveform() {
   waveformCanvas.width = waveformCanvas.clientWidth;
   waveformCanvas.height = waveformCanvas.clientHeight;
@@ -448,10 +448,9 @@ function resizeWaveform() {
 resizeWaveform();
 window.addEventListener('resize', resizeWaveform);
 
-// Create AudioContext & analyser
 const waveAudioCtx = new (window.AudioContext || window.webkitAudioContext)();
 const waveAnalyser = waveAudioCtx.createAnalyser();
-waveAnalyser.fftSize = 2048; // More = more points (but heavier on CPU)
+waveAnalyser.fftSize = 2048;
 const waveBufferLength = waveAnalyser.fftSize;
 const waveDataArray = new Uint8Array(waveBufferLength);
 
@@ -459,14 +458,13 @@ const waveSource = waveAudioCtx.createMediaElementSource(fsAudio);
 waveSource.connect(waveAnalyser);
 waveAnalyser.connect(waveAudioCtx.destination);
 
-// Draw waveform
 function drawWaveform() {
   requestAnimationFrame(drawWaveform);
   waveAnalyser.getByteTimeDomainData(waveDataArray);
 
   wctx.clearRect(0, 0, waveformCanvas.width, waveformCanvas.height);
   wctx.lineWidth = 2;
-  wctx.strokeStyle = '#00ffc8'; // waveform color
+  wctx.strokeStyle = '#00ffc8';
   wctx.beginPath();
 
   const sliceWidth = waveformCanvas.width / waveBufferLength;
@@ -474,7 +472,7 @@ function drawWaveform() {
 
   for (let i = 0; i < waveBufferLength; i++) {
     const v = waveDataArray[i] / 128.0;
-    const y = v * waveformCanvas.height / 2;
+    const y = waveformCanvas.height / 2 + (v - 1) * (waveformCanvas.height / 2);
 
     if (i === 0) {
       wctx.moveTo(x, y);
@@ -489,7 +487,6 @@ function drawWaveform() {
   wctx.stroke();
 }
 
-// Start drawing when audio plays
 fsAudio.addEventListener('play', () => {
   if (waveAudioCtx.state === 'suspended') {
     waveAudioCtx.resume();
