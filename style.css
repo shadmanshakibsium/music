@@ -499,12 +499,15 @@ h1 {
   animation: fadeIn 0.5s ease forwards;
 }
 
-/* Waveform Styles */
-  #waveform-canvas {
-    width: 100%;
-    max-width: 420px;
-    height: 100px;
-    background-color: #111;
-    display: block;
-    margin: 0 auto;
-  }
+#audio-visualizer {
+  width: 100%;
+  max-width: 420px;
+  height: 100px;
+  background-color: transparent; /* পুরো ট্রান্সপারেন্ট */
+  /* অথবা হালকা কালো ট্রান্সপারেন্ট */
+  /* background-color: rgba(34, 34, 34, 0.3); */
+  border-radius: 8px;
+  box-shadow: 0 0 15px rgba(255, 0, 0, 0.5);
+  display: block;
+  margin: 10px auto;
+}
