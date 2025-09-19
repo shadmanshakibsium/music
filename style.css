@@ -499,12 +499,36 @@ h1 {
   animation: fadeIn 0.5s ease forwards;
 }
 
-#audio-visualizer {
-  width: 100%;            /* পুরো প্লেয়ার বা পেজের width দাও */
-  height: 100px;          /* হাইট রাখতে পারো 100px বা ইচ্ছামতো */
-  background-color: #222; /* ডার্ক ব্যাকগ্রাউন্ড, ভিজুয়ালাইজার ভালো দেখতে */
-  border-radius: 8px;     /* একটু-rounded corner */
-  box-shadow: 0 0 15px rgba(255, 0, 0, 0.5); /* হালকা রঙিন শ্যাডো */
-  display: block;         /* ক্যানভাস ব্লক এলিমেন্ট হিসেবে */
-  margin: 10px 0;         /* উপরে-নিচে একটু স্পেস */
+/* Waveform Styles */
+#waveform-canvas {
+  width: 100%;
+  display: block;
+  background-color: black;
+  position: relative;
+  z-index: 10;
+  margin-top: 8px;
+}
+
+/* Responsive Handling */
+@media (min-width: 768px) {
+  /* For desktop/tablet */
+  #waveform-canvas {
+    position: relative;
+    max-height: 420px;
+    height: 100px; /* default height on desktop */
+  }
+}
+
+@media (max-width: 767px) {
+  /* For mobile */
+  #waveform-canvas {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 100px;
+    max-height: 100px;
+    z-index: 999;
+    background-color: black;
+  }
 }
