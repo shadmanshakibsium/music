@@ -434,66 +434,65 @@ document.addEventListener('keydown', (e) => {
   }
 });
 
-// Visualizer variables
-const canvas = document.getElementById('audio-visualizer');
-const ctx = canvas.getContext('2d');
-let audioCtx;
-let analyser;
-let source;
-let dataArray;
-let bufferLength;
-let animationId;
+// --------------------
+// Waveform Visualizer
+// --------------------
+const waveformCanvas = document.getElementById('waveform-canvas');
+const wctx = waveformCanvas.getContext('2d');
 
-function setupVisualizer() {
-  if(!audioCtx){
-    audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-  }
-
-  if(source){
-    source.disconnect();
-  }
-
-  source = audioCtx.createMediaElementSource(fsAudio);
-  analyser = audioCtx.createAnalyser();
-
-  source.connect(analyser);
-  analyser.connect(audioCtx.destination);
-
-  analyser.fftSize = 64; // number of frequency bins (smaller for smoother)
-  bufferLength = analyser.frequencyBinCount;
-  dataArray = new Uint8Array(bufferLength);
-
-  drawVisualizer();
+// Resize canvas to fit container/screen
+function resizeWaveform() {
+  waveformCanvas.width = waveformCanvas.clientWidth;
+  waveformCanvas.height = waveformCanvas.clientHeight;
 }
+resizeWaveform();
+window.addEventListener('resize', resizeWaveform);
 
-function drawVisualizer() {
-  animationId = requestAnimationFrame(drawVisualizer);
+// Create AudioContext & analyser
+const waveAudioCtx = new (window.AudioContext || window.webkitAudioContext)();
+const waveAnalyser = waveAudioCtx.createAnalyser();
+waveAnalyser.fftSize = 2048; // More = more points (but heavier on CPU)
+const waveBufferLength = waveAnalyser.fftSize;
+const waveDataArray = new Uint8Array(waveBufferLength);
 
-  analyser.getByteFrequencyData(dataArray);
+const waveSource = waveAudioCtx.createMediaElementSource(fsAudio);
+waveSource.connect(waveAnalyser);
+waveAnalyser.connect(waveAudioCtx.destination);
 
-  ctx.clearRect(0, 0, canvas.width, canvas.height);
+// Draw waveform
+function drawWaveform() {
+  requestAnimationFrame(drawWaveform);
+  waveAnalyser.getByteTimeDomainData(waveDataArray);
 
-  const barWidth = (canvas.width / bufferLength) * 1.5;
+  wctx.clearRect(0, 0, waveformCanvas.width, waveformCanvas.height);
+  wctx.lineWidth = 2;
+  wctx.strokeStyle = '#00ffc8'; // waveform color
+  wctx.beginPath();
+
+  const sliceWidth = waveformCanvas.width / waveBufferLength;
   let x = 0;
 
-  for(let i=0; i<bufferLength; i++){
-    const barHeight = dataArray[i];
-    ctx.fillStyle = `rgb(${barHeight + 100},50,150)`;
-    ctx.fillRect(x, canvas.height - barHeight, barWidth, barHeight);
-    x += barWidth + 2;
+  for (let i = 0; i < waveBufferLength; i++) {
+    const v = waveDataArray[i] / 128.0;
+    const y = v * waveformCanvas.height / 2;
+
+    if (i === 0) {
+      wctx.moveTo(x, y);
+    } else {
+      wctx.lineTo(x, y);
+    }
+
+    x += sliceWidth;
   }
+
+  wctx.lineTo(waveformCanvas.width, waveformCanvas.height / 2);
+  wctx.stroke();
 }
 
-// Start visualizer when play starts
+// Start drawing when audio plays
 fsAudio.addEventListener('play', () => {
-  if(audioCtx && audioCtx.state === 'suspended'){
-    audioCtx.resume();
+  if (waveAudioCtx.state === 'suspended') {
+    waveAudioCtx.resume();
   }
-  setupVisualizer();
-});
-
-// Stop visualizer on pause (optional)
-fsAudio.addEventListener('pause', () => {
-  cancelAnimationFrame(animationId);
-  ctx.clearRect(0, 0, canvas.width, canvas.height);
+  drawWaveform();
 });
