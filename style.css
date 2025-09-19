@@ -513,6 +513,5 @@ h1 {
   height: 100px;
   background-color: transparent; /* ব্যাকগ্রাউন্ড ট্রান্সপারেন্ট */
   border-radius: 8px;
-  box-shadow: 0 0 15px rgba(255, 0, 0, 0.5);
   display: block;
 }
