@@ -434,71 +434,66 @@ document.addEventListener('keydown', (e) => {
   }
 });
 
-// Select audio and canvas elements
-const audio = document.getElementById('fs-audio');
-const canvas = document.getElementById('visualizer');
+// Visualizer variables
+const canvas = document.getElementById('audio-visualizer');
 const ctx = canvas.getContext('2d');
+let audioCtx;
+let analyser;
+let source;
+let dataArray;
+let bufferLength;
+let animationId;
 
-// Set canvas width and height to match CSS
-canvas.width = canvas.clientWidth;
-canvas.height = canvas.clientHeight;
+function setupVisualizer() {
+  if(!audioCtx){
+    audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+  }
 
-const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-const analyser = audioCtx.createAnalyser();
-analyser.fftSize = 256;  // FFT size, bigger = more bars but more CPU
+  if(source){
+    source.disconnect();
+  }
 
-const source = audioCtx.createMediaElementSource(audio);
-source.connect(analyser);
-analyser.connect(audioCtx.destination);
+  source = audioCtx.createMediaElementSource(fsAudio);
+  analyser = audioCtx.createAnalyser();
 
-const bufferLength = analyser.frequencyBinCount; // Half of fftSize
-const dataArray = new Uint8Array(bufferLength);
+  source.connect(analyser);
+  analyser.connect(audioCtx.destination);
 
-// Colors for the spectrum bars (red, green, blue gradient)
-const colors = [
-  '#ff4b5c', // red
-  '#4caf50', // green
-  '#2196f3'  // blue
-];
+  analyser.fftSize = 64; // number of frequency bins (smaller for smoother)
+  bufferLength = analyser.frequencyBinCount;
+  dataArray = new Uint8Array(bufferLength);
 
-// Draw function for the spectrum visualizer
-function draw() {
-  requestAnimationFrame(draw);
+  drawVisualizer();
+}
+
+function drawVisualizer() {
+  animationId = requestAnimationFrame(drawVisualizer);
 
   analyser.getByteFrequencyData(dataArray);
 
   ctx.clearRect(0, 0, canvas.width, canvas.height);
 
   const barWidth = (canvas.width / bufferLength) * 1.5;
-  let barHeight;
   let x = 0;
 
-  for(let i = 0; i < bufferLength; i++) {
-    barHeight = dataArray[i];
-    
-    // Calculate color based on bar position
-    // Interpolate between red, green and blue
-    let color;
-    if (i < bufferLength / 3) {
-      color = colors[0]; // red
-    } else if (i < bufferLength * 2 / 3) {
-      color = colors[1]; // green
-    } else {
-      color = colors[2]; // blue
-    }
-
-    ctx.fillStyle = color;
+  for(let i=0; i<bufferLength; i++){
+    const barHeight = dataArray[i];
+    ctx.fillStyle = `rgb(${barHeight + 100},50,150)`;
     ctx.fillRect(x, canvas.height - barHeight, barWidth, barHeight);
-
-    x += barWidth + 1; // 1px gap between bars
+    x += barWidth + 2;
   }
 }
 
-// Start visualizer when audio plays
-audio.onplay = () => {
-  // Resume audio context on user interaction (required by browsers)
-  if (audioCtx.state === 'suspended') {
+// Start visualizer when play starts
+fsAudio.addEventListener('play', () => {
+  if(audioCtx && audioCtx.state === 'suspended'){
     audioCtx.resume();
   }
-  draw();
-};
+  setupVisualizer();
+});
+
+// Stop visualizer on pause (optional)
+fsAudio.addEventListener('pause', () => {
+  cancelAnimationFrame(animationId);
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
+});
