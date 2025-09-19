@@ -500,35 +500,11 @@ h1 {
 }
 
 /* Waveform Styles */
-#waveform-canvas {
-  width: 100%;
-  display: block;
-  background-color: black;
-  position: relative;
-  z-index: 10;
-  margin-top: 8px;
-}
-
-/* Responsive Handling */
-@media (min-width: 768px) {
-  /* For desktop/tablet */
   #waveform-canvas {
-    position: relative;
-    max-height: 420px;
-    height: 100px; /* default height on desktop */
-  }
-}
-
-@media (max-width: 767px) {
-  /* For mobile */
-  #waveform-canvas {
-    position: fixed;
-    bottom: 0;
-    left: 0;
-    right: 0;
+    width: 100%;
+    max-width: 420px;
     height: 100px;
-    max-height: 100px;
-    z-index: 999;
-    background-color: black;
+    background-color: #111;
+    display: block;
+    margin: 0 auto;
   }
-}
