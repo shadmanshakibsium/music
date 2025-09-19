@@ -498,3 +498,21 @@ h1 {
 .music-item.fade-in {
   animation: fadeIn 0.5s ease forwards;
 }
+
+#visualizer {
+  width: 100%;          /* পুরো parent এর ভিতর ফিট করবে */
+  max-width: 420px;     /* fullscreen player এর max-width এর সাথে মিল রেখে */
+  height: 100px;        /* উচ্চতা দরকার মতো পরিবর্তন করতে পারো */
+  background-color: transparent;
+  display: block;
+  box-sizing: border-box;
+  margin: 0 auto;       /* centered করবে */
+}
+
+/* মোবাইলে */
+@media (max-width: 450px) {
+  #visualizer {
+    max-width: 100%;    /* মোবাইলে ফুল স্ক্রিন */
+    height: 80px;       /* একটু ছোট করতে পারো */
+  }
+}
