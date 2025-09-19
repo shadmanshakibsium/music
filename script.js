@@ -433,3 +433,72 @@ document.addEventListener('keydown', (e) => {
     togglePlay(); // প্লে বা পজ করে
   }
 });
+
+// Select audio and canvas elements
+const audio = document.getElementById('fs-audio');
+const canvas = document.getElementById('visualizer');
+const ctx = canvas.getContext('2d');
+
+// Set canvas width and height to match CSS
+canvas.width = canvas.clientWidth;
+canvas.height = canvas.clientHeight;
+
+const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+const analyser = audioCtx.createAnalyser();
+analyser.fftSize = 256;  // FFT size, bigger = more bars but more CPU
+
+const source = audioCtx.createMediaElementSource(audio);
+source.connect(analyser);
+analyser.connect(audioCtx.destination);
+
+const bufferLength = analyser.frequencyBinCount; // Half of fftSize
+const dataArray = new Uint8Array(bufferLength);
+
+// Colors for the spectrum bars (red, green, blue gradient)
+const colors = [
+  '#ff4b5c', // red
+  '#4caf50', // green
+  '#2196f3'  // blue
+];
+
+// Draw function for the spectrum visualizer
+function draw() {
+  requestAnimationFrame(draw);
+
+  analyser.getByteFrequencyData(dataArray);
+
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+  const barWidth = (canvas.width / bufferLength) * 1.5;
+  let barHeight;
+  let x = 0;
+
+  for(let i = 0; i < bufferLength; i++) {
+    barHeight = dataArray[i];
+    
+    // Calculate color based on bar position
+    // Interpolate between red, green and blue
+    let color;
+    if (i < bufferLength / 3) {
+      color = colors[0]; // red
+    } else if (i < bufferLength * 2 / 3) {
+      color = colors[1]; // green
+    } else {
+      color = colors[2]; // blue
+    }
+
+    ctx.fillStyle = color;
+    ctx.fillRect(x, canvas.height - barHeight, barWidth, barHeight);
+
+    x += barWidth + 1; // 1px gap between bars
+  }
+}
+
+// Start visualizer when audio plays
+audio.onplay = () => {
+  // Resume audio context on user interaction (required by browsers)
+  if (audioCtx.state === 'suspended') {
+    audioCtx.resume();
+  }
+  draw();
+};
