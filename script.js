@@ -462,7 +462,7 @@ function setupVisualizer() {
 
   // Responsive fftSize
   const isMobile = window.innerWidth <= 768;
-  analyser.fftSize = isMobile ? 128 : 256;
+  analyser.fftSize = isMobile ? 256 : 256;
 
   bufferLength = analyser.frequencyBinCount;
   dataArray = new Uint8Array(bufferLength);
