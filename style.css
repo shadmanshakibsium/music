@@ -499,15 +499,20 @@ h1 {
   animation: fadeIn 0.5s ease forwards;
 }
 
+#visualizer-container {
+  height: 120px;               /* ভিজুয়ালাইজারের জন্য উচ্চতা একটু বেশি দিলাম */
+  display: flex;
+  justify-content: center;     /* horizontal center */
+  align-items: center;         /* vertical center */
+  margin-top: 20px;            /* প্লেয়ারের বাকি অংশ থেকে ফাঁকা জায়গা */
+}
+
 #audio-visualizer {
-  width: 100%;
   max-width: 420px;
+  width: 100%;
   height: 100px;
-  background-color: transparent; /* পুরো ট্রান্সপারেন্ট */
-  /* অথবা হালকা কালো ট্রান্সপারেন্ট */
-  /* background-color: rgba(34, 34, 34, 0.3); */
+  background-color: transparent; /* ব্যাকগ্রাউন্ড ট্রান্সপারেন্ট */
   border-radius: 8px;
   box-shadow: 0 0 15px rgba(255, 0, 0, 0.5);
   display: block;
-  margin: 10px auto;
 }
