@@ -329,7 +329,6 @@ h1 {
   width: 100%;
   max-width: 420px;
   background: rgba(255,255,255,0.08);
-  border-radius: 30px;
   backdrop-filter: blur(18px) saturate(180%);
   padding: 28px 25px;
   text-align: center;
