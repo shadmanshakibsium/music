@@ -443,27 +443,28 @@ let source;
 let dataArray;
 let bufferLength;
 let animationId;
+let isVisualizerSetup = false;
 
 function setupVisualizer() {
   if(!audioCtx){
     audioCtx = new (window.AudioContext || window.webkitAudioContext)();
   }
 
-  if(source){
-    source.disconnect();
+  if(!isVisualizerSetup) {
+    source = audioCtx.createMediaElementSource(fsAudio);
+    analyser = audioCtx.createAnalyser();
+
+    source.connect(analyser);
+    analyser.connect(audioCtx.destination);
+
+    isVisualizerSetup = true;
   }
-
-  source = audioCtx.createMediaElementSource(fsAudio);
-  analyser = audioCtx.createAnalyser();
-
-  source.connect(analyser);
-  analyser.connect(audioCtx.destination);
 
   // Responsive fftSize
   const isMobile = window.innerWidth <= 768;
-  analyser.fftSize = isMobile ? 128 : 256;  // মোবাইলে 128, পিসিতে 256
+  analyser.fftSize = isMobile ? 128 : 256;
 
-  bufferLength = analyser.frequencyBinCount; // fftSize/2
+  bufferLength = analyser.frequencyBinCount;
   dataArray = new Uint8Array(bufferLength);
 
   drawVisualizer();
