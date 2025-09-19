@@ -325,15 +325,18 @@ h1 {
   z-index: 9999;                /* সব content এর উপরে */
   padding: 20px;
 }
-.fullscreen-player .container{
+.fullscreen-player .container {
   width: 100%;
   max-width: 420px;
-  background: rgba(255,255,255,0.08);
-  backdrop-filter: blur(18px) saturate(180%);
+  background: rgba(255, 255, 255, 0.1);   /* transparent glass */
+  border-radius: 30px;
+  backdrop-filter: blur(25px) saturate(180%);
+  -webkit-backdrop-filter: blur(25px) saturate(180%); /* Safari support */
   padding: 28px 25px;
   text-align: center;
-  box-shadow: 0 15px 40px rgba(0, 0, 0, 0.55);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.45); /* soft depth */
   user-select: none;
+  border: none;  /* removed border line */
 }
 .fullscreen-player .title{
   font-size: 26px;
