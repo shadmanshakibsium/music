@@ -499,3 +499,48 @@ h1 {
 .music-item.fade-in {
   animation: fadeIn 0.5s ease forwards;
 }
+
+.queue-section {
+  margin-top: 20px;
+  width: 100%;
+  max-height: 160px;
+  overflow-y: auto;
+  padding: 10px;
+  background: rgba(255,255,255,0.08);
+  border-radius: 12px;
+}
+
+.queue-title {
+  color: white;
+  font-size: 16px;
+  margin-bottom: 10px;
+  font-weight: 600;
+  text-align: left;
+}
+
+#queue-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+#queue-list li {
+  padding: 8px 10px;
+  border-radius: 8px;
+  margin-bottom: 6px;
+  background: rgba(255,255,255,0.05);
+  color: white;
+  font-size: 14px;
+  cursor: pointer;
+  transition: background 0.3s;
+}
+
+#queue-list li.playing {
+  background: rgba(255,255,255,0.2);
+  font-weight: 600;
+  color: #ff6b6b;
+}
+
+#queue-list li:hover {
+  background: rgba(255,255,255,0.15);
+}
