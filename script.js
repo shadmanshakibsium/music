@@ -38,6 +38,8 @@ const currentTimeEl = document.getElementById('current-time');
 const durationEl = document.getElementById('duration');
 const progressBarContainer = document.getElementById('progress-bar-container');
 const volumeSlider = document.getElementById('fs-volume');
+const queueListEl = document.getElementById('queue-list');
+
 
 // --------------------
 // Load All Songs (A-Z) using Promise.all
@@ -179,6 +181,8 @@ function playSong(index) {
   updateMiniPlayer(song.name);
   updateFullscreenPlayer(song.name);
   updatePlayButton();
+
+  renderQueue();
 
   // আগের .playing ক্লাসগুলো সরাও (দুটি ভিউ থেকেই)
   document.querySelectorAll('.music-item.playing').forEach(el => el.classList.remove('playing'));
@@ -433,3 +437,18 @@ document.addEventListener('keydown', (e) => {
     togglePlay(); // প্লে বা পজ করে
   }
 });
+function renderQueue() {
+  queueListEl.innerHTML = '';
+  filteredData.forEach((song, index) => {
+    const li = document.createElement('li');
+    li.textContent = song.name;
+
+    if(index === currentIndex) li.classList.add('playing'); // হাইলাইট
+
+    li.addEventListener('click', () => {
+      playSong(index);
+    });
+
+    queueListEl.appendChild(li);
+  });
+}
