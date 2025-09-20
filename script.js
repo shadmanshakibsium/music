@@ -124,13 +124,48 @@ function toggleFolder(folderName, folderEl) {
     .catch(err => console.error(err));
 }
 
-.alphabet-header {
-  background-color: #222;
-  color: #fff;
-  border-bottom: 1px solid #444;
-  font-weight: bold;
-  font-size: 18px;
-  padding: 8px 12px;
+// --------------------
+// Render Music List
+// --------------------
+function renderMusicList() {
+  musicListEl.innerHTML = '';
+
+  const hasSeenAnimation = localStorage.getItem('hasSeenFadeInAnimation');
+
+  filteredData.forEach((song, index) => {
+    const li = document.createElement('li');
+    li.classList.add('music-item');
+
+    if (!hasSeenAnimation) {
+      li.classList.add('fade-in');
+      li.addEventListener('animationend', () => {
+        li.classList.remove('fade-in');
+      });
+    }
+
+    li.setAttribute('data-index', index);
+    li.innerHTML = `
+      <div class="info">
+        <span class="title">${song.name}</span>
+        <span style="font-size:12px; color:rgba(255,255,255,0.5); margin-left:8px;">[${song.folder}]</span>
+      </div>`;
+
+    if (index === currentIndex) {
+      li.classList.add('playing');
+    }
+
+    li.addEventListener('click', () => playSong(index));
+    musicListEl.appendChild(li);
+  });
+
+  if (!hasSeenAnimation) {
+    localStorage.setItem('hasSeenFadeInAnimation', 'true');
+  }
+
+  const songCountEl = document.getElementById('songCount');
+  if (songCountEl) {
+    animateCountUp(songCountEl, filteredData.length, 6000);
+  }
 }
 
 // --------------------
@@ -376,7 +411,7 @@ loadAllSongs();
 // --------------------
 // animateCountUp
 // --------------------
-function animateCountUp(element, target, duration = 3000) {
+function animateCountUp(element, target, duration = 2500) {
   let start = 0;
   const stepTime = Math.abs(Math.floor(duration / target)); // প্রতিটি সংখ্যার জন্য সময়
 
