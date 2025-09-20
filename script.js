@@ -131,8 +131,23 @@ function renderMusicList() {
   musicListEl.innerHTML = '';
 
   const hasSeenAnimation = localStorage.getItem('hasSeenFadeInAnimation');
+  let currentLetter = '';
 
   filteredData.forEach((song, index) => {
+    const firstLetter = song.name.charAt(0).toUpperCase();
+
+    // নতুন অক্ষর এলে হেডার যোগ করো
+    if (firstLetter !== currentLetter) {
+      currentLetter = firstLetter;
+      const header = document.createElement('li');
+      header.classList.add('alphabet-header');
+      header.textContent = currentLetter;
+      header.style.fontWeight = 'bold';
+      header.style.fontSize = '18px';
+      header.style.padding = '8px 12px';
+      musicListEl.appendChild(header);
+    }
+
     const li = document.createElement('li');
     li.classList.add('music-item');
 
@@ -164,9 +179,10 @@ function renderMusicList() {
 
   const songCountEl = document.getElementById('songCount');
   if (songCountEl) {
-    animateCountUp(songCountEl, filteredData.length, 6000);
+    animateCountUp(songCountEl, filteredData.length, 3000);
   }
 }
+
 
 // --------------------
 // Play Song
@@ -411,7 +427,7 @@ loadAllSongs();
 // --------------------
 // animateCountUp
 // --------------------
-function animateCountUp(element, target, duration = 2500) {
+function animateCountUp(element, target, duration = 3000) {
   let start = 0;
   const stepTime = Math.abs(Math.floor(duration / target)); // প্রতিটি সংখ্যার জন্য সময়
 
