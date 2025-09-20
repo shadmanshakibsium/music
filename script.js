@@ -124,65 +124,14 @@ function toggleFolder(folderName, folderEl) {
     .catch(err => console.error(err));
 }
 
-// --------------------
-// Render Music List
-// --------------------
-function renderMusicList() {
-  musicListEl.innerHTML = '';
-
-  const hasSeenAnimation = localStorage.getItem('hasSeenFadeInAnimation');
-  let currentLetter = '';
-
-  filteredData.forEach((song, index) => {
-    const firstLetter = song.name.charAt(0).toUpperCase();
-
-    // নতুন অক্ষর এলে হেডার যোগ করো
-    if (firstLetter !== currentLetter) {
-      currentLetter = firstLetter;
-      const header = document.createElement('li');
-      header.classList.add('alphabet-header');
-      header.textContent = currentLetter;
-      header.style.fontWeight = 'bold';
-      header.style.fontSize = '18px';
-      header.style.padding = '8px 12px';
-      musicListEl.appendChild(header);
-    }
-
-    const li = document.createElement('li');
-    li.classList.add('music-item');
-
-    if (!hasSeenAnimation) {
-      li.classList.add('fade-in');
-      li.addEventListener('animationend', () => {
-        li.classList.remove('fade-in');
-      });
-    }
-
-    li.setAttribute('data-index', index);
-    li.innerHTML = `
-      <div class="info">
-        <span class="title">${song.name}</span>
-        <span style="font-size:12px; color:rgba(255,255,255,0.5); margin-left:8px;">[${song.folder}]</span>
-      </div>`;
-
-    if (index === currentIndex) {
-      li.classList.add('playing');
-    }
-
-    li.addEventListener('click', () => playSong(index));
-    musicListEl.appendChild(li);
-  });
-
-  if (!hasSeenAnimation) {
-    localStorage.setItem('hasSeenFadeInAnimation', 'true');
-  }
-
-  const songCountEl = document.getElementById('songCount');
-  if (songCountEl) {
-    animateCountUp(songCountEl, filteredData.length, 3000);
-  }
+.alphabet-header {
+  background-color: #222;
+  color: #fff;
+  border-bottom: 1px solid #444;
+  font-weight: bold;
+  font-size: 18px;
+  padding: 8px 12px;
 }
-
 
 // --------------------
 // Play Song
