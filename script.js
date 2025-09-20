@@ -164,7 +164,7 @@ function renderMusicList() {
 
   const songCountEl = document.getElementById('songCount');
   if (songCountEl) {
-    animateCountUp(songCountEl, filteredData.length, 6000);
+    animateCountUp(songCountEl, filteredData.length, 3000);
   }
 }
 
@@ -411,7 +411,7 @@ loadAllSongs();
 // --------------------
 // animateCountUp
 // --------------------
-function animateCountUp(element, target, duration = 2500) {
+function animateCountUp(element, target, duration = 3000) {
   let start = 0;
   const stepTime = Math.abs(Math.floor(duration / target)); // প্রতিটি সংখ্যার জন্য সময়
 
