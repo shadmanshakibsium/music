@@ -413,82 +413,43 @@ h1 {
 .play-btn:hover{ transform: scale(1.05); box-shadow:0 0 25px rgba(88,61,145,1); }
 .control-btn.active{ box-shadow:0 0 20px rgba(255,107,107,0.9); }
 
-/* Container for volume slider */
-#volume-container {
-  margin: 16px 0;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 14px;
-  color: white;
-  width: 12rem; /* একই সাইজ যেটা উপরের কোডে ছিল */
-  flex-direction: column; /* vertical alignment */
+/* Volume */
+#volume-container{
+  margin:16px 0;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  gap:14px;
+  color:white;
 }
-
-/* Volume slider styling */
-#fs-volume {
-  -webkit-appearance: none;
-  width: 100%;
-  max-width: 200px;
-  height: 12px;
-  background: rgba(128, 128, 128, 0.4); /* নরম গ্রে ব্যাকগ্রাউন্ড */
-  border-radius: 9999px; /* pill shape */
-  cursor: grab;
-  outline: none;
-  transition: background-color 0.3s ease;
+#fs-volume{
+  width:120px;
+  cursor:pointer;
+  -webkit-appearance:none;
+  height:5px;
+  background: rgba(255,255,255,0.3);
+  border-radius:6px;
+  outline:none;
 }
-
-#fs-volume:hover {
-  background: rgba(128, 128, 128, 0.6);
+#fs-volume:hover{background: rgba(255,255,255,0.5);}
+#fs-volume::-webkit-slider-thumb{
+  -webkit-appearance:none;
+  appearance:none;
+  width:16px;
+  height:16px;
+  background:#ff6b6b;
+  cursor:pointer;
+  border-radius:50%;
+  box-shadow:0 0 6px rgba(255,107,107,0.85);
 }
-
-#fs-volume:active {
-  cursor: grabbing;
+#fs-volume::-moz-range-thumb{
+  width:16px;
+  height:16px;
+  background:#ff6b6b;
+  cursor:pointer;
+  border-radius:50%;
+  box-shadow:0 0 6px rgba(255,107,107,0.85);
 }
-
-/* Webkit thumb */
-#fs-volume::-webkit-slider-thumb {
-  -webkit-appearance: none;
-  appearance: none;
-  width: 24px;
-  height: 24px;
-  background: #888; /* গাঢ় ধূসর */
-  border-radius: 9999px;
-  box-shadow: 0 0 6px rgba(136, 136, 136, 0.85);
-  cursor: grab;
-  transition: background-color 0.3s ease;
-}
-
-#fs-volume:active::-webkit-slider-thumb {
-  cursor: grabbing;
-  background: #555; /* active হলে একটু গাঢ় */
-  box-shadow: 0 0 8px rgba(85, 85, 85, 1);
-}
-
-/* Firefox thumb */
-#fs-volume::-moz-range-thumb {
-  width: 24px;
-  height: 24px;
-  background: #888;
-  border-radius: 9999px;
-  box-shadow: 0 0 6px rgba(136, 136, 136, 0.85);
-  cursor: grab;
-  transition: background-color 0.3s ease;
-}
-
-#fs-volume:active::-moz-range-thumb {
-  cursor: grabbing;
-  background: #555;
-  box-shadow: 0 0 8px rgba(85, 85, 85, 1);
-}
-
-/* Add focus outline for accessibility */
-#fs-volume:focus {
-  outline: none;
-  box-shadow: 0 0 0 3px rgba(136, 136, 136, 0.6);
-}
-
-
 /* Close Button */
 .back-btn {
   display: inline-block;
