@@ -2,7 +2,7 @@
 // Variables
 // --------------------
 const types = ['anime','arabic','bangla','edit audio','electronic','english','hindi','others','lofi','phonk','remix','slowed-reverbed'];
-let currentView = 'all'; // 'all' or 'folders'
+let currentView = 'all';
 let musicData = [];
 let filteredData = [];
 let currentIndex = 0;
@@ -16,13 +16,9 @@ const foldersView = document.getElementById('folders-view');
 const musicListEl = document.getElementById('music-list');
 const searchInput = document.getElementById('searchInput');
 const folderListEl = document.getElementById('folder-list');
-
-// Mini Player
 const miniPlayer = document.getElementById('mini-player');
 const miniTitle = document.getElementById('mini-title');
 const miniPlayBtn = document.getElementById('mini-play');
-
-// Fullscreen Player
 const fullscreenPlayer = document.getElementById('fullscreen-player');
 const fsTitle = document.getElementById('fs-title');
 const fsAudio = document.getElementById('fs-audio');
@@ -32,7 +28,6 @@ const fsNextBtn = document.getElementById('fs-next');
 const fsShuffleBtn = document.getElementById('fs-shuffle');
 const fsRepeatBtn = document.getElementById('fs-repeat');
 const fsCloseBtn = document.getElementById('fs-close');
-
 const progressFilled = document.getElementById('progress-filled');
 const currentTimeEl = document.getElementById('current-time');
 const durationEl = document.getElementById('duration');
@@ -78,12 +73,10 @@ function toggleFolder(folderName, folderEl) {
   let listEl = folderEl.nextElementSibling;
 
   if (listEl && listEl.classList.contains('folder-songs')) {
-    // শুধু display toggle
     listEl.style.display = listEl.style.display === 'block' ? 'none' : 'block';
     return;
   }
 
-  // প্রথমবার open করলে UL create
   listEl = document.createElement('ul');
   listEl.classList.add('folder-songs');
   listEl.style.marginTop = '8px';
@@ -94,7 +87,7 @@ function toggleFolder(folderName, folderEl) {
     .then(data => {
       const folderSongs = data
         .map(s => ({ ...s, folder: folderName }))
-        .sort((a, b) => a.name.localeCompare(b.name)); // ✅ গানগুলো A-Z অনুযায়ী সাজানো
+        .sort((a, b) => a.name.localeCompare(b.name)); 
 
       folderSongs.forEach((song, index) => {
         const li = document.createElement('li');
@@ -102,7 +95,6 @@ function toggleFolder(folderName, folderEl) {
         li.setAttribute('data-index', index);
         li.innerHTML = `<div class="info"><span class="title">${song.name}</span></div>`;
 
-        // যদি এই গানটি বাজছে তাহলে .playing ক্লাস লাগাও
         if (musicData === folderSongs && index === currentIndex) {
           li.classList.add('playing');
         }
@@ -118,7 +110,6 @@ function toggleFolder(folderName, folderEl) {
         listEl.appendChild(li);
       });
 
-      // প্রথমবার open হলে display:block
       listEl.style.display = 'block';
     })
     .catch(err => console.error(err));
@@ -181,15 +172,11 @@ function playSong(index) {
   updateFullscreenPlayer(song.name);
   updatePlayButton();
 
-
-  // আগের .playing ক্লাসগুলো সরাও (দুটি ভিউ থেকেই)
   document.querySelectorAll('.music-item.playing').forEach(el => el.classList.remove('playing'));
 
-  // "All Songs" ভিউ থেকে নতুন .playing ক্লাস যোগ করো
   const currentPlayingEl = musicListEl.querySelector(`.music-item[data-index="${index}"]`);
   if (currentPlayingEl) currentPlayingEl.classList.add('playing');
 
-  // "Folders" ভিউতে একই গান খুঁজে .playing ক্লাস যোগ করো
   const folderLists = document.querySelectorAll('.folder-songs');
   folderLists.forEach(list => {
     const songEl = list.querySelector(`.music-item[data-index="${index}"]`);
@@ -215,14 +202,13 @@ function updatePlayButton(){
 // --------------------
 // Mini → Fullscreen
 // --------------------
-// Mini → Fullscreen
 miniPlayer.addEventListener('click', ()=>{
   fullscreenPlayer.style.display = 'flex';
-  miniPlayer.style.display = 'none';           // মিনি প্লেয়ার লুকানো
-  document.querySelector('.site-header').style.display = 'none'; // হেডার লুকানো
-  document.querySelector('.tabs').style.display = 'none';        // ট্যাব লুকানো
-  allSongsView.style.display = 'none';        // গান লিস্ট লুকানো
-  foldersView.style.display = 'none';         // ফোল্ডার লিস্ট লুকানো
+  miniPlayer.style.display = 'none';
+  document.querySelector('.site-header').style.display = 'none'; 
+  document.querySelector('.tabs').style.display = 'none';
+  allSongsView.style.display = 'none';
+  foldersView.style.display = 'none';
 });
 
 // Close fullscreen
@@ -236,14 +222,11 @@ fsCloseBtn.addEventListener('click', () => {
     allSongsView.style.display = 'block';
     foldersView.style.display = 'none';
 
-    // প্লে করা গানের এলিমেন্ট খুঁজে পাও
     const currentSongEl = musicListEl.querySelector(`.music-item[data-index="${currentIndex}"]`);
 
     if (currentSongEl) {
-      // প্লে করা গান সামনে নিয়ে যাও, কোনো smooth animation ছাড়াই
       currentSongEl.scrollIntoView({ behavior: 'auto', block: 'center' });
     } else {
-      // না পেলে আগের scroll restore করো
       allSongsView.scrollTop = scrollPosition;
     }
 
@@ -251,7 +234,6 @@ fsCloseBtn.addEventListener('click', () => {
     allSongsView.style.display = 'none';
     foldersView.style.display = 'block';
 
-    // ফোল্ডার লিস্টের মধ্যে প্লে করা গান খুঁজো
     const folderLists = document.querySelectorAll('.folder-songs');
     let found = false;
     folderLists.forEach(list => {
@@ -263,7 +245,6 @@ fsCloseBtn.addEventListener('click', () => {
       }
     });
 
-    // যদি না পাওয়া যায়, আগের scroll restore করো
     if (!found) {
       foldersView.scrollTop = scrollPosition;
     }
@@ -345,11 +326,9 @@ progressBarContainer.addEventListener('click', (e) => {
   const clickPercent = (clickX / rect.width);
   const clickTime = clickPercent * fsAudio.duration;
 
-  // ভিজ্যুয়াল প্রগ্রেস আপডেট
   progressFilled.style.width = (clickPercent * 100) + '%';
   currentTimeEl.textContent = formatTime(clickTime);
 
-  // গান যদি এখনও লোড না হয়, তাহলে wait করা হবে
   if (!fsAudio.readyState || fsAudio.readyState < 2) {
     const onCanPlay = () => {
       fsAudio.currentTime = clickTime;
@@ -413,7 +392,7 @@ loadAllSongs();
 // --------------------
 function animateCountUp(element, target, duration = 2500) {
   let start = 0;
-  const stepTime = Math.abs(Math.floor(duration / target)); // প্রতিটি সংখ্যার জন্য সময়
+  const stepTime = Math.abs(Math.floor(duration / target));
 
   const timer = setInterval(() => {
     start += 1;
@@ -428,10 +407,9 @@ function animateCountUp(element, target, duration = 2500) {
 // Keyboard Shortcut: Spacebar → Play/Pause
 // --------------------
 document.addEventListener('keydown', (e) => {
-  // যদি স্পেসবার চাপা হয় এবং ফোকাস ইনপুট বা টেক্সট এরিয়াতে না থাকে
   const isInput = ['INPUT', 'TEXTAREA'].includes(document.activeElement.tagName);
   if (e.code === 'Space' && !isInput) {
-    e.preventDefault(); // স্ক্রল বন্ধ করে
-    togglePlay(); // প্লে বা পজ করে
+    e.preventDefault(); 
+    togglePlay(); 
   }
 });
