@@ -7,10 +7,9 @@
   box-sizing: border-box;
   font-family: 'Roboto', sans-serif;
 
-  /* Mobile/Android tap highlight effect বন্ধ করা */
-  -webkit-tap-highlight-color: transparent; /* Chrome, Android */
-  -webkit-touch-callout: none;             /* iOS context menu disable */
-  -webkit-user-select: none;               /* text select prevent */
+  -webkit-tap-highlight-color: transparent; 
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
   -moz-user-select: none;
   -ms-user-select: none;
   user-select: none;
@@ -23,14 +22,14 @@ html, body {
   height: 100%;
   width: 100%;
   margin: 0;
-  padding: 20px;                 /* page padding */
-  overflow-x: hidden;            /* horizontal scroll বন্ধ */
-  overflow-y: auto;              /* vertical scroll সচল */
-  overscroll-behavior-y: contain; /* scroll bounce আটকাবে */
-  touch-action: pan-x pan-y;     /* Android touch scroll stabilize */
+  padding: 20px;
+  overflow-x: hidden;
+  overflow-y: auto;
+  overscroll-behavior-y: contain; 
+  touch-action: pan-x pan-y;
   color: white;
   position: relative;
-  -webkit-overflow-scrolling: touch; /* smooth scrolling iOS */
+  -webkit-overflow-scrolling: touch; 
 }
 
 /* --------------------
@@ -44,7 +43,7 @@ body::before {
   width: 100%;
   height: 100%;
   background: url('https://i.imgur.com/uNWSHGy.png') center/cover no-repeat;
-  z-index: -1; /* সব content এর পিছনে থাকবে */
+  z-index: -1; 
 }
 
 /* --------------------
@@ -77,13 +76,13 @@ h1 {
 .search-bar {
   width: 100%;
   margin-bottom: 20px;
-  position: relative; /* ইনপুটের উপর songCount পজিশন করার জন্য */
+  position: relative; 
   box-sizing: border-box;
 }
 
 .search-bar input {
   width: 100%;
-  padding: 12px 80px 12px 15px; /* ডান থেকে প্যাডিং কমানো হয়েছে */
+  padding: 12px 80px 12px 15px; 
   border-radius: 15px;
   border: none;
   outline: none;
@@ -113,13 +112,13 @@ h1 {
 @media(min-width: 451px) {
   .search-bar input {
     width: 80%;
-    padding: 12px 90px 12px 15px; /* ডান প্যাডিং কমিয়ে songCount ফিট করানো */
+    padding: 12px 90px 12px 15px;
     margin-left: auto;
     margin-right: auto;
     display: block;
   }
   #songCount {
-    right: calc(10% + 20px); /* ইনপুটের ডান পাশ থেকে সামঞ্জস্যপূর্ণ দূরত্ব */
+    right: calc(10% + 20px); 
   }
   .music-item {
     width: 80%;
@@ -131,7 +130,7 @@ h1 {
 @media(max-width: 450px) {
   .search-bar input {
     width: 100%;
-    padding: 12px 80px 12px 15px; /* মোবাইলে ডান প্যাডিং কমানো */
+    padding: 12px 80px 12px 15px; 
     display: block;
     margin: 0 0 10px 0;
   }
@@ -189,8 +188,8 @@ h1 {
 }
 
 .music-item.playing .title {
-  color: #8a2be2; /* হালকা পার্পল */
-  font-weight: 600; /* মাঝারি বোল্ড */
+  color: #8a2be2; 
+  font-weight: 600; 
   font-size: 1.2rem !important;
 }
 .music-item:hover {
@@ -211,12 +210,10 @@ h1 {
 /* --------------------
    Folders
 -------------------- */
-
-/* Folder Title: text centered, rest unchanged */
 .folder-title {
-  display: flex;           /* flex ব্যবহার করে text কে center করা সহজ */
-  align-items: center;     /* vertical center */
-  justify-content: center; /* horizontal center */
+  display: flex; 
+  align-items: center;   
+  justify-content: center; 
   color: white;
   font-weight: 700;
   font-size: 20px;
@@ -227,16 +224,14 @@ h1 {
   border-radius: 15px;
   border: 1px solid rgba(255,255,255,0.25);
   transition: background 0.3s, transform 0.2s;
-  margin: 10px auto 8px auto; /* centered horizontally */
+  margin: 10px auto 8px auto; 
   width: 80%;
-  height: 52px; /* আগের height রাখলাম */
+  height: 52px; 
   backdrop-filter: blur(8px);
 }
-
-/* Folder Songs Items */
 .folder-songs .music-item {
   width: 80%;
-  height: 43px; /* music item height সমান */
+  height: 43px;
   margin: 6px auto;
   padding: 10px 14px;
   border-radius: 12px;
@@ -245,7 +240,7 @@ h1 {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  backdrop-filter: blur(8px); /* music item এর blur সমান */
+  backdrop-filter: blur(8px);
 }
 
 /* ---------------- Mobile ---------------- */
@@ -253,11 +248,10 @@ h1 {
   .folder-title,
   .folder-songs .music-item {
     width: 100%;
-    height: 43px; /* mobile এ music item এর সাথে সমান */
+    height: 43px;
     margin: 0 0 10px 0;
   }
 }
-/* Small fade animation */
 @keyframes fadeIn {
   from {opacity: 0; transform: translateY(-5px);}
   to {opacity: 1; transform: translateY(0);}
@@ -272,12 +266,12 @@ h1 {
   left: 50%;
   transform: translateX(-50%);
   width: 100%;
-  max-width: 900px; /* desktop max-width */
+  max-width: 900px; 
   height: 68px;
-  background: rgba(255,255,255,0.1); /* same as music-item */
-  backdrop-filter: blur(8px); /* same blur */
+  background: rgba(255,255,255,0.1);
+  backdrop-filter: blur(8px);
   -webkit-backdrop-filter: blur(8px);
-  border-radius: 15px; /* same as music-item */
+  border-radius: 15px;
   border: 1px solid rgba(255,255,255,0.2);
   display: flex;
   justify-content: space-between;
@@ -287,8 +281,6 @@ h1 {
   z-index: 3;
   transition: all .25s ease;
 }
-
-/* Mini player buttons */
 .mini-player button {
   background: none;
   border: none;
@@ -301,13 +293,13 @@ h1 {
 -------------------- */
 @media (min-width: 451px) {
   .mini-player {
-    width: 80%; /* Desktop: centered 80% width */
+    width: 80%;
   }
 }
 
 @media (max-width: 450px) {
   .mini-player {
-    width: 100%; /* Mobile: full width */
+    width: 100%;
   }
 }
 
@@ -317,26 +309,26 @@ h1 {
 .fullscreen-player{
   position: fixed;
   top:0; left:0; width:100%; height:100%;
-  background: transparent;      /* শুধু হোম পেজের ব্যাকগ্রাউন্ড দেখাবে */
+  background: transparent; 
   display: none;
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  z-index: 9999;                /* সব content এর উপরে */
+  z-index: 9999; 
   padding: 20px;
 }
 .fullscreen-player .container {
   width: 100%;
   max-width: 420px;
-  background: rgba(255, 255, 255, 0.1);   /* transparent glass */
+  background: rgba(255, 255, 255, 0.1);
   border-radius: 30px;
   backdrop-filter: blur(25px) saturate(180%);
-  -webkit-backdrop-filter: blur(25px) saturate(180%); /* Safari support */
+  -webkit-backdrop-filter: blur(25px) saturate(180%);
   padding: 28px 25px;
   text-align: center;
-  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.45); /* soft depth */
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.45);
   user-select: none;
-  border: none;  /* removed border line */
+  border: none;
 }
 .fullscreen-player .title{
   font-size: 26px;
@@ -455,7 +447,7 @@ h1 {
   display: inline-block;
   padding: 10px 26px;
   border-radius: 24px;
-  background: rgba(255,255,255,0.15); /* হালকা লাইট, সবসময় ভিসিবল */
+  background: rgba(255,255,255,0.15);
   color: white;
   text-decoration: none;
   font-weight: 600;
@@ -465,13 +457,11 @@ h1 {
   user-select: none;
   border: none;
   outline: none;
-  box-shadow: none; /* কোনো ছায়া নেই */
+  box-shadow: none; 
 }
-
-/* হোভার বা active এ background পরিবর্তন না করা */
 .back-btn:hover,
 .back-btn:active {
-  background: rgba(255,255,255,0.15); /* একই হালকা লাইট */
+  background: rgba(255,255,255,0.15);
 }
 /* Responsive */
 @media(max-width:450px){
