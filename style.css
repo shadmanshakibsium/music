@@ -363,21 +363,6 @@ h1 {
   width:0;
   border-radius:8px 0 0 8px;
 }
-#progress-bar-container {
-  position: relative;
-}
-#progress-thumb {
-  position: absolute;
-  top: 50%;
-  left: 0; 
-  transform: translate(-50%, -50%);
-  width: 16px;
-  height: 16px;
-  background: #ff6b6b;
-  border-radius: 50%;
-  box-shadow: 0 0 6px rgba(255,107,107,0.85);
-  pointer-events: none;
-}
 /* Controls */
 .controls{
   display:flex;
