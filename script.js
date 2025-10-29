@@ -123,49 +123,55 @@ function toggleFolder(folderName, folderEl) {
 // Load Genre View
 // --------------------
 function loadGenreView() {
-  genreListEl.innerHTML = ''; // আগের সব genre clear করো
+  genreListEl.innerHTML = ''; 
 
-  // সব গান লোড করে তারপর genre অনুযায়ী ভাগ করব
   const promises = types.map(lang =>
     fetch(`data/${lang}.json`)
       .then(res => res.json())
       .then(data => data.map(song => ({ ...song, folder: lang })))
-      .catch(err => { console.error(`Failed to load ${lang}.json`, err); return []; })
+      .catch(err => { 
+        console.error(`Failed to load ${lang}.json`, err); 
+        return []; 
+      })
   );
 
   Promise.all(promises).then(results => {
     const allSongs = results.flat();
 
-    // genre অনুযায়ী group করা
     const genreGroups = {};
+
     allSongs.forEach(song => {
-      const genre = song.genre ? song.genre.toLowerCase() : 'others';
-      if (!genreGroups[genre]) genreGroups[genre] = [];
-      genreGroups[genre].push(song);
+      if (!song.genre) return; // genre না থাকলে skip
+
+      // একাধিক genre handle করা
+      const genres = song.genre.split(',').map(g => g.trim().toLowerCase());
+
+      genres.forEach(genre => {
+        if (!genreGroups[genre]) genreGroups[genre] = [];
+        genreGroups[genre].push(song);
+      });
     });
 
-    // genre alphabetically sort করে দেখানো
     const sortedGenres = Object.keys(genreGroups).sort();
 
     sortedGenres.forEach(genre => {
-      // প্রতিটি genre এর শিরোনাম তৈরি
+      // Genre Title
       const genreTitle = document.createElement('div');
       genreTitle.classList.add('genre-title');
       genreTitle.textContent = genre.toUpperCase();
       genreListEl.appendChild(genreTitle);
 
-      // গানের লিস্ট container
+      // Songs List
       const genreSongsEl = document.createElement('ul');
       genreSongsEl.classList.add('genre-songs');
       genreSongsEl.style.display = 'none';
       genreListEl.appendChild(genreSongsEl);
 
-      // genre title এ ক্লিক করলে expand/collapse হবে
       genreTitle.addEventListener('click', () => {
         genreSongsEl.style.display = genreSongsEl.style.display === 'block' ? 'none' : 'block';
       });
 
-      // গানের লিস্ট তৈরি
+      // Songs
       genreGroups[genre]
         .sort((a, b) => a.name.localeCompare(b.name))
         .forEach((song, index) => {
