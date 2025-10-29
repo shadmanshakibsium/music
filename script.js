@@ -1,3 +1,4 @@
+
 // --------------------
 // Variables
 // --------------------
@@ -244,13 +245,23 @@ function playSong(index) {
   updateFullscreenPlayer(song.name);
   updatePlayButton();
 
+  // সব আগের .playing ক্লাস remove
   document.querySelectorAll('.music-item.playing').forEach(el => el.classList.remove('playing'));
 
+  // All Songs view
   const currentPlayingEl = musicListEl.querySelector(`.music-item[data-index="${index}"]`);
   if (currentPlayingEl) currentPlayingEl.classList.add('playing');
 
+  // Folder view
   const folderLists = document.querySelectorAll('.folder-songs');
   folderLists.forEach(list => {
+    const songEl = list.querySelector(`.music-item[data-index="${index}"]`);
+    if (songEl) songEl.classList.add('playing');
+  });
+
+  // Genre view (নতুন)
+  const genreLists = document.querySelectorAll('.genre-songs');
+  genreLists.forEach(list => {
     const songEl = list.querySelector(`.music-item[data-index="${index}"]`);
     if (songEl) songEl.classList.add('playing');
   });
@@ -274,14 +285,18 @@ function updatePlayButton(){
 // --------------------
 // Mini → Fullscreen
 // --------------------
-miniPlayer.addEventListener('click', ()=>{
+miniPlayer.addEventListener('click', () => {
   fullscreenPlayer.style.display = 'flex';
   miniPlayer.style.display = 'none';
-  document.querySelector('.site-header').style.display = 'none'; 
+
+  document.querySelector('.site-header').style.display = 'none';
   document.querySelector('.tabs').style.display = 'none';
+
   allSongsView.style.display = 'none';
   foldersView.style.display = 'none';
+  genreView.style.display = 'none';
 });
+
 
 // Close fullscreen
 fsCloseBtn.addEventListener('click', () => {
@@ -290,36 +305,41 @@ fsCloseBtn.addEventListener('click', () => {
   document.querySelector('.site-header').style.display = 'block';
   document.querySelector('.tabs').style.display = 'flex';
 
+  // আগের সব ভিউ হাইড
+  allSongsView.style.display = 'none';
+  foldersView.style.display = 'none';
+  genreView.style.display = 'none';
+
+  // currentView দেখে কোন ভিউ দেখাবে ঠিক করো
   if (currentView === 'all') {
     allSongsView.style.display = 'block';
-    foldersView.style.display = 'none';
 
     const currentSongEl = musicListEl.querySelector(`.music-item[data-index="${currentIndex}"]`);
-
     if (currentSongEl) {
       currentSongEl.scrollIntoView({ behavior: 'auto', block: 'center' });
-    } else {
-      allSongsView.scrollTop = scrollPosition;
     }
 
-  } else {
-    allSongsView.style.display = 'none';
+  } else if (currentView === 'folders') {
     foldersView.style.display = 'block';
 
     const folderLists = document.querySelectorAll('.folder-songs');
-    let found = false;
     folderLists.forEach(list => {
-      if (found) return;
       const songEl = list.querySelector(`.music-item[data-index="${currentIndex}"]`);
       if (songEl) {
         songEl.scrollIntoView({ behavior: 'auto', block: 'center' });
-        found = true;
       }
     });
 
-    if (!found) {
-      foldersView.scrollTop = scrollPosition;
-    }
+  } else if (currentView === 'genre') {
+    genreView.style.display = 'block';
+
+    const genreLists = document.querySelectorAll('.genre-songs');
+    genreLists.forEach(list => {
+      const songEl = list.querySelector(`.music-item[data-index="${currentIndex}"]`);
+      if (songEl) {
+        songEl.scrollIntoView({ behavior: 'auto', block: 'center' });
+      }
+    });
   }
 });
 
