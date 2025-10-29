@@ -1,4 +1,3 @@
-
 /* --------------------
    Global Reset & Body
 -------------------- */
@@ -211,8 +210,7 @@ h1 {
 /* --------------------
    Folders
 -------------------- */
-.folder-title,
-.genre-title {
+.folder-title {
   display: flex; 
   align-items: center;   
   justify-content: center; 
@@ -231,8 +229,7 @@ h1 {
   height: 52px; 
   backdrop-filter: blur(8px);
 }
-.folder-songs .music-item,
-.genre-songs .music-item {
+.folder-songs .music-item {
   width: 80%;
   height: 43px;
   margin: 6px auto;
