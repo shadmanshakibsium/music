@@ -107,7 +107,7 @@
     {
         "name": "﻿There Is a Light That Never Goes Out - 2011 Remaster",
         "file": "There Is a Light That Never Goes Out (2011 Remaster)(MP3_128K).mp3",
-        "genre": ""
+        "genre": "fav"
     },
     {
         "name": "﻿Mood ",
@@ -1369,4 +1369,5 @@
         "file": "The Weeknd - Call Out My Name (Official Audio)(MP3_128K).mp3",
         "genre": ""
     }
+
 ]
