@@ -1,48 +1,62 @@
 [
-
-  {
-    "name": "﻿telepatía",
-    "file": "kali uchis - telepatía (slowed   reverb)(MP3_128K).mp3"
-  },
-  {
-    "name": "﻿Gata Only",
-    "file": "floyymenor - gata only (dscvr remix tiktok full version)(MP3_128K).mp3"
-  },
-  {
-    "name": "﻿Golden Brown",
-    "file": "golden brown - the stranglers _ _never a frown_ ending part looped _ slowed and reverb(MP3_128K).mp3"
-  },
-  {
-    "name": "﻿HIGHEST IN THE ROOM",
-    "file": "highest in the room x highest in the room __ travis scott remix_ full version(MP3_128K).mp3"
-  },
-  {
-    "name": "Habibi",
-    "file": "ريمكس ألباني مشهورة _Habibi_ بطيئ _ اغنية تيك توك مطلوبة 2022(MP3_128K).mp3"
-  },
-  {
-    "name": "﻿KU LO SA - A COLORS SHOW",
-    "file": "𝙆𝙐 𝙇𝙊 𝙎𝘼 - 𝙊𝙭𝙡𝙖𝙙𝙚_ 𝘾𝙖𝙢𝙞𝙡𝙖 𝘾𝙖𝙗𝙚𝙡𝙡𝙤 _ 𝙇𝙮𝙧𝙞𝙘𝙨 _ 𝙎𝙡𝙤𝐨MP3_2.mp3"
-  },
-  { "name": "Let it happen (slowed reverb)", "file": "Let-it-happen-Slowed-Reverb.mp3" },
-   {
-    "name": "stereo hearts [edit audio]",
-    "file": "00 - Earyzz - stereo hearts - gym class heroes ft. adam levine [edit audio].mp3"
-  },
-  {
-    "name": "Where you are (Vocals only) [Slowed + Reverbed]",
-    "file": "00 - Halal Beats - Where you are (Vocals only) [Slowed + Reverbed].mp3"
-  },
-  {
-    "name": "prince of egypt (Slowed Down)",
-    "file": "00 - Mofe. - prince of egypt (Slowed Down).mp3"
-  },
-  {
-    "name": "KING & QUEENS X SWEET BUT PSYCHO",
-    "file": "00 - RIIZZ - KING & QUEENS X SWEET BUT PSYCHO __ AUDIO EDIT.mp3"
-  },
-  {
-    "name": "GATA ONLY (Slowed to perfection)",
-    "file": "00 - ﻿Asterisk vibes . 1.5m views . 2 hr ago... - ﻿FloyyMenor FT Cris MJ - GATA ONLY (Slowed to perfection).mp3"
-  }
+    {
+        "name": "﻿telepatía",
+        "file": "kali uchis - telepatía (slowed   reverb)(MP3_128K).mp3",
+        "genre": ""
+    },
+    {
+        "name": "﻿Gata Only",
+        "file": "floyymenor - gata only (dscvr remix tiktok full version)(MP3_128K).mp3",
+        "genre": ""
+    },
+    {
+        "name": "﻿Golden Brown",
+        "file": "golden brown - the stranglers _ _never a frown_ ending part looped _ slowed and reverb(MP3_128K).mp3",
+        "genre": ""
+    },
+    {
+        "name": "﻿HIGHEST IN THE ROOM",
+        "file": "highest in the room x highest in the room __ travis scott remix_ full version(MP3_128K).mp3",
+        "genre": ""
+    },
+    {
+        "name": "Habibi",
+        "file": "ريمكس ألباني مشهورة _Habibi_ بطيئ _ اغنية تيك توك مطلوبة 2022(MP3_128K).mp3",
+        "genre": ""
+    },
+    {
+        "name": "﻿KU LO SA - A COLORS SHOW",
+        "file": "𝙆𝙐 𝙇𝙊 𝙎𝘼 - 𝙊𝙭𝙡𝙖𝙙𝙚_ 𝘾𝙖𝙢𝙞𝙡𝙖 𝘾𝙖𝙗𝙚𝙡𝙡𝙤 _ 𝙇𝙮𝙧𝙞𝙘𝙨 _ 𝙎𝙡𝙤𝐨MP3_2.mp3",
+        "genre": ""
+    },
+    {
+        "name": "Let it happen (slowed reverb)",
+        "file": "Let-it-happen-Slowed-Reverb.mp3",
+        "genre": ""
+    },
+    {
+        "name": "stereo hearts [edit audio]",
+        "file": "00 - Earyzz - stereo hearts - gym class heroes ft. adam levine [edit audio].mp3",
+        "genre": ""
+    },
+    {
+        "name": "Where you are (Vocals only) [Slowed + Reverbed]",
+        "file": "00 - Halal Beats - Where you are (Vocals only) [Slowed + Reverbed].mp3",
+        "genre": ""
+    },
+    {
+        "name": "prince of egypt (Slowed Down)",
+        "file": "00 - Mofe. - prince of egypt (Slowed Down).mp3",
+        "genre": ""
+    },
+    {
+        "name": "KING & QUEENS X SWEET BUT PSYCHO",
+        "file": "00 - RIIZZ - KING & QUEENS X SWEET BUT PSYCHO __ AUDIO EDIT.mp3",
+        "genre": ""
+    },
+    {
+        "name": "GATA ONLY (Slowed to perfection)",
+        "file": "00 - ﻿Asterisk vibes . 1.5m views . 2 hr ago... - ﻿FloyyMenor FT Cris MJ - GATA ONLY (Slowed to perfection).mp3",
+        "genre": ""
+    }
 ]

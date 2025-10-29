@@ -1,6 +1,7 @@
 [
-  {
-    "name": "Tokyo",
-    "file": "00 - Leat'eq - Tokyo.mp3"
-  }
+    {
+        "name": "Tokyo",
+        "file": "00 - Leat'eq - Tokyo.mp3",
+        "genre": ""
+    }
 ]

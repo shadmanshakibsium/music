@@ -1,58 +1,72 @@
 [
-  {
-    "name": "﻿Good For You x One Of The Girls",
-    "file": "Good for you x One of the girls Tiktok version(MP3_128K).mp3"
-  },
-  {
-    "name": "﻿Let Her Go X Husn",
-    "file": "Let Her Go X Husn (Lyrics) - Anuv Jain _Gravero Mashup(MP3_128K).mp3"
-  },
-  {
-    "name": "﻿Let Me Down Slowly x Main Dhoondne Ko",
-    "file": "Let Me Down Slowly x Main Dhoondne Ko Zamaane Mein (Gravero Mashup) _ Full Version(MP3_128K).mp3"
-  },
-  {
-    "name": "﻿Maine Royaan",
-    "file": "Maine Royaan _ Lofi_Remix_ Tanveer Evan(MP3_128K).mp3"
-  },
-  {
-    "name": "﻿Peaches (feat. Daniel Caesar & Giveon)",
-    "file": "Peaches   X Equis _ Slowed Reverb _ Lofi lullabies(MP3_128K).mp3"
-  },
-  {
-    "name": "﻿No Love",
-    "file": "Tigini x No Love (JAZ Scape Mashup) • Shubh • Kikimoteleba(MP3_128K).mp3"
-  },
-  {
-    "name": "﻿Hurts So Good",
-    "file": "🎵Hurts So Good - TIKTOK MIX - (S L O W E D   U N D E R W A T E R)(MP3_128K).mp3"
-  },
-  {
-    "name": "﻿Arcade x Kabhi Jo Badal Barse ( Slowed + Reverb )",
-    "file": "Arcade x Kabhi Jo Badal Barse ( Slowed   Reverb ) _ Arijit Singh Mashup 2021 _ Indian lofi(MP3_128K).mp3"
-  },
-  {
-    "name": "﻿Levitating x Woh Ladki Jo",
-    "file": "Levitating x Woh Ladki Jo - (Dj Ruchir Mashup) _ Instagram Trending Reel _ Original Mashup _ 2023(MP3_128K).mp3"
-  },
-  {
-    "name": "﻿Stay with me remix  (soft bass boost)",
-    "file": "Stay with me remix  (soft bass boost)(MP3_128K).mp3"
-  },
-  {
-    "name": "﻿On My Own (Skeler Remix)",
-    "file": "Darci - On My Own (Skeler Remix) (Official)(MP3_128K).mp3"
-  },
-  {
-    "name": "﻿Danza Kuduro - Remix",
-    "file": "Don Omar - Danza Kuduro ( REMIX ) 4K(MP3_128K).mp3"
-  },
-  {
-    "name": "﻿Pepas",
-    "file": "Farruko - Pepas (XZEEZ _ OTASH Remix) _ Gran.Turismo(MP3_128K).mp3"
-  },
-  {
-    "name": "﻿Sunflower - Spider-Man: Into the Spider-Verse",
-    "file": "SUNFLOWER X AM I DREAMING(MP3_128K).mp3"
-  }
+    {
+        "name": "﻿Good For You x One Of The Girls",
+        "file": "Good for you x One of the girls Tiktok version(MP3_128K).mp3",
+        "genre": ""
+    },
+    {
+        "name": "﻿Let Her Go X Husn",
+        "file": "Let Her Go X Husn (Lyrics) - Anuv Jain _Gravero Mashup(MP3_128K).mp3",
+        "genre": ""
+    },
+    {
+        "name": "﻿Let Me Down Slowly x Main Dhoondne Ko",
+        "file": "Let Me Down Slowly x Main Dhoondne Ko Zamaane Mein (Gravero Mashup) _ Full Version(MP3_128K).mp3",
+        "genre": ""
+    },
+    {
+        "name": "﻿Maine Royaan",
+        "file": "Maine Royaan _ Lofi_Remix_ Tanveer Evan(MP3_128K).mp3",
+        "genre": ""
+    },
+    {
+        "name": "﻿Peaches (feat. Daniel Caesar & Giveon)",
+        "file": "Peaches   X Equis _ Slowed Reverb _ Lofi lullabies(MP3_128K).mp3",
+        "genre": ""
+    },
+    {
+        "name": "﻿No Love",
+        "file": "Tigini x No Love (JAZ Scape Mashup) • Shubh • Kikimoteleba(MP3_128K).mp3",
+        "genre": ""
+    },
+    {
+        "name": "﻿Hurts So Good",
+        "file": "🎵Hurts So Good - TIKTOK MIX - (S L O W E D   U N D E R W A T E R)(MP3_128K).mp3",
+        "genre": ""
+    },
+    {
+        "name": "﻿Arcade x Kabhi Jo Badal Barse ( Slowed + Reverb )",
+        "file": "Arcade x Kabhi Jo Badal Barse ( Slowed   Reverb ) _ Arijit Singh Mashup 2021 _ Indian lofi(MP3_128K).mp3",
+        "genre": ""
+    },
+    {
+        "name": "﻿Levitating x Woh Ladki Jo",
+        "file": "Levitating x Woh Ladki Jo - (Dj Ruchir Mashup) _ Instagram Trending Reel _ Original Mashup _ 2023(MP3_128K).mp3",
+        "genre": ""
+    },
+    {
+        "name": "﻿Stay with me remix  (soft bass boost)",
+        "file": "Stay with me remix  (soft bass boost)(MP3_128K).mp3",
+        "genre": ""
+    },
+    {
+        "name": "﻿On My Own (Skeler Remix)",
+        "file": "Darci - On My Own (Skeler Remix) (Official)(MP3_128K).mp3",
+        "genre": ""
+    },
+    {
+        "name": "﻿Danza Kuduro - Remix",
+        "file": "Don Omar - Danza Kuduro ( REMIX ) 4K(MP3_128K).mp3",
+        "genre": ""
+    },
+    {
+        "name": "﻿Pepas",
+        "file": "Farruko - Pepas (XZEEZ _ OTASH Remix) _ Gran.Turismo(MP3_128K).mp3",
+        "genre": ""
+    },
+    {
+        "name": "﻿Sunflower - Spider-Man: Into the Spider-Verse",
+        "file": "SUNFLOWER X AM I DREAMING(MP3_128K).mp3",
+        "genre": ""
+    }
 ]

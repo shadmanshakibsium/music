@@ -1,83 +1,97 @@
 [
-  {
-    "name": "﻿BRODYAGA FUNK",
-    "file": "Eternxlkz - BRODYAGA FUNK (Official Audio)(MP3_128K).mp3"
-  },
-  {
-    "name": "﻿SLAY!",
-    "file": "Eternxlkz - SLAY_ (Official Audio)(MP3_128K).mp3"
-  },
-  {
-    "name": "﻿FUNK UNIVERSO",
-    "file": "Irokz - FUNK UNIVERSO(MP3_128K).mp3"
-  },
-  {
-    "name": "﻿Nada Nada",
-    "file": "Nada Nada(MP3_128K).mp3"
-  },
-  {
-    "name": "﻿LYA FUNK - SLOWED",
-    "file": "LYA FUNK (SLOWED)(MP3_128K).mp3"
-  },
-  {
-    "name": "﻿CANTO DE LUNA - SLOWED",
-    "file": "CANTO DE LUNA (SLOWED)(MP3_128K).mp3"
-  },
-  {
-    "name": "﻿CLIMA LINDO - SUPER SLOWED",
-    "file": "CLIMA LINDO (SLOWED)(MP3_128K).mp3"
-  },
-  {
-    "name": "﻿Eu Sento Gabu!",
-    "file": "EU SENTO GABU (PHONK)(MP3_128K).mp3"
-  },
-  {
-    "name": "﻿Killers From The Northside",
-    "file": "KORDHELL - KILLERS FROM THE NORTHSIDE(MP3_128K).mp3"
-  },
-  {
-    "name": "﻿MONTAGEM DIAMANTE ROSA",
-    "file": "MONTAGEM DIAMANTE ROSA(MP3_128K).mp3"
-  },
-  {
-    "name": "﻿Tak Tak Funk - Slowed",
-    "file": "Tak Tak Funk - Slowed(MP3_128K).mp3"
-  },
-  {
-    "name": "﻿TE CONOCÍ - Slowed",
-    "file": "TE CONOCÍ (Slowed)(MP3_128K).mp3"
-  },
-  {
-    "name": "﻿THIS FEELING",
-    "file": "THIS FEELING(MP3_128K).mp3"
-  },
-  {
-    "name": "﻿MONTAGEM DIAMANTE ROSA ~ (SUPER SLOWED + REVERB)",
-    "file": "MONTAGEM DIAMANTE ROSA _ (SUPER SLOWED   REVERB) [BRAZILIAN PHONK](MP3_128K).mp3"
-  },
-  {
-    "name": "﻿VILLAGE FUNK!",
-    "file": "MVSTERIOUS_ bear bear _ friends - VILLAGE FUNK_(MP3_128K).mp3"
-  },
-  {
-    "name": "Manasha - Over Slowed",
-    "file": "00 - Ashreveal, Ashish Swargiary - Manasha - Over Slowed.mp3"
-  },
-  {
-    "name": "Funk Da Montanha - Slowed",
-    "file": "00 - chipbagov, SCARIONIX, IMMORTAL PLAYA - Funk Da Montanha - Slowed.mp3"
-  },
-  {
-    "name": "Funk Ilusão [SLOWED & BASS BOOSTED]",
-    "file": "00 - Rainy Bass - Zxnc. - Funk Ilusão [SLOWED & BASS BOOSTED].mp3"
-  },
-  {
-    "name": "Phonk-2 Phut Hon Funk",
-    "file": "02 - MGD - 2 Phut Hon Funk.mp3"
-  }
-
+    {
+        "name": "﻿BRODYAGA FUNK",
+        "file": "Eternxlkz - BRODYAGA FUNK (Official Audio)(MP3_128K).mp3",
+        "genre": ""
+    },
+    {
+        "name": "﻿SLAY!",
+        "file": "Eternxlkz - SLAY_ (Official Audio)(MP3_128K).mp3",
+        "genre": ""
+    },
+    {
+        "name": "﻿FUNK UNIVERSO",
+        "file": "Irokz - FUNK UNIVERSO(MP3_128K).mp3",
+        "genre": ""
+    },
+    {
+        "name": "﻿Nada Nada",
+        "file": "Nada Nada(MP3_128K).mp3",
+        "genre": ""
+    },
+    {
+        "name": "﻿LYA FUNK - SLOWED",
+        "file": "LYA FUNK (SLOWED)(MP3_128K).mp3",
+        "genre": ""
+    },
+    {
+        "name": "﻿CANTO DE LUNA - SLOWED",
+        "file": "CANTO DE LUNA (SLOWED)(MP3_128K).mp3",
+        "genre": ""
+    },
+    {
+        "name": "﻿CLIMA LINDO - SUPER SLOWED",
+        "file": "CLIMA LINDO (SLOWED)(MP3_128K).mp3",
+        "genre": ""
+    },
+    {
+        "name": "﻿Eu Sento Gabu!",
+        "file": "EU SENTO GABU (PHONK)(MP3_128K).mp3",
+        "genre": ""
+    },
+    {
+        "name": "﻿Killers From The Northside",
+        "file": "KORDHELL - KILLERS FROM THE NORTHSIDE(MP3_128K).mp3",
+        "genre": ""
+    },
+    {
+        "name": "﻿MONTAGEM DIAMANTE ROSA",
+        "file": "MONTAGEM DIAMANTE ROSA(MP3_128K).mp3",
+        "genre": ""
+    },
+    {
+        "name": "﻿Tak Tak Funk - Slowed",
+        "file": "Tak Tak Funk - Slowed(MP3_128K).mp3",
+        "genre": ""
+    },
+    {
+        "name": "﻿TE CONOCÍ - Slowed",
+        "file": "TE CONOCÍ (Slowed)(MP3_128K).mp3",
+        "genre": ""
+    },
+    {
+        "name": "﻿THIS FEELING",
+        "file": "THIS FEELING(MP3_128K).mp3",
+        "genre": ""
+    },
+    {
+        "name": "﻿MONTAGEM DIAMANTE ROSA ~ (SUPER SLOWED + REVERB)",
+        "file": "MONTAGEM DIAMANTE ROSA _ (SUPER SLOWED   REVERB) [BRAZILIAN PHONK](MP3_128K).mp3",
+        "genre": ""
+    },
+    {
+        "name": "﻿VILLAGE FUNK!",
+        "file": "MVSTERIOUS_ bear bear _ friends - VILLAGE FUNK_(MP3_128K).mp3",
+        "genre": ""
+    },
+    {
+        "name": "Manasha - Over Slowed",
+        "file": "00 - Ashreveal, Ashish Swargiary - Manasha - Over Slowed.mp3",
+        "genre": ""
+    },
+    {
+        "name": "Funk Da Montanha - Slowed",
+        "file": "00 - chipbagov, SCARIONIX, IMMORTAL PLAYA - Funk Da Montanha - Slowed.mp3",
+        "genre": ""
+    },
+    {
+        "name": "Funk Ilusão [SLOWED & BASS BOOSTED]",
+        "file": "00 - Rainy Bass - Zxnc. - Funk Ilusão [SLOWED & BASS BOOSTED].mp3",
+        "genre": ""
+    },
+    {
+        "name": "Phonk-2 Phut Hon Funk",
+        "file": "02 - MGD - 2 Phut Hon Funk.mp3",
+        "genre": ""
+    }
 ]
-
-
-
-

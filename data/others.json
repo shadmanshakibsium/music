@@ -1,78 +1,97 @@
 [
-  {
-    "name": "﻿lonely, lonely, I guess I'm lonely",
-    "file": "Ева - винтаж - Eva - Vintage (lonely_ lonely_ I guess I_m lonely tiktok version) (Lyrics)(MP3_128K).mp3"
-  },
-  {
-    "name": "﻿Blue Bird - ikimono",
-    "file": "_Blue Bird_ - ikimono - gakari (LYRIC) OP 3 Naruto Shippuden(MP3_128K).mp3"
-  },
-  {
-    "name": "﻿C'est La Vie",
-    "file": "Khaled - C_Est La Vie(MP3_128K).mp3"
-  },
-  {
-    "name": "﻿Hijo de la Luna",
-    "file": "Mecano - Hijo de la Luna (Videoclip)(MP3_128K).mp3"
-  },
-  {
-    "name": "﻿Wind",
-    "file": "Naruto - Ending 1 _ Wind(MP3_128K).mp3"
-  },
-  {
-    "name": "﻿ブルーバード-instrumental-",
-    "file": "Naruto [AMV] - Blue Bird(MP3_128K).mp3"
-  },
-  {
-    "name": "﻿Fainted",
-    "file": "Narvent - Fainted (4K Music Video)(MP3_128K).mp3"
-  },
-  {
-    "name": "﻿GANGNAM STYLE",
-    "file": "PSY - GANGNAM STYLE(강남스타일) M_V(MP3_128K).mp3"
-  },
-  {
-    "name": "﻿Timro Pratiksa - Sped Up",
-    "file": "Shallum Lama - Timro Pratiksa (Sped Up) 🎵(MP3_128K).mp3"
-  },
-  {
-    "name": "﻿one, two, three - 1, 2, 3",
-    "file": "Sofia Reyes - Hola como tale tale vu (1_ 2_ 3) (Lyrics) (feat. Jason Derulo _ De La Ghetto)(MP3_128K).mp3"
-  },
-  {
-    "name": "﻿Suzume no Tojimari Theme Song",
-    "file": "Suzume no Tojimari『Suzume』Theme Song(MP3_128K).mp3"
-  },
-  {
-    "name": "﻿wedding (arabic nasheed) (sped up + reverb)",
-    "file": "wedding (arabic nasheed) by muhammad al muqit (sped up   reverb)(MP3_128K).mp3"
-  },
-  {
-    "name": "Unakkul Naane",
-    "file": "Unakkul Naane - Pritt - Pritt.mp3"
-  },
-  {
-    "name": "﻿Danza Kuduro",
-    "file": "Don Omar - Danza Kuduro ft. Lucenzo(MP3_128K).mp3"
-  },
-  {
-    "name": "﻿Gasolina",
-    "file": "Gasolina - Daddy yankee(MP3_128K).mp3"
-  },
-  {
-    "name": "Судно Борис Рижий",
-    "file": "SSvid.net--Molchat-Doma-Судно-Борис-Рижий.mp3"
-  },
-  {
-    "name": "﻿Dernière danse",
-    "file": "Indila - Dernière Danse (Clip Officiel)(MP3_128K).mp3"
-  },
-  {
-    "name": "﻿Tourner Dans Le Vide",
-    "file": "Indila - Tourner Dans Le Vide (Official Music Video)(MP3_128K).mp3"
-  },
-  {
-    "name": "﻿Rauf _ Faik - это ли счастье?",
-    "file": "Rauf _ Faik   это ли счастье_ (Official Audio)(MP3_128K).mp3"
-  }
+    {
+        "name": "﻿lonely, lonely, I guess I'm lonely",
+        "file": "Ева - винтаж - Eva - Vintage (lonely_ lonely_ I guess I_m lonely tiktok version) (Lyrics)(MP3_128K).mp3",
+        "genre": ""
+    },
+    {
+        "name": "﻿Blue Bird - ikimono",
+        "file": "_Blue Bird_ - ikimono - gakari (LYRIC) OP 3 Naruto Shippuden(MP3_128K).mp3",
+        "genre": ""
+    },
+    {
+        "name": "﻿C'est La Vie",
+        "file": "Khaled - C_Est La Vie(MP3_128K).mp3",
+        "genre": ""
+    },
+    {
+        "name": "﻿Hijo de la Luna",
+        "file": "Mecano - Hijo de la Luna (Videoclip)(MP3_128K).mp3",
+        "genre": ""
+    },
+    {
+        "name": "﻿Wind",
+        "file": "Naruto - Ending 1 _ Wind(MP3_128K).mp3",
+        "genre": ""
+    },
+    {
+        "name": "﻿ブルーバード-instrumental-",
+        "file": "Naruto [AMV] - Blue Bird(MP3_128K).mp3",
+        "genre": ""
+    },
+    {
+        "name": "﻿Fainted",
+        "file": "Narvent - Fainted (4K Music Video)(MP3_128K).mp3",
+        "genre": ""
+    },
+    {
+        "name": "﻿GANGNAM STYLE",
+        "file": "PSY - GANGNAM STYLE(강남스타일) M_V(MP3_128K).mp3",
+        "genre": ""
+    },
+    {
+        "name": "﻿Timro Pratiksa - Sped Up",
+        "file": "Shallum Lama - Timro Pratiksa (Sped Up) 🎵(MP3_128K).mp3",
+        "genre": ""
+    },
+    {
+        "name": "﻿one, two, three - 1, 2, 3",
+        "file": "Sofia Reyes - Hola como tale tale vu (1_ 2_ 3) (Lyrics) (feat. Jason Derulo _ De La Ghetto)(MP3_128K).mp3",
+        "genre": ""
+    },
+    {
+        "name": "﻿Suzume no Tojimari Theme Song",
+        "file": "Suzume no Tojimari『Suzume』Theme Song(MP3_128K).mp3",
+        "genre": ""
+    },
+    {
+        "name": "﻿wedding (arabic nasheed) (sped up + reverb)",
+        "file": "wedding (arabic nasheed) by muhammad al muqit (sped up   reverb)(MP3_128K).mp3",
+        "genre": ""
+    },
+    {
+        "name": "Unakkul Naane",
+        "file": "Unakkul Naane - Pritt - Pritt.mp3",
+        "genre": ""
+    },
+    {
+        "name": "﻿Danza Kuduro",
+        "file": "Don Omar - Danza Kuduro ft. Lucenzo(MP3_128K).mp3",
+        "genre": ""
+    },
+    {
+        "name": "﻿Gasolina",
+        "file": "Gasolina - Daddy yankee(MP3_128K).mp3",
+        "genre": ""
+    },
+    {
+        "name": "Судно Борис Рижий",
+        "file": "SSvid.net--Molchat-Doma-Судно-Борис-Рижий.mp3",
+        "genre": ""
+    },
+    {
+        "name": "﻿Dernière danse",
+        "file": "Indila - Dernière Danse (Clip Officiel)(MP3_128K).mp3",
+        "genre": ""
+    },
+    {
+        "name": "﻿Tourner Dans Le Vide",
+        "file": "Indila - Tourner Dans Le Vide (Official Music Video)(MP3_128K).mp3",
+        "genre": ""
+    },
+    {
+        "name": "﻿Rauf _ Faik - это ли счастье?",
+        "file": "Rauf _ Faik   это ли счастье_ (Official Audio)(MP3_128K).mp3",
+        "genre": ""
+    }
 ]
