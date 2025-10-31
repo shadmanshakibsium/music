@@ -249,6 +249,7 @@ h1 {
 /* ---------------- Mobile ---------------- */
 @media(max-width:450px) {
   .folder-title,
+  .genre-songs .music-item,
   .folder-songs .music-item {
     width: 100%;
     height: 43px;
