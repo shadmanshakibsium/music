@@ -542,3 +542,13 @@ document.addEventListener('keydown', (e) => {
     }
   }
 });
+
+// --------------------
+// Media Session API — Enable Bluetooth next/prev buttons
+// --------------------
+if ('mediaSession' in navigator) {
+  navigator.mediaSession.setActionHandler('play', togglePlay);
+  navigator.mediaSession.setActionHandler('pause', togglePlay);
+  navigator.mediaSession.setActionHandler('previoustrack', playPrev);
+  navigator.mediaSession.setActionHandler('nexttrack', playNext);
+}
