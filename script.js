@@ -517,11 +517,28 @@ function animateCountUp(element, target, duration = 2500) {
 
 // --------------------
 // Keyboard Shortcut: Spacebar → Play/Pause
+// ArrowLeft → Previous Song
+// ArrowRight → Next Song
 // --------------------
 document.addEventListener('keydown', (e) => {
   const isInput = ['INPUT', 'TEXTAREA'].includes(document.activeElement.tagName);
-  if (e.code === 'Space' && !isInput) {
-    e.preventDefault(); 
-    togglePlay(); 
+
+  if (!isInput) {
+    switch (e.code) {
+      case 'Space':
+        e.preventDefault();
+        togglePlay();
+        break;
+
+      case 'ArrowRight':
+        e.preventDefault();
+        nextSong();
+        break;
+
+      case 'ArrowLeft':
+        e.preventDefault();
+        prevSong();
+        break;
+    }
   }
 });
