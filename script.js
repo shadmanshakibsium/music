@@ -2,7 +2,7 @@
 // --------------------
 // Variables
 // --------------------
-const types = ['anime','arabic','bangla','edit audio','electronic','english','hindi','others','lofi','phonk','remix','slowed-reverbed','z'];
+const types = ['anime','arabic','bangla','edit audio','electronic','english','hindi','instrumental','others','lofi','phonk','remix','slowed-reverbed','z'];
 let currentView = 'all';
 let musicData = [];
 let filteredData = [];
