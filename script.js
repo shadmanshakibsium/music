@@ -234,7 +234,7 @@ function renderMusicList() {
 
   const songCountEl = document.getElementById('songCount');
   if (songCountEl) {
-    animateCountUp(songCountEl, filteredData.length, 2100);
+    animateCountUp(songCountEl, filteredData.length, 1000);
   }
 }
 
