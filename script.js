@@ -141,9 +141,9 @@ function loadGenreView() {
     const genreGroups = {};
 
     allSongs.forEach(song => {
-      if (!song.genre) return; // genre না থাকলে skip
+      if (!song.genre) return;
 
-      // একাধিক genre handle করা
+     
       const genres = song.genre.split(',').map(g => g.trim().toLowerCase());
 
       genres.forEach(genre => {
@@ -251,7 +251,7 @@ function playSong(index) {
   updateFullscreenPlayer(song.name);
   updatePlayButton();
 
-  // সব আগের .playing ক্লাস remove
+
   document.querySelectorAll('.music-item.playing').forEach(el => el.classList.remove('playing'));
 
   // All Songs view
@@ -265,7 +265,7 @@ function playSong(index) {
     if (songEl) songEl.classList.add('playing');
   });
 
-  // Genre view (নতুন)
+  // Genre view
   const genreLists = document.querySelectorAll('.genre-songs');
   genreLists.forEach(list => {
     const songEl = list.querySelector(`.music-item[data-index="${index}"]`);
@@ -311,12 +311,11 @@ fsCloseBtn.addEventListener('click', () => {
   document.querySelector('.site-header').style.display = 'block';
   document.querySelector('.tabs').style.display = 'flex';
 
-  // আগের সব ভিউ হাইড
   allSongsView.style.display = 'none';
   foldersView.style.display = 'none';
   genreView.style.display = 'none';
 
-  // currentView দেখে কোন ভিউ দেখাবে ঠিক করো
+
   if (currentView === 'all') {
     allSongsView.style.display = 'block';
 
@@ -464,11 +463,10 @@ searchInput.addEventListener('input', (e)=>{
 // --------------------
 tabs.forEach(tab => {
   tab.addEventListener('click', () => {
-    // Active ট্যাব পরিবর্তন
+ 
     tabs.forEach(t => t.classList.remove('active'));
     tab.classList.add('active');
 
-    // কোন ভিউতে আছি
     currentView = tab.dataset.view;
 
     // View switch logic
