@@ -246,6 +246,11 @@ function playSong(index) {
   const song = filteredData[index];
   fsAudio.src = `songs/${song.folder}/${song.file}`;
   fsAudio.play();
+  if ('mediaSession' in navigator) {
+  navigator.mediaSession.metadata = new MediaMetadata({
+    title: song.name
+  });
+}
   isPlaying = true;
   updateMiniPlayer(song.name);
   updateFullscreenPlayer(song.name);
