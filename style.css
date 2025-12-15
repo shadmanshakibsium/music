@@ -392,7 +392,16 @@ h1 {
   font-size:18px;
   color:white;
 }
-.control-btn:hover{ transform: scale(1.1); box-shadow: 0 0 15px rgba(255,107,107,0.75); }
+.control-btn,
+.play-btn {
+  box-shadow: none;
+  transition: transform 0.15s ease;
+}
+
+.control-btn:active,
+.play-btn:active {
+  transform: scale(1.08);
+}
 .play-btn{
   width:74px;
   height:48px;
@@ -405,7 +414,6 @@ h1 {
   align-items:center;
   transition: all 0.3s ease;
 }
-.play-btn:hover{ transform: scale(1.05); box-shadow:0 0 25px rgba(88,61,145,1); }
 .control-btn.active{ box-shadow:0 0 20px rgba(255,107,107,0.9); }
 
 /* Volume */
