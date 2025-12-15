@@ -360,7 +360,9 @@ h1 {
   background: rgba(255,255,255,0.12);
   border-radius:8px;
   overflow:hidden;
+  touch-action: none;
 }
+
 #progress-filled{
   background: linear-gradient(90deg, #ff6b6b, #583D91);
   height:100%;
