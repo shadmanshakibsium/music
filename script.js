@@ -422,24 +422,50 @@ fsAudio.addEventListener('timeupdate', ()=>{
     durationEl.textContent = formatTime(fsAudio.duration);
   }
 });
-progressBarContainer.addEventListener('click', (e) => {
+let isDraggingProgress = false;
+
+function seekByX(clientX) {
+  if (!fsAudio.duration) return;
+
   const rect = progressBarContainer.getBoundingClientRect();
-  const clickX = e.clientX - rect.left;
-  const clickPercent = (clickX / rect.width);
-  const clickTime = clickPercent * fsAudio.duration;
+  const x = Math.max(0, Math.min(clientX - rect.left, rect.width));
+  const percent = x / rect.width;
 
-  progressFilled.style.width = (clickPercent * 100) + '%';
-  currentTimeEl.textContent = formatTime(clickTime);
+  fsAudio.currentTime = percent * fsAudio.duration;
+  progressFilled.style.width = (percent * 100) + '%';
+}
 
-  if (!fsAudio.readyState || fsAudio.readyState < 2) {
-    const onCanPlay = () => {
-      fsAudio.currentTime = clickTime;
-      fsAudio.removeEventListener('canplay', onCanPlay);
-    };
-    fsAudio.addEventListener('canplay', onCanPlay);
-  } else {
-    fsAudio.currentTime = clickTime;
-  }
+/* Click */
+progressBarContainer.addEventListener('click', (e) => {
+  seekByX(e.clientX);
+});
+
+/* Desktop drag */
+progressBarContainer.addEventListener('mousedown', (e) => {
+  isDraggingProgress = true;
+  seekByX(e.clientX);
+});
+
+document.addEventListener('mousemove', (e) => {
+  if (isDraggingProgress) seekByX(e.clientX);
+});
+
+document.addEventListener('mouseup', () => {
+  isDraggingProgress = false;
+});
+
+/* Mobile swipe */
+progressBarContainer.addEventListener('touchstart', (e) => {
+  isDraggingProgress = true;
+  seekByX(e.touches[0].clientX);
+});
+
+document.addEventListener('touchmove', (e) => {
+  if (isDraggingProgress) seekByX(e.touches[0].clientX);
+});
+
+document.addEventListener('touchend', () => {
+  isDraggingProgress = false;
 });
 function formatTime(seconds){
   const mins = Math.floor(seconds/60);
