@@ -587,15 +587,17 @@ h1 {
 #fs-cover {
   display: block;
   margin: 0 auto 20px;  
-  width: 100%;        /* container এর প্রস্থের 100% নেবে */
-  max-width: 320px;   /* এই ভ্যালু দ্বারা বড় স্কয়ারের সীমা থাকবে */
-  aspect-ratio: 1/1;  /* স্কয়ার রাখবে */
+  width: 100%;
+  max-width: 360px;      /* বড় স্কয়ারের সীমা */
+  aspect-ratio: 1/1;     /* স্কয়ার রাখবে */
   border-radius: 15px;
-  object-fit: cover;  /* ফিট করে দেখাবে, ক্রপ করলে ট্রিম হবে */
+  object-fit: cover;
 }
+
+/* Mobile */
 @media(max-width: 450px){
   #fs-cover {
-    max-width: 240px;
+    max-width: 320px;    /* মোবাইলেও বড় স্কয়ার */
     aspect-ratio: 1/1;
   }
 }
