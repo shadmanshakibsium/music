@@ -550,3 +550,10 @@ h1 {
 .music-item.fade-in {
   animation: fadeIn 0.5s ease forwards;
 }
+#fs-cover {
+  width: 250px;
+  height: 250px;
+  border-radius: 15px;
+  object-fit: cover;
+  margin-bottom: 20px;
+}
