@@ -52,7 +52,7 @@ const fsCover = document.getElementById('fs-cover');
 if (fsCover) {
   fsCover.onerror = () => {
     // fallback to app icon or any placeholder you have
-    fsCover.src = 'logo/apple-touch-icon.png';
+    fsCover.src = 'covers/aassdd.png';
   };
   // hide initially if no src
   if (!fsCover.src) {
