@@ -1,598 +1,946 @@
 [
   {
-    "name": "﻿Long Distance Love",
-    "file": "Long Distance Love _ Coke Studio Bangla _ Season 3 _ Ankan X Afrin _ Shuvendu(MP3_128K).mp3"
+    "name": "Bhalobeshe Kono Bhool",
+    "artist": "Arindom, Shalmali Kholgade",
+    "album": "Bindaas(Bengali)",
+    "file": "00 - Arindom, Shalmali Kholgade - Bhalobeshe Kono Bhool.mp3",
+    "cover": "00 - Arindom, Shalmali Kholgade - Bhalobeshe Kono Bhool.jpg",
+    "genre": ""
+  },
+  {
+    "name": "Bahir Bole Dure Thakuk | Movie Song | Third Person Singular Number | Habib & Nancy | Channel i TV",
+    "artist": "Channel i Tv",
+    "album": "Channel i Tv",
+    "file": "00 - Channel i Tv - Bahir Bole Dure Thakuk _ Movie Song _ Third Person Singular Number _ Habib & Nancy _ Channel i TV.mp3",
+    "cover": "00 - Channel i Tv - Bahir Bole Dure Thakuk _ Movie Song _ Third Person Singular Number _ Habib & Nancy _ Channel i TV.jpg",
+    "genre": ""
+  },
+  {
+    "name": "Punorjonmo",
+    "artist": "Chondropith",
+    "album": "Punorjonmo",
+    "file": "00 - Chondropith - Punorjonmo.mp3",
+    "cover": "00 - Chondropith - Punorjonmo.jpg",
+    "genre": ""
+  },
+  {
+    "name": "60's Love",
+    "artist": "Level Five",
+    "album": "Obosheshey",
+    "file": "00 - Level Five - 60's Love.mp3",
+    "cover": "00 - Level Five - 60's Love.jpg",
+    "genre": ""
+  },
+  {
+    "name": "E Hawa",
+    "artist": "Meghdol",
+    "album": "E Hawa",
+    "file": "00 - Meghdol - E Hawa.mp3",
+    "cover": "00 - Meghdol - E Hawa.jpg",
+    "genre": ""
+  },
+  {
+    "name": "Ei Obelay",
+    "artist": "Shironamhin",
+    "album": "Ei Obelay",
+    "file": "00 - Shironamhin - Ei Obelay.mp3",
+    "cover": "00 - Shironamhin - Ei Obelay.jpg",
+    "genre": ""
+  },
+  {
+    "name": "Rajahin Rajjo",
+    "artist": "Shunno",
+    "album": "Gorbo Bangladesh",
+    "file": "00 - Shunno - Rajahin Rajjo.mp3",
+    "cover": "00 - Shunno - Rajahin Rajjo.jpg",
+    "genre": ""
+  },
+  {
+    "name": "﻿17 Prishtha",
+    "artist": "﻿Md Shiblu",
+    "album": "﻿17 Prishtha",
+    "file": "17 prishtha ( সতেরো পৃষ্ঠা ) by Ashes(MP3_128K).mp3",
+    "cover": "17 prishtha ( সতেরো পৃষ্ঠা ) by Ashes(MP3_128K).jpg",
+    "genre": ""
+  },
+  {
+    "name": "﻿Aaj Raate Kono Rupkotha Nei",
+    "artist": "﻿Md Mobassher Choudhury",
+    "album": "﻿Aaj Raate Kono Rupkotha Nei",
+    "file": "Aaj Raate Kono Rupkotha Nei _ Old School _ আজ রাতে কোনো রূপকথা নেই _ Mobassher Choudhury(MP3_128K).mp3",
+    "cover": "Aaj Raate Kono Rupkotha Nei _ Old School _ আজ রাতে কোনো রূপকথা নেই _ Mobassher Choudhury(MP3_128K).jpg",
+    "genre": ""
+  },
+  {
+    "name": "﻿Acid Ke",
+    "artist": "﻿Stoic Bliss",
+    "album": "﻿Kolponar Baire (Re-Mastered)",
+    "file": "Acid Ke(MP3_128K).mp3",
+    "cover": "Acid Ke(MP3_128K).jpg",
+    "genre": ""
+  },
+  {
+    "name": "﻿UTHSHORGO",
+    "artist": "﻿Aftermath",
+    "album": "﻿UTHSHORGO",
+    "file": "AFTERMATH - UTHSHORGO (LYRICS VIDEO)(MP3_128K).mp3",
+    "cover": "AFTERMATH - UTHSHORGO (LYRICS VIDEO)(MP3_128K).jpg",
+    "genre": ""
+  },
+  {
+    "name": "﻿Aha Re",
+    "artist": "﻿Minar Rahman",
+    "album": "﻿Aha Re",
+    "file": "Aha Re __ আহারে __ Minar Rahman _ Taneem Rahman Angshu _ Superhit Bangla Song _ Official Music Video(MP3_128K).mp3",
+    "cover": "Aha Re __ আহারে __ Minar Rahman _ Taneem Rahman Angshu _ Superhit Bangla Song _ Official Music Video(MP3_128K).jpg",
+    "genre": ""
+  },
+  {
+    "name": "﻿Alo",
+    "artist": "﻿Tahsan",
+    "album": "﻿Best of Tahsan",
+    "file": "Alo _ আলো _ Tahsan _ Album Ecche _ Tahsan Art Track _ Tahsan Lyrical Video(MP3_128K).mp3",
+    "cover": "Alo _ আলো _ Tahsan _ Album Ecche _ Tahsan Art Track _ Tahsan Lyrical Video(MP3_128K).jpg",
+    "genre": ""
+  },
+  {
+    "name": "﻿Amake Aamar Moto Thaakte Dao",
+    "artist": "﻿Anupam Roy",
+    "album": "﻿Autograph (Original Motion Picture Soundtrack)",
+    "file": "Amake Amar Moto Thakte Dao _ Autograph _ Prosenjit Chatterjee _ Anupam Roy _ Srijit Mukherji _ SVF(MP3_128K).mp3",
+    "cover": "Amake Amar Moto Thakte Dao _ Autograph _ Prosenjit Chatterjee _ Anupam Roy _ Srijit Mukherji _ SVF(MP3_128K).jpg",
+    "genre": ""
+  },
+  {
+    "name": "﻿Ami Bodle Jabo",
+    "artist": "﻿Ashes",
+    "album": "﻿Ami Bodle Jabo",
+    "file": "Ami Bodley Jabo ( আমি বদলে যাব ) - Ashes _ Official Video(MP3_128K).mp3",
+    "cover": "Ami Bodley Jabo ( আমি বদলে যাব ) - Ashes _ Official Video(MP3_128K).jpg",
+    "genre": ""
+  },
+  {
+    "name": "﻿Ami Tomar Moner Vitor 2",
+    "artist": "﻿Habib",
+    "album": "﻿Ami Tomar Moner Vitor 2",
+    "file": "Ami Tomar Moner Vitor _ Habib Wahid _ Nancy _ আমি তোমার মনের ভিতর _ Lyrical Video(MP3_128K).mp3",
+    "cover": "Ami Tomar Moner Vitor _ Habib Wahid _ Nancy _ আমি তোমার মনের ভিতর _ Lyrical Video(MP3_128K).jpg",
+    "genre": ""
+  },
+  {
+    "name": "﻿Amon Chena",
+    "artist": "﻿Ashes",
+    "album": "﻿Amon Chena",
+    "file": "Amon Chena ( এমন চেনা ) - Ashes ( Lyrical Video )(MP3_128K).mp3",
+    "cover": "Amon Chena ( এমন চেনা ) - Ashes ( Lyrical Video )(MP3_128K).jpg",
+    "genre": ""
+  },
+  {
+    "name": "﻿ASHES",
+    "artist": "﻿FKM^",
+    "album": "﻿ASHES",
+    "file": "Ashes-  Kemon Acho (Lyrics)(MP3_128K).mp3",
+    "cover": "Ashes-  Kemon Acho (Lyrics)(MP3_128K).jpg",
+    "genre": ""
+  },
+  {
+    "name": "﻿Avash",
+    "artist": "﻿Avash",
+    "album": "﻿Avash",
+    "file": "Avash _ Avash _ Official Video(MP3_128K).mp3",
+    "cover": "Avash _ Avash _ Official Video(MP3_128K).jpg",
+    "genre": ""
+  },
+  {
+    "name": "﻿Ami Akash Pathabo",
+    "artist": "﻿AvoidRafa",
+    "album": "﻿Bhaar",
+    "file": "AvoidRafa - Ami Akash Pathabo(MP3_128K).mp3",
+    "cover": "AvoidRafa - Ami Akash Pathabo(MP3_128K).jpg",
+    "genre": ""
+  },
+  {
+    "name": "﻿Har Kala",
+    "artist": "﻿AvoidRafa",
+    "album": "﻿Bhaar",
+    "file": "AvoidRafa - Har Kala(MP3_128K).mp3",
+    "cover": "AvoidRafa - Har Kala(MP3_128K).jpg",
+    "genre": ""
+  },
+  {
+    "name": "﻿Ei Je Dunia",
+    "artist": "﻿BAGDHARA",
+    "album": "﻿Pochish Bochhor",
+    "file": "Bagdhara - Ei je dunia (এই যে দুনিয়া) _ (Official Audio)(MP3_128K).mp3",
+    "cover": "Bagdhara - Ei je dunia (এই যে দুনিয়া) _ (Official Audio)(MP3_128K).jpg",
+    "genre": ""
+  },
+  {
+    "name": "﻿Proticchobi",
+    "artist": "﻿BAGDHARA",
+    "album": "﻿Proticchobi",
+    "file": "Bagdhara - Proticchobi (প্রতিচ্ছবি) - Official Music Video(MP3_128K).mp3",
+    "cover": "Bagdhara - Proticchobi (প্রতিচ্ছবি) - Official Music Video(MP3_128K).jpg",
+    "genre": ""
+  },
+  {
+    "name": "﻿Tomaro Ki Pore Mone",
+    "artist": "﻿BAGDHARA",
+    "album": "﻿Pochish Bochhor",
+    "file": "Bagdhara - Tomaro Ki Pore Mone (তোমারো কি পড়ে মনে) _ (Official Audio)(MP3_128K).mp3",
+    "cover": "Bagdhara - Tomaro Ki Pore Mone (তোমারো কি পড়ে মনে) _ (Official Audio)(MP3_128K).jpg",
+    "genre": ""
+  },
+  {
+    "name": "﻿Baje Shobhab",
+    "artist": "﻿Rehaan, Prithwi Raj",
+    "album": "﻿Baje Shobhab",
+    "file": "Baje Shobhab I Prithwi Raj ft  Rehaan I Jilapi Originals I 2018(MP3_128K).mp3",
+    "cover": "Baje Shobhab I Prithwi Raj ft  Rehaan I Jilapi Originals I 2018(MP3_128K).jpg",
+    "genre": ""
+  },
+  {
+    "name": "﻿Confusion",
+    "artist": "﻿Bangla Five",
+    "album": "﻿Confusion",
+    "file": "BANGLA FIVE _ CONFUSION Audio (Tomay Ami Chinina) Bangla band song কনফিউশন বাংলা ফাইভ ব্যান্ড(MP3_128K).mp3",
+    "cover": "BANGLA FIVE _ CONFUSION Audio (Tomay Ami Chinina) Bangla band song কনফিউশন বাংলা ফাইভ ব্যান্ড(MP3_128K).jpg",
+    "genre": ""
+  },
+  {
+    "name": "Beni Khuley MUZAMUSIC HabibWahidofficialRussell Ali FuadAlmuqtadironline Official Music Video",
+    "artist": null,
+    "album": null,
+    "file": "Beni-Khuley-MUZAMUSIC-HabibWahidofficialRussell-Ali-FuadAlmuqtadironline-Official-Music-Video.mp3",
+    "cover": null,
+    "genre": ""
+  },
+  {
+    "name": "﻿Bhalobasa Tarpor",
+    "artist": "﻿Arnob - Topic",
+    "album": "﻿Arnob - Topic",
+    "file": "Bhalobasa Tarpor(MP3_128K).mp3",
+    "cover": "Bhalobasa Tarpor(MP3_128K).jpg",
+    "genre": ""
+  },
+  {
+    "name": "﻿Charpoka  ( ছারপোকা )  By Ashes",
+    "artist": "﻿Ashes Bangladesh",
+    "album": "﻿Ashes Bangladesh",
+    "file": "Charpoka  ( ছারপোকা )  By Ashes(MP3_128K).mp3",
+    "cover": "Charpoka  ( ছারপোকা )  By Ashes(MP3_128K).jpg",
+    "genre": ""
+  },
+  {
+    "name": "﻿Tati | Coke Studio Bangla",
+    "artist": "﻿Arnob, Oli Boy, Md. Gonjer Ali, Jaya Ahsan",
+    "album": "﻿Tati | Coke Studio Bangla",
+    "file": "Chiltey Roud _ Coke Studio Bangla _ Season One _ Arnob X Ripon (Boga)(MP3_128K).mp3",
+    "cover": "Chiltey Roud _ Coke Studio Bangla _ Season One _ Arnob X Ripon (Boga)(MP3_128K).jpg",
+    "genre": ""
+  },
+  {
+    "name": "﻿Porinita",
+    "artist": "﻿Conclusion",
+    "album": "﻿Porinita",
+    "file": "Conclusion - Porinita (Audio)(MP3_128K).mp3",
+    "cover": "Conclusion - Porinita (Audio)(MP3_128K).jpg",
+    "genre": ""
+  },
+  {
+    "name": "﻿On My Own (Skeler Remix)",
+    "artist": "﻿Darci, Skeler",
+    "album": "﻿On My Own (Skeler Remix)",
+    "file": "Darci - On My Own (Skeler Remix) (Official)(MP3_128K).mp3",
+    "cover": "Darci - On My Own (Skeler Remix) (Official)(MP3_128K).jpg",
+    "genre": ""
+  },
+  {
+    "name": "﻿Dhar Dharina",
+    "artist": "﻿Sayera Reza",
+    "album": "﻿Shukher Omil",
+    "file": "Dhar darina para porshir(MP3_128K).mp3",
+    "cover": "Dhar darina para porshir(MP3_128K).jpg",
+    "genre": ""
+  },
+  {
+    "name": "﻿Dhulabli - Radio Version",
+    "artist": "﻿Ashes",
+    "album": "﻿Dhulabli (Radio Version)",
+    "file": "Dhulabali (ধুলাবালি) - Ashes (Lyrical Video) _ Official(MP3_128K).mp3",
+    "cover": "Dhulabali (ধুলাবালি) - Ashes (Lyrical Video) _ Official(MP3_128K).jpg",
+    "genre": ""
+  },
+  {
+    "name": "﻿Dola De Re",
+    "artist": "﻿Fuad, Mila",
+    "album": "﻿The Best of Fuad, Vol. 3",
+    "file": "Dola De _ দোলা দে _ Mila _ Fuad _  _ Music Video _ Shahan Kabondho _ Bangla New Song(MP3_128K).mp3",
+    "cover": "Dola De _ দোলা দে _ Mila _ Fuad _  _ Music Video _ Shahan Kabondho _ Bangla New Song(MP3_128K).jpg",
+    "genre": ""
+  },
+  {
+    "name": "﻿Dukkho Bilash",
+    "artist": "﻿The Platform Live, Artcell",
+    "album": "﻿The Platform Live: Artcell (Season 1, Vol.1)",
+    "file": "Dukkho Bilash _ দুঃখ বিলাস _ Artcell _ Anushilon _ Coordinated by Isha Khan Duray(MP3_128K).mp3",
+    "cover": "Dukkho Bilash _ দুঃখ বিলাস _ Artcell _ Anushilon _ Coordinated by Isha Khan Duray(MP3_128K).jpg",
+    "genre": ""
+  },
+  {
+    "name": "﻿Ekaki Mon",
+    "artist": "﻿Balam",
+    "album": "﻿Balam II",
+    "file": "Ekaki Mon _ Balam _ একাকি মন _ বালাম _ TI Antor _ Music Video(MP3_128K).mp3",
+    "cover": "Ekaki Mon _ Balam _ একাকি মন _ বালাম _ TI Antor _ Music Video(MP3_128K).jpg",
+    "genre": ""
+  },
+  {
+    "name": "﻿Ekhon Ami",
+    "artist": "﻿Shopnolok OV, Ayon, Rezwan",
+    "album": "﻿Chotto Asha",
+    "file": "Ekhon Ami _ এখন আমি _ Lofi Remix _ Shopnolok _ Ov _ Ayon Chaklader _ NabruNation(MP3_128K).mp3",
+    "cover": "Ekhon Ami _ এখন আমি _ Lofi Remix _ Shopnolok _ Ov _ Ayon Chaklader _ NabruNation(MP3_128K).jpg",
+    "genre": ""
+  },
+  {
+    "name": "﻿Ekta Chhele",
+    "artist": "﻿Sahana",
+    "album": "﻿Jhalmuri, Vol. 1",
+    "file": "Ekta Chhele  একটা ছেলে  I  Sahana  ।  Modern Bengali song  I  Bengal Jukebox(MP3_128K).mp3",
+    "cover": "Ekta Chhele  একটা ছেলে  I  Sahana  ।  Modern Bengali song  I  Bengal Jukebox(MP3_128K).jpg",
+    "genre": ""
+  },
+  {
+    "name": "﻿Etota Valobasi",
+    "artist": "﻿Recall",
+    "album": "﻿Onnothay",
+    "file": "Etota Bhalobashi - Recall __ Official Music Video(MP3_128K).mp3",
+    "cover": "Etota Bhalobashi - Recall __ Official Music Video(MP3_128K).jpg",
+    "genre": ""
+  },
+  {
+    "name": "﻿Fera by Band Lalon & Shohojia",
+    "artist": "﻿Band Lalon",
+    "album": "﻿Band Lalon",
+    "file": "Fera by Band Lalon _ Shohojia(MP3_128K).mp3",
+    "cover": "Fera by Band Lalon _ Shohojia(MP3_128K).jpg",
+    "genre": ""
+  },
+  {
+    "name": "﻿GhorGari",
+    "artist": "﻿HIGHWAY",
+    "album": "﻿GhorGari",
+    "file": "GhorGari (ঘোরগাড়ী) - Album_ Train Poka - HIGHWAY(MP3_128K).mp3",
+    "cover": "GhorGari (ঘোরগাড়ী) - Album_ Train Poka - HIGHWAY(MP3_128K).jpg",
+    "genre": ""
+  },
+  {
+    "name": "﻿Ghum (Official)",
+    "artist": "﻿Odd Signature",
+    "album": "﻿Ghum (Official)",
+    "file": "Ghum - Odd Signature [Official](MP3_128K).mp3",
+    "cover": "Ghum - Odd Signature [Official](MP3_128K).jpg",
+    "genre": ""
+  },
+  {
+    "name": "﻿Gulbahar | গুলবাহার | Ishaan এর Gaan | Shuvendu Das Shuvo | Official Music Video",
+    "artist": "﻿Ishaan এর Gaan",
+    "album": "﻿Ishaan এর Gaan",
+    "file": "Gulbahar _ গুলবাহার _ Ishaan এর Gaan _ Shuvendu Das Shuvo _ Official Music Video(MP3_128K).mp3",
+    "cover": "Gulbahar _ গুলবাহার _ Ishaan এর Gaan _ Shuvendu Das Shuvo _ Official Music Video(MP3_128K).jpg",
+    "genre": ""
+  },
+  {
+    "name": "﻿Ashes",
+    "artist": "﻿Arrows to Athens",
+    "album": "﻿Kings & Thieves",
+    "file": "Hin ( হীন ) - Ashes ( Lyrical Video )(MP3_128K).mp3",
+    "cover": "Hin ( হীন ) - Ashes ( Lyrical Video )(MP3_128K).jpg",
+    "genre": ""
+  },
+  {
+    "name": "﻿Bolna Tui Bolna",
+    "artist": "﻿Hridoy Khan",
+    "album": "﻿Bolna",
+    "file": "Hridoy Khan -  Bolna(MP3_128K).mp3",
+    "cover": "Hridoy Khan -  Bolna(MP3_128K).jpg",
+    "genre": ""
+  },
+  {
+    "name": "Hridoy Khan - Bhalo Lage Na (Official Video)",
+    "artist": "Hridoy Khan",
+    "album": null,
+    "file": "Hridoy Khan - Bhalo Lage Na (Official Video) - Hridoy Khan.mp3",
+    "cover": null,
+    "genre": ""
+  },
+  {
+    "name": "﻿Chaina Meye",
+    "artist": "﻿Hridoy Khan",
+    "album": "﻿Hridoy Mix",
+    "file": "Hridoy Khan - Chaina Meye  _ Lyrical Video _ Hridoy Mix(MP3_128K).mp3",
+    "cover": "Hridoy Khan - Chaina Meye  _ Lyrical Video _ Hridoy Mix(MP3_128K).jpg",
+    "genre": ""
+  },
+  {
+    "name": "﻿Jaan oh Baby - (Music Video)",
+    "artist": "﻿SalmoN TheBrownFish",
+    "album": "﻿SalmoN TheBrownFish",
+    "file": "Jaan oh Baby - (Music Video)(MP3_128K).mp3",
+    "cover": "Jaan oh Baby - (Music Video)(MP3_128K).jpg",
+    "genre": ""
+  },
+  {
+    "name": "﻿Jaat Gele Jaat Gele Sumi Lalon Band.                        জাত গেল জাত গেল সুমি লালন ব্যান্ড",
+    "artist": "﻿Farhan Ahamed Akash",
+    "album": "﻿Farhan Ahamed Akash",
+    "file": "Jaat Gele Jaat Gele Sumi Lalon Band.                        জাত গেল জাত গেল সুমি লালন ব্যান্ড(MP3_128K).mp3",
+    "cover": "Jaat Gele Jaat Gele Sumi Lalon Band.                        জাত গেল জাত গেল সুমি লালন ব্যান্ড(MP3_128K).jpg",
+    "genre": ""
+  },
+  {
+    "name": "﻿Jaat Gelo",
+    "artist": "﻿Band Lalon",
+    "album": "﻿Bi Protip",
+    "file": "Jaat Gelo(MP3_128K).mp3",
+    "cover": "Jaat Gelo(MP3_128K).jpg",
+    "genre": ""
+  },
+  {
+    "name": "﻿Jao Pakhi Bolo Tare",
+    "artist": "﻿Krishnokoli Islam",
+    "album": "﻿Monpura",
+    "file": "Jao Pakhi Bolo Tare _ Monpura _ Movie Song _ Chanchal Chowdhury_  Fazlur Rahman Babu_  Arnob(MP3_128K).mp3",
+    "cover": "Jao Pakhi Bolo Tare _ Monpura _ Movie Song _ Chanchal Chowdhury_  Fazlur Rahman Babu_  Arnob(MP3_128K).jpg",
+    "genre": ""
   },
   {
     "name": "﻿Kar paye nupur baje | Balam",
-    "file": "Kar paye nupur baje _ Balam(MP3_128K).mp3"
+    "artist": "﻿Shakil Ahmed",
+    "album": "﻿Shakil Ahmed",
+    "file": "Kar paye nupur baje _ Balam(MP3_128K).mp3",
+    "cover": "Kar paye nupur baje _ Balam(MP3_128K).jpg",
+    "genre": ""
+  },
+  {
+    "name": "﻿Karone Okarone",
+    "artist": "﻿Minar Rahman",
+    "album": "﻿Karone Okarone",
+    "file": "Karone Okarone _ Minar Rahman _ Official Music Video _ Eagle Music(MP3_128K).mp3",
+    "cover": "Karone Okarone _ Minar Rahman _ Official Music Video _ Eagle Music(MP3_128K).jpg",
+    "genre": ""
+  },
+  {
+    "name": "﻿Khepa",
+    "artist": "﻿Band Lalon",
+    "album": "﻿Khepa",
+    "file": "Khepa(MP3_128K).mp3",
+    "cover": "Khepa(MP3_128K).jpg",
+    "genre": ""
+  },
+  {
+    "name": "﻿Ki R Hobe",
+    "artist": "﻿Ashes Bangladesh",
+    "album": "﻿Charpoka",
+    "file": "Ki R Hobe - Ashes(MP3_128K).mp3",
+    "cover": "Ki R Hobe - Ashes(MP3_128K).jpg",
+    "genre": ""
+  },
+  {
+    "name": "﻿Kotha Koiyo Na | Coke Studio Bangla | Season 2 | Shiblu Mredha X Aleya Begum X Emon Chowdhury",
+    "artist": "﻿Coke Studio Bangla",
+    "album": "﻿Coke Studio Bangla",
+    "file": "Kotha Koiyo Na _ Coke Studio Bangla _ Season 2 _ Shiblu Mredha X Aleya Begum X Emon Chowdhury(MP3_128K).mp3",
+    "cover": "Kotha Koiyo Na _ Coke Studio Bangla _ Season 2 _ Shiblu Mredha X Aleya Begum X Emon Chowdhury(MP3_128K).jpg",
+    "genre": ""
+  },
+  {
+    "name": "﻿Alo",
+    "artist": "﻿Tahsan",
+    "album": "﻿Best of Tahsan",
+    "file": "Kotodur _ কতদুরে __ Tahsan __ Minar __ Sajid Sarkar __ Bangla New Song __ Official Lyrical Video(MP3_128K).mp3",
+    "cover": "Kotodur _ কতদুরে __ Tahsan __ Minar __ Sajid Sarkar __ Bangla New Song __ Official Lyrical Video(MP3_128K).jpg",
+    "genre": ""
   },
   {
     "name": "﻿KRISHNO AILA   RADHAR KUNJE Ft Habib Wahid 2005",
-    "file": "KRISHNO AILA   RADHAR KUNJE Ft Habib Wahid 2005(MP3_128K).mp3"
+    "artist": "﻿X - Epic",
+    "album": "﻿X - Epic",
+    "file": "KRISHNO AILA   RADHAR KUNJE Ft Habib Wahid 2005(MP3_128K).mp3",
+    "cover": "KRISHNO AILA   RADHAR KUNJE Ft Habib Wahid 2005(MP3_128K).jpg",
+    "genre": ""
+  },
+  {
+    "name": "﻿Tumi",
+    "artist": "﻿Level Five",
+    "album": "﻿Tumi",
+    "file": "LEVEL FIVE - TUMI (Official Lyric Video)(MP3_128K).mp3",
+    "cover": "LEVEL FIVE - TUMI (Official Lyric Video)(MP3_128K).jpg",
+    "genre": ""
+  },
+  {
+    "name": "﻿Long Distance Love | Coke Studio Bangla",
+    "artist": "﻿Ankan Kumar, Modernotaku, Shuvendu Das Shuvo",
+    "album": "﻿Long Distance Love | Coke Studio Bangla",
+    "file": "Long Distance Love _ Coke Studio Bangla _ Season 3 _ Ankan X Afrin _ Shuvendu(MP3_128K).mp3",
+    "cover": "Long Distance Love _ Coke Studio Bangla _ Season 3 _ Ankan X Afrin _ Shuvendu(MP3_128K).jpg",
+    "genre": ""
+  },
+  {
+    "name": "﻿Maya Lagaise",
+    "artist": "﻿Shah Abdul Karim",
+    "album": "﻿Nijer Konther Gaan (Volume 1)",
+    "file": "Maya - Habib Featuring Helal(MP3_128K).mp3",
+    "cover": "Maya - Habib Featuring Helal(MP3_128K).jpg",
+    "genre": ""
+  },
+  {
+    "name": "﻿Mayabono Biharini",
+    "artist": "﻿Somlata Acharyya Chowdhury, Rupam Islam",
+    "album": "﻿Mayabono Biharini - Single",
+    "file": "Mayabono Biharini from BEDROOM by Somlata(MP3_128K).mp3",
+    "cover": "Mayabono Biharini from BEDROOM by Somlata(MP3_128K).jpg",
+    "genre": ""
+  },
+  {
+    "name": "﻿Mayabono Biharini",
+    "artist": "﻿Somlata Acharyya Chowdhury, Rupam Islam",
+    "album": "﻿Mayabono Biharini - Single",
+    "file": "Mayabono Biharini Horini (Lyrics) _ Somlata _ মায়াবন বিহারিণী হরিণী _ রবীন্দ্র সংগীত(MP3_1.mp3",
+    "cover": "Mayabono Biharini Horini (Lyrics) _ Somlata _ মায়াবন বিহারিণী হরিণী _ রবীন্দ্র সংগীত(MP3_1.jpg",
+    "genre": ""
+  },
+  {
+    "name": "﻿Phiriye Dao",
+    "artist": "﻿Miles",
+    "album": "﻿Prottasha",
+    "file": "Miles - Phiriye Dao (Official Audio)(MP3_128K).mp3",
+    "cover": "Miles - Phiriye Dao (Official Audio)(MP3_128K).jpg",
+    "genre": ""
+  },
+  {
+    "name": "﻿Milon Hobe Kotodine",
+    "artist": "﻿Anirban Sur",
+    "album": "﻿Milon Hobe Kotodine",
+    "file": "Milon Hobe Kotodin e (Moner Manush) _ মনের মানুষ _ Folk Song _ Anirban Sur(MP3_128K).mp3",
+    "cover": "Milon Hobe Kotodin e (Moner Manush) _ মনের মানুষ _ Folk Song _ Anirban Sur(MP3_128K).jpg",
+    "genre": ""
+  },
+  {
+    "name": "﻿Jhoom",
+    "artist": "﻿Minar Rahman",
+    "album": "﻿Duur Theke",
+    "file": "MINAR RAHMAN _ JHOOM  _ Official Video _ Bangla New Song(MP3_128K).mp3",
+    "cover": "MINAR RAHMAN _ JHOOM  _ Official Video _ Bangla New Song(MP3_128K).jpg",
+    "genre": ""
+  },
+  {
+    "name": "﻿Moho",
+    "artist": "﻿Aftermath",
+    "album": "﻿Moho",
+    "file": "Moho(MP3_128K).mp3",
+    "cover": "Moho(MP3_128K).jpg",
+    "genre": ""
+  },
+  {
+    "name": "﻿Mombati - Unplugged Version",
+    "artist": "﻿Mohon Sharif",
+    "album": "﻿Mombati (Unplugged Version)",
+    "file": "MOMBATI (Lyrical) __ MOHON SHARIF __ Cover by Dhakaiya Dose __ Kalo Chaya Official(MP3_128K).mp3",
+    "cover": "MOMBATI (Lyrical) __ MOHON SHARIF __ Cover by Dhakaiya Dose __ Kalo Chaya Official(MP3_128K).jpg",
+    "genre": ""
+  },
+  {
+    "name": "﻿Mor Bhabonare",
+    "artist": "﻿Saptarshi Mukherjee, Sahana Bajpei",
+    "album": "﻿Hawa Bodol (Original Motion Picture Soundtrack)",
+    "file": "Mor Bhabonare with lyrics _ Saptarshi Mukherjee _ Sahana Bajpei _ HD Song(MP3_128K).mp3",
+    "cover": "Mor Bhabonare with lyrics _ Saptarshi Mukherjee _ Sahana Bajpei _ HD Song(MP3_128K).jpg",
+    "genre": ""
+  },
+  {
+    "name": "﻿Noya Daman",
+    "artist": "﻿Muza, Tosiba, Meem Haque",
+    "album": "﻿Noya Daman",
+    "file": "Muza - Noya Daman (ft. Tosiba _ Meem Haque) _ Official Lyric Video _ Sylheti Wedding Song _ Iqbal _(MP3_128K).mp3",
+    "cover": "Muza - Noya Daman (ft. Tosiba _ Meem Haque) _ Official Lyric Video _ Sylheti Wedding Song _ Iqbal _(MP3_128K).jpg",
+    "genre": ""
+  },
+  {
+    "name": "﻿Bhalobasha Chayna - Club Mix",
+    "artist": "﻿Sayera Reza",
+    "album": "﻿Ak Nimishe",
+    "file": "Na Na Na Ta Hobe Na _ না না না তা হবে না _ Arfin Rumey Ft. Sayera Reza _ Club Mix(MP3_128K).mp3",
+    "cover": "Na Na Na Ta Hobe Na _ না না না তা হবে না _ Arfin Rumey Ft. Sayera Reza _ Club Mix(MP3_128K).jpg",
+    "genre": ""
+  },
+  {
+    "name": "﻿Kobe",
+    "artist": "﻿Nemesis",
+    "album": "﻿Tritio Jatra",
+    "file": "Nemesis - Kobe _ Official Music Video(MP3_128K).mp3",
+    "cover": "Nemesis - Kobe _ Official Music Video(MP3_128K).jpg",
+    "genre": ""
+  },
+  {
+    "name": "﻿Neshar Bojha",
+    "artist": "﻿Popeye Bangladesh",
+    "album": "﻿Ja Ichche Ta",
+    "file": "Neshar Bojha - Popeye Bangladesh (Animation with Lyrics)(MP3_128K).mp3",
+    "cover": "Neshar Bojha - Popeye Bangladesh (Animation with Lyrics)(MP3_128K).jpg",
+    "genre": ""
+  },
+  {
+    "name": "﻿Nijer Jonno",
+    "artist": "﻿Ashes",
+    "album": "﻿Nijer Jonno",
+    "file": "Nijer Jonno ( নিজের জন্য ) - Ashes _ Official Music Video(MP3_128K).mp3",
+    "cover": "Nijer Jonno ( নিজের জন্য ) - Ashes _ Official Music Video(MP3_128K).jpg",
+    "genre": ""
+  },
+  {
+    "name": "﻿Obosthan",
+    "artist": "﻿HIGHWAY",
+    "album": "﻿Obosthan",
+    "file": "Obosthan (অবস্থান) - Train Poka Album - HIGHWAY - Debut Track(MP3_128K).mp3",
+    "cover": "Obosthan (অবস্থান) - Train Poka Album - HIGHWAY - Debut Track(MP3_128K).jpg",
+    "genre": ""
+  },
+  {
+    "name": "﻿Oniket Prantor",
+    "artist": "﻿Artcell",
+    "album": "﻿Oniket Prantor",
+    "file": "Oniket Prantor __ অনিকেত প্রান্তর __ Artcell __ Bangla New Band Song __ Official Lyrical Video(MP3_128K).mp3",
+    "cover": "Oniket Prantor __ অনিকেত প্রান্তর __ Artcell __ Bangla New Band Song __ Official Lyrical Video(MP3_128K).jpg",
+    "genre": ""
+  },
+  {
+    "name": "﻿Opare",
+    "artist": "﻿Bay of Bengal",
+    "album": "﻿Nirob Durvikkho",
+    "file": "Opare - Bay of Bengal (Official Video)(MP3_128K).mp3",
+    "cover": "Opare - Bay of Bengal (Official Video)(MP3_128K).jpg",
+    "genre": ""
+  },
+  {
+    "name": "﻿Ovijaan - Doi Fuchka (Official Music Video)",
+    "artist": "﻿Ovijaan",
+    "album": "﻿Ovijaan",
+    "file": "Ovijaan - Doi Fuchka (Official Music Video)(MP3_128K).mp3",
+    "cover": "Ovijaan - Doi Fuchka (Official Music Video)(MP3_128K).jpg",
+    "genre": ""
+  },
+  {
+    "name": "﻿Pagla Hawya",
+    "artist": "﻿James",
+    "album": "﻿Asmaner Chad",
+    "file": "Pagla Hawa by James _ পাগলা হাওয়া জেমস _Ore Ore hawa [Lyrics](MP3_128K).mp3",
+    "cover": "Pagla Hawa by James _ পাগলা হাওয়া জেমস _Ore Ore hawa [Lyrics](MP3_128K).jpg",
+    "genre": ""
+  },
+  {
+    "name": "﻿Pagol Chara Duniya Cholena",
+    "artist": "﻿Palok",
+    "album": "﻿Pagol Chara Duniya Cholena",
+    "file": "pagol chara duniya cole na(MP3_128K).mp3",
+    "cover": "pagol chara duniya cole na(MP3_128K).jpg",
+    "genre": ""
+  },
+  {
+    "name": "﻿Dile Boro Jalare Panjabiwala",
+    "artist": "﻿Kanak Chapa",
+    "album": "﻿Chakorer Prem",
+    "file": "Panjabiwala(MP3_128K).mp3",
+    "cover": "Panjabiwala(MP3_128K).jpg",
+    "genre": ""
+  },
+  {
+    "name": "﻿Pobitro Pap (পবিত্র পাপ) by Ashes (Lyrical Video)",
+    "artist": "﻿Ashes Bangladesh",
+    "album": "﻿Ashes Bangladesh",
+    "file": "Pobitro Pap (পবিত্র পাপ) by Ashes (Lyrical Video)(MP3_128K).mp3",
+    "cover": "Pobitro Pap (পবিত্র পাপ) by Ashes (Lyrical Video)(MP3_128K).jpg",
+    "genre": ""
+  },
+  {
+    "name": "﻿Prithibi Ta Naki Chhoto Hote Hote",
+    "artist": "﻿Crosswinds",
+    "album": "﻿Aabar Bachhor Kuri Pore, Vol. 1",
+    "file": "Prithibi Ta Naki Chhoto Hote Hote(MP3_128K).mp3",
+    "cover": "Prithibi Ta Naki Chhoto Hote Hote(MP3_128K).jpg",
+    "genre": ""
   },
   {
     "name": "﻿Priyotoma",
-    "file": "Priyotoma(MP3_128K).mp3"
+    "artist": "﻿Arfin Rumey",
+    "album": "﻿Bhalobashi Tomae",
+    "file": "Priyotoma(MP3_128K).mp3",
+    "cover": "Priyotoma(MP3_128K).jpg",
+    "genre": ""
+  },
+  {
+    "name": "﻿Prostab",
+    "artist": "﻿Odd Signature",
+    "album": "﻿Prostab",
+    "file": "Prostab - Odd Signature (Official)(MP3_128K).mp3",
+    "cover": "Prostab - Odd Signature (Official)(MP3_128K).jpg",
+    "genre": ""
+  },
+  {
+    "name": "﻿Shad",
+    "artist": "﻿Ali Hamidi",
+    "album": "﻿Dele Zakhmi",
+    "file": "Shada __ সাদা __ Minar __ Tahsan __ Danpite __ Bangla New Song __ Official Lyrical video(MP3_128K).mp3",
+    "cover": "Shada __ সাদা __ Minar __ Tahsan __ Danpite __ Bangla New Song __ Official Lyrical video(MP3_128K).jpg",
+    "genre": ""
+  },
+  {
+    "name": "﻿Shey Amare",
+    "artist": "﻿Ashes",
+    "album": "﻿Shey Amare",
+    "file": "Shey Amare - Ashes ( official Audio )(MP3_128K).mp3",
+    "cover": "Shey Amare - Ashes ( official Audio )(MP3_128K).jpg",
+    "genre": ""
   },
   {
     "name": "﻿10 E 10",
-    "file": "Shibu - 10 E 10 (Official Visualizer)(MP3_128K).mp3"
+    "artist": "﻿Shibu",
+    "album": "﻿10 E 10",
+    "file": "Shibu - 10 E 10 (Official Visualizer)(MP3_128K).mp3",
+    "cover": "Shibu - 10 E 10 (Official Visualizer)(MP3_128K).jpg",
+    "genre": ""
+  },
+  {
+    "name": "﻿Abar Hashimukh",
+    "artist": "﻿Shironamhin",
+    "album": "﻿Shironamhin Shironamhin",
+    "file": "Shironamhin - Abar Hashimukh [Official Music Video](MP3_128K).mp3",
+    "cover": "Shironamhin - Abar Hashimukh [Official Music Video](MP3_128K).jpg",
+    "genre": ""
+  },
+  {
+    "name": "﻿Bondho Janala",
+    "artist": "﻿Shironamhin",
+    "album": "﻿Bondho Janala",
+    "file": "Shironamhin _ Bondho Janala [Official Audio] _ _bangla Song(MP3_128K).mp3",
+    "cover": "Shironamhin _ Bondho Janala [Official Audio] _ _bangla Song(MP3_128K).jpg",
+    "genre": ""
+  },
+  {
+    "name": "﻿Pakhi",
+    "artist": "﻿Shironamhin",
+    "album": "﻿Icche Ghuri",
+    "file": "Shironamhin _ Pakhi [Official Music Video] _ _bangla Song(MP3_128K).mp3",
+    "cover": "Shironamhin _ Pakhi [Official Music Video] _ _bangla Song(MP3_128K).jpg",
+    "genre": ""
+  },
+  {
+    "name": "﻿Shono Mohajon",
+    "artist": "﻿Shunno",
+    "album": "﻿Bhaago",
+    "file": "Shono Mohajon(MP3_128K).mp3",
+    "cover": "Shono Mohajon(MP3_128K).jpg",
+    "genre": ""
+  },
+  {
+    "name": "﻿Bedona",
+    "artist": "﻿Shunno",
+    "album": "﻿Notun Srot",
+    "file": "SHUNNO - BEDONA(MP3_128K).mp3",
+    "cover": "SHUNNO - BEDONA(MP3_128K).jpg",
+    "genre": ""
+  },
+  {
+    "name": "﻿Behula",
+    "artist": "﻿Shunno",
+    "album": "﻿Behula",
+    "file": "SHUNNO - _BEHULA_ (Official MV)(MP3_128K).mp3",
+    "cover": "SHUNNO - _BEHULA_ (Official MV)(MP3_128K).jpg",
+    "genre": ""
+  },
+  {
+    "name": "﻿Ami Chhute Jai",
+    "artist": "﻿Sina Hasan",
+    "album": "﻿Lastbench",
+    "file": "Sina Hasan _ Ami Chhute Jai (Rater Tara Dishehara) _ New Bangla Song _ Animated Music Video(MP3_128K).mp3",
+    "cover": "Sina Hasan _ Ami Chhute Jai (Rater Tara Dishehara) _ New Bangla Song _ Animated Music Video(MP3_128K).jpg",
+    "genre": ""
+  },
+  {
+    "name": "﻿Sohena Jatona",
+    "artist": "﻿Arfin Rumey",
+    "album": "﻿Bhalobashi Tomae",
+    "file": "Sohena Jatona _ Arfin Rumey _ সহেনা যাতনা _ আরফিন রুমি _ ‍Music Video(MP3_128K).mp3",
+    "cover": "Sohena Jatona _ Arfin Rumey _ সহেনা যাতনা _ আরফিন রুমি _ ‍Music Video(MP3_128K).jpg",
+    "genre": ""
+  },
+  {
+    "name": "﻿Sritir Chera Pata",
+    "artist": "﻿Shunno",
+    "album": "﻿Shoto Asha",
+    "file": "Sritir Chera Pata - Shunno(MP3_128K).mp3",
+    "cover": "Sritir Chera Pata - Shunno(MP3_128K).jpg",
+    "genre": ""
+  },
+  {
+    "name": "﻿Ohona (Cmv)",
+    "artist": "﻿Subconscious",
+    "album": "﻿Ohona (Cmv)",
+    "file": "Subconscious _ অহনা _ Ohona _ Concert Music Video _ 2022(MP3_128K).mp3",
+    "cover": "Subconscious _ অহনা _ Ohona _ Concert Music Video _ 2022(MP3_128K).jpg",
+    "genre": ""
+  },
+  {
+    "name": "﻿Tal Tomal",
+    "artist": "﻿Band Lalon",
+    "album": "﻿Khepa",
+    "file": "Tal Tomal(MP3_128K).mp3",
+    "cover": "Tal Tomal(MP3_128K).jpg",
+    "genre": ""
+  },
+  {
+    "name": "﻿Tamakpata",
+    "artist": "﻿Ashes",
+    "album": "﻿Rockoholic 3",
+    "file": "Tamak pata -   Ashes ( Official Audio )(MP3_128K).mp3",
+    "cover": "Tamak pata -   Ashes ( Official Audio )(MP3_128K).jpg",
+    "genre": ""
+  },
+  {
+    "name": "﻿Tarabati (তারাবাতি) by Ashes ( Unreleased )",
+    "artist": "﻿Ashes Bangladesh",
+    "album": "﻿Ashes Bangladesh",
+    "file": "Tarabati (তারাবাতি) by Ashes ( Unreleased )(MP3_128K).mp3",
+    "cover": "Tarabati (তারাবাতি) by Ashes ( Unreleased )(MP3_128K).jpg",
+    "genre": ""
+  },
+  {
+    "name": "﻿Taray Taray",
+    "artist": "﻿Nogor Baul James",
+    "album": "﻿Best of James",
+    "file": "Taray Taray - James । Shundori Toma Amar - James । With lyrics(MP3_128K).mp3",
+    "cover": "Taray Taray - James । Shundori Toma Amar - James । With lyrics(MP3_128K).jpg",
+    "genre": ""
   },
   {
     "name": "﻿Tomar Ghore Bosot Kore Koyjona",
-    "file": "Tomar Ghore Bosot Kore Koyjona __Anirban Sur __ Official Lyrical Video(MP3_128K).mp3"
+    "artist": "﻿Anirban Sur",
+    "album": "﻿Tomar Ghore Bosot Kore Koyjona",
+    "file": "Tomar Ghore Bosot Kore Koyjona __Anirban Sur __ Official Lyrical Video(MP3_128K).mp3",
+    "cover": "Tomar Ghore Bosot Kore Koyjona __Anirban Sur __ Official Lyrical Video(MP3_128K).jpg",
+    "genre": ""
   },
-    {
-        "name": "﻿Acid Ke",
-        "file": "Acid Ke(MP3_128K).mp3",
-        "genre": "nostalgic"
-    },
-    {
-        "name": "﻿Dhar Dharina",
-        "file": "Dhar darina para porshir(MP3_128K).mp3",
-        "genre": "nostalgic"
-    },
-    {
-        "name": "﻿Dola De Re",
-        "file": "Dola De _ দোলা দে _ Mila _ Fuad _  _ Music Video _ Shahan Kabondho _ Bangla New Song(MP3_128K).mp3",
-        "genre": "nostalgic"
-    },
-    {
-        "name": "﻿Ekaki Mon",
-        "file": "Ekaki Mon _ Balam _ একাকি মন _ বালাম _ TI Antor _ Music Video(MP3_128K).mp3",
-        "genre": "nostalgic"
-    },
-    {
-        "name": "﻿Bolna Tui Bolna",
-        "file": "Hridoy Khan -  Bolna(MP3_128K).mp3",
-        "genre": "nostalgic"
-    },
-    {
-        "name": "﻿Chaina Meye",
-        "file": "Hridoy Khan - Chaina Meye  _ Lyrical Video _ Hridoy Mix(MP3_128K).mp3",
-        "genre": "nostalgic"
-    },
-    {
-        "name": "﻿Jaan oh Baby",
-        "file": "Jaan oh Baby - (Music Video)(MP3_128K).mp3",
-        "genre": "nostalgic"
-    },
-    {
-        "name": "﻿Na Na Na Ta Hobe Na",
-        "file": "Na Na Na Ta Hobe Na _ না না না তা হবে না _ Arfin Rumey Ft. Sayera Reza _ Club Mix(MP3_128K).mp3",
-        "genre": "nostalgic"
-    },
-    {
-        "name": "Doi Fuchka",
-        "file": "Ovijaan - Doi Fuchka (Official Music Video)(MP3_128K).mp3",
-        "genre": "nostalgic"
-    },
-    {
-        "name": "﻿Pagla Hawya",
-        "file": "Pagla Hawa by James _ পাগলা হাওয়া জেমস _Ore Ore hawa [Lyrics](MP3_128K).mp3",
-        "genre": ""
-    },
-    {
-        "name": "﻿Dile Boro Jalare Panjabiwala",
-        "file": "Panjabiwala(MP3_128K).mp3",
-        "genre": "nostalgic"
-    },
-    {
-        "name": "﻿Pakhi",
-        "file": "Shironamhin _ Pakhi [Official Music Video] _ _bangla Song(MP3_128K).mp3",
-        "genre": ""
-    },
-    {
-        "name": "﻿Bedona",
-        "file": "SHUNNO - BEDONA(MP3_128K).mp3",
-        "genre": ""
-    },
-    {
-        "name": "﻿Sohena Jatona",
-        "file": "Sohena Jatona _ Arfin Rumey _ সহেনা যাতনা _ আরফিন রুমি _ ‍Music Video(MP3_128K).mp3",
-        "genre": "nostalgic"
-    },
-    {
-        "name": "﻿Taray Taray",
-        "file": "Taray Taray - James । Shundori Toma Amar - James । With lyrics(MP3_128K).mp3",
-        "genre": ""
-    },
-    {
-        "name": "﻿Kobita",
-        "file": "কবিতা তুমি স্বপ্নচারিনী হয়ে _ Kobita _ James _ Lyrics(MP3_128K).mp3",
-        "genre": ""
-    },
-    {
-        "name": "Rupbane Nache Komor Dulaiya",
-        "file": "রুপবানে নাচে কোমর দুলাইয়া  - Rupbane Nache Komor Dulaiya - MILA(MP3_128K).mp3",
-        "genre": "nostalgic"
-    },
-    {
-        "name": "﻿UTHSHORGO",
-        "file": "AFTERMATH - UTHSHORGO (LYRICS VIDEO)(MP3_128K).mp3",
-        "genre": ""
-    },
-    {
-        "name": "﻿Ami Tomar Moner Vitor",
-        "file": "Ami Tomar Moner Vitor _ Habib Wahid _ Nancy _ আমি তোমার মনের ভিতর _ Lyrical Video(MP3_128K).mp3",
-        "genre": "nostalgic"
-    },
-    {
-        "name": "﻿Ei Je Dunia",
-        "file": "Bagdhara - Ei je dunia (এই যে দুনিয়া) _ (Official Audio)(MP3_128K).mp3",
-        "genre": ""
-    },
-    {
-        "name": "﻿Tomaro Ki Pore Mone",
-        "file": "Bagdhara - Tomaro Ki Pore Mone (তোমারো কি পড়ে মনে) _ (Official Audio)(MP3_128K).mp3",
-        "genre": ""
-    },
-    {
-        "name": "﻿Ekhon Ami",
-        "file": "Ekhon Ami _ এখন আমি _ Lofi Remix _ Shopnolok _ Ov _ Ayon Chaklader _ NabruNation(MP3_128K).mp3",
-        "genre": ""
-    },
-    {
-        "name": "﻿Ekta Chhele",
-        "file": "Ekta Chhele  একটা ছেলে  I  Sahana  ।  Modern Bengali song  I  Bengal Jukebox(MP3_128K).mp3",
-        "genre": ""
-    },
-    {
-        "name": "﻿Fera by Band Lalon & Shohojia",
-        "file": "Fera by Band Lalon _ Shohojia(MP3_128K).mp3",
-        "genre": ""
-    },
-    {
-        "name": "﻿Maya Lagaise",
-        "file": "Maya - Habib Featuring Helal(MP3_128K).mp3",
-        "genre": ""
-    },
-    {
-        "name": "﻿Milon Hobe Kotodine",
-        "file": "Milon Hobe Kotodin e (Moner Manush) _ মনের মানুষ _ Folk Song _ Anirban Sur(MP3_128K).mp3",
-        "genre": ""
-    },
-    {
-        "name": "﻿Pagol Chara Duniya Cholena",
-        "file": "pagol chara duniya cole na(MP3_128K).mp3",
-        "genre": ""
-    },
-    {
-        "name": "﻿Shono Mohajon",
-        "file": "Shono Mohajon(MP3_128K).mp3",
-        "genre": ""
-    },
-    {
-        "name": "﻿Behula",
-        "file": "SHUNNO - _BEHULA_ (Official MV)(MP3_128K).mp3",
-        "genre": ""
-    },
-    {
-        "name": "﻿Ami Chhute Jai",
-        "file": "Sina Hasan _ Ami Chhute Jai (Rater Tara Dishehara) _ New Bangla Song _ Animated Music Video(MP3_128K).mp3",
-        "genre": ""
-    },
-    {
-        "name": "﻿Tobu ei deyaler shorire",
-        "file": "তবু এই দেয়ালের শরীরে যত ছেড়া রং ধুয়ে যাওয়া মানুষ.._(MP3_128K).mp3",
-        "genre": ""
-    },
-    {
-        "name": "Bhalo Lage Na",
-        "file": "Hridoy Khan - Bhalo Lage Na (Official Video) - Hridoy Khan.mp3",
-        "genre": "nostalgic"
-    },
-    {
-        "name": "Beni Khuley",
-        "file": "Beni-Khuley-MUZAMUSIC-HabibWahidofficialRussell-Ali-FuadAlmuqtadironline-Official-Music-Video.mp3",
-        "genre": ""
-    },
-    {
-        "name": "Jhumka",
-        "file": "Xefer-x-Muza-Jhumka-Official-Music-Video.mp3",
-        "genre": ""
-    },
-    {
-        "name": "﻿Amake Aamar Moto Thaakte Dao",
-        "file": "Amake Amar Moto Thakte Dao _ Autograph _ Prosenjit Chatterjee _ Anupam Roy _ Srijit Mukherji _ SVF(MP3_128K).mp3",
-        "genre": ""
-    },
-    {
-        "name": "﻿Ami Akash Pathabo",
-        "file": "AvoidRafa - Ami Akash Pathabo(MP3_128K).mp3",
-        "genre": ""
-    },
-    {
-        "name": "﻿Har Kala",
-        "file": "AvoidRafa - Har Kala(MP3_128K).mp3",
-        "genre": ""
-    },
-    {
-        "name": "﻿Tomaro Ki Pore Mone",
-        "file": "Bagdhara - Tomaro Ki Pore Mone (তোমারো কি পড়ে মনে) _ (Official Audio)(MP3_128K).mp3",
-        "genre": ""
-    },
-    {
-        "name": "﻿Bhalobasa Tarpor",
-        "file": "Bhalobasa Tarpor(MP3_128K).mp3",
-        "genre": ""
-    },
-    {
-        "name": "﻿Tati | Coke Studio Bangla",
-        "file": "Chiltey Roud _ Coke Studio Bangla _ Season One _ Arnob X Ripon (Boga)(MP3_128K).mp3",
-        "genre": ""
-    },
-    {
-        "name": "﻿Dhulabli - Radio Version",
-        "file": "Dhulabali (ধুলাবালি) - Ashes (Lyrical Video) _ Official(MP3_128K).mp3",
-        "genre": ""
-    },
-    {
-        "name": "﻿Dukkho Bilash",
-        "file": "Dukkho Bilash _ দুঃখ বিলাস _ Artcell _ Anushilon _ Coordinated by Isha Khan Duray(MP3_128K).mp3",
-        "genre": ""
-    },
-    {
-        "name": "﻿Jaat Gele Jaat Gele Sumi Lalon Band.",
-        "file": "Jaat Gele Jaat Gele Sumi Lalon Band.                        জাত গেল জাত গেল সুমি লালন ব্যান্ড(MP3_128K).mp3",
-        "genre": ""
-    },
-    {
-        "name": "﻿Jaat Gelo",
-        "file": "Jaat Gelo(MP3_128K).mp3",
-        "genre": ""
-    },
-    {
-        "name": "﻿Khepa",
-        "file": "Khepa(MP3_128K).mp3",
-        "genre": ""
-    },
-    {
-        "name": "﻿Mayabono Biharini",
-        "file": "Mayabono Biharini Horini (Lyrics) _ Somlata _ মায়াবন বিহারিণী হরিণী _ রবীন্দ্র সংগীত(MP3_1.mp3",
-        "genre": ""
-    },
-    {
-        "name": "﻿Moho",
-        "file": "Moho(MP3_128K).mp3",
-        "genre": ""
-    },
-    {
-        "name": "﻿Mombati - Unplugged Version",
-        "file": "MOMBATI (Lyrical) __ MOHON SHARIF __ Cover by Dhakaiya Dose __ Kalo Chaya Official(MP3_128K).mp3",
-        "genre": ""
-    },
-    {
-        "name": "﻿Mor Bhabonare",
-        "file": "Mor Bhabonare with lyrics _ Saptarshi Mukherjee _ Sahana Bajpei _ HD Song(MP3_128K).mp3",
-        "genre": ""
-    },
-    {
-        "name": "﻿Kobe",
-        "file": "Nemesis - Kobe _ Official Music Video(MP3_128K).mp3",
-        "genre": ""
-    },
-    {
-        "name": "﻿Neshar Bojha",
-        "file": "Neshar Bojha - Popeye Bangladesh (Animation with Lyrics)(MP3_128K).mp3",
-        "genre": ""
-    },
-    {
-        "name": "﻿Obosthan",
-        "file": "Obosthan (অবস্থান) - Train Poka Album - HIGHWAY - Debut Track(MP3_128K).mp3",
-        "genre": ""
-    },
-    {
-        "name": "﻿Opare",
-        "file": "Opare - Bay of Bengal (Official Video)(MP3_128K).mp3",
-        "genre": ""
-    },
-    {
-        "name": "﻿Prithibi Ta Naki Chhoto Hote Hote",
-        "file": "Prithibi Ta Naki Chhoto Hote Hote(MP3_128K).mp3",
-        "genre": ""
-    },
-    {
-        "name": "﻿Abar Hashimukh",
-        "file": "Shironamhin - Abar Hashimukh [Official Music Video](MP3_128K).mp3",
-        "genre": ""
-    },
-    {
-        "name": "﻿Bondho Janala",
-        "file": "Shironamhin _ Bondho Janala [Official Audio] _ _bangla Song(MP3_128K).mp3",
-        "genre": ""
-    },
-    {
-        "name": "﻿Sritir Chera Pata",
-        "file": "Sritir Chera Pata - Shunno(MP3_128K).mp3",
-        "genre": ""
-    },
-    {
-        "name": "﻿Ohona",
-        "file": "Subconscious _ অহনা _ Ohona _ Concert Music Video _ 2022(MP3_128K).mp3",
-        "genre": ""
-    },
-    {
-        "name": "﻿Tal Tomal",
-        "file": "Tal Tomal(MP3_128K).mp3",
-        "genre": ""
-    },
-    {
-        "name": "﻿Tumi Jake Bhalobaso - Female Version",
-        "file": "Tumi Jake Bhalobasho (Female) _ Official Music Video _ তুমি যাকে ভালোবাসো _ Praktan _ Iman _ Anupam(MP3_128K).mp3",
-        "genre": ""
-    },
-    {
-        "name": "﻿Purnota",
-        "file": "Warfaze - Purnota(MP3_128K).mp3",
-        "genre": ""
-    },
-    {
-        "name": "﻿Rupkotha",
-        "file": "Warfaze-Rupkotha(MP3_128K).mp3",
-        "genre": ""
-    },
-    {
-        "name": "﻿Amar Dehokhan (Official)",
-        "file": "_ আমার দেহখান _ _  Amar Dehokhan _ Odd Signature _ Lyrics Video(MP3_128K).mp3",
-        "genre": ""
-    },
-    {
-        "name": "﻿Emon Jodi Hoto",
-        "file": "এমন যদি হতো __ Emon jodi hoto __ Joler Gaan __ জলের গান __ Lyrics video(MP3_128K).mp3",
-        "genre": ""
-    },
-    {
-        "name": "﻿Somoy Gele Sadhon Hobe Na | Sumi",
-        "file": "সময় গেলে সাধন হবে না _ Somoy Gele Sadhon Hobe Na _ Sumi _ Lalon Band Song _ Folk Studio _ Rtv Music(MP3_128K).mp3",
-        "genre": ""
-    },
-    {
-        "name": "Bhalobeshe Kono Bhool",
-        "file": "00 - Arindom, Shalmali Kholgade - Bhalobeshe Kono Bhool.mp3",
-        "genre": ""
-    },
-    {
-        "name": "Bahir Bole Dure Thakuk",
-        "file": "00 - Channel i Tv - Bahir Bole Dure Thakuk _ Movie Song _ Third Person Singular Number _ Habib & Nancy _ Channel i TV.mp3",
-        "genre": ""
-    },
-    {
-        "name": "Punorjonmo",
-        "file": "00 - Chondropith - Punorjonmo.mp3",
-        "genre": ""
-    },
-    {
-        "name": "60's Love",
-        "file": "00 - Level Five - 60's Love.mp3",
-        "genre": ""
-    },
-    {
-        "name": "E Hawa",
-        "file": "00 - Meghdol - E Hawa.mp3",
-        "genre": ""
-    },
-    {
-        "name": "Ei Obelay",
-        "file": "00 - Shironamhin - Ei Obelay.mp3",
-        "genre": ""
-    },
-    {
-        "name": "Rajahin Rajjo",
-        "file": "00 - Shunno - Rajahin Rajjo.mp3",
-        "genre": ""
-    },
-    {
-        "name": "﻿17 Prishtha",
-        "file": "17 prishtha ( সতেরো পৃষ্ঠা ) by Ashes(MP3_128K).mp3",
-        "genre": ""
-    },
-    {
-        "name": "﻿Aaj Raate Kono Rupkotha Nei",
-        "file": "Aaj Raate Kono Rupkotha Nei _ Old School _ আজ রাতে কোনো রূপকথা নেই _ Mobassher Choudhury(MP3_128K).mp3",
-        "genre": "nostalgic"
-    },
-    {
-        "name": "﻿UTHSHORGO",
-        "file": "AFTERMATH - UTHSHORGO (LYRICS VIDEO)(MP3_128K).mp3",
-        "genre": ""
-    },
-    {
-        "name": "﻿Aha Re",
-        "file": "Aha Re __ আহারে __ Minar Rahman _ Taneem Rahman Angshu _ Superhit Bangla Song _ Official Music Video(MP3_128K).mp3",
-        "genre": "nostalgic"
-    },
-    {
-        "name": "﻿Alo",
-        "file": "Alo _ আলো _ Tahsan _ Album Ecche _ Tahsan Art Track _ Tahsan Lyrical Video(MP3_128K).mp3",
-        "genre": "nostalgic"
-    },
-    {
-        "name": "﻿Ami Bodle Jabo",
-        "file": "Ami Bodley Jabo ( আমি বদলে যাব ) - Ashes _ Official Video(MP3_128K).mp3",
-        "genre": ""
-    },
-    {
-        "name": "﻿Amon Chena",
-        "file": "Amon Chena ( এমন চেনা ) - Ashes ( Lyrical Video )(MP3_128K).mp3",
-        "genre": ""
-    },
-    {
-        "name": "﻿Kemon Acho",
-        "file": "Ashes-  Kemon Acho (Lyrics)(MP3_128K).mp3",
-        "genre": ""
-    },
-    {
-        "name": "﻿Avash",
-        "file": "Avash _ Avash _ Official Video(MP3_128K).mp3",
-        "genre": ""
-    },
-    {
-        "name": "﻿Ei Je Dunia",
-        "file": "Bagdhara - Ei je dunia (এই যে দুনিয়া) _ (Official Audio)(MP3_128K).mp3",
-        "genre": ""
-    },
-    {
-        "name": "﻿Proticchobi",
-        "file": "Bagdhara - Proticchobi (প্রতিচ্ছবি) - Official Music Video(MP3_128K).mp3",
-        "genre": ""
-    },
-    {
-        "name": "﻿Baje Shobhab",
-        "file": "Baje Shobhab I Prithwi Raj ft  Rehaan I Jilapi Originals I 2018(MP3_128K).mp3",
-        "genre": ""
-    },
-    {
-        "name": "﻿Confusion",
-        "file": "BANGLA FIVE _ CONFUSION Audio (Tomay Ami Chinina) Bangla band song কনফিউশন বাংলা ফাইভ ব্যান্ড(MP3_128K).mp3",
-        "genre": ""
-    },
-    {
-        "name": "﻿Charpoka",
-        "file": "Charpoka  ( ছারপোকা )  By Ashes(MP3_128K).mp3",
-        "genre": ""
-    },
-    {
-        "name": "﻿Porinita",
-        "file": "Conclusion - Porinita (Audio)(MP3_128K).mp3",
-        "genre": ""
-    },
-    {
-        "name": "﻿Etota Valobasi",
-        "file": "Etota Bhalobashi - Recall __ Official Music Video(MP3_128K).mp3",
-        "genre": ""
-    },
-    {
-        "name": "﻿GhorGari",
-        "file": "GhorGari (ঘোরগাড়ী) - Album_ Train Poka - HIGHWAY(MP3_128K).mp3",
-        "genre": ""
-    },
-    {
-        "name": "﻿Ghum (Official)",
-        "file": "Ghum - Odd Signature [Official](MP3_128K).mp3",
-        "genre": ""
-    },
-    {
-        "name": "﻿Gulbahar",
-        "file": "Gulbahar _ গুলবাহার _ Ishaan এর Gaan _ Shuvendu Das Shuvo _ Official Music Video(MP3_128K).mp3",
-        "genre": ""
-    },
-    {
-        "name": "﻿Hin",
-        "file": "Hin ( হীন ) - Ashes ( Lyrical Video )(MP3_128K).mp3",
-        "genre": ""
-    },
-    {
-        "name": "﻿Jao Pakhi Bolo Tare",
-        "file": "Jao Pakhi Bolo Tare _ Monpura _ Movie Song _ Chanchal Chowdhury_  Fazlur Rahman Babu_  Arnob(MP3_128K).mp3",
-        "genre": ""
-    },
-    {
-        "name": "﻿Karone Okarone",
-        "file": "Karone Okarone _ Minar Rahman _ Official Music Video _ Eagle Music(MP3_128K).mp3",
-        "genre": ""
-    },
-    {
-        "name": "﻿Ki R Hobe",
-        "file": "Ki R Hobe - Ashes(MP3_128K).mp3",
-        "genre": ""
-    },
-    {
-        "name": "﻿Kotha Koiyo Na",
-        "file": "Kotha Koiyo Na _ Coke Studio Bangla _ Season 2 _ Shiblu Mredha X Aleya Begum X Emon Chowdhury(MP3_128K).mp3",
-        "genre": ""
-    },
-    {
-        "name": "﻿Kotodur",
-        "file": "Kotodur _ কতদুরে __ Tahsan __ Minar __ Sajid Sarkar __ Bangla New Song __ Official Lyrical Video(MP3_128K).mp3",
-        "genre": ""
-    },
-    {
-        "name": "﻿Tumi",
-        "file": "LEVEL FIVE - TUMI (Official Lyric Video)(MP3_128K).mp3",
-        "genre": ""
-    },
-    {
-        "name": "﻿Mayabono Biharini",
-        "file": "Mayabono Biharini from BEDROOM by Somlata(MP3_128K).mp3",
-        "genre": ""
-    },
-    {
-        "name": "﻿Phiriye Dao",
-        "file": "Miles - Phiriye Dao (Official Audio)(MP3_128K).mp3",
-        "genre": ""
-    },
-    {
-        "name": "﻿Jhoom",
-        "file": "MINAR RAHMAN _ JHOOM  _ Official Video _ Bangla New Song(MP3_128K).mp3",
-        "genre": ""
-    },
-    {
-        "name": "﻿Noya Daman",
-        "file": "Muza - Noya Daman (ft. Tosiba _ Meem Haque) _ Official Lyric Video _ Sylheti Wedding Song _ Iqbal _(MP3_128K).mp3",
-        "genre": ""
-    },
-    {
-        "name": "﻿Nijer Jonno",
-        "file": "Nijer Jonno ( নিজের জন্য ) - Ashes _ Official Music Video(MP3_128K).mp3",
-        "genre": ""
-    },
-    {
-        "name": "﻿Oniket Prantor",
-        "file": "Oniket Prantor __ অনিকেত প্রান্তর __ Artcell __ Bangla New Band Song __ Official Lyrical Video(MP3_128K).mp3",
-        "genre": ""
-    },
-    {
-        "name": "﻿Pobitro Pap",
-        "file": "Pobitro Pap (পবিত্র পাপ) by Ashes (Lyrical Video)(MP3_128K).mp3",
-        "genre": ""
-    },
-    {
-        "name": "﻿Prostab",
-        "file": "Prostab - Odd Signature (Official)(MP3_128K).mp3",
-        "genre": ""
-    },
-    {
-        "name": "﻿Shada",
-        "file": "Shada __ সাদা __ Minar __ Tahsan __ Danpite __ Bangla New Song __ Official Lyrical video(MP3_128K).mp3",
-        "genre": "nostalgic"
-    },
-    {
-        "name": "﻿Shey Amare",
-        "file": "Shey Amare - Ashes ( official Audio )(MP3_128K).mp3",
-        "genre": ""
-    },
-    {
-        "name": "﻿Tamakpata",
-        "file": "Tamak pata -   Ashes ( Official Audio )(MP3_128K).mp3",
-        "genre": ""
-    },
-    {
-        "name": "﻿Tarabati",
-        "file": "Tarabati (তারাবাতি) by Ashes ( Unreleased )(MP3_128K).mp3",
-        "genre": ""
-    },
-    {
-        "name": "﻿Urey jawa pakhir chokhey",
-        "file": "Urey Jawa Pakhir Chokhe (উড়ে যাওয়া পাখির চোখে) - Ashes  _ Official Animated Music Video(MP3_128K).mp3",
-        "genre": ""
-    },
-    {
-        "name": "﻿Punorjonmo",
-        "file": "পুনর্জন্ম _ PunorJonmo - Condropith(চন্দ্রপীঠ) _ Official music video(MP3_128K).mp3",
-        "genre": ""
-    },
-    {
-        "name": "﻿Srotoshinni",
-        "file": "স্রোতস্বিনী- এনকোর _ লিরিক্স ভিডিও_ Srotoshinni- Encore_ Lyrics Video_ Ban_Rom_Eng(MP3_128K).mp3",
-        "genre": ""
-    },
-    {
-        "name": "﻿Tomar jonno nilche tara-Arnob",
-        "file": "꧁ Tomar jonno nilche tara তোমার জন্য নীলচে তারা I Shayan Chowdhury Arnob I Contemporary song꧂(MP3_128K).mp3",
-        "genre": "nostalgic"
-    }
+  {
+    "name": "﻿Tumi Jake Bhalobaso - Female Version",
+    "artist": "﻿Iman Chakraborty, Anupam Roy",
+    "album": "﻿Praktan (Original Motion Picture Soundtrack)",
+    "file": "Tumi Jake Bhalobasho (Female) _ Official Music Video _ তুমি যাকে ভালোবাসো _ Praktan _ Iman _ Anupam(MP3_128K).mp3",
+    "cover": "Tumi Jake Bhalobasho (Female) _ Official Music Video _ তুমি যাকে ভালোবাসো _ Praktan _ Iman _ Anupam(MP3_128K).jpg",
+    "genre": ""
+  },
+  {
+    "name": "﻿Urey jawa pakhir chokhey",
+    "artist": "﻿Ashes",
+    "album": "﻿Urey jawa pakhir chokhey",
+    "file": "Urey Jawa Pakhir Chokhe (উড়ে যাওয়া পাখির চোখে) - Ashes  _ Official Animated Music Video(MP3_128K).mp3",
+    "cover": "Urey Jawa Pakhir Chokhe (উড়ে যাওয়া পাখির চোখে) - Ashes  _ Official Animated Music Video(MP3_128K).jpg",
+    "genre": ""
+  },
+  {
+    "name": "﻿Purnota",
+    "artist": "﻿Warfaze",
+    "album": "﻿Shotto",
+    "file": "Warfaze - Purnota(MP3_128K).mp3",
+    "cover": "Warfaze - Purnota(MP3_128K).jpg",
+    "genre": ""
+  },
+  {
+    "name": "﻿Rupkotha",
+    "artist": "﻿Warfaze",
+    "album": "﻿Shotto",
+    "file": "Warfaze-Rupkotha(MP3_128K).mp3",
+    "cover": "Warfaze-Rupkotha(MP3_128K).jpg",
+    "genre": ""
+  },
+  {
+    "name": "Xefer x Muza Jhumka Official Music Video",
+    "artist": null,
+    "album": null,
+    "file": "Xefer-x-Muza-Jhumka-Official-Music-Video.mp3",
+    "cover": null,
+    "genre": ""
+  },
+  {
+    "name": "﻿Amar Dehokhan (Official)",
+    "artist": "﻿Odd Signature",
+    "album": "﻿Amar Dehokhan (Official)",
+    "file": "_ আমার দেহখান _ _  Amar Dehokhan _ Odd Signature _ Lyrics Video(MP3_128K).mp3",
+    "cover": "_ আমার দেহখান _ _  Amar Dehokhan _ Odd Signature _ Lyrics Video(MP3_128K).jpg",
+    "genre": ""
+  },
+  {
+    "name": "﻿Emon Jodi Hoto",
+    "artist": "﻿JOler gaan",
+    "album": "﻿Otol jOler gaan",
+    "file": "এমন যদি হতো __ Emon jodi hoto __ Joler Gaan __ জলের গান __ Lyrics video(MP3_128K).mp3",
+    "cover": "এমন যদি হতো __ Emon jodi hoto __ Joler Gaan __ জলের গান __ Lyrics video(MP3_128K).jpg",
+    "genre": ""
+  },
+  {
+    "name": "﻿Kobita",
+    "artist": "﻿Nogor Baul James",
+    "album": "﻿Best of James",
+    "file": "কবিতা তুমি স্বপ্নচারিনী হয়ে _ Kobita _ James _ Lyrics(MP3_128K).mp3",
+    "cover": "কবিতা তুমি স্বপ্নচারিনী হয়ে _ Kobita _ James _ Lyrics(MP3_128K).jpg",
+    "genre": ""
+  },
+  {
+    "name": "﻿তবু এই দেয়ালের শরীরে যত ছেড়া রং ধুয়ে যাওয়া মানুষ..!",
+    "artist": "﻿Relaxing Music",
+    "album": "﻿Relaxing Music",
+    "file": "তবু এই দেয়ালের শরীরে যত ছেড়া রং ধুয়ে যাওয়া মানুষ.._(MP3_128K).mp3",
+    "cover": "তবু এই দেয়ালের শরীরে যত ছেড়া রং ধুয়ে যাওয়া মানুষ.._(MP3_128K).jpg",
+    "genre": ""
+  },
+  {
+    "name": "﻿Punorjonmo",
+    "artist": "﻿Chondropith",
+    "album": "﻿Punorjonmo",
+    "file": "পুনর্জন্ম _ PunorJonmo - Condropith(চন্দ্রপীঠ) _ Official music video(MP3_128K).mp3",
+    "cover": "পুনর্জন্ম _ PunorJonmo - Condropith(চন্দ্রপীঠ) _ Official music video(MP3_128K).jpg",
+    "genre": ""
+  },
+  {
+    "name": "﻿রুপবানে নাচে কোমর দুলাইয়া  - Rupbane Nache Komor Dulaiya - MILA",
+    "artist": "﻿MILA ISLAM",
+    "album": "﻿MILA ISLAM",
+    "file": "রুপবানে নাচে কোমর দুলাইয়া  - Rupbane Nache Komor Dulaiya - MILA(MP3_128K).mp3",
+    "cover": "রুপবানে নাচে কোমর দুলাইয়া  - Rupbane Nache Komor Dulaiya - MILA(MP3_128K).jpg",
+    "genre": ""
+  },
+  {
+    "name": "﻿সময় গেলে সাধন হবে না | Somoy Gele Sadhon Hobe Na | Sumi | Lalon Band Song | Folk Studio | Rtv Music",
+    "artist": "﻿Rtv Music",
+    "album": "﻿Rtv Music",
+    "file": "সময় গেলে সাধন হবে না _ Somoy Gele Sadhon Hobe Na _ Sumi _ Lalon Band Song _ Folk Studio _ Rtv Music(MP3_128K).mp3",
+    "cover": "সময় গেলে সাধন হবে না _ Somoy Gele Sadhon Hobe Na _ Sumi _ Lalon Band Song _ Folk Studio _ Rtv Music(MP3_128K).jpg",
+    "genre": ""
+  },
+  {
+    "name": "﻿Srotoshinni",
+    "artist": "﻿Encore",
+    "album": "﻿Chinnho",
+    "file": "স্রোতস্বিনী- এনকোর _ লিরিক্স ভিডিও_ Srotoshinni- Encore_ Lyrics Video_ Ban_Rom_Eng(MP3_128K).mp3",
+    "cover": "স্রোতস্বিনী- এনকোর _ লিরিক্স ভিডিও_ Srotoshinni- Encore_ Lyrics Video_ Ban_Rom_Eng(MP3_128K).jpg",
+    "genre": ""
+  },
+  {
+    "name": "﻿꧁ Tomar jonno nilche tara তোমার জন্য নীলচে তারা I Shayan Chowdhury Arnob I Contemporary song꧂",
+    "artist": "﻿Bengal Foundation",
+    "album": "﻿Bengal Foundation",
+    "file": "꧁ Tomar jonno nilche tara তোমার জন্য নীলচে তারা I Shayan Chowdhury Arnob I Contemporary song꧂(MP3_128K).mp3",
+    "cover": "꧁ Tomar jonno nilche tara তোমার জন্য নীলচে তারা I Shayan Chowdhury Arnob I Contemporary song꧂(MP3_128K).jpg",
+    "genre": ""
+  }
 ]
-
-
