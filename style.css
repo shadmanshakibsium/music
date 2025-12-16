@@ -391,7 +391,7 @@ h1 {
 
 /* Song Title */
 .fullscreen-player .container .title {
-  font-size: 26px;       /* Desktop default */
+  font-size: 22px;       /* Desktop default */
   font-weight: 700;
   margin-bottom: 24px;
   letter-spacing: 0.7px;
@@ -400,6 +400,13 @@ h1 {
   text-overflow: ellipsis; /* শেষের দিকে ... দেখাবে */
   text-align: center;
 }
+
+@media(max-width: 450px) {
+  .fullscreen-player .container .title {
+    font-size: 18px; /* Mobile আরও ছোট */
+  }
+}
+
 /* progress wrapper */
 #progress {
   position: relative;
