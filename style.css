@@ -593,3 +593,9 @@ h1 {
   border-radius: 15px;
   object-fit: cover;
 }
+@media(max-width: 450px){
+  #fs-cover {
+    width: 240px;   /* মোবাইলে সামঞ্জস্য রেখে */
+    height: 240px;
+  }
+}
