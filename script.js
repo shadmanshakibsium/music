@@ -342,7 +342,7 @@ function playSong(index) {
   fsAudio.play();
   if ('mediaSession' in navigator) {
     // Provide richer metadata for lock-screen / bluetooth
-    const artworkSrc = (song && song.cover) ? `covers/${song.folder}/${song.cover}` : 'logo/apple-touch-icon.png';
+    const artworkSrc = (song && song.cover) ? `covers/${song.folder}/${song.cover}` : 'covers/aassdd.png';
     navigator.mediaSession.metadata = new MediaMetadata({
       title: song.name || '',
       artist: song.artist || '',
