@@ -393,23 +393,23 @@ h1 {
 /* progress wrapper */
 #progress {
   position: relative;
-  width: 100%;
-  max-width: 360px; /* এটা controls এর সাথে মিলবে */
-  margin: 0 auto 6px; 
+  width: calc(100% - 6px); /* দুই দিকেই 3px কমানো */
+  max-width: 354px; /* আগের 360px থেকে 6px কমানো */
+  margin: 0 auto 6px;
   box-sizing: border-box;
   padding-top: 6px;
 }
 
 /* progress bar container */
 #progress-bar-container {
-  width: 100%;   /* ensure it fills parent width */
+  width: 100%;
   height: 10px;
   background: rgba(255,255,255,0.12);
   border-radius: 8px;
   overflow: hidden;
   touch-action: none;
   position: relative;
-  margin: 0 auto; /* center it */
+  margin: 0 auto;
   box-sizing: border-box;
 }
 
