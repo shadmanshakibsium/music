@@ -587,9 +587,9 @@ h1 {
 #fs-cover {
   display: block;
   margin: 0 auto 20px;  
-  width: 250px;
+  width: 320px;
   max-width: 90%; 
-  height: 250px;
+  height: 320px;
   border-radius: 15px;
   object-fit: cover;
 }
