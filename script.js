@@ -10,7 +10,15 @@ let currentIndex = 0;
 let isPlaying = false;
 let isShuffle = false;
 let repeatMode = 'none';
+let longPressTimer = null;
+const LONG_PRESS_TIME = 1000;
 
+const metaModal = document.getElementById('meta-modal');
+const metaCover = document.getElementById('meta-cover');
+const metaName = document.getElementById('meta-name');
+const metaArtist = document.getElementById('meta-artist');
+const metaAlbum = document.getElementById('meta-album');
+const metaClose = document.getElementById('meta-close');
 const tabs = document.querySelectorAll('.tabs .tab');
 const allSongsView = document.getElementById('all-songs-view');
 const foldersView = document.getElementById('folders-view');
@@ -223,6 +231,31 @@ function renderMusicList() {
     if (index === currentIndex) {
       li.classList.add('playing');
     }
+// -------- Long Press (1 second) --------
+li.addEventListener('mousedown', () => {
+  longPressTimer = setTimeout(() => {
+    showMetadata(song);
+  }, LONG_PRESS_TIME);
+});
+
+li.addEventListener('mouseup', () => {
+  clearTimeout(longPressTimer);
+});
+
+li.addEventListener('mouseleave', () => {
+  clearTimeout(longPressTimer);
+});
+
+/* Mobile */
+li.addEventListener('touchstart', () => {
+  longPressTimer = setTimeout(() => {
+    showMetadata(song);
+  }, LONG_PRESS_TIME);
+});
+
+li.addEventListener('touchend', () => {
+  clearTimeout(longPressTimer);
+});
 
     li.addEventListener('click', () => playSong(index));
     musicListEl.appendChild(li);
@@ -581,3 +614,15 @@ if ('mediaSession' in navigator) {
   navigator.mediaSession.setActionHandler('previoustrack', playPrev);
   navigator.mediaSession.setActionHandler('nexttrack', playNext);
 }
+
+function showMetadata(song) {
+  metaName.textContent = song.name || 'Unknown';
+  metaArtist.textContent = song.artist || 'Unknown';
+  metaAlbum.textContent = song.album || 'Unknown';
+  metaCover.src = `songs/${song.folder}/${song.cover}`;
+
+  metaModal.style.display = 'flex';
+}
+metaClose.addEventListener('click', () => {
+  metaModal.style.display = 'none';
+});
