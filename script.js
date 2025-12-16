@@ -1,4 +1,3 @@
-
 // --------------------
 // Variables
 // --------------------
@@ -44,7 +43,21 @@ const progressBarContainer = document.getElementById('progress-bar-container');
 const volumeSlider = document.getElementById('fs-volume');
 const genreListEl = document.getElementById('genre-list');
 const genreView = document.getElementById('genre-view');
+// Added fsCover element
+const fsCover = document.getElementById('fs-cover');
 
+
+// Set a fallback (placeholder) if cover fails to load
+if (fsCover) {
+  fsCover.onerror = () => {
+    // fallback to app icon or any placeholder you have
+    fsCover.src = 'logo/apple-touch-icon.png';
+  };
+  // hide initially if no src
+  if (!fsCover.src) {
+    fsCover.style.display = 'none';
+  }
+}
 
 
 // --------------------
@@ -277,13 +290,34 @@ li.addEventListener('touchend', () => {
 function playSong(index) {
   currentIndex = index;
   const song = filteredData[index];
+
+  // Set cover (show/hide + fallback)
+  if (fsCover) {
+    if (song && song.cover) {
+      fsCover.style.display = 'block';
+      fsCover.src = `covers/${song.folder}/${song.cover}`;
+      fsCover.alt = `${song.name} cover`;
+    } else {
+      fsCover.style.display = 'block';
+      fsCover.src = 'logo/apple-touch-icon.png'; // fallback
+      fsCover.alt = 'Cover not available';
+    }
+  }
+
   fsAudio.src = `songs/${song.folder}/${song.file}`;
   fsAudio.play();
   if ('mediaSession' in navigator) {
-  navigator.mediaSession.metadata = new MediaMetadata({
-    title: song.name
-  });
-}
+    // Provide richer metadata for lock-screen / bluetooth
+    const artworkSrc = (song && song.cover) ? `covers/${song.folder}/${song.cover}` : 'logo/apple-touch-icon.png';
+    navigator.mediaSession.metadata = new MediaMetadata({
+      title: song.name || '',
+      artist: song.artist || '',
+      album: song.album || '',
+      artwork: [
+        { src: artworkSrc, sizes: '250x250', type: 'image/png' }
+      ]
+    });
+  }
   isPlaying = true;
   updateMiniPlayer(song.name);
   updateFullscreenPlayer(song.name);
@@ -566,7 +600,11 @@ loadAllSongs();
 // --------------------
 function animateCountUp(element, target, duration = 2500) {
   let start = 0;
-  const stepTime = Math.abs(Math.floor(duration / target));
+  if (target <= 0) {
+    element.textContent = `Total Songs: 0`;
+    return;
+  }
+  const stepTime = Math.max(10, Math.abs(Math.floor(duration / target)));
 
   const timer = setInterval(() => {
     start += 1;
@@ -594,12 +632,12 @@ document.addEventListener('keydown', (e) => {
 
       case 'ArrowRight':
         e.preventDefault();
-        nextSong();
+        playNext();
         break;
 
       case 'ArrowLeft':
         e.preventDefault();
-        prevSong();
+        playPrev();
         break;
     }
   }
