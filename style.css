@@ -390,61 +390,62 @@ h1 {
   margin-bottom: 24px;
   letter-spacing: 0.7px;
 }
-/* Progress + time alignment: make progress span same width as controls,
-   and place current/duration below the bar (left/right) above the buttons */
+/* progress wrapper */
 #progress {
   position: relative;
   width: 100%;
-  max-width: 360px;      /* match controls width so bar stretches between shuffle & repeat */
-  margin: 0 auto 6px;    /* centers the progress block and keeps small gap to controls */
+  max-width: 360px; /* এটা controls এর সাথে মিলবে */
+  margin: 0 auto 6px; 
   box-sizing: border-box;
   padding-top: 6px;
 }
 
-/* ensure the bar fills the available width */
+/* progress bar container */
 #progress-bar-container {
-  width: 100%;
+  width: 100%;   /* ensure it fills parent width */
   height: 10px;
   background: rgba(255,255,255,0.12);
   border-radius: 8px;
   overflow: hidden;
   touch-action: none;
   position: relative;
+  margin: 0 auto; /* center it */
+  box-sizing: border-box;
 }
 
-/* progress-filled unchanged, it will grow width: 0 → 100% as before */
-#progress-filled{
+/* filled part */
+#progress-filled {
   background: linear-gradient(90deg, #ff6b6b, #583D91);
-  height:100%;
-  width:0;
-  border-radius:8px 0 0 8px;
+  height: 100%;
+  width: 0;
+  border-radius: 8px 0 0 8px;
   transition: width 0.1s linear;
 }
 
-/* place current time and duration below the bar and align left/right */
+/* current/duration positioning */
 #current-time, #duration {
-  position: absolute;
-  top: calc(100% + 8px); /* 8px below the bar */
   font-size: 12px;
   color: #ddd;
   line-height: 1;
   user-select: none;
   pointer-events: none;
+  position: absolute;
+  top: calc(100% + 8px);
 }
 
-/* left and right placement */
-#current-time { left: 0; text-align: left; }
-#duration { right: 0; text-align: right; }
+#current-time { left: 0; }
+#duration { right: 0; }
 
-/* make controls width match the progress width so outer buttons line up */
+/* controls */
 .controls {
   display: flex;
-  justify-content: space-around;
+  justify-content: space-between; /* shuffle/repeat বা outer buttons alignment */
   align-items: center;
   margin: 18px auto 28px;
-  max-width: 360px; /* same as #progress max-width */
+  max-width: 360px; /* same as progress max-width */
   width: 100%;
 }
+
 .control-btn{
   width:50px;
   height:40px;
