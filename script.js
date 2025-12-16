@@ -10,7 +10,7 @@ let isPlaying = false;
 let isShuffle = false;
 let repeatMode = 'none';
 let longPressTimer = null;
-const LONG_PRESS_TIME = 1000;
+const LONG_PRESS_TIME = 500;
 
 const metaModal = document.getElementById('meta-modal');
 const metaCover = document.getElementById('meta-cover');
@@ -123,6 +123,23 @@ function toggleFolder(folderName, folderEl) {
         if (musicData === folderSongs && index === currentIndex) {
           li.classList.add('playing');
         }
+        // Long Press (1 second)
+li.addEventListener('mousedown', () => {
+  longPressTimer = setTimeout(() => {
+    showMetadata(song);
+  }, LONG_PRESS_TIME);
+});
+li.addEventListener('mouseup', () => clearTimeout(longPressTimer));
+li.addEventListener('mouseleave', () => clearTimeout(longPressTimer));
+
+/* Mobile */
+li.addEventListener('touchstart', () => {
+  longPressTimer = setTimeout(() => {
+    showMetadata(song);
+  }, LONG_PRESS_TIME);
+});
+li.addEventListener('touchend', () => clearTimeout(longPressTimer));
+
 
         li.addEventListener('click', (e) => {
           e.stopPropagation();
@@ -200,6 +217,23 @@ function loadGenreView() {
           li.classList.add('music-item');
           li.setAttribute('data-index', index);
           li.innerHTML = `<div class="info"><span class="title">${song.name}</span></div>`;
+
+          // Long Press (1 second)
+li.addEventListener('mousedown', () => {
+  longPressTimer = setTimeout(() => {
+    showMetadata(song);
+  }, LONG_PRESS_TIME);
+});
+li.addEventListener('mouseup', () => clearTimeout(longPressTimer));
+li.addEventListener('mouseleave', () => clearTimeout(longPressTimer));
+
+/* Mobile */
+li.addEventListener('touchstart', () => {
+  longPressTimer = setTimeout(() => {
+    showMetadata(song);
+  }, LONG_PRESS_TIME);
+});
+li.addEventListener('touchend', () => clearTimeout(longPressTimer));
 
           li.addEventListener('click', (e) => {
             e.stopPropagation();
