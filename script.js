@@ -619,7 +619,7 @@ function showMetadata(song) {
   metaName.textContent = song.name || 'Unknown';
   metaArtist.textContent = song.artist || 'Unknown';
   metaAlbum.textContent = song.album || 'Unknown';
-  metaCover.src = `songs/${song.folder}/${song.cover}`;
+  metaCover.src = `coovers/${song.folder}/${song.cover}`;
 
   metaModal.style.display = 'flex';
 }
