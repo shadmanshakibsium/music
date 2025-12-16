@@ -384,11 +384,29 @@ h1 {
   user-select: none;
   border: none;
 }
-.fullscreen-player .title{
-  font-size: 26px;
+/* Fullscreen player: single-line title with ellipsis and slightly smaller font */
+.fullscreen-player .title,
+.fullscreen-player .title b {
+  display: block;
+  width: 100%;
+  box-sizing: border-box;
+  padding: 0 12px;               /* prevent touching the edges */
+  white-space: nowrap;           /* keep single line */
+  overflow: hidden;              /* cut overflow */
+  text-overflow: ellipsis;       /* show "..." when truncated */
+  font-size: 20px;               /* slightly smaller than before; adjust as needed */
   font-weight: 700;
-  margin-bottom: 24px;
-  letter-spacing: 0.7px;
+  line-height: 1.1;
+  margin-bottom: 12px;
+  text-align: center;            /* optional: center the title */
+}
+
+/* Slightly smaller on small screens */
+@media (max-width: 450px) {
+  .fullscreen-player .title,
+  .fullscreen-player .title b {
+    font-size: 18px;
+  }
 }
 /* progress wrapper */
 #progress {
