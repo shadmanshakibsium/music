@@ -333,7 +333,7 @@ function playSong(index) {
       fsCover.alt = `${song.name} cover`;
     } else {
       fsCover.style.display = 'block';
-      fsCover.src = 'logo/apple-touch-icon.png'; // fallback
+      fsCover.src = 'covers/aassdd.png'; // fallback
       fsCover.alt = 'Cover not available';
     }
   }
