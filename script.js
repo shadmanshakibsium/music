@@ -334,7 +334,7 @@ function playSong(index) {
       fsCover.alt = `${song.name} cover`;
     } else {
       fsCover.style.display = 'block';
-      fsCover.src = 'logo/apple-touch-icon.png'; // fallback
+      fsCover.src = 'covers/aassdd.png'; 
       fsCover.alt = 'Cover not available';
     }
   }
@@ -343,7 +343,7 @@ function playSong(index) {
   fsAudio.play();
   if ('mediaSession' in navigator) {
     // Provide richer metadata for lock-screen / bluetooth
-    const artworkSrc = (song && song.cover) ? `covers/${song.folder}/${song.cover}` : 'logo/apple-touch-icon.png';
+    const artworkSrc = (song && song.cover) ? `covers/${song.folder}/${song.cover}` : 'covers/aassdd.png';
     navigator.mediaSession.metadata = new MediaMetadata({
       title: song.name || '',
       artist: song.artist || '',
