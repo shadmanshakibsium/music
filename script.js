@@ -11,7 +11,7 @@ let isPlaying = false;
 let isShuffle = false;
 let repeatMode = 'none';
 let longPressTimer = null;
-const LONG_PRESS_TIME = 500;
+const LONG_PRESS_TIME = 900;
 
 const metaModal = document.getElementById('meta-modal');
 const metaCover = document.getElementById('meta-cover');
