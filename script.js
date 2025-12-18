@@ -1,6 +1,5 @@
-function isMobile() {
-  return /Android|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
-}
+
+
 // --------------------
 // Variables
 // --------------------
@@ -62,9 +61,6 @@ if (fsCover) {
   }
 }
 
-function isMobile() {
-  return window.innerWidth <= 450;
-}
 
 // --------------------
 // Load All Songs (A-Z) using Promise.all
@@ -404,14 +400,8 @@ function updatePlayButton(){
 // Mini → Fullscreen
 // --------------------
 miniPlayer.addEventListener('click', () => {
-  if (isMobile()) {
-    fullscreenPlayer.style.display = 'flex';
-    miniPlayer.style.display = 'none';
-  } else {
-    // PC এ Windows-style player logic
-    openDesktopPlayer(); // পরে আমরা এটা implement করব
-  }
-});
+  fullscreenPlayer.style.display = 'flex';
+  miniPlayer.style.display = 'none';
 
   document.querySelector('.site-header').style.display = 'none';
   document.querySelector('.tabs').style.display = 'none';
@@ -712,3 +702,4 @@ function showMetadata(song) {
 metaClose.addEventListener('click', () => {
   metaModal.style.display = 'none';
 });
+
