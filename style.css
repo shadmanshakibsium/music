@@ -23,7 +23,7 @@ html, body {
   height: 100%;
   width: 100%;
   margin: 0;
-  padding: 20px;
+  /* padding: 20px; */ /* এই লাইন কমেন্ট আউট করুন */
   overflow-x: hidden;
   overflow-y: auto;
   overscroll-behavior-y: contain; 
@@ -312,7 +312,7 @@ h1 {
 }
 
 /* --------------------
-   Mini Player
+   Mini Player (Mobile Default)
 -------------------- */
 .mini-player {
   position: fixed;
@@ -325,7 +325,7 @@ h1 {
   background: rgba(255,255,255,0.1);
   backdrop-filter: blur(8px);
   -webkit-backdrop-filter: blur(8px);
-  border-radius: 15px;
+  border-radius: 15px 15px 0 0;
   border: 1px solid rgba(255,255,255,0.2);
   display: flex;
   justify-content: space-between;
@@ -335,25 +335,47 @@ h1 {
   z-index: 3;
   transition: all .25s ease;
 }
-.mini-player button {
+
+.mini-player > div {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+#mini-title {
+  font-size: 14px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  flex: 1;
+  color: white;
+}
+
+#mini-play {
   background: none;
   border: none;
   color: white;
   font-size: 18px;
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
 }
-
 /* --------------------
    Desktop vs Mobile Width
 -------------------- */
-@media (min-width: 451px) {
-  .mini-player {
-    width: 80%;
-  }
-}
-
 @media (max-width: 450px) {
   .mini-player {
     width: 100%;
+  }
+}
+
+@media (min-width: 451px) {
+  .mini-player {
+    width: 80%;
   }
 }
 /* --------------------
@@ -601,3 +623,114 @@ h1 {
   }
 }
 
+/* --------------------
+   PC Mini Player Enhancements
+-------------------- */
+/* ==================== */
+/* PC SPECIFIC STYLES   */
+/* ==================== */
+@media (min-width: 768px) {
+  /* PC Mini Player */
+  .mini-player {
+    height: 90px;
+    padding: 0;
+    cursor: default;
+    display: flex !important;
+  }
+  
+  /* Hide fullscreen player on PC */
+  #fullscreen-player {
+    display: none !important;
+  }
+  
+  /* PC Volume Slider */
+  #pc-volume {
+    -webkit-appearance: none;
+    appearance: none;
+    height: 5px;
+    background: rgba(255,255,255,0.3);
+    border-radius: 3px;
+    outline: none;
+  }
+  
+  #pc-volume::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 14px;
+    height: 14px;
+    background: #ff6b6b;
+    border-radius: 50%;
+    cursor: pointer;
+    border: none;
+  }
+  
+  #pc-volume::-moz-range-thumb {
+    width: 14px;
+    height: 14px;
+    background: #ff6b6b;
+    border-radius: 50%;
+    cursor: pointer;
+    border: none;
+  }
+  
+  /* PC Progress Bar */
+  #pc-progress-container {
+    position: relative;
+  }
+  
+  #pc-progress-container:hover #pc-progress-filled {
+    background: linear-gradient(90deg, #ff6b6b, #8a2be2);
+    height: 6px;
+  }
+  
+  /* PC Control Buttons */
+  #pc-shuffle, #pc-prev, #pc-next, #pc-repeat {
+    transition: all 0.2s ease;
+  }
+  
+  #pc-shuffle:hover, #pc-prev:hover, #pc-next:hover, #pc-repeat:hover {
+    transform: scale(1.1);
+  }
+  
+  #pc-play:hover {
+    transform: scale(1.05);
+    box-shadow: 0 0 15px rgba(88, 61, 145, 0.8);
+  }
+}
+
+/* ==================== */
+/* MOBILE SPECIFIC      */
+/* ==================== */
+@media (max-width: 767px) {
+  .mini-player {
+    cursor: pointer;
+  }
+  
+  /* Mobile এর জন্য শুধু টাইটেল এবং প্লে বাটন দেখাবে */
+  .mini-player > div {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    padding: 0 20px;
+  }
+  
+  #mini-play {
+    margin-left: 10px;
+  }
+  
+  /* Mobile এ PC elements লুকানো */
+  #pc-title,
+  #pc-current-time,
+  #pc-duration,
+  #pc-progress-container,
+  #pc-progress-filled,
+  #pc-shuffle,
+  #pc-prev,
+  #pc-play,
+  #pc-next,
+  #pc-repeat,
+  #pc-volume {
+    display: none !important;
+  }
+}
