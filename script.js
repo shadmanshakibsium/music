@@ -1,5 +1,3 @@
-
-
 // --------------------
 // Variables
 // --------------------
@@ -27,7 +25,6 @@ const musicListEl = document.getElementById('music-list');
 const searchInput = document.getElementById('searchInput');
 const folderListEl = document.getElementById('folder-list');
 const miniPlayer = document.getElementById('mini-player');
-const miniTitle = document.getElementById('mini-title');
 const miniPlayBtn = document.getElementById('mini-play');
 const fullscreenPlayer = document.getElementById('fullscreen-player');
 const fsTitle = document.getElementById('fs-title');
@@ -45,25 +42,13 @@ const progressBarContainer = document.getElementById('progress-bar-container');
 const volumeSlider = document.getElementById('fs-volume');
 const genreListEl = document.getElementById('genre-list');
 const genreView = document.getElementById('genre-view');
-// Added fsCover element
 const fsCover = document.getElementById('fs-cover');
 
-
-// Set a fallback (placeholder) if cover fails to load
-if (fsCover) {
-  fsCover.onerror = () => {
-    // fallback to app icon or any placeholder you have
-    fsCover.src = 'covers/aassdd.png';
-  };
-  // hide initially if no src
-  if (!fsCover.src) {
-    fsCover.style.display = 'none';
-  }
-}
-
+// Detect device
+const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
 
 // --------------------
-// Load All Songs (A-Z) using Promise.all
+// Load All Songs
 // --------------------
 function loadAllSongs() {
   const promises = types.map(lang =>
@@ -125,23 +110,21 @@ function toggleFolder(folderName, folderEl) {
         if (musicData === folderSongs && index === currentIndex) {
           li.classList.add('playing');
         }
-        // Long Press (1 second)
-li.addEventListener('mousedown', () => {
-  longPressTimer = setTimeout(() => {
-    showMetadata(song);
-  }, LONG_PRESS_TIME);
-});
-li.addEventListener('mouseup', () => clearTimeout(longPressTimer));
-li.addEventListener('mouseleave', () => clearTimeout(longPressTimer));
 
-/* Mobile */
-li.addEventListener('touchstart', () => {
-  longPressTimer = setTimeout(() => {
-    showMetadata(song);
-  }, LONG_PRESS_TIME);
-});
-li.addEventListener('touchend', () => clearTimeout(longPressTimer));
+        li.addEventListener('mousedown', () => {
+          longPressTimer = setTimeout(() => {
+            showMetadata(song);
+          }, LONG_PRESS_TIME);
+        });
+        li.addEventListener('mouseup', () => clearTimeout(longPressTimer));
+        li.addEventListener('mouseleave', () => clearTimeout(longPressTimer));
 
+        li.addEventListener('touchstart', () => {
+          longPressTimer = setTimeout(() => {
+            showMetadata(song);
+          }, LONG_PRESS_TIME);
+        });
+        li.addEventListener('touchend', () => clearTimeout(longPressTimer));
 
         li.addEventListener('click', (e) => {
           e.stopPropagation();
@@ -183,7 +166,6 @@ function loadGenreView() {
     allSongs.forEach(song => {
       if (!song.genre) return;
 
-     
       const genres = song.genre.split(',').map(g => g.trim().toLowerCase());
 
       genres.forEach(genre => {
@@ -195,13 +177,11 @@ function loadGenreView() {
     const sortedGenres = Object.keys(genreGroups).sort();
 
     sortedGenres.forEach(genre => {
-      // Genre Title
       const genreTitle = document.createElement('div');
       genreTitle.classList.add('genre-title');
       genreTitle.textContent = genre.toUpperCase();
       genreListEl.appendChild(genreTitle);
 
-      // Songs List
       const genreSongsEl = document.createElement('ul');
       genreSongsEl.classList.add('genre-songs');
       genreSongsEl.style.display = 'none';
@@ -211,7 +191,6 @@ function loadGenreView() {
         genreSongsEl.style.display = genreSongsEl.style.display === 'block' ? 'none' : 'block';
       });
 
-      // Songs
       genreGroups[genre]
         .sort((a, b) => a.name.localeCompare(b.name))
         .forEach((song, index) => {
@@ -220,22 +199,20 @@ function loadGenreView() {
           li.setAttribute('data-index', index);
           li.innerHTML = `<div class="info"><span class="title">${song.name}</span></div>`;
 
-          // Long Press (1 second)
-li.addEventListener('mousedown', () => {
-  longPressTimer = setTimeout(() => {
-    showMetadata(song);
-  }, LONG_PRESS_TIME);
-});
-li.addEventListener('mouseup', () => clearTimeout(longPressTimer));
-li.addEventListener('mouseleave', () => clearTimeout(longPressTimer));
+          li.addEventListener('mousedown', () => {
+            longPressTimer = setTimeout(() => {
+              showMetadata(song);
+            }, LONG_PRESS_TIME);
+          });
+          li.addEventListener('mouseup', () => clearTimeout(longPressTimer));
+          li.addEventListener('mouseleave', () => clearTimeout(longPressTimer));
 
-/* Mobile */
-li.addEventListener('touchstart', () => {
-  longPressTimer = setTimeout(() => {
-    showMetadata(song);
-  }, LONG_PRESS_TIME);
-});
-li.addEventListener('touchend', () => clearTimeout(longPressTimer));
+          li.addEventListener('touchstart', () => {
+            longPressTimer = setTimeout(() => {
+              showMetadata(song);
+            }, LONG_PRESS_TIME);
+          });
+          li.addEventListener('touchend', () => clearTimeout(longPressTimer));
 
           li.addEventListener('click', (e) => {
             e.stopPropagation();
@@ -280,31 +257,21 @@ function renderMusicList() {
     if (index === currentIndex) {
       li.classList.add('playing');
     }
-// -------- Long Press (1 second) --------
-li.addEventListener('mousedown', () => {
-  longPressTimer = setTimeout(() => {
-    showMetadata(song);
-  }, LONG_PRESS_TIME);
-});
 
-li.addEventListener('mouseup', () => {
-  clearTimeout(longPressTimer);
-});
+    li.addEventListener('mousedown', () => {
+      longPressTimer = setTimeout(() => {
+        showMetadata(song);
+      }, LONG_PRESS_TIME);
+    });
+    li.addEventListener('mouseup', () => clearTimeout(longPressTimer));
+    li.addEventListener('mouseleave', () => clearTimeout(longPressTimer));
 
-li.addEventListener('mouseleave', () => {
-  clearTimeout(longPressTimer);
-});
-
-/* Mobile */
-li.addEventListener('touchstart', () => {
-  longPressTimer = setTimeout(() => {
-    showMetadata(song);
-  }, LONG_PRESS_TIME);
-});
-
-li.addEventListener('touchend', () => {
-  clearTimeout(longPressTimer);
-});
+    li.addEventListener('touchstart', () => {
+      longPressTimer = setTimeout(() => {
+        showMetadata(song);
+      }, LONG_PRESS_TIME);
+    });
+    li.addEventListener('touchend', () => clearTimeout(longPressTimer));
 
     li.addEventListener('click', () => playSong(index));
     musicListEl.appendChild(li);
@@ -327,7 +294,6 @@ function playSong(index) {
   currentIndex = index;
   const song = filteredData[index];
 
-  // Set cover (show/hide + fallback)
   if (fsCover) {
     if (song && song.cover) {
       fsCover.style.display = 'block';
@@ -342,8 +308,8 @@ function playSong(index) {
 
   fsAudio.src = `songs/${song.folder}/${song.file}`;
   fsAudio.play();
+  
   if ('mediaSession' in navigator) {
-    // Provide richer metadata for lock-screen / bluetooth
     const artworkSrc = (song && song.cover) ? `covers/${song.folder}/${song.cover}` : 'covers/aassdd.png';
     navigator.mediaSession.metadata = new MediaMetadata({
       title: song.name || '',
@@ -354,26 +320,23 @@ function playSong(index) {
       ]
     });
   }
+  
   isPlaying = true;
-  updateMiniPlayer(song.name);
+  updatePCPlayer(song.name);
   updateFullscreenPlayer(song.name);
   updatePlayButton();
 
-
   document.querySelectorAll('.music-item.playing').forEach(el => el.classList.remove('playing'));
 
-  // All Songs view
   const currentPlayingEl = musicListEl.querySelector(`.music-item[data-index="${index}"]`);
   if (currentPlayingEl) currentPlayingEl.classList.add('playing');
 
-  // Folder view
   const folderLists = document.querySelectorAll('.folder-songs');
   folderLists.forEach(list => {
     const songEl = list.querySelector(`.music-item[data-index="${index}"]`);
     if (songEl) songEl.classList.add('playing');
   });
 
-  // Genre view
   const genreLists = document.querySelectorAll('.genre-songs');
   genreLists.forEach(list => {
     const songEl = list.querySelector(`.music-item[data-index="${index}"]`);
@@ -382,24 +345,161 @@ function playSong(index) {
 }
 
 // --------------------
-// Update UI
+// Initialize PC Player
 // --------------------
-function updateMiniPlayer(title){ miniTitle.textContent = title; }
-function updateFullscreenPlayer(title){ fsTitle.textContent = title; }
-function updatePlayButton(){
-  if(isPlaying){
-    fsPlayBtn.innerHTML = '<i class="fa fa-pause"></i>';
-    miniPlayBtn.innerHTML = '<i class="fa fa-pause"></i>';
-  } else {
-    fsPlayBtn.innerHTML = '<i class="fa fa-play"></i>';
-    miniPlayBtn.innerHTML = '<i class="fa fa-play"></i>';
+function initPCPlayer() {
+  if (isMobile) return;
+  
+  miniPlayer.innerHTML = `
+    <div style="display: flex; align-items: center; width: 100%; justify-content: space-between; padding: 0 15px;">
+      <div style="flex: 1; min-width: 0; padding-right: 15px;">
+        <div id="pc-title" style="font-size: 14px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; color: white;">No song playing</div>
+        <div style="display: flex; align-items: center; margin-top: 5px;">
+          <span id="pc-current-time" style="font-size: 11px; color: rgba(255,255,255,0.7); min-width: 35px;">0:00</span>
+          <div id="pc-progress-container" style="flex: 1; height: 4px; background: rgba(255,255,255,0.2); border-radius: 2px; margin: 0 10px; cursor: pointer; position: relative;">
+            <div id="pc-progress-filled" style="height: 100%; width: 0%; background: linear-gradient(90deg, #ff6b6b, #583D91); border-radius: 2px;"></div>
+          </div>
+          <span id="pc-duration" style="font-size: 11px; color: rgba(255,255,255,0.7); min-width: 35px;">0:00</span>
+        </div>
+      </div>
+      
+      <div style="display: flex; align-items: center; gap: 10px; flex-wrap: nowrap;">
+        <button id="pc-shuffle" style="background: none; border: none; color: white; font-size: 14px; cursor: pointer; width: 30px; height: 30px; display: flex; align-items: center; justify-content: center;" title="Shuffle">
+          <i class="fas fa-random"></i>
+        </button>
+        <button id="pc-prev" style="background: none; border: none; color: white; font-size: 16px; cursor: pointer; width: 30px; height: 30px; display: flex; align-items: center; justify-content: center;" title="Previous">
+          <i class="fas fa-backward"></i>
+        </button>
+        <button id="pc-play" style="background: linear-gradient(135deg, #583D91, #7E5CD9); border: none; color: white; width: 36px; height: 36px; border-radius: 50%; display: flex; align-items: center; justify-content: center; cursor: pointer; font-size: 14px;" title="Play/Pause">
+          <i class="fas fa-play" id="pc-play-icon"></i>
+        </button>
+        <button id="pc-next" style="background: none; border: none; color: white; font-size: 16px; cursor: pointer; width: 30px; height: 30px; display: flex; align-items: center; justify-content: center;" title="Next">
+          <i class="fas fa-forward"></i>
+        </button>
+        <button id="pc-repeat" style="background: none; border: none; color: white; font-size: 14px; cursor: pointer; width: 30px; height: 30px; display: flex; align-items: center; justify-content: center;" title="Repeat">
+          <i class="fas fa-redo"></i>
+        </button>
+        
+        <div style="display: flex; align-items: center; gap: 5px; margin-left: 5px;">
+          <i class="fas fa-volume-down" style="font-size: 12px; color: rgba(255,255,255,0.7);"></i>
+          <input type="range" id="pc-volume" min="0" max="1" step="0.01" value="1.0" style="width: 70px; cursor: pointer;">
+          <i class="fas fa-volume-up" style="font-size: 12px; color: rgba(255,255,255,0.7);"></i>
+        </div>
+      </div>
+    </div>
+  `;
+  
+  // PC Controls Event Listeners
+  const pcShuffleBtn = document.getElementById('pc-shuffle');
+  const pcPrevBtn = document.getElementById('pc-prev');
+  const pcPlayBtn = document.getElementById('pc-play');
+  const pcNextBtn = document.getElementById('pc-next');
+  const pcRepeatBtn = document.getElementById('pc-repeat');
+  const pcVolumeSlider = document.getElementById('pc-volume');
+  const pcProgressContainer = document.getElementById('pc-progress-container');
+  
+  pcShuffleBtn.addEventListener('click', () => {
+    isShuffle = !isShuffle;
+    pcShuffleBtn.style.color = isShuffle ? '#ff6b6b' : 'white';
+    fsShuffleBtn.style.color = isShuffle ? '#ff6b6b' : 'white';
+  });
+  
+  pcPrevBtn.addEventListener('click', playPrev);
+  pcNextBtn.addEventListener('click', playNext);
+  
+  pcPlayBtn.addEventListener('click', () => {
+    togglePlay();
+  });
+  
+  pcRepeatBtn.addEventListener('click', () => {
+    if (repeatMode === 'none') repeatMode = 'all';
+    else if (repeatMode === 'all') repeatMode = 'one';
+    else repeatMode = 'none';
+    updateRepeatUI();
+    updatePCRepeatUI();
+  });
+  
+  pcVolumeSlider.addEventListener('input', () => {
+    fsAudio.volume = pcVolumeSlider.value;
+    volumeSlider.value = pcVolumeSlider.value;
+  });
+  
+  pcProgressContainer.addEventListener('click', (e) => {
+    const rect = pcProgressContainer.getBoundingClientRect();
+    const x = e.clientX - rect.left;
+    const percent = x / rect.width;
+    fsAudio.currentTime = percent * fsAudio.duration;
+  });
+}
+
+// --------------------
+// Update PC Player
+// --------------------
+function updatePCPlayer(title) {
+  if (!isMobile) {
+    const pcTitle = document.getElementById('pc-title');
+    if (pcTitle) pcTitle.textContent = title;
+  }
+}
+
+function updatePCPlayButton() {
+  if (!isMobile) {
+    const pcPlayIcon = document.getElementById('pc-play-icon');
+    if (pcPlayIcon) {
+      pcPlayIcon.className = isPlaying ? 'fas fa-pause' : 'fas fa-play';
+    }
+  }
+}
+
+function updatePCRepeatUI() {
+  if (!isMobile) {
+    const pcRepeatBtn = document.getElementById('pc-repeat');
+    if (pcRepeatBtn) {
+      pcRepeatBtn.style.color = repeatMode === 'none' ? 'white' : 
+                                (repeatMode === 'all' ? '#fcb045' : '#ff6b6b');
+    }
+  }
+}
+
+function updatePCProgress() {
+  if (!isMobile && fsAudio.duration) {
+    const pcCurrentTime = document.getElementById('pc-current-time');
+    const pcDuration = document.getElementById('pc-duration');
+    const pcProgressFilled = document.getElementById('pc-progress-filled');
+    
+    if (pcCurrentTime) pcCurrentTime.textContent = formatTime(fsAudio.currentTime);
+    if (pcDuration) pcDuration.textContent = formatTime(fsAudio.duration);
+    if (pcProgressFilled) {
+      const percent = (fsAudio.currentTime / fsAudio.duration) * 100;
+      pcProgressFilled.style.width = percent + '%';
+    }
   }
 }
 
 // --------------------
-// Mini → Fullscreen
+// Update UI
+// --------------------
+function updateFullscreenPlayer(title){ 
+  fsTitle.textContent = title; 
+}
+
+function updatePlayButton(){
+  if(isPlaying){
+    fsPlayBtn.innerHTML = '<i class="fa fa-pause"></i>';
+    if (isMobile) miniPlayBtn.innerHTML = '<i class="fa fa-pause"></i>';
+  } else {
+    fsPlayBtn.innerHTML = '<i class="fa fa-play"></i>';
+    if (isMobile) miniPlayBtn.innerHTML = '<i class="fa fa-play"></i>';
+  }
+  updatePCPlayButton();
+}
+
+// --------------------
+// Mini → Fullscreen (Mobile Only)
 // --------------------
 miniPlayer.addEventListener('click', () => {
+  if (!isMobile) return;
+  
   fullscreenPlayer.style.display = 'flex';
   miniPlayer.style.display = 'none';
 
@@ -411,47 +511,32 @@ miniPlayer.addEventListener('click', () => {
   genreView.style.display = 'none';
 });
 
-
 // Close fullscreen
 fsCloseBtn.addEventListener('click', () => {
+  if (!isMobile) return;
+  
   fullscreenPlayer.style.display = 'none';
   miniPlayer.style.display = 'flex';
   document.querySelector('.site-header').style.display = 'block';
   document.querySelector('.tabs').style.display = 'flex';
 
-  allSongsView.style.display = 'none';
-  foldersView.style.display = 'none';
-  genreView.style.display = 'none';
-
-
   if (currentView === 'all') {
     allSongsView.style.display = 'block';
-
     const currentSongEl = musicListEl.querySelector(`.music-item[data-index="${currentIndex}"]`);
-    if (currentSongEl) {
-      currentSongEl.scrollIntoView({ behavior: 'auto', block: 'center' });
-    }
-
+    if (currentSongEl) currentSongEl.scrollIntoView({ behavior: 'auto', block: 'center' });
   } else if (currentView === 'folders') {
     foldersView.style.display = 'block';
-
     const folderLists = document.querySelectorAll('.folder-songs');
     folderLists.forEach(list => {
       const songEl = list.querySelector(`.music-item[data-index="${currentIndex}"]`);
-      if (songEl) {
-        songEl.scrollIntoView({ behavior: 'auto', block: 'center' });
-      }
+      if (songEl) songEl.scrollIntoView({ behavior: 'auto', block: 'center' });
     });
-
   } else if (currentView === 'genre') {
     genreView.style.display = 'block';
-
     const genreLists = document.querySelectorAll('.genre-songs');
     genreLists.forEach(list => {
       const songEl = list.querySelector(`.music-item[data-index="${currentIndex}"]`);
-      if (songEl) {
-        songEl.scrollIntoView({ behavior: 'auto', block: 'center' });
-      }
+      if (songEl) songEl.scrollIntoView({ behavior: 'auto', block: 'center' });
     });
   }
 });
@@ -460,13 +545,30 @@ fsCloseBtn.addEventListener('click', () => {
 // Play/Pause
 // --------------------
 function togglePlay() {
-  if(isPlaying){ fsAudio.pause(); }
-  else { fsAudio.play(); }
+  if(isPlaying){ 
+    fsAudio.pause(); 
+  } else { 
+    fsAudio.play(); 
+  }
 }
+
 fsPlayBtn.addEventListener('click', togglePlay);
-miniPlayBtn.addEventListener('click', (e)=>{ e.stopPropagation(); togglePlay(); });
-fsAudio.addEventListener('play', ()=>{ isPlaying = true; updatePlayButton(); });
-fsAudio.addEventListener('pause', ()=>{ isPlaying = false; updatePlayButton(); });
+if (isMobile) {
+  miniPlayBtn.addEventListener('click', (e)=>{ 
+    e.stopPropagation(); 
+    togglePlay(); 
+  });
+}
+
+fsAudio.addEventListener('play', ()=>{ 
+  isPlaying = true; 
+  updatePlayButton(); 
+});
+
+fsAudio.addEventListener('pause', ()=>{ 
+  isPlaying = false; 
+  updatePlayButton(); 
+});
 
 // --------------------
 // Next / Prev
@@ -476,11 +578,13 @@ function playNext(){
   else currentIndex = (currentIndex+1)%filteredData.length;
   playSong(currentIndex);
 }
+
 function playPrev(){
   if(isShuffle) currentIndex = Math.floor(Math.random()*filteredData.length);
   else currentIndex = (currentIndex-1+filteredData.length)%filteredData.length;
   playSong(currentIndex);
 }
+
 fsNextBtn.addEventListener('click', playNext);
 fsPrevBtn.addEventListener('click', playPrev);
 
@@ -497,7 +601,9 @@ fsRepeatBtn.addEventListener('click', ()=>{
   else if(repeatMode==='all') repeatMode='one';
   else repeatMode='none';
   updateRepeatUI();
+  updatePCRepeatUI();
 });
+
 function updateRepeatUI(){
   fsRepeatBtn.style.color = repeatMode==='none'?'white':(repeatMode==='all'?'#fcb045':'#ff6b6b');
 }
@@ -523,27 +629,25 @@ fsAudio.addEventListener('timeupdate', ()=>{
     progressFilled.style.width = percent+'%';
     currentTimeEl.textContent = formatTime(fsAudio.currentTime);
     durationEl.textContent = formatTime(fsAudio.duration);
+    updatePCProgress();
   }
 });
+
 let isDraggingProgress = false;
 
 function seekByX(clientX) {
   if (!fsAudio.duration) return;
-
   const rect = progressBarContainer.getBoundingClientRect();
   const x = Math.max(0, Math.min(clientX - rect.left, rect.width));
   const percent = x / rect.width;
-
   fsAudio.currentTime = percent * fsAudio.duration;
   progressFilled.style.width = (percent * 100) + '%';
 }
 
-/* Click */
 progressBarContainer.addEventListener('click', (e) => {
   seekByX(e.clientX);
 });
 
-/* Desktop drag */
 progressBarContainer.addEventListener('mousedown', (e) => {
   isDraggingProgress = true;
   seekByX(e.clientX);
@@ -557,7 +661,6 @@ document.addEventListener('mouseup', () => {
   isDraggingProgress = false;
 });
 
-/* Mobile swipe */
 progressBarContainer.addEventListener('touchstart', (e) => {
   isDraggingProgress = true;
   seekByX(e.touches[0].clientX);
@@ -570,6 +673,7 @@ document.addEventListener('touchmove', (e) => {
 document.addEventListener('touchend', () => {
   isDraggingProgress = false;
 });
+
 function formatTime(seconds){
   const mins = Math.floor(seconds/60);
   const secs = Math.floor(seconds%60);
@@ -581,6 +685,10 @@ function formatTime(seconds){
 // --------------------
 volumeSlider.addEventListener('input', ()=>{
   fsAudio.volume = volumeSlider.value;
+  if (!isMobile) {
+    const pcVolumeSlider = document.getElementById('pc-volume');
+    if (pcVolumeSlider) pcVolumeSlider.value = volumeSlider.value;
+  }
 });
 
 // --------------------
@@ -597,25 +705,20 @@ searchInput.addEventListener('input', (e)=>{
 // --------------------
 tabs.forEach(tab => {
   tab.addEventListener('click', () => {
- 
     tabs.forEach(t => t.classList.remove('active'));
     tab.classList.add('active');
-
     currentView = tab.dataset.view;
 
-    // View switch logic
     if (currentView === 'all') {
       allSongsView.style.display = 'block';
       foldersView.style.display = 'none';
       genreView.style.display = 'none';
       loadAllSongs();
-
     } else if (currentView === 'folders') {
       allSongsView.style.display = 'none';
       foldersView.style.display = 'block';
       genreView.style.display = 'none';
       loadFolders();
-
     } else if (currentView === 'genre') {
       allSongsView.style.display = 'none';
       foldersView.style.display = 'none';
@@ -625,11 +728,26 @@ tabs.forEach(tab => {
   });
 });
 
+// --------------------
+// Metadata
+// --------------------
+function showMetadata(song) {
+  metaName.textContent = song.name || 'Unknown';
+  metaArtist.textContent = song.artist || 'Unknown';
+  metaAlbum.textContent = song.album || 'Unknown';
+  metaCover.src = song.cover ? `covers/${song.folder}/${song.cover}` : 'covers/aassdd.png';
+  metaModal.style.display = 'flex';
+}
+
+metaClose.addEventListener('click', () => {
+  metaModal.style.display = 'none';
+});
 
 // --------------------
 // Initial Load
 // --------------------
 loadAllSongs();
+initPCPlayer();
 
 // --------------------
 // animateCountUp
@@ -652,25 +770,20 @@ function animateCountUp(element, target, duration = 2500) {
 }
 
 // --------------------
-// Keyboard Shortcut: Spacebar → Play/Pause
-// ArrowLeft → Previous Song
-// ArrowRight → Next Song
+// Keyboard Shortcuts
 // --------------------
 document.addEventListener('keydown', (e) => {
   const isInput = ['INPUT', 'TEXTAREA'].includes(document.activeElement.tagName);
-
   if (!isInput) {
     switch (e.code) {
       case 'Space':
         e.preventDefault();
         togglePlay();
         break;
-
       case 'ArrowRight':
         e.preventDefault();
         playNext();
         break;
-
       case 'ArrowLeft':
         e.preventDefault();
         playPrev();
@@ -680,26 +793,11 @@ document.addEventListener('keydown', (e) => {
 });
 
 // --------------------
-// Media Session API — Enable Bluetooth next/prev buttons
+// Media Session API
 // --------------------
 if ('mediaSession' in navigator) {
   navigator.mediaSession.setActionHandler('play', togglePlay);
   navigator.mediaSession.setActionHandler('pause', togglePlay);
   navigator.mediaSession.setActionHandler('previoustrack', playPrev);
   navigator.mediaSession.setActionHandler('nexttrack', playNext);
-}
-
-function showMetadata(song) {
-  metaName.textContent = song.name || 'Unknown';
-  metaArtist.textContent = song.artist || 'Unknown';
-  metaAlbum.textContent = song.album || 'Unknown';
-
-  metaCover.src = song.cover ? `covers/${song.folder}/${song.cover}` : 'covers/aassdd.png';
-
-  metaModal.style.display = 'flex';
-}
-
-metaClose.addEventListener('click', () => {
-  metaModal.style.display = 'none';
-});
-
+    }
