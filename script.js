@@ -60,6 +60,9 @@ if (fsCover) {
   }
 }
 
+function isMobile() {
+  return window.innerWidth <= 450;
+}
 
 // --------------------
 // Load All Songs (A-Z) using Promise.all
