@@ -1,4 +1,6 @@
-
+function isMobile() {
+  return /Android|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+}
 // --------------------
 // Variables
 // --------------------
@@ -405,6 +407,9 @@ miniPlayer.addEventListener('click', () => {
   if (isMobile()) {
     fullscreenPlayer.style.display = 'flex';
     miniPlayer.style.display = 'none';
+  } else {
+    // PC এ Windows-style player logic
+    openDesktopPlayer(); // পরে আমরা এটা implement করব
   }
 });
 
