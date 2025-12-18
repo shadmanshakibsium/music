@@ -294,6 +294,7 @@ function playSong(index) {
   currentIndex = index;
   const song = filteredData[index];
 
+  // Fullscreen cover
   if (fsCover) {
     if (song && song.cover) {
       fsCover.style.display = 'block';
@@ -303,6 +304,26 @@ function playSong(index) {
       fsCover.style.display = 'block';
       fsCover.src = 'covers/aassdd.png'; 
       fsCover.alt = 'Cover not available';
+    }
+  }
+
+  // PC mini player cover and info
+  if (!isMobile) {
+    const pcCover = document.getElementById('pc-cover');
+    const pcArtist = document.getElementById('pc-artist');
+    
+    if (pcCover) {
+      if (song && song.cover) {
+        pcCover.src = `covers/${song.folder}/${song.cover}`;
+        pcCover.style.display = 'block';
+      } else {
+        pcCover.src = 'covers/aassdd.png';
+        pcCover.style.display = 'block';
+      }
+    }
+    
+    if (pcArtist) {
+      pcArtist.textContent = song.artist || 'Unknown Artist';
     }
   }
 
@@ -350,44 +371,61 @@ function playSong(index) {
 function initPCPlayer() {
   if (isMobile) return;
   
-  miniPlayer.innerHTML = `
-    <div style="display: flex; align-items: center; width: 100%; justify-content: space-between; padding: 0 15px;">
-      <div style="flex: 1; min-width: 0; padding-right: 15px;">
-        <div id="pc-title" style="font-size: 14px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; color: white;">No song playing</div>
-        <div style="display: flex; align-items: center; margin-top: 5px;">
-          <span id="pc-current-time" style="font-size: 11px; color: rgba(255,255,255,0.7); min-width: 35px;">0:00</span>
-          <div id="pc-progress-container" style="flex: 1; height: 4px; background: rgba(255,255,255,0.2); border-radius: 2px; margin: 0 10px; cursor: pointer; position: relative;">
-            <div id="pc-progress-filled" style="height: 100%; width: 0%; background: linear-gradient(90deg, #ff6b6b, #583D91); border-radius: 2px;"></div>
-          </div>
-          <span id="pc-duration" style="font-size: 11px; color: rgba(255,255,255,0.7); min-width: 35px;">0:00</span>
+miniPlayer.innerHTML = `
+  <div style="display: flex; flex-direction: column; width: 100%; height: 100%; padding: 10px 30px; justify-content: center;">
+    <!-- Progress Bar on TOP -->
+    <div style="width: 100%; margin-bottom: 15px;">
+      <div id="pc-progress-container" style="width: 100%; height: 8px; background: rgba(255,255,255,0.15); border-radius: 4px; cursor: pointer; position: relative;">
+        <div id="pc-progress-filled" style="height: 100%; width: 0%; background: linear-gradient(90deg, #ff6b6b, #583D91); border-radius: 4px;"></div>
+      </div>
+      <div style="display: flex; justify-content: space-between; margin-top: 8px;">
+        <span id="pc-current-time" style="font-size: 12px; color: rgba(255,255,255,0.8);">0:00</span>
+        <span id="pc-duration" style="font-size: 12px; color: rgba(255,255,255,0.8);">0:00</span>
+      </div>
+    </div>
+    
+    <!-- Main Content - Cover on Left, Buttons in Center -->
+    <div style="display: flex; align-items: center; width: 100%; justify-content: space-between;">
+      <!-- Left: Cover Image and Song Info -->
+      <div style="flex: 1; display: flex; align-items: center; gap: 15px; min-width: 0;">
+        <!-- Cover Image -->
+        <img id="pc-cover" src="covers/aassdd.png" alt="Cover" style="width: 50px; height: 50px; border-radius: 8px; object-fit: cover; flex-shrink: 0;">
+        
+        <!-- Song Info -->
+        <div style="min-width: 0;">
+          <div id="pc-title" style="font-size: 16px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; color: white; font-weight: 500; margin-bottom: 3px;">No song playing</div>
+          <div id="pc-artist" style="font-size: 13px; color: rgba(255,255,255,0.7); white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">Unknown Artist</div>
         </div>
       </div>
       
-      <div style="display: flex; align-items: center; gap: 10px; flex-wrap: nowrap;">
-        <button id="pc-shuffle" style="background: none; border: none; color: white; font-size: 14px; cursor: pointer; width: 30px; height: 30px; display: flex; align-items: center; justify-content: center;" title="Shuffle">
-          <i class="fas fa-random"></i>
+      <!-- Center: Control Buttons (Fixed shadow and icon alignment) -->
+      <div style="display: flex; align-items: center; gap: 15px; flex-wrap: nowrap; justify-content: center; flex: 1;">
+        <button id="pc-shuffle" style="width:50px; height:40px; border-radius:22px; display:flex; justify-content:center; align-items:center; cursor:pointer; background: linear-gradient(135deg, #ff6b6b, #fcb045); border:none; box-shadow: 0 2px 6px rgba(0,0,0,0.3); transition: all 0.3s ease; font-size:18px; color:white; position: relative;" title="Shuffle">
+          <i class="fas fa-random" style="position: relative; top: 0px;"></i>
         </button>
-        <button id="pc-prev" style="background: none; border: none; color: white; font-size: 16px; cursor: pointer; width: 30px; height: 30px; display: flex; align-items: center; justify-content: center;" title="Previous">
-          <i class="fas fa-backward"></i>
+        <button id="pc-prev" style="width:50px; height:40px; border-radius:22px; display:flex; justify-content:center; align-items:center; cursor:pointer; background: linear-gradient(135deg, #ff6b6b, #fcb045); border:none; box-shadow: 0 2px 6px rgba(0,0,0,0.3); transition: all 0.3s ease; font-size:18px; color:white; position: relative;" title="Previous">
+          <i class="fas fa-backward" style="position: relative; top: 0px;"></i>
         </button>
-        <button id="pc-play" style="background: linear-gradient(135deg, #583D91, #7E5CD9); border: none; color: white; width: 36px; height: 36px; border-radius: 50%; display: flex; align-items: center; justify-content: center; cursor: pointer; font-size: 14px;" title="Play/Pause">
-          <i class="fas fa-play" id="pc-play-icon"></i>
+        <button id="pc-play" style="width:74px; height:48px; font-size:22px; border-radius:26px; background: linear-gradient(135deg, #583D91, #7E5CD9); box-shadow: 0 3px 10px rgba(88,61,145,0.5); display:flex; justify-content:center; align-items:center; transition: all 0.3s ease; border:none; color:white; cursor:pointer; position: relative;" title="Play/Pause">
+          <i class="fas fa-play" id="pc-play-icon" style="position: relative; top: 0px; left: 1px;"></i>
         </button>
-        <button id="pc-next" style="background: none; border: none; color: white; font-size: 16px; cursor: pointer; width: 30px; height: 30px; display: flex; align-items: center; justify-content: center;" title="Next">
-          <i class="fas fa-forward"></i>
+        <button id="pc-next" style="width:50px; height:40px; border-radius:22px; display:flex; justify-content:center; align-items:center; cursor:pointer; background: linear-gradient(135deg, #ff6b6b, #fcb045); border:none; box-shadow: 0 2px 6px rgba(0,0,0,0.3); transition: all 0.3s ease; font-size:18px; color:white; position: relative;" title="Next">
+          <i class="fas fa-forward" style="position: relative; top: 0px;"></i>
         </button>
-        <button id="pc-repeat" style="background: none; border: none; color: white; font-size: 14px; cursor: pointer; width: 30px; height: 30px; display: flex; align-items: center; justify-content: center;" title="Repeat">
-          <i class="fas fa-redo"></i>
+        <button id="pc-repeat" style="width:50px; height:40px; border-radius:22px; display:flex; justify-content:center; align-items:center; cursor:pointer; background: linear-gradient(135deg, #ff6b6b, #fcb045); border:none; box-shadow: 0 2px 6px rgba(0,0,0,0.3); transition: all 0.3s ease; font-size:18px; color:white; position: relative;" title="Repeat">
+          <i class="fas fa-redo" style="position: relative; top: 0px;"></i>
         </button>
-        
-        <div style="display: flex; align-items: center; gap: 5px; margin-left: 5px;">
-          <i class="fas fa-volume-down" style="font-size: 12px; color: rgba(255,255,255,0.7);"></i>
-          <input type="range" id="pc-volume" min="0" max="1" step="0.01" value="1.0" style="width: 70px; cursor: pointer;">
-          <i class="fas fa-volume-up" style="font-size: 12px; color: rgba(255,255,255,0.7);"></i>
-        </div>
+      </div>
+      
+      <!-- Right: Volume Control -->
+      <div style="flex: 1; display: flex; align-items: center; justify-content: flex-end; gap: 6px; margin-left: 10px;">
+        <i class="fas fa-volume-down" style="font-size: 12px; color: rgba(255,255,255,0.7);"></i>
+        <input type="range" id="pc-volume" min="0" max="1" step="0.01" value="1.0" style="width: 80px; cursor: pointer;">
+        <i class="fas fa-volume-up" style="font-size: 12px; color: rgba(255,255,255,0.7);"></i>
       </div>
     </div>
-  `;
+  </div>
+`;
   
   // PC Controls Event Listeners
   const pcShuffleBtn = document.getElementById('pc-shuffle');
@@ -430,6 +468,13 @@ function initPCPlayer() {
     const percent = x / rect.width;
     fsAudio.currentTime = percent * fsAudio.duration;
   });
+  
+  // PC progress initial update
+  updatePCProgress();
+  
+  // Volume sync
+  fsAudio.volume = 1.0;
+  if (pcVolumeSlider) pcVolumeSlider.value = 1.0;
 }
 
 // --------------------
@@ -497,19 +542,24 @@ function updatePlayButton(){
 // --------------------
 // Mini → Fullscreen (Mobile Only)
 // --------------------
-miniPlayer.addEventListener('click', () => {
-  if (!isMobile) return;
-  
-  fullscreenPlayer.style.display = 'flex';
-  miniPlayer.style.display = 'none';
+if (isMobile) {
+  miniPlayer.addEventListener('click', () => {
+    fullscreenPlayer.style.display = 'flex';
+    miniPlayer.style.display = 'none';
 
-  document.querySelector('.site-header').style.display = 'none';
-  document.querySelector('.tabs').style.display = 'none';
+    document.querySelector('.site-header').style.display = 'none';
+    document.querySelector('.tabs').style.display = 'none';
 
-  allSongsView.style.display = 'none';
-  foldersView.style.display = 'none';
-  genreView.style.display = 'none';
-});
+    allSongsView.style.display = 'none';
+    foldersView.style.display = 'none';
+    genreView.style.display = 'none';
+  });
+} else {
+  // PC-তে mini player ক্লিক করলে কিছু না হোক
+  miniPlayer.addEventListener('click', (e) => {
+    e.stopPropagation();
+  });
+}
 
 // Close fullscreen
 fsCloseBtn.addEventListener('click', () => {
@@ -563,11 +613,13 @@ if (isMobile) {
 fsAudio.addEventListener('play', ()=>{ 
   isPlaying = true; 
   updatePlayButton(); 
+  updatePCProgress();
 });
 
 fsAudio.addEventListener('pause', ()=>{ 
   isPlaying = false; 
   updatePlayButton(); 
+  updatePCProgress();
 });
 
 // --------------------
@@ -800,4 +852,4 @@ if ('mediaSession' in navigator) {
   navigator.mediaSession.setActionHandler('pause', togglePlay);
   navigator.mediaSession.setActionHandler('previoustrack', playPrev);
   navigator.mediaSession.setActionHandler('nexttrack', playNext);
-    }
+}
