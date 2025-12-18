@@ -603,6 +603,12 @@ h1 {
 
 @media (min-width: 451px) {
   .fullscreen-player {
-    display: none !important;
+    display: none !important; /* PC তে fullscreen player hidden */
+  }
+}
+
+@media (max-width: 450px) {
+  .fullscreen-player {
+    display: flex !important; /* Mobile এ visible */
   }
 }
