@@ -19,16 +19,17 @@
    HTML & Body Fix for Android Scroll
 -------------------- */
 html, body {
-  height: 100%;
+  min-height: 100vh; /* height: 100% এর পরিবর্তে */
   width: 100%;
   margin: 0;
   overflow-x: hidden;
   overflow-y: auto;
-  overscroll-behavior-y: contain; 
+  overscroll-behavior-y: auto; /* contain এর পরিবর্তে auto */
   touch-action: pan-x pan-y;
   color: white;
   position: relative;
-  -webkit-overflow-scrolling: touch; 
+  -webkit-overflow-scrolling: touch;
+  padding: 0; /* যদি আগে padding থাকে */
 }
 
 /* --------------------
@@ -58,7 +59,7 @@ body::before {
   width: 100%;
   max-width: 900px;
   margin: auto;
-  margin-bottom: 100px;
+  margin-bottom: 20px;
 }
 
 /* --------------------
