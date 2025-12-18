@@ -402,8 +402,11 @@ function updatePlayButton(){
 // Mini → Fullscreen
 // --------------------
 miniPlayer.addEventListener('click', () => {
-  fullscreenPlayer.style.display = 'flex';
-  miniPlayer.style.display = 'none';
+  if (isMobile()) {
+    fullscreenPlayer.style.display = 'flex';
+    miniPlayer.style.display = 'none';
+  }
+});
 
   document.querySelector('.site-header').style.display = 'none';
   document.querySelector('.tabs').style.display = 'none';
