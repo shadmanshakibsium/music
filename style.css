@@ -601,3 +601,8 @@ h1 {
   }
 }
 
+@media (min-width: 451px) {
+  .fullscreen-player {
+    display: none !important;
+  }
+}
