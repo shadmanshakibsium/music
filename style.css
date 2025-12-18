@@ -1,506 +1,110 @@
-/* style.css */
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+<title>Song Archive</title>
+<link rel="icon" type="image/png" sizes="16x16" href="logo/favicon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="logo/favicon-32x32.png">
+<link rel="apple-touch-icon" sizes="180x180" href="logo/apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="192x192" href="logo/android-chrome-192x192.png">
+<link rel="stylesheet" href="style.css">
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+</head>
+<body>
 
-:root {
-  --bg: #121212;
-  --bg-card: #1a1a1a;
-  --primary: #ff6b6b;
-  --text: #f5f5f5;
-  --text-muted: rgba(255, 255, 255, 0.6);
-  --border: rgba(255, 255, 255, 0.1);
-  --spacing: 16px;
-  --fs-xs: 12px;
-  --fs-sm: 14px;
-  --fs-md: 16px;
-  --fs-lg: 18px;
-  --fs-xl: 20px;
-  --radius: 12px;
-}
+<!-- Main Content Wrapper -->
+<div id="main-content">
 
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-}
+  <!-- Header -->
+  <div class="site-header">
+    <h1>Song Archive</h1>
+  </div>
 
-html, body {
-  height: 100%;
-  background: var(--bg);
-  color: var(--text);
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif;
-  overflow: hidden;
-}
+  <!-- Tabs for All Songs / Folders -->
+  <div class="tabs">
+    <div class="tab active" data-view="all">All Songs</div>
+    <div class="tab" data-view="folders">Folders</div>
+  <div class="tab" data-view="genre">Playlist</div> 
+  </div>
 
-#main-content {
-  max-width: 100%;
-  height: 100%;
-  padding: 0;
-  overflow-y: auto;
-  overflow-x: hidden;
-}
+  <!-- All Songs View -->
+  <div id="all-songs-view">
+    <div class="search-bar">
+      <input type="text" id="searchInput" placeholder="Search songs...">
+       <div id="songCount">Total Songs: 0</div>
+    </div>
+    <ul class="music-list" id="music-list"></ul>
+  </div>
 
-/* Site Header */
-.site-header {
-  text-align: center;
-  padding: 24px 16px 16px;
-  background: linear-gradient(135deg, #ff6b6b, #fcb045);
-  color: white;
-  border-radius: 0 0 24px 24px;
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
-  margin-bottom: 24px;
-}
+  <!-- Folders View -->
+  <div id="folders-view" style="display:none;">
+    <div id="folder-list"></div>
+  </div>
 
-.site-header h1 {
-  font-size: 32px;
-  font-weight: 700;
-  letter-spacing: -0.5px;
-  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
-}
+<!-- genre View -->
+<div id="genre-view" style="display:none;">
+  <div class="genre-list" id="genre-list"></div>
+</div>
 
-/* Tabs */
-.tabs {
-  display: flex;
-  justify-content: center;
-  gap: 10px;
-  margin: 0 16px 20px;
-}
+</div> <!-- end main-content -->
 
-.tab {
-  padding: 10px 20px;
-  border-radius: 30px;
-  background: var(--bg-card);
-  font-weight: 600;
-  cursor: pointer;
-  transition: all 0.3s ease;
-  border: 2px solid transparent;
-}
+<!-- Mini Player -->
+<div class="mini-player" id="mini-player">
+  <div id="mini-title">No song playing</div>
+  <button id="mini-play"><i class="fa fa-play"></i></button>
+</div>
 
-.tab.active {
-  background: linear-gradient(135deg, #ff6b6b, #fcb045);
-  color: white;
-  box-shadow: 0 4px 15px rgba(255, 107, 107, 0.3);
-}
+<!-- Fullscreen Player -->
+<div class="fullscreen-player" id="fullscreen-player" style="display:none;">
+  <div class="container">
+    <!-- Added cover image -->
+    <img id="fs-cover" src="" alt="Cover">
 
-.tab:hover {
-  background: rgba(255, 255, 255, 0.08);
-  border-color: var(--primary);
-}
+    <div class="title" id="fs-title"><b>Song Name</b></div>
 
-/* Search Bar */
-.search-bar {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  margin: 0 16px 20px;
-}
+    <!-- Progress Bar -->
+    <div id="progress">
+      <span id="current-time">0:00</span>
+      <div id="progress-bar-container">
+        <div id="progress-filled"></div>
+      </div>
+      <span id="duration">0:00</span>
+    </div>
 
-#searchInput {
-  flex: 1;
-  padding: 14px 20px;
-  border-radius: var(--radius);
-  border: 2px solid var(--border);
-  background: var(--bg-card);
-  color: var(--text);
-  font-size: var(--fs-md);
-  transition: all 0.3s ease;
-}
+    <!-- Controls -->
+    <div class="controls">
+      <button class="control-btn" id="fs-shuffle" title="Shuffle"><i class="fas fa-random"></i></button>
+      <button class="control-btn" id="fs-prev" title="Previous"><i class="fas fa-backward"></i></button>
+      <button class="control-btn play-btn" id="fs-play" title="Play/Pause"><i class="fas fa-play" id="fs-play-icon"></i></button>
+      <button class="control-btn" id="fs-next" title="Next"><i class="fas fa-forward"></i></button>
+      <button class="control-btn" id="fs-repeat" title="Repeat"><i class="fas fa-redo" id="fs-repeat-icon"></i></button>
+    </div>
 
-#searchInput:focus {
-  outline: none;
-  border-color: var(--primary);
-  box-shadow: 0 0 0 3px rgba(255, 107, 107, 0.3);
-}
+    <!-- Volume -->
+    <div id="volume-container">
+      <i class="fas fa-volume-down"></i>
+      <input type="range" id="fs-volume" min="0" max="1" step="0.01" value="1.0">
+      <i class="fas fa-volume-up"></i>
+    </div>
 
-#songCount {
-  background: var(--primary);
-  color: white;
-  font-weight: 600;
-  padding: 8px 16px;
-  border-radius: 20px;
-  font-size: var(--fs-sm);
-  white-space: nowrap;
-}
+    <!-- Close Button -->
+    <button class="back-btn" id="fs-close">Back to Library</button>
 
-/* Music List */
-.music-list, .folder-songs, .genre-songs {
-  list-style: none;
-  margin: 0 16px;
-  padding-bottom: 100px; /* space for mini player */
-}
+    <!-- Audio -->
+    <audio id="fs-audio"></audio>
+  </div>
+</div><!-- Song Metadata Modal -->
+<div id="meta-modal" class="meta-modal" style="display:none;">
+  <div class="meta-card">
+    <img id="meta-cover" src="" alt="Cover">
+    <h3 id="meta-name"></h3>
+    <p><b>Artist:</b> <span id="meta-artist"></span></p>
+    <p><b>Album:</b> <span id="meta-album"></span></p>
+    <button id="meta-close">Back to Library</button>
+  </div>
+</div>
 
-.music-item {
-  padding: 16px;
-  background: var(--bg-card);
-  margin-bottom: 10px;
-  border-radius: var(--radius);
-  cursor: pointer;
-  transition: all 0.3s ease;
-  border: 2px solid transparent;
-}
-
-.music-item:hover {
-  background: rgba(255, 255, 255, 0.05);
-  border-color: var(--primary);
-  transform: translateY(-3px);
-  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2);
-}
-
-.music-item.playing {
-  border-color: var(--primary);
-  background: rgba(255, 107, 107, 0.1);
-  box-shadow: 0 0 10px rgba(255, 107, 107, 0.4);
-}
-
-.music-item .info {
-  display: flex;
-  flex-direction: column;
-}
-
-.music-item .title {
-  font-weight: 600;
-  font-size: var(--fs-md);
-}
-
-.music-item .subtitle {
-  font-size: var(--fs-sm);
-  color: var(--text-muted);
-}
-
-.folder-title, .genre-title {
-  padding: 16px;
-  margin: 10px 16px;
-  background: var(--bg-card);
-  border-radius: var(--radius);
-  font-weight: 600;
-  cursor: pointer;
-  transition: all 0.3s ease;
-  border: 2px solid transparent;
-}
-
-.folder-title:hover, .genre-title:hover {
-  background: rgba(255, 255, 255, 0.08);
-  border-color: var(--primary);
-}
-
-/* Mini Player */
-.mini-player {
-  position: fixed;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  background: var(--bg-card);
-  padding: 14px 20px;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  border-top: 2px solid var(--border);
-  backdrop-filter: blur(10px);
-  z-index: 1000;
-  box-shadow: 0 -5px 25px rgba(0, 0, 0, 0.5);
-}
-
-#mini-title {
-  font-weight: 600;
-  font-size: var(--fs-md);
-  overflow: hidden;
-  white-space: nowrap;
-  text-overflow: ellipsis;
-  flex: 1;
-  margin-right: 16px;
-}
-
-#mini-play {
-  background: var(--primary);
-  color: white;
-  border: none;
-  border-radius: 50%;
-  width: 44px;
-  height: 44px;
-  font-size: 18px;
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  transition: all 0.3s ease;
-  box-shadow: 0 4px 15px rgba(255, 107, 107, 0.3);
-}
-
-#mini-play:hover {
-  background: #ff5252;
-  transform: scale(1.05);
-}
-
-/* Fullscreen Player */
-.fullscreen-player {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: linear-gradient(135deg, #121212, #1a1a1a);
-  z-index: 2000;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  color: white;
-  padding: 24px;
-}
-
-.fullscreen-player .container {
-  width: 100%;
-  max-width: 400px;
-  text-align: center;
-  padding: 0 20px;
-}
-
-/* Cover Image */
-#fs-cover {
-  width: 250px;
-  height: 250px;
-  border-radius: 24px;
-  object-fit: cover;
-  margin: 0 auto 30px;
-  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.6);
-  border: 5px solid rgba(255, 255, 255, 0.1);
-  display: block;
-}
-
-.fullscreen-player .title {
-  font-size: 28px;
-  font-weight: 700;
-  margin-bottom: 30px;
-  line-height: 1.3;
-  letter-spacing: -0.5px;
-  text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.3);
-}
-
-/* Progress Bar */
-#progress {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  margin-bottom: 30px;
-}
-
-#progress span {
-  font-size: var(--fs-sm);
-  color: var(--text-muted);
-  min-width: 40px;
-}
-
-#progress-bar-container {
-  flex: 1;
-  height: 6px;
-  background: rgba(255, 255, 255, 0.1);
-  border-radius: 3px;
-  cursor: pointer;
-  overflow: hidden;
-}
-
-#progress-filled {
-  height: 100%;
-  background: linear-gradient(90deg, #ff6b6b, #fcb045);
-  border-radius: 3px;
-  width: 0%;
-}
-
-/* Controls */
-.controls {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  gap: 25px;
-  margin-bottom: 30px;
-}
-
-.control-btn {
-  background: none;
-  border: none;
-  color: white;
-  font-size: 22px;
-  cursor: pointer;
-  padding: 10px;
-  transition: all 0.3s ease;
-  border-radius: 50%;
-}
-
-.control-btn:hover {
-  color: var(--primary);
-  transform: scale(1.1);
-}
-
-.play-btn {
-  background: var(--primary);
-  width: 60px;
-  height: 60px;
-  border-radius: 50%;
-  box-shadow: 0 8px 25px rgba(255, 107, 107, 0.4);
-}
-
-.play-btn:hover {
-  background: #ff5252;
-  transform: scale(1.05);
-}
-
-/* Volume */
-#volume-container {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  margin-bottom: 30px;
-}
-
-#volume-container i {
-  font-size: 18px;
-  color: var(--text-muted);
-}
-
-#fs-volume {
-  flex: 1;
-  height: 6px;
-  -webkit-appearance: none;
-  appearance: none;
-  background: rgba(255, 255, 255, 0.1);
-  border-radius: 3px;
-  outline: none;
-}
-
-#fs-volume::-webkit-slider-thumb {
-  -webkit-appearance: none;
-  width: 18px;
-  height: 18px;
-  border-radius: 50%;
-  background: var(--primary);
-  cursor: pointer;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
-}
-
-/* Back Button */
-.back-btn {
-  width: 100%;
-  padding: 16px;
-  background: rgba(255, 255, 255, 0.1);
-  border: none;
-  color: white;
-  border-radius: var(--radius);
-  font-weight: 600;
-  cursor: pointer;
-  transition: all 0.3s ease;
-  font-size: var(--fs-md);
-}
-
-.back-btn:hover {
-  background: rgba(255, 255, 255, 0.15);
-}
-
-/* Genre/Playlist View */
-.genre-list {
-  padding-bottom: 100px;
-}
-
-/* Fade‑in animation for list items */
-@keyframes fadeIn {
-  from {
-    opacity: 0;
-    transform: translateY(10px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-.music-item.fade-in {
-  animation: fadeIn 0.4s ease forwards;
-}
-
-/* Modal */
-.meta-modal {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: rgba(0, 0, 0, 0.8);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  z-index: 3000;
-}
-
-.meta-card {
-  background: var(--bg-card);
-  padding: 30px;
-  border-radius: var(--radius);
-  max-width: 500px;
-  width: 90%;
-  text-align: center;
-  box-shadow: 0 25px 60px rgba(0, 0, 0, 0.5);
-  border: 2px solid var(--primary);
-}
-
-.meta-card img {
-  width: 200px;
-  height: 200px;
-  border-radius: 16px;
-  object-fit: cover;
-  margin-bottom: 20px;
-  border: 4px solid rgba(255, 255, 255, 0.1);
-}
-
-.meta-card h3 {
-  font-size: 28px;
-  margin-bottom: 16px;
-  color: white;
-}
-
-.meta-card p {
-  font-size: 18px;
-  margin-bottom: 10px;
-  color: var(--text-muted);
-}
-
-.meta-card button {
-  margin-top: 24px;
-  padding: 14px 30px;
-  background: var(--primary);
-  border: none;
-  border-radius: 30px;
-  color: white;
-  font-weight: 600;
-  cursor: pointer;
-  transition: all 0.3s ease;
-  font-size: var(--fs-md);
-}
-
-.meta-card button:hover {
-  background: #ff5252;
-  transform: scale(1.03);
-}
-
-/* Responsive */
-@media (max-width: 600px) {
-  .site-header h1 { font-size: 26px; }
-  .fullscreen-player .title { font-size: 24px; }
-  #fs-cover { width: 200px; height: 200px; }
-  .control-btn { font-size: 20px; }
-  .play-btn { width: 55px; height: 55px; }
-  .controls { gap: 20px; }
-  .meta-card img { width: 150px; height: 150px; }
-  .meta-card h3 { font-size: 24px; }
-  .meta-card p { font-size: 16px; }
-}
-
-/* Custom scrollbar */
-::-webkit-scrollbar {
-  width: 8px;
-}
-::-webkit-scrollbar-track {
-  background: rgba(0, 0, 0, 0.2);
-}
-::-webkit-scrollbar-thumb {
-  background: rgba(255, 107, 107, 0.5);
-  border-radius: 4px;
-}
-::-webkit-scrollbar-thumb:hover {
-  background: rgba(255, 107, 107, 0.8);
-   }
+<script src="script.js"></script>
+</body>
+</html>
