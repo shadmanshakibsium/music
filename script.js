@@ -52,12 +52,23 @@ const fsCover = document.getElementById('fs-cover');
 if (fsCover) {
   fsCover.onerror = () => {
     // fallback to app icon or any placeholder you have
-    fsCover.src = 'covers/aassdd.png';
+    fsCover.src = getRandomFallbackCover();
   };
   // hide initially if no src
   if (!fsCover.src) {
     fsCover.style.display = 'none';
   }
+}
+const fallbackCovers = [
+  'covers/aassdd.png',
+  'covers/1.png',
+  'covers/2.png',
+  'covers/3.png',
+  'covers/4.png'
+];
+
+function getRandomFallbackCover() {
+  return fallbackCovers[Math.floor(Math.random() * fallbackCovers.length)];
 }
 
 
@@ -334,7 +345,7 @@ function playSong(index) {
       fsCover.alt = `${song.name} cover`;
     } else {
       fsCover.style.display = 'block';
-      fsCover.src = 'covers/aassdd.png'; 
+      fsCover.src = getRandomFallbackCover(); 
       fsCover.alt = 'Cover not available';
     }
   }
@@ -342,8 +353,10 @@ function playSong(index) {
   fsAudio.src = `songs/${song.folder}/${song.file}`;
   fsAudio.play();
   if ('mediaSession' in navigator) {
-    // Provide richer metadata for lock-screen / bluetooth
-    const artworkSrc = (song && song.cover) ? `covers/${song.folder}/${song.cover}` : 'covers/aassdd.png';
+    const artworkSrc = (song && song.cover)
+  ? `covers/${song.folder}/${song.cover}`
+  : getRandomFallbackCover();
+
     navigator.mediaSession.metadata = new MediaMetadata({
       title: song.name || '',
       artist: song.artist || '',
@@ -693,7 +706,9 @@ function showMetadata(song) {
   metaArtist.textContent = song.artist || 'Unknown';
   metaAlbum.textContent = song.album || 'Unknown';
 
-  metaCover.src = song.cover ? `covers/${song.folder}/${song.cover}` : 'covers/aassdd.png';
+ metaCover.src = song.cover 
+  ? `covers/${song.folder}/${song.cover}` 
+  : getRandomFallbackCover();
 
   metaModal.style.display = 'flex';
 }
