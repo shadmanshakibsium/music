@@ -72,7 +72,9 @@ const fallbackCovers = [
 'covers/9.jpg',
 'covers/10.jpg',
 'covers/11.jpg',
-'covers/12.jpg'
+'covers/12.jpg',
+'covers/13.jpg',
+'covers/14.jpg'
 ];
 
 function getRandomFallbackCover() {
