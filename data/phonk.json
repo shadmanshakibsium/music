@@ -1,5 +1,37 @@
 [
   {
+    "name": "﻿ACIDO III - Slowed",
+    "artist": "﻿UdieNnx",
+    "album": "﻿ACIDO III",
+    "file": "ACIDO III(MP3_160K).mp3",
+    "cover": "ACIDO III(MP3_160K).jpg",
+    "genre": ""
+  },
+  {
+    "name": "﻿Manasha (Over Slowed) [Bass Boosted]",
+    "artist": "﻿Ashreveal",
+    "album": "﻿Manasha",
+    "file": "Ashreveal_ Ashish Swargiary - Manasha (Over Slowed) [Bass Boosted](MP3_160K).mp3",
+    "cover": "Ashreveal_ Ashish Swargiary - Manasha (Over Slowed) [Bass Boosted](MP3_160K).jpg",
+    "genre": ""
+  },
+  {
+    "name": "﻿VEKI VEKI",
+    "artist": "﻿DJZRX, motty, Rodricci, Launch13",
+    "album": "﻿VEKI VEKI",
+    "file": "VEKI VEKI (Slowed)(MP3_160K).mp3",
+    "cover": "VEKI VEKI (Slowed)(MP3_160K).jpg",
+    "genre": ""
+  },
+  {
+    "name": "﻿VEKI VEKI - SLOWED",
+    "artist": "﻿DJZRX, motty, Rodricci, Launch13",
+    "album": "﻿VEKI VEKI",
+    "file": "VEKI VEKI (Super Slowed)(MP3_160K).mp3",
+    "cover": "VEKI VEKI (Super Slowed)(MP3_160K).jpg",
+    "genre": ""
+  },
+  {
     "name": "Manasha - Over Slowed",
     "artist": "Ashreveal, Ashish Swargiary",
     "album": "Manasha",
@@ -247,4 +279,5 @@
     "cover": "Vai Me Bota (Ultra Slowed)(MP3_128K).jpg",
     "genre": ""
   }
+
 ]
