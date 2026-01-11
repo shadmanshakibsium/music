@@ -1,5 +1,13 @@
 [
   {
+    "name": "﻿La leçon particulière",
+    "artist": "﻿Christian Gaubert",
+    "album": "﻿Mayerling",
+    "file": "La leçon particulière (Bande originale du film _La leçon particulière_)(MP3_160K).mp3",
+    "cover": "La leçon particulière (Bande originale du film _La leçon particulière_)(MP3_160K).jpg",
+    "genre": ""
+  },
+  {
     "name": "﻿Kiki's Delivery Service - A Town With An Ocean View - Main Theme",
     "artist": "﻿Geek Music",
     "album": "﻿Kiki's Delivery Service - A Town With An Ocean View - Main Theme",
@@ -15,4 +23,5 @@
     "cover": "Kiki_s Delivery Service - Umi No Mieru Machi Piano(MP3_128K).jpg",
     "genre": ""
   }
+
 ]
