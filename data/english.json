@@ -1,5 +1,77 @@
 [
   {
+    "name": "﻿Rasputin",
+    "artist": "﻿Boney M.",
+    "album": "﻿The Magic Of Boney M.",
+    "file": "Boney M. - Rasputin (Sopot Festival 1979)(MP3_160K).mp3",
+    "cover": "Boney M. - Rasputin (Sopot Festival 1979)(MP3_160K).jpg",
+    "genre": ""
+  },
+  {
+    "name": "﻿Panda",
+    "artist": "﻿Desiigner",
+    "album": "﻿Panda",
+    "file": "Desiigner - Panda(MP3_160K).mp3",
+    "cover": "Desiigner - Panda(MP3_160K).jpg",
+    "genre": ""
+  },
+  {
+    "name": "﻿Far From Any Road",
+    "artist": "﻿The Handsome Family",
+    "album": "﻿Singing Bones",
+    "file": "Far From Any Road(MP3_160K).mp3",
+    "cover": "Far From Any Road(MP3_160K).jpg",
+    "genre": ""
+  },
+  {
+    "name": "﻿Trap Queen",
+    "artist": "﻿Fetty Wap",
+    "album": "﻿Fetty Wap (Deluxe)",
+    "file": "Fetty Wap  - Trap Queen (Official Video) Prod. By Tony Fadd(MP3_160K).mp3",
+    "cover": "Fetty Wap  - Trap Queen (Official Video) Prod. By Tony Fadd(MP3_160K).jpg",
+    "genre": ""
+  },
+  {
+    "name": "﻿fukumean",
+    "artist": "﻿Gunna",
+    "album": "﻿a Gift & a Curse",
+    "file": "Gunna - fukumean [Official Visualizer](MP3_160K).mp3",
+    "cover": "Gunna - fukumean [Official Visualizer](MP3_160K).jpg",
+    "genre": ""
+  },
+  {
+    "name": "﻿Hot (Remix)",
+    "artist": "﻿Young Thug - Topic",
+    "album": "﻿Young Thug - Topic",
+    "file": "Hot (Remix) (feat. Gunna and Travis Scott)(MP3_160K).mp3",
+    "cover": "Hot (Remix) (feat. Gunna and Travis Scott)(MP3_160K).jpg",
+    "genre": ""
+  },
+  {
+    "name": "﻿E.T.",
+    "artist": "﻿Katy Perry",
+    "album": "﻿Teenage Dream",
+    "file": "Katy Perry - E.T. (Lyrics)(MP3_160K).mp3",
+    "cover": "Katy Perry - E.T. (Lyrics)(MP3_160K).jpg",
+    "genre": ""
+  },
+  {
+    "name": "﻿Harleys In Hawaii",
+    "artist": "﻿Katy Perry",
+    "album": "﻿Harleys In Hawaii",
+    "file": "Katy Perry - Harleys In Hawaii (Official)(MP3_160K).mp3",
+    "cover": "Katy Perry - Harleys In Hawaii (Official)(MP3_160K).jpg",
+    "genre": ""
+  },
+  {
+    "name": "﻿Whenever, Wherever",
+    "artist": "﻿Shakira",
+    "album": "﻿The Ultimate Office Party",
+    "file": "Shakira - Whenever_ Wherever (Official HD Video)(MP3_160K).mp3",
+    "cover": "Shakira - Whenever_ Wherever (Official HD Video)(MP3_160K).jpg",
+    "genre": ""
+  },
+  {
     "name": "Mood",
     "artist": "24kGoldn, iann dior",
     "album": "El Dorado",
@@ -2449,3 +2521,4 @@
   }
 
 ]
+
