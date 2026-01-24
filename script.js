@@ -11,6 +11,7 @@ let isPlaying = false;
 let isShuffle = false;
 let repeatMode = 'none';
 let longPressTimer = null;
+let isScrolling = false;
 const LONG_PRESS_TIME = 900;
 
 const metaModal = document.getElementById('meta-modal');
@@ -149,22 +150,45 @@ function toggleFolder(folderName, folderEl) {
         if (musicData === folderSongs && index === currentIndex) {
           li.classList.add('playing');
         }
-        // Long Press (1 second)
-li.addEventListener('mousedown', () => {
-  longPressTimer = setTimeout(() => {
-    showMetadata(song);
-  }, LONG_PRESS_TIME);
-});
-li.addEventListener('mouseup', () => clearTimeout(longPressTimer));
-li.addEventListener('mouseleave', () => clearTimeout(longPressTimer));
+        // -------- Long Press (NO scroll) --------
 
-/* Mobile */
-li.addEventListener('touchstart', () => {
+// Desktop
+li.addEventListener('mousedown', () => {
+  isScrolling = false;
   longPressTimer = setTimeout(() => {
-    showMetadata(song);
+    if (!isScrolling) showMetadata(song);
   }, LONG_PRESS_TIME);
 });
-li.addEventListener('touchend', () => clearTimeout(longPressTimer));
+
+li.addEventListener('mousemove', () => {
+  isScrolling = true;
+  clearTimeout(longPressTimer);
+});
+
+li.addEventListener('mouseup', () => {
+  clearTimeout(longPressTimer);
+});
+
+li.addEventListener('mouseleave', () => {
+  clearTimeout(longPressTimer);
+});
+
+// Mobile
+li.addEventListener('touchstart', () => {
+  isScrolling = false;
+  longPressTimer = setTimeout(() => {
+    if (!isScrolling) showMetadata(song);
+  }, LONG_PRESS_TIME);
+});
+
+li.addEventListener('touchmove', () => {
+  isScrolling = true;
+  clearTimeout(longPressTimer);
+});
+
+li.addEventListener('touchend', () => {
+  clearTimeout(longPressTimer);
+});
 
 
         li.addEventListener('click', (e) => {
@@ -244,23 +268,45 @@ function loadGenreView() {
           li.setAttribute('data-index', index);
           li.innerHTML = `<div class="info"><span class="title">${song.name}</span></div>`;
 
-          // Long Press (1 second)
+// -------- Long Press (NO scroll) --------
+
+// Desktop
 li.addEventListener('mousedown', () => {
+  isScrolling = false;
   longPressTimer = setTimeout(() => {
-    showMetadata(song);
+    if (!isScrolling) showMetadata(song);
   }, LONG_PRESS_TIME);
 });
-li.addEventListener('mouseup', () => clearTimeout(longPressTimer));
-li.addEventListener('mouseleave', () => clearTimeout(longPressTimer));
 
-/* Mobile */
+li.addEventListener('mousemove', () => {
+  isScrolling = true;
+  clearTimeout(longPressTimer);
+});
+
+li.addEventListener('mouseup', () => {
+  clearTimeout(longPressTimer);
+});
+
+li.addEventListener('mouseleave', () => {
+  clearTimeout(longPressTimer);
+});
+
+// Mobile
 li.addEventListener('touchstart', () => {
+  isScrolling = false;
   longPressTimer = setTimeout(() => {
-    showMetadata(song);
+    if (!isScrolling) showMetadata(song);
   }, LONG_PRESS_TIME);
 });
-li.addEventListener('touchend', () => clearTimeout(longPressTimer));
 
+li.addEventListener('touchmove', () => {
+  isScrolling = true;
+  clearTimeout(longPressTimer);
+});
+
+li.addEventListener('touchend', () => {
+  clearTimeout(longPressTimer);
+});
           li.addEventListener('click', (e) => {
             e.stopPropagation();
             filteredData = genreGroups[genre];
@@ -304,11 +350,19 @@ function renderMusicList() {
     if (index === currentIndex) {
       li.classList.add('playing');
     }
-// -------- Long Press (1 second) --------
+// -------- Long Press (NO scroll) --------
+
+// Desktop
 li.addEventListener('mousedown', () => {
+  isScrolling = false;
   longPressTimer = setTimeout(() => {
-    showMetadata(song);
+    if (!isScrolling) showMetadata(song);
   }, LONG_PRESS_TIME);
+});
+
+li.addEventListener('mousemove', () => {
+  isScrolling = true;
+  clearTimeout(longPressTimer);
 });
 
 li.addEventListener('mouseup', () => {
@@ -319,11 +373,17 @@ li.addEventListener('mouseleave', () => {
   clearTimeout(longPressTimer);
 });
 
-/* Mobile */
+// Mobile
 li.addEventListener('touchstart', () => {
+  isScrolling = false;
   longPressTimer = setTimeout(() => {
-    showMetadata(song);
+    if (!isScrolling) showMetadata(song);
   }, LONG_PRESS_TIME);
+});
+
+li.addEventListener('touchmove', () => {
+  isScrolling = true;
+  clearTimeout(longPressTimer);
 });
 
 li.addEventListener('touchend', () => {
