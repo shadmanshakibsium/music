@@ -306,10 +306,6 @@ h1 {
     margin: 0 0 10px 0;
   }
 }
-@keyframes fadeIn {
-  from {opacity: 0; transform: translateY(-5px);}
-  to {opacity: 1; transform: translateY(0);}
-}
 
 /* --------------------
    Mini Player
@@ -570,7 +566,9 @@ h1 {
   #fs-volume{width:110px;}
 }
 
-/* fade-in animation */
+/* --------------------
+   Fade-in Animation
+-------------------- */
 @keyframes fadeIn {
   from {
     opacity: 0;
@@ -581,22 +579,31 @@ h1 {
     transform: translateY(0);
   }
 }
+
 .music-item.fade-in {
-  animation: fadeIn 0.5s ease forwards;
+  animation: fadeIn 0.5s ease-out forwards;
+  animation-fill-mode: both;
+}
+
+.music-item.fade-in:nth-child(odd) {
+  animation-delay: 0.05s;
+}
+.music-item.fade-in:nth-child(even) {
+  animation-delay: 0.1s;
 }
 #fs-cover {
   display: block;
   margin: 0 auto 20px;  
   width: 100%;
-  max-width: 360px;      /* বড় স্কয়ারের সীমা */
-  aspect-ratio: 1/1;     /* স্কয়ার রাখবে */
+  max-width: 360px;      
+  aspect-ratio: 1/1;    
   border-radius: 15px;
   object-fit: cover;
 }
 /* Mobile */
 @media(max-width: 450px){
   #fs-cover {
-    max-width: 250px;    /* মোবাইলেও বড় স্কয়ার */
+    max-width: 250px;    
     aspect-ratio: 1/1;
   }
 }
