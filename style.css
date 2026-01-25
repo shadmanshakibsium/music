@@ -313,7 +313,7 @@ h1 {
 @keyframes fadeIn {
   from {
     opacity: 0;
-    transform: translateY(15px);
+    transform: translateY(25px);
   }
   to {
     opacity: 1;
@@ -322,18 +322,16 @@ h1 {
 }
 
 .music-item.fade-in {
-  animation: fadeIn 0.5s ease-out forwards;
-  opacity: 0;
-  animation-fill-mode: both;
+  animation: fadeIn 0.7s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
 }
 
 /* Staggered animation for better effect */
 .music-item.fade-in:nth-child(odd) {
-  animation-delay: 0.05s;
+  animation-delay: 0.06s;
 }
 
 .music-item.fade-in:nth-child(even) {
-  animation-delay: 0.1s;
+  animation-delay: 0.12s;
 }
 
 /* --------------------
@@ -615,4 +613,28 @@ h1 {
     max-width: 250px;    /* মোবাইলেও বড় স্কয়ার */
     aspect-ratio: 1/1;
   }
+}
+
+/* Progressive fade-in for better visual */
+.music-item.fade-in:nth-child(1) { animation-delay: 0.1s; }
+.music-item.fade-in:nth-child(2) { animation-delay: 0.15s; }
+.music-item.fade-in:nth-child(3) { animation-delay: 0.2s; }
+.music-item.fade-in:nth-child(4) { animation-delay: 0.25s; }
+.music-item.fade-in:nth-child(5) { animation-delay: 0.3s; }
+.music-item.fade-in:nth-child(6) { animation-delay: 0.35s; }
+.music-item.fade-in:nth-child(7) { animation-delay: 0.4s; }
+.music-item.fade-in:nth-child(8) { animation-delay: 0.45s; }
+.music-item.fade-in:nth-child(9) { animation-delay: 0.5s; }
+.music-item.fade-in:nth-child(10) { animation-delay: 0.55s; }
+
+/* Smooth scroll behavior */
+.music-item {
+  scroll-margin-top: 20px;
+  scroll-margin-bottom: 20px;
+}
+
+/* Prevent animation on scroll */
+.music-item:not(.fade-in) {
+  opacity: 1;
+  transform: none;
 }
