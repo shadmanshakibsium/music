@@ -390,7 +390,7 @@ h1 {
   width: 100%; 
   height: 100%;
   background: transparent;
-  display: none;  /* hidden by default */
+  display: none; 
   flex-direction: column;
   justify-content: center;
   align-items: center;
@@ -415,27 +415,27 @@ h1 {
 
 /* Song Title */
 .fullscreen-player .container .title {
-  font-size: 22px;       /* Desktop default */
+  font-size: 22px; 
   font-weight: 700;
   margin-bottom: 24px;
   letter-spacing: 0.7px;
-  white-space: nowrap;    /* এক লাইনে রাখবে */
-  overflow: hidden;       /* অতিরিক্ত লেখা hide হবে */
-  text-overflow: ellipsis; /* শেষের দিকে ... দেখাবে */
+  white-space: nowrap;
+  overflow: hidden; 
+  text-overflow: ellipsis; 
   text-align: center;
 }
 
 @media(max-width: 450px) {
   .fullscreen-player .container .title {
-    font-size: 18px; /* Mobile আরও ছোট */
+    font-size: 18px; 
   }
 }
 
 /* progress wrapper */
 #progress {
   position: relative;
-  width: calc(100% - 6px); /* দুই দিকেই 3px কমানো */
-  max-width: 354px; /* আগের 360px থেকে 6px কমানো */
+  width: calc(100% - 6px); 
+  max-width: 354px; 
   margin: 0 auto 6px;
   box-sizing: border-box;
   padding-top: 6px;
@@ -480,10 +480,10 @@ h1 {
 /* controls */
 .controls {
   display: flex;
-  justify-content: space-between; /* shuffle/repeat বা outer buttons alignment */
+  justify-content: space-between;
   align-items: center;
   margin: 18px auto 28px;
-  max-width: 360px; /* same as progress max-width */
+  max-width: 360px; 
   width: 100%;
 }
 
@@ -601,8 +601,8 @@ h1 {
   display: block;
   margin: 0 auto 20px;  
   width: 100%;
-  max-width: 360px;      /* বড় স্কয়ারের সীমা */
-  aspect-ratio: 1/1;     /* স্কয়ার রাখবে */
+  max-width: 360px;    
+  aspect-ratio: 1/1;  
   border-radius: 15px;
   object-fit: cover;
 }
@@ -610,7 +610,7 @@ h1 {
 /* Mobile */
 @media(max-width: 450px){
   #fs-cover {
-    max-width: 250px;    /* মোবাইলেও বড় স্কয়ার */
+    max-width: 250px;  
     aspect-ratio: 1/1;
   }
 }
