@@ -43,16 +43,13 @@ const progressBarContainer = document.getElementById('progress-bar-container');
 const volumeSlider = document.getElementById('fs-volume');
 const genreListEl = document.getElementById('genre-list');
 const genreView = document.getElementById('genre-view');
-// Added fsCover element
 const fsCover = document.getElementById('fs-cover');
 
-// Set a fallback (placeholder) if cover fails to load
 if (fsCover) {
   fsCover.onerror = () => {
-    // fallback to app icon or any placeholder you have
     fsCover.src = getRandomFallbackCover();
   };
-  // hide initially if no src
+
   if (!fsCover.src) {
     fsCover.style.display = 'none';
   }
@@ -91,7 +88,7 @@ function setupLongPressForItem(li, song) {
   let touchMoved = false;
   let startX = 0;
   let startY = 0;
-  const MOVE_THRESHOLD = 10; // pixels movement allowed
+  const MOVE_THRESHOLD = 10; 
   
   // Desktop
   li.addEventListener('mousedown', (e) => {
