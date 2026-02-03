@@ -1,5 +1,29 @@
 [
   {
+    "name": "﻿Happy Happy",
+    "artist": "﻿Badshah, Aastha Gill",
+    "album": "﻿Blackmail",
+    "file": "Happy Happy Video Song _ Blackmail _ Irrfan Khan _ Badshah _ Aastha Gill(MP3_128K).mp3",
+    "cover": "Happy Happy Video Song _ Blackmail _ Irrfan Khan _ Badshah _ Aastha Gill(MP3_128K).jpg",
+    "genre": ""
+  },
+  {
+    "name": "﻿Jhol",
+    "artist": "﻿Maanu, Annural Khalid",
+    "album": "﻿Jhol",
+    "file": "Jhol _ Coke Studio Pakistan _ Season 15 _ Maanu x Annural Khalid(MP3_128K).mp3",
+    "cover": "Jhol _ Coke Studio Pakistan _ Season 15 _ Maanu x Annural Khalid(MP3_128K).jpg",
+    "genre": ""
+  },
+  {
+    "name": "﻿Jhoom - R&B Mix",
+    "artist": "﻿Ali Zafar",
+    "album": "﻿Jhoom",
+    "file": "Mene Tujhe Dekha - Ali Zafar _ Jhoom (R_B mix) _ Lyrical Ali Zafar _ R_B mix _ Lyrical Video(MP3_128K).mp3",
+    "cover": "Mene Tujhe Dekha - Ali Zafar _ Jhoom (R_B mix) _ Lyrical Ali Zafar _ R_B mix _ Lyrical Video(MP3_128K).jpg",
+    "genre": ""
+  },
+  {
     "name": "Agar Tum Saath Ho",
     "artist": "A.R. Rahman, Alka Yagnik, Arijit Singh",
     "album": "A.R. Rahman All Time Favourites",
@@ -1897,5 +1921,6 @@
   }
 
 ]
+
 
 
