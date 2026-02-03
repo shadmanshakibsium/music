@@ -231,7 +231,7 @@ h1 {
   border-radius: 15px;
   padding: 12px 15px;
   margin-bottom: 10px;
-  backdrop-filter: blur(8px);
+  backdrop-filter: blur(2px);
   cursor: pointer;
   transition: 0.3s;
   -webkit-tap-highlight-color: transparent;
