@@ -51,7 +51,7 @@ body::before {
 -------------------- */
 .container {
   backdrop-filter: blur(10px) saturate(180%);
-  -webkit-backdrop-filter: blur(10px) saturate(180%);
+  -webkit-backdrop-filter: blur(7px) saturate(180%);
   background-color: rgba(255, 255, 255, 0.1);
   border-radius: 20px;
   border: 1px solid rgba(255,255,255,0.2);
@@ -279,7 +279,7 @@ h1 {
   margin: 10px auto 8px auto; 
   width: 80%;
   height: 52px; 
-  backdrop-filter: blur(8px);
+  backdrop-filter: blur(2px);
 }
 .folder-songs .music-item,
 .genre-songs .music-item {
@@ -293,7 +293,7 @@ h1 {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  backdrop-filter: blur(8px);
+  backdrop-filter: blur(2px);
 }
 
 /* ---------------- Mobile ---------------- */
