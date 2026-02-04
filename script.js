@@ -495,7 +495,7 @@ fsCloseBtn.addEventListener('click', () => {
   fullscreenPlayer.style.display = 'none';
   miniPlayer.style.display = 'flex';
 
-  // Show site header & tabs again
+  // Show header & tabs
   document.querySelector('.site-header').style.display = 'block';
   document.querySelector('.tabs').style.display = 'flex';
 
@@ -504,18 +504,29 @@ fsCloseBtn.addEventListener('click', () => {
   foldersView.style.display = 'none';
   genreView.style.display = 'none';
 
-  // Show the correct view based on currentView
+  // Show the correct view
   if (currentView === 'all') {
     allSongsView.style.display = 'block';
   } else if (currentView === 'folders') {
     foldersView.style.display = 'block';
-    
-    // যদি ফোল্ডারে গান বন্ধ থাকে, open হবে
+
+    // --- FOLDER FIX START ---
     const songEl = document.querySelector(`.music-item[data-uid="${currentSongUID}"]`);
     if (songEl) {
+      // parentUL folder-songs
       const parentUL = songEl.closest('.folder-songs');
-      if (parentUL) parentUL.style.display = 'block';
+      if (parentUL) {
+        // folder open 
+        parentUL.style.display = 'block';
+        const folderTitle = parentUL.previousElementSibling;
+        if (folderTitle && folderTitle.classList.contains('folder-title')) {
+          folderTitle.classList.add('active');
+        }
+      }
+      // scroll current song into view
+      songEl.scrollIntoView({ behavior: 'auto', block: 'center' });
     }
+    // --- FOLDER FIX END ---
 
   } else if (currentView === 'genre') {
     genreView.style.display = 'block';
@@ -524,25 +535,11 @@ fsCloseBtn.addEventListener('click', () => {
     if (songEl) {
       const parentUL = songEl.closest('.genre-songs');
       if (parentUL) parentUL.style.display = 'block';
+      songEl.scrollIntoView({ behavior: 'auto', block: 'center' });
     }
   }
-
-  // Scroll currently playing song into view
-  scrollCurrentSongIntoView();
 });
 
-// --------------------
-// Scroll currently playing song into view
-// --------------------
-function scrollCurrentSongIntoView() {
-  if (!currentSongUID) return;
-
-  const songEl = document.querySelector(`.music-item[data-uid="${currentSongUID}"]`);
-  if (songEl) {
-
-    songEl.scrollIntoView({ behavior: 'auto', block: 'center' });
-  }
-}
 
 // --------------------
 // Play/Pause
