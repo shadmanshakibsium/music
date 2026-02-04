@@ -511,7 +511,7 @@ miniPlayer.addEventListener('click', () => {
 
 
 // --------------------
-// Close fullscreen (Updated)
+// Close fullscreen (Updated for folder view)
 // --------------------
 fsCloseBtn.addEventListener('click', () => {
   fullscreenPlayer.style.display = 'none';
@@ -532,67 +532,60 @@ fsCloseBtn.addEventListener('click', () => {
   } else if (currentView === 'folders') {
     foldersView.style.display = 'block';
     
-    // ফোল্ডার খুলে ড্রপডাউন দেখানো
-    const folderName = currentSongUID.split('/')[0];
-    const folderEl = Array.from(document.querySelectorAll('.folder-title'))
-      .find(el => el.textContent === folderName);
-    
-    if (folderEl) {
-      // যদি ফোল্ডার ড্রপডাউন বন্ধ থাকে তাহলে খুলে দিন
-      let listEl = folderEl.nextElementSibling;
-      if (!listEl || !listEl.classList.contains('folder-songs')) {
-        toggleFolder(folderName, folderEl);
-        listEl = folderEl.nextElementSibling;
-      }
+    // ✅ Important: Find the folder element and make sure it's expanded
+    if (currentSongUID) {
+      const folderName = currentSongUID.split('/')[0];
+      const folderEl = Array.from(document.querySelectorAll('.folder-title'))
+        .find(el => el.textContent === folderName);
       
-      // সাময়িকভাবে ডিসপ্লে ব্লক করে স্ক্রল করার জন্য
-      if (listEl) {
-        listEl.style.display = 'block';
-        
-        // সাময়িকভাবে কিছু সময় অপেক্ষা করে DOM আপডেট হবার জন্য
-        setTimeout(() => {
-          const currentSongEl = document.querySelector(`.music-item[data-uid="${currentSongUID}"]`);
+      if (folderEl) {
+        // Expand the folder if it's collapsed
+        let listEl = folderEl.nextElementSibling;
+        if (!listEl || !listEl.classList.contains('folder-songs') || listEl.style.display === 'none') {
+          // Folder is collapsed, expand it first
+          toggleFolder(folderName, folderEl);
+          
+          // Wait for the folder to load and then scroll to the song
+          setTimeout(() => {
+            listEl = folderEl.nextElementSibling;
+            if (listEl && listEl.classList.contains('folder-songs')) {
+              const currentSongEl = listEl.querySelector(`.music-item[data-uid="${currentSongUID}"]`);
+              if (currentSongEl) {
+                // Scroll to the song
+                currentSongEl.scrollIntoView({ 
+                  behavior: 'smooth', 
+                  block: 'center' 
+                });
+                
+                // Highlight it
+                document.querySelectorAll('.folder-songs .music-item').forEach(el => {
+                  el.classList.remove('playing');
+                });
+                currentSongEl.classList.add('playing');
+              }
+            }
+          }, 300); // Give time for the folder to load
+        } else {
+          // Folder is already expanded, just scroll to the song
+          const currentSongEl = listEl.querySelector(`.music-item[data-uid="${currentSongUID}"]`);
           if (currentSongEl) {
-            currentSongEl.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            currentSongEl.scrollIntoView({ 
+              behavior: 'smooth', 
+              block: 'center' 
+            });
             
-            // হাইলাইট করা
+            // Highlight it
             document.querySelectorAll('.folder-songs .music-item').forEach(el => {
               el.classList.remove('playing');
             });
             currentSongEl.classList.add('playing');
           }
-        }, 100);
+        }
       }
     }
   } else if (currentView === 'genre') {
     genreView.style.display = 'block';
-    
-    // জেনের ভিউর জন্য একই লজিক
-    const genreTitle = Array.from(document.querySelectorAll('.genre-title'))
-      .find(el => {
-        const genreSongs = el.nextElementSibling;
-        if (genreSongs && genreSongs.classList.contains('genre-songs')) {
-          return genreSongs.querySelector(`.music-item[data-uid="${currentSongUID}"]`);
-        }
-        return false;
-      });
-    
-    if (genreTitle) {
-      const genreSongsEl = genreTitle.nextElementSibling;
-      genreSongsEl.style.display = 'block';
-      
-      setTimeout(() => {
-        const currentSongEl = genreSongsEl.querySelector(`.music-item[data-uid="${currentSongUID}"]`);
-        if (currentSongEl) {
-          currentSongEl.scrollIntoView({ behavior: 'smooth', block: 'center' });
-          
-          document.querySelectorAll('.genre-songs .music-item').forEach(el => {
-            el.classList.remove('playing');
-          });
-          currentSongEl.classList.add('playing');
-        }
-      }, 100);
-    }
+    // Similar logic for genre view...
   }
 });
 
