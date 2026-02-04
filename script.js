@@ -487,59 +487,66 @@ miniPlayer.addEventListener('click', () => {
 });
 
 
-// --------------------
-// Close Fullscreen Player
-// --------------------
+// Close fullscreen
 fsCloseBtn.addEventListener('click', () => {
-  // Hide fullscreen, show mini player
   fullscreenPlayer.style.display = 'none';
   miniPlayer.style.display = 'flex';
-
-  // Show header & tabs
   document.querySelector('.site-header').style.display = 'block';
   document.querySelector('.tabs').style.display = 'flex';
 
-  // Hide all views initially
   allSongsView.style.display = 'none';
   foldersView.style.display = 'none';
   genreView.style.display = 'none';
 
-  // Show the correct view
+
   if (currentView === 'all') {
     allSongsView.style.display = 'block';
+const currentSongEl =
+  document.querySelector(`.music-item[data-uid="${currentSongUID}"]`);
+
+if (currentSongEl) {
+  currentSongEl.scrollIntoView({ behavior: 'auto', block: 'center' });
+}
+
+    if (currentSongEl) {
+      currentSongEl.scrollIntoView({ behavior: 'auto', block: 'center' });
+    }
+
   } else if (currentView === 'folders') {
     foldersView.style.display = 'block';
 
-    // --- FOLDER FIX START ---
-    const songEl = document.querySelector(`.music-item[data-uid="${currentSongUID}"]`);
-    if (songEl) {
-      // parentUL folder-songs
-      const parentUL = songEl.closest('.folder-songs');
-      if (parentUL) {
-        // folder open 
-        parentUL.style.display = 'block';
-        const folderTitle = parentUL.previousElementSibling;
-        if (folderTitle && folderTitle.classList.contains('folder-title')) {
-          folderTitle.classList.add('active');
-        }
+    const folderLists = document.querySelectorAll('.folder-songs');
+    folderLists.forEach(list => {
+const currentSongEl =
+  document.querySelector(`.music-item[data-uid="${currentSongUID}"]`);
+
+if (currentSongEl) {
+  currentSongEl.scrollIntoView({ behavior: 'auto', block: 'center' });
+}
+
+      if (songEl) {
+        songEl.scrollIntoView({ behavior: 'auto', block: 'center' });
       }
-      // scroll current song into view
-      songEl.scrollIntoView({ behavior: 'auto', block: 'center' });
-    }
-    // --- FOLDER FIX END ---
+    });
 
   } else if (currentView === 'genre') {
     genreView.style.display = 'block';
 
-    const songEl = document.querySelector(`.music-item[data-uid="${currentSongUID}"]`);
-    if (songEl) {
-      const parentUL = songEl.closest('.genre-songs');
-      if (parentUL) parentUL.style.display = 'block';
-      songEl.scrollIntoView({ behavior: 'auto', block: 'center' });
-    }
+    const genreLists = document.querySelectorAll('.genre-songs');
+    genreLists.forEach(list => {
+const currentSongEl =
+  document.querySelector(`.music-item[data-uid="${currentSongUID}"]`);
+
+if (currentSongEl) {
+  currentSongEl.scrollIntoView({ behavior: 'auto', block: 'center' });
+}
+
+      if (songEl) {
+        songEl.scrollIntoView({ behavior: 'auto', block: 'center' });
+      }
+    });
   }
 });
-
 
 // --------------------
 // Play/Pause
