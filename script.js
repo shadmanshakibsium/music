@@ -487,66 +487,62 @@ miniPlayer.addEventListener('click', () => {
 });
 
 
-// Close fullscreen
+// --------------------
+// Close Fullscreen Player
+// --------------------
 fsCloseBtn.addEventListener('click', () => {
+  // Hide fullscreen, show mini player
   fullscreenPlayer.style.display = 'none';
   miniPlayer.style.display = 'flex';
+
+  // Show site header & tabs again
   document.querySelector('.site-header').style.display = 'block';
   document.querySelector('.tabs').style.display = 'flex';
 
+  // Hide all views initially
   allSongsView.style.display = 'none';
   foldersView.style.display = 'none';
   genreView.style.display = 'none';
 
-
+  // Show the correct view based on currentView
   if (currentView === 'all') {
     allSongsView.style.display = 'block';
-const currentSongEl =
-  document.querySelector(`.music-item[data-uid="${currentSongUID}"]`);
-
-if (currentSongEl) {
-  currentSongEl.scrollIntoView({ behavior: 'auto', block: 'center' });
-}
-
-    if (currentSongEl) {
-      currentSongEl.scrollIntoView({ behavior: 'auto', block: 'center' });
-    }
-
   } else if (currentView === 'folders') {
     foldersView.style.display = 'block';
-
-    const folderLists = document.querySelectorAll('.folder-songs');
-    folderLists.forEach(list => {
-const currentSongEl =
-  document.querySelector(`.music-item[data-uid="${currentSongUID}"]`);
-
-if (currentSongEl) {
-  currentSongEl.scrollIntoView({ behavior: 'auto', block: 'center' });
-}
-
-      if (songEl) {
-        songEl.scrollIntoView({ behavior: 'auto', block: 'center' });
-      }
-    });
+    
+    // যদি ফোল্ডারে গান বন্ধ থাকে, open হবে
+    const songEl = document.querySelector(`.music-item[data-uid="${currentSongUID}"]`);
+    if (songEl) {
+      const parentUL = songEl.closest('.folder-songs');
+      if (parentUL) parentUL.style.display = 'block';
+    }
 
   } else if (currentView === 'genre') {
     genreView.style.display = 'block';
 
-    const genreLists = document.querySelectorAll('.genre-songs');
-    genreLists.forEach(list => {
-const currentSongEl =
-  document.querySelector(`.music-item[data-uid="${currentSongUID}"]`);
-
-if (currentSongEl) {
-  currentSongEl.scrollIntoView({ behavior: 'auto', block: 'center' });
-}
-
-      if (songEl) {
-        songEl.scrollIntoView({ behavior: 'auto', block: 'center' });
-      }
-    });
+    const songEl = document.querySelector(`.music-item[data-uid="${currentSongUID}"]`);
+    if (songEl) {
+      const parentUL = songEl.closest('.genre-songs');
+      if (parentUL) parentUL.style.display = 'block';
+    }
   }
+
+  // Scroll currently playing song into view
+  scrollCurrentSongIntoView();
 });
+
+// --------------------
+// Scroll currently playing song into view
+// --------------------
+function scrollCurrentSongIntoView() {
+  if (!currentSongUID) return;
+
+  const songEl = document.querySelector(`.music-item[data-uid="${currentSongUID}"]`);
+  if (songEl) {
+
+    songEl.scrollIntoView({ behavior: 'auto', block: 'center' });
+  }
+}
 
 // --------------------
 // Play/Pause
