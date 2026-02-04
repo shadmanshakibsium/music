@@ -5,7 +5,7 @@ const types = ['anime','arabic','bangla','edit audio','electronic','english','hi
 let currentView = 'all';
 let musicData = [];
 let filteredData = [];
-let currentIndex = 0;
+let currentIndex = null;
 let isPlaying = false;
 let isShuffle = false;
 let repeatMode = 'none';
@@ -373,9 +373,10 @@ function renderMusicList() {
         <span style="font-size:12px; color:rgba(255,255,255,0.5); margin-left:8px;">[${song.folder}]</span>
       </div>`;
 
-    if (index === currentIndex) {
-      li.classList.add('playing');
-    }
+if (isPlaying && index === currentIndex) {
+  li.classList.add('playing');
+}
+
     
     // Setup long press with new function
     setupLongPressForItem(li, song);
