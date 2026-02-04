@@ -223,26 +223,13 @@ function loadFolders() {
 }
 
 // --------------------
-// Toggle Folder (Updated)
+// Toggle Folder
 // --------------------
 function toggleFolder(folderName, folderEl) {
   let listEl = folderEl.nextElementSibling;
 
   if (listEl && listEl.classList.contains('folder-songs')) {
     listEl.style.display = listEl.style.display === 'block' ? 'none' : 'block';
-    
-    // যদি ফোল্ডার খোলা থাকে এবং বর্তমান গানটি এই ফোল্ডারে থাকে, তাহলে স্ক্রল করুন
-    if (listEl.style.display === 'block' && currentSongUID) {
-      const songFolder = currentSongUID.split('/')[0];
-      if (songFolder === folderName) {
-        setTimeout(() => {
-          const currentSongEl = listEl.querySelector(`.music-item[data-uid="${currentSongUID}"]`);
-          if (currentSongEl) {
-            currentSongEl.scrollIntoView({ behavior: 'smooth', block: 'center' });
-          }
-        }, 100);
-      }
-    }
     return;
   }
 
@@ -264,6 +251,7 @@ function toggleFolder(folderName, folderEl) {
         li.setAttribute('data-uid', song.uid);
         li.innerHTML = `<div class="info"><span class="title">${song.name}</span></div>`;
 
+        // Setup long press
         setupLongPressForItem(li, song);
 
         // 🎯 HIGHLIGHT currently playing song
@@ -278,6 +266,7 @@ function toggleFolder(folderName, folderEl) {
           currentIndex = index;
           playSong(index);
 
+          // Update highlight
           listEl.querySelectorAll('.music-item').forEach(el => el.classList.remove('playing'));
           li.classList.add('playing');
         });
@@ -286,22 +275,10 @@ function toggleFolder(folderName, folderEl) {
       });
 
       listEl.style.display = 'block';
-      
-      // নতুন ফোল্ডার লোড হলে যদি বর্তমান গানটি এই ফোল্ডারে থাকে, তাহলে স্ক্রল করুন
-      if (currentSongUID) {
-        const songFolder = currentSongUID.split('/')[0];
-        if (songFolder === folderName) {
-          setTimeout(() => {
-            const currentSongEl = listEl.querySelector(`.music-item[data-uid="${currentSongUID}"]`);
-            if (currentSongEl) {
-              currentSongEl.scrollIntoView({ behavior: 'smooth', block: 'center' });
-            }
-          }, 100);
-        }
-      }
     })
     .catch(err => console.error(err));
 }
+
 // --------------------
 // Load Genre View
 // --------------------
