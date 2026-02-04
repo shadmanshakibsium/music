@@ -222,6 +222,9 @@ function loadFolders() {
   });
 }
 
+// --------------------
+// Toggle Folder
+// --------------------
 function toggleFolder(folderName, folderEl) {
   let listEl = folderEl.nextElementSibling;
 
@@ -239,8 +242,8 @@ function toggleFolder(folderName, folderEl) {
     .then(res => res.json())
     .then(data => {
       const folderSongs = data
-        .map(s => ({   ...s,   folder: folderName,   uid: `${folderName}/${s.file}` }))
-        .sort((a, b) => a.name.localeCompare(b.name)); 
+        .map(s => ({ ...s, folder: folderName, uid: `${folderName}/${s.file}` }))
+        .sort((a, b) => a.name.localeCompare(b.name));
 
       folderSongs.forEach((song, index) => {
         const li = document.createElement('li');
@@ -248,9 +251,13 @@ function toggleFolder(folderName, folderEl) {
         li.setAttribute('data-uid', song.uid);
         li.innerHTML = `<div class="info"><span class="title">${song.name}</span></div>`;
 
-        
-        // Setup long press with new function
+        // Setup long press
         setupLongPressForItem(li, song);
+
+        // 🎯 HIGHLIGHT currently playing song
+        if (song.uid === currentSongUID) {
+          li.classList.add('playing');
+        }
 
         li.addEventListener('click', (e) => {
           e.stopPropagation();
@@ -258,6 +265,10 @@ function toggleFolder(folderName, folderEl) {
           filteredData = [...musicData];
           currentIndex = index;
           playSong(index);
+
+          // Update highlight
+          listEl.querySelectorAll('.music-item').forEach(el => el.classList.remove('playing'));
+          li.classList.add('playing');
         });
 
         listEl.appendChild(li);
@@ -272,28 +283,25 @@ function toggleFolder(folderName, folderEl) {
 // Load Genre View
 // --------------------
 function loadGenreView() {
-  genreListEl.innerHTML = ''; 
+  genreListEl.innerHTML = '';
 
   const promises = types.map(lang =>
     fetch(`data/${lang}.json`)
       .then(res => res.json())
-      .then(data => data.map(song => ({   ...song,   folder: lang,   uid: `${lang}/${song.file}` })))
-      .catch(err => { 
-        console.error(`Failed to load ${lang}.json`, err); 
-        return []; 
+      .then(data => data.map(song => ({ ...song, folder: lang, uid: `${lang}/${song.file}` })))
+      .catch(err => {
+        console.error(`Failed to load ${lang}.json`, err);
+        return [];
       })
   );
 
   Promise.all(promises).then(results => {
     const allSongs = results.flat();
-
     const genreGroups = {};
 
     allSongs.forEach(song => {
       if (!song.genre) return;
-
       const genres = song.genre.split(',').map(g => g.trim().toLowerCase());
-
       genres.forEach(genre => {
         if (!genreGroups[genre]) genreGroups[genre] = [];
         genreGroups[genre].push(song);
@@ -303,13 +311,11 @@ function loadGenreView() {
     const sortedGenres = Object.keys(genreGroups).sort();
 
     sortedGenres.forEach(genre => {
-      // Genre Title
       const genreTitle = document.createElement('div');
       genreTitle.classList.add('genre-title');
       genreTitle.textContent = genre.toUpperCase();
       genreListEl.appendChild(genreTitle);
 
-      // Songs List
       const genreSongsEl = document.createElement('ul');
       genreSongsEl.classList.add('genre-songs');
       genreSongsEl.style.display = 'none';
@@ -319,7 +325,6 @@ function loadGenreView() {
         genreSongsEl.style.display = genreSongsEl.style.display === 'block' ? 'none' : 'block';
       });
 
-      // Songs
       genreGroups[genre]
         .sort((a, b) => a.name.localeCompare(b.name))
         .forEach((song, index) => {
@@ -328,8 +333,12 @@ function loadGenreView() {
           li.setAttribute('data-uid', song.uid);
           li.innerHTML = `<div class="info"><span class="title">${song.name}</span></div>`;
 
-          // Setup long press with new function
           setupLongPressForItem(li, song);
+
+          // 🎯 HIGHLIGHT currently playing song
+          if (song.uid === currentSongUID) {
+            li.classList.add('playing');
+          }
 
           li.addEventListener('click', (e) => {
             e.stopPropagation();
@@ -337,6 +346,10 @@ function loadGenreView() {
             musicData = filteredData;
             currentIndex = index;
             playSong(index);
+
+            // Update highlight
+            genreSongsEl.querySelectorAll('.music-item').forEach(el => el.classList.remove('playing'));
+            li.classList.add('playing');
           });
 
           genreSongsEl.appendChild(li);
@@ -370,6 +383,10 @@ function renderMusicList() {
         <span class="title">${song.name}</span>
         <span style="font-size:12px; color:rgba(255,255,255,0.5); margin-left:8px;">[${song.folder}]</span>
       </div>`;
+    if (song.uid === currentSongUID) {
+  li.classList.add('playing');
+}
+
 
 
     
