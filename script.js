@@ -10,6 +10,7 @@ let isPlaying = false;
 let isShuffle = false;
 let repeatMode = 'none';
 let longPressTimer = null;
+let playHistory = [];
 const LONG_PRESS_TIME = 900;
 
 const metaModal = document.getElementById('meta-modal');
@@ -546,16 +547,33 @@ fsAudio.addEventListener('pause', ()=>{ isPlaying = false; updatePlayButton(); }
 // --------------------
 // Next / Prev
 // --------------------
-function playNext(){
-  if(isShuffle) currentIndex = Math.floor(Math.random()*filteredData.length);
-  else currentIndex = (currentIndex+1)%filteredData.length;
+function playNext() {
+  if (isShuffle) {
+    playHistory.push(currentIndex);
+
+    let nextIndex;
+    do {
+      nextIndex = Math.floor(Math.random() * filteredData.length);
+    } while (nextIndex === currentIndex && filteredData.length > 1);
+
+    currentIndex = nextIndex;
+  } else {
+    currentIndex = (currentIndex + 1) % filteredData.length;
+  }
+
   playSong(currentIndex);
 }
-function playPrev(){
-  if(isShuffle) currentIndex = Math.floor(Math.random()*filteredData.length);
-  else currentIndex = (currentIndex-1+filteredData.length)%filteredData.length;
+
+function playPrev() {
+  if (isShuffle && playHistory.length > 0) {
+    currentIndex = playHistory.pop();
+  } else {
+    currentIndex = (currentIndex - 1 + filteredData.length) % filteredData.length;
+  }
+
   playSong(currentIndex);
 }
+
 fsNextBtn.addEventListener('click', playNext);
 fsPrevBtn.addEventListener('click', playPrev);
 
@@ -564,8 +582,14 @@ fsPrevBtn.addEventListener('click', playPrev);
 // --------------------
 fsShuffleBtn.addEventListener('click', ()=>{
   isShuffle = !isShuffle;
+
+  if (!isShuffle) {
+    playHistory = [];
+  }
+
   fsShuffleBtn.style.color = isShuffle ? '#ff6b6b' : 'white';
 });
+
 
 fsRepeatBtn.addEventListener('click', ()=>{
   if(repeatMode==='none') repeatMode='all';
