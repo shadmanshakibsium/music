@@ -11,8 +11,9 @@ let isShuffle = false;
 let repeatMode = 'none';
 let longPressTimer = null;
 let playHistory = [];
-const LONG_PRESS_TIME = 900;
+let currentSongUID = null;
 
+const LONG_PRESS_TIME = 900;
 const metaModal = document.getElementById('meta-modal');
 const metaCover = document.getElementById('meta-cover');
 const metaName = document.getElementById('meta-name');
@@ -194,7 +195,7 @@ function loadAllSongs() {
   const promises = types.map(lang =>
     fetch(`data/${lang}.json`)
       .then(res => res.json())
-      .then(data => data.map(song => ({...song, folder: lang})))
+      .then(data => data.map(song => ({   ...song,   folder: lang,   uid: `${lang}/${song.file}` })))
       .catch(err => { console.error(`Failed to load ${lang}.json`, err); return []; })
   );
 
@@ -238,18 +239,15 @@ function toggleFolder(folderName, folderEl) {
     .then(res => res.json())
     .then(data => {
       const folderSongs = data
-        .map(s => ({ ...s, folder: folderName }))
+        .map(s => ({   ...s,   folder: folderName,   uid: `${folderName}/${s.file}` }))
         .sort((a, b) => a.name.localeCompare(b.name)); 
 
       folderSongs.forEach((song, index) => {
         const li = document.createElement('li');
         li.classList.add('music-item');
-        li.setAttribute('data-index', index);
+        li.setAttribute('data-uid', song.uid);
         li.innerHTML = `<div class="info"><span class="title">${song.name}</span></div>`;
 
-        if (musicData === folderSongs && index === currentIndex) {
-          li.classList.add('playing');
-        }
         
         // Setup long press with new function
         setupLongPressForItem(li, song);
@@ -279,7 +277,7 @@ function loadGenreView() {
   const promises = types.map(lang =>
     fetch(`data/${lang}.json`)
       .then(res => res.json())
-      .then(data => data.map(song => ({ ...s, folder: lang })))
+      .then(data => data.map(song => ({   ...song,   folder: lang,   uid: `${lang}/${song.file}` })))
       .catch(err => { 
         console.error(`Failed to load ${lang}.json`, err); 
         return []; 
@@ -327,7 +325,7 @@ function loadGenreView() {
         .forEach((song, index) => {
           const li = document.createElement('li');
           li.classList.add('music-item');
-          li.setAttribute('data-index', index);
+          li.setAttribute('data-uid', song.uid);
           li.innerHTML = `<div class="info"><span class="title">${song.name}</span></div>`;
 
           // Setup long press with new function
@@ -366,16 +364,13 @@ function renderMusicList() {
       });
     }
 
-    li.setAttribute('data-index', index);
+    li.setAttribute('data-uid', song.uid);
     li.innerHTML = `
       <div class="info">
         <span class="title">${song.name}</span>
         <span style="font-size:12px; color:rgba(255,255,255,0.5); margin-left:8px;">[${song.folder}]</span>
       </div>`;
 
-if (isPlaying && index === currentIndex) {
-  li.classList.add('playing');
-}
 
     
     // Setup long press with new function
@@ -401,6 +396,7 @@ if (isPlaying && index === currentIndex) {
 function playSong(index) {
   currentIndex = index;
   const song = filteredData[index];
+  currentSongUID = song.uid;
 
   // Set cover (show/hide + fallback)
   if (fsCover) {
@@ -439,23 +435,8 @@ function playSong(index) {
 
   document.querySelectorAll('.music-item.playing').forEach(el => el.classList.remove('playing'));
 
-  // All Songs view
-  const currentPlayingEl = musicListEl.querySelector(`.music-item[data-index="${index}"]`);
-  if (currentPlayingEl) currentPlayingEl.classList.add('playing');
-
-  // Folder view
-  const folderLists = document.querySelectorAll('.folder-songs');
-  folderLists.forEach(list => {
-    const songEl = list.querySelector(`.music-item[data-index="${index}"]`);
-    if (songEl) songEl.classList.add('playing');
-  });
-
-  // Genre view
-  const genreLists = document.querySelectorAll('.genre-songs');
-  genreLists.forEach(list => {
-    const songEl = list.querySelector(`.music-item[data-index="${index}"]`);
-    if (songEl) songEl.classList.add('playing');
-  });
+document.querySelectorAll(`.music-item[data-uid="${currentSongUID}"]`)
+  .forEach(el => el.classList.add('playing'));
 }
 
 // --------------------
@@ -503,8 +484,13 @@ fsCloseBtn.addEventListener('click', () => {
 
   if (currentView === 'all') {
     allSongsView.style.display = 'block';
+const currentSongEl =
+  document.querySelector(`.music-item[data-uid="${currentSongUID}"]`);
 
-    const currentSongEl = musicListEl.querySelector(`.music-item[data-index="${currentIndex}"]`);
+if (currentSongEl) {
+  currentSongEl.scrollIntoView({ behavior: 'auto', block: 'center' });
+}
+
     if (currentSongEl) {
       currentSongEl.scrollIntoView({ behavior: 'auto', block: 'center' });
     }
@@ -514,7 +500,13 @@ fsCloseBtn.addEventListener('click', () => {
 
     const folderLists = document.querySelectorAll('.folder-songs');
     folderLists.forEach(list => {
-      const songEl = list.querySelector(`.music-item[data-index="${currentIndex}"]`);
+const currentSongEl =
+  document.querySelector(`.music-item[data-uid="${currentSongUID}"]`);
+
+if (currentSongEl) {
+  currentSongEl.scrollIntoView({ behavior: 'auto', block: 'center' });
+}
+
       if (songEl) {
         songEl.scrollIntoView({ behavior: 'auto', block: 'center' });
       }
@@ -525,7 +517,13 @@ fsCloseBtn.addEventListener('click', () => {
 
     const genreLists = document.querySelectorAll('.genre-songs');
     genreLists.forEach(list => {
-      const songEl = list.querySelector(`.music-item[data-index="${currentIndex}"]`);
+const currentSongEl =
+  document.querySelector(`.music-item[data-uid="${currentSongUID}"]`);
+
+if (currentSongEl) {
+  currentSongEl.scrollIntoView({ behavior: 'auto', block: 'center' });
+}
+
       if (songEl) {
         songEl.scrollIntoView({ behavior: 'auto', block: 'center' });
       }
