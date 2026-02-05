@@ -882,21 +882,21 @@ metaClose.addEventListener('click', () => {
   metaModal.style.display = 'none';
 });
 
-let lastScrollY = window.scrollY;
 const searchBar = document.querySelector('.search-bar');
+let lastScroll = 0;
 
-window.addEventListener('scroll', () => {
-  const currentScrollY = window.scrollY;
+document.addEventListener('scroll', () => {
+  const currentScroll = document.documentElement.scrollTop || window.scrollY;
 
-  if (currentScrollY > lastScrollY && currentScrollY > 100) {
-
-    searchBar.style.transform = 'translateY(-100%)';
+  if (currentScroll > lastScroll && currentScroll > 100) {
+    // ⬇️ নিচে স্ক্রল
+    searchBar.style.transform = 'translateY(-110%)';
     searchBar.style.opacity = '0';
   } else {
-
+    // ⬆️ উপরে স্ক্রল
     searchBar.style.transform = 'translateY(0)';
     searchBar.style.opacity = '1';
   }
 
-  lastScrollY = currentScrollY;
+  lastScroll = currentScroll;
 });
