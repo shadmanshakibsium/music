@@ -79,6 +79,12 @@ h1 {
   position: relative; 
   box-sizing: border-box;
 }
+.search-bar {
+  position: sticky;
+  top: 60px;
+  z-index: 999;
+  transition: transform 0.3s ease, opacity 0.3s ease;
+}
 
 .search-bar input {
   width: 100%;
@@ -210,6 +216,11 @@ h1 {
   color: white;
   font-weight: 500;
   transition: 0.3s;
+}
+.tabs {
+  position: sticky;
+  top: 0;
+  z-index: 1000;
 }
 .tab.active,
 .tab:hover {
