@@ -11,6 +11,7 @@ let isShuffle = false;
 let repeatMode = 'none';
 let longPressTimer = null;
 let playHistory = [];
+let futureStack = [];
 let currentSongUID = null;
 
 const LONG_PRESS_TIME = 900;
@@ -438,6 +439,9 @@ function playSong(index) {
   const song = filteredData[index];
   currentSongUID = song.uid;
 
+    if (isShuffle) {
+    futureStack = [];
+  }
   // Set cover (show/hide + fallback)
   if (fsCover) {
     if (song && song.cover) {
@@ -630,11 +634,18 @@ function playNext() {
     playHistory.push(currentIndex);
 
     let nextIndex;
-    do {
-      nextIndex = Math.floor(Math.random() * filteredData.length);
-    } while (nextIndex === currentIndex && filteredData.length > 1);
+    
+    if (futureStack.length > 0) {
+      nextIndex = futureStack.shift(); 
+    } else {
+
+      do {
+        nextIndex = Math.floor(Math.random() * filteredData.length);
+      } while (nextIndex === currentIndex && filteredData.length > 1);
+    }
 
     currentIndex = nextIndex;
+
   } else {
     currentIndex = (currentIndex + 1) % filteredData.length;
   }
@@ -642,8 +653,11 @@ function playNext() {
   playSong(currentIndex);
 }
 
+
 function playPrev() {
   if (isShuffle && playHistory.length > 0) {
+    futureStack.unshift(currentIndex);
+
     currentIndex = playHistory.pop();
   } else {
     currentIndex = (currentIndex - 1 + filteredData.length) % filteredData.length;
@@ -651,6 +665,7 @@ function playPrev() {
 
   playSong(currentIndex);
 }
+
 
 fsNextBtn.addEventListener('click', playNext);
 fsPrevBtn.addEventListener('click', playPrev);
@@ -880,23 +895,4 @@ function showMetadata(song) {
 
 metaClose.addEventListener('click', () => {
   metaModal.style.display = 'none';
-});
-
-const searchBar = document.querySelector('.search-bar');
-let lastScroll = 0;
-
-document.addEventListener('scroll', () => {
-  const currentScroll = document.documentElement.scrollTop || window.scrollY;
-
-  if (currentScroll > lastScroll && currentScroll > 100) {
-    // ⬇️ নিচে স্ক্রল
-    searchBar.style.transform = 'translateY(-110%)';
-    searchBar.style.opacity = '0';
-  } else {
-    // ⬆️ উপরে স্ক্রল
-    searchBar.style.transform = 'translateY(0)';
-    searchBar.style.opacity = '1';
-  }
-
-  lastScroll = currentScroll;
 });
