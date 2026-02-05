@@ -881,3 +881,22 @@ function showMetadata(song) {
 metaClose.addEventListener('click', () => {
   metaModal.style.display = 'none';
 });
+
+let lastScrollY = window.scrollY;
+const searchBar = document.querySelector('.search-bar');
+
+window.addEventListener('scroll', () => {
+  const currentScrollY = window.scrollY;
+
+  if (currentScrollY > lastScrollY && currentScrollY > 100) {
+
+    searchBar.style.transform = 'translateY(-100%)';
+    searchBar.style.opacity = '0';
+  } else {
+
+    searchBar.style.transform = 'translateY(0)';
+    searchBar.style.opacity = '1';
+  }
+
+  lastScrollY = currentScrollY;
+});
