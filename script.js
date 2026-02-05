@@ -434,54 +434,23 @@ function renderMusicList() {
 // --------------------
 // Play Song
 // --------------------
-function playSong(index) {
+function playSong(index, resetFuture = true) {
   currentIndex = index;
   const song = filteredData[index];
   currentSongUID = song.uid;
-
-    if (isShuffle) {
-    futureStack = [];
-  }
-  // Set cover (show/hide + fallback)
-  if (fsCover) {
-    if (song && song.cover) {
-      fsCover.style.display = 'block';
-      fsCover.src = `covers/${song.folder}/${song.cover}`;
-      fsCover.alt = `${song.name} cover`;
-    } else {
-      fsCover.style.display = 'block';
-      fsCover.src = getRandomFallbackCover(); 
-      fsCover.alt = 'Cover not available';
-    }
-  }
-
+  if (isShuffle && resetFuture) futureStack = [];
   fsAudio.src = `songs/${song.folder}/${song.file}`;
   fsAudio.play();
-  if ('mediaSession' in navigator) {
-    const artworkSrc = (song && song.cover)
-  ? `covers/${song.folder}/${song.cover}`
-  : getRandomFallbackCover();
-
-    navigator.mediaSession.metadata = new MediaMetadata({
-      title: song.name || '',
-      artist: song.artist || '',
-      album: song.album || '',
-      artwork: [
-        { src: artworkSrc, sizes: '250x250', type: 'image/png' }
-      ]
-    });
+  if (fsCover) {
+    fsCover.src = song.cover ? `covers/${song.folder}/${song.cover}` : getRandomFallbackCover();
   }
-  isPlaying = true;
   updateMiniPlayer(song.name);
   updateFullscreenPlayer(song.name);
   updatePlayButton();
-
-
   document.querySelectorAll('.music-item.playing').forEach(el => el.classList.remove('playing'));
-
-document.querySelectorAll(`.music-item[data-uid="${currentSongUID}"]`)
-  .forEach(el => el.classList.add('playing'));
+  document.querySelectorAll(`.music-item[data-uid="${currentSongUID}"]`).forEach(el => el.classList.add('playing'));
 }
+
 
 // --------------------
 // Update UI
@@ -631,40 +600,34 @@ fsAudio.addEventListener('pause', ()=>{ isPlaying = false; updatePlayButton(); }
 // --------------------
 function playNext() {
   if (isShuffle) {
-    playHistory.push(currentIndex);
-
+    if (currentIndex !== null) playHistory.push(currentIndex);
     let nextIndex;
-    
     if (futureStack.length > 0) {
-      nextIndex = futureStack.shift(); 
+      nextIndex = futureStack.shift();
     } else {
-
       do {
         nextIndex = Math.floor(Math.random() * filteredData.length);
       } while (nextIndex === currentIndex && filteredData.length > 1);
     }
-
     currentIndex = nextIndex;
-
   } else {
     currentIndex = (currentIndex + 1) % filteredData.length;
   }
-
-  playSong(currentIndex);
+  playSong(currentIndex, false);
 }
+
 
 
 function playPrev() {
   if (isShuffle && playHistory.length > 0) {
-    futureStack.unshift(currentIndex);
-
+    if (currentIndex !== null) futureStack.unshift(currentIndex);
     currentIndex = playHistory.pop();
   } else {
     currentIndex = (currentIndex - 1 + filteredData.length) % filteredData.length;
   }
-
-  playSong(currentIndex);
+  playSong(currentIndex, false);
 }
+
 
 
 fsNextBtn.addEventListener('click', playNext);
