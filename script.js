@@ -865,19 +865,20 @@ const aboutBtn = document.getElementById('about-btn');
 const aboutModal = document.getElementById('about-modal');
 const aboutClose = document.getElementById('about-close');
 
-// Open modal
-aboutBtn.addEventListener('click', () => {
-  aboutModal.style.display = 'flex';
-});
+if (aboutBtn && aboutModal && aboutClose) {
 
-// Close modal
-aboutClose.addEventListener('click', () => {
-  aboutModal.style.display = 'none';
-});
+  aboutBtn.addEventListener('click', () => {
+    aboutModal.style.display = 'flex';
+  });
 
-// Close modal when clicking outside the card
-aboutModal.addEventListener('click', (e) => {
-  if (e.target === aboutModal) {
+  aboutClose.addEventListener('click', () => {
     aboutModal.style.display = 'none';
-  }
-});
+  });
+
+  aboutModal.addEventListener('click', (e) => {
+    if (e.target === aboutModal) {
+      aboutModal.style.display = 'none';
+    }
+  });
+
+}
