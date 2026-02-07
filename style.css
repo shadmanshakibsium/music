@@ -703,3 +703,40 @@ h1 {
 #about-close:hover {
   background: rgba(255,255,255,0.35);
 }
+
+
+/* --------------------
+   Site Header Centered + Info Icon
+-------------------- */
+.site-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between; /* বাম-মাঝ-ডান */
+  width: 100%;
+  padding: 0 15px; /* ডান-বাম স্পেস */
+  margin-bottom: 20px;
+}
+
+.site-header .left-space {
+  width: 24px; /* Info আইকনের সমান বা প্রয়োজনমতো */
+}
+
+.site-header h1 {
+  margin: 0;
+  text-align: center;
+  flex: 1; /* মাঝখানে জায়গা নেবে */
+  font-size: 24px;
+  color: white;
+}
+
+.site-header #info-logo {
+  color: white;
+  font-size: 22px;
+  cursor: pointer;
+  transition: 0.2s;
+}
+
+.site-header #info-logo:hover {
+  color: #ff6b6b;
+  transform: scale(1.2);
+}
