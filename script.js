@@ -859,3 +859,25 @@ function showMetadata(song) {
 metaClose.addEventListener('click', () => {
   metaModal.style.display = 'none';
 });
+
+
+const aboutBtn = document.getElementById('about-btn');
+const aboutModal = document.getElementById('about-modal');
+const aboutClose = document.getElementById('about-close');
+
+// Open modal
+aboutBtn.addEventListener('click', () => {
+  aboutModal.style.display = 'flex';
+});
+
+// Close modal
+aboutClose.addEventListener('click', () => {
+  aboutModal.style.display = 'none';
+});
+
+// Close modal when clicking outside the card
+aboutModal.addEventListener('click', (e) => {
+  if (e.target === aboutModal) {
+    aboutModal.style.display = 'none';
+  }
+});
