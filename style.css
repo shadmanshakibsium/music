@@ -708,14 +708,15 @@ h1 {
 /* --------------------
    Site Header Centered + Info Icon (Desktop & Mobile)
 -------------------- */
+/* Site Header */
 .site-header {
   display: flex;
   align-items: center;
   justify-content: center; /* header centered */
   width: 100%;
-  padding: 0 15px;
+  padding: 0;
   margin-bottom: 20px;
-  position: relative; /* logo position করার জন্য */
+  position: relative;
 }
 
 .site-header h1 {
@@ -725,9 +726,10 @@ h1 {
   color: white;
 }
 
+/* About Logo aligned with music-item */
 .site-header #info-logo {
   position: absolute;
-  right: 15px; /* সব ডিভাইসে right edge থেকে 15px */
+  right: 10%; /* Desktop-এ 80% width এর music-item অনুযায়ী */
   top: 50%;
   transform: translateY(-50%);
   color: white;
@@ -736,7 +738,8 @@ h1 {
   transition: 0.2s;
 }
 
-.site-header #info-logo:hover {
-  color: #ff6b6b;
-  transform: translateY(-50%) scale(1.2);
+@media(max-width:450px){
+  .site-header #info-logo {
+    right: 5%; /* Mobile-এ 100% width অনুযায়ী */
+  }
 }
