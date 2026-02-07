@@ -16,39 +16,25 @@
 <!-- Main Content Wrapper -->
 <div id="main-content">
 
-  <!-- Header -->
-  <div class="site-header">
-    <h1>Song Archive</h1>
+  <!-- Header with Site Name + Info Icon -->
+  <div class="site-header" style="position: relative; display: flex; align-items: center; justify-content: center;">
+    <h1 style="margin: 0;">Song Archive</h1>
+    <i id="info-logo" class="fas fa-info-circle" title="About this site"
+       style="margin-left: 10px; color: white; cursor: pointer; font-size: 22px;"></i>
   </div>
 
-<!-- About Button -->
-<button id="about-btn">About</button>
-
-<!-- About Modal (Initially hidden) -->
-<div id="about-modal" class="about-modal" style="display:none;">
-  <div class="about-card">
-    <h2>About This Site</h2>
-    <p>
-      This is a custom music player web app where you can browse songs by
-      folder, genre, or A-Z list. You can play, shuffle, repeat, and view metadata
-      of each song. Enjoy smooth animations and fullscreen mode for better experience!
-    </p>
-    <button id="about-close" class="back-btn">Close</button>
-  </div>
-</div>
-
-  <!-- Tabs for All Songs / Folders -->
+  <!-- Tabs -->
   <div class="tabs">
     <div class="tab active" data-view="all">All Songs</div>
     <div class="tab" data-view="folders">Folders</div>
-  <div class="tab" data-view="genre">Playlist</div> 
+    <div class="tab" data-view="genre">Playlist</div> 
   </div>
 
   <!-- All Songs View -->
   <div id="all-songs-view">
     <div class="search-bar">
       <input type="text" id="searchInput" placeholder="Search songs...">
-       <div id="songCount">Total Songs: 0</div>
+      <div id="songCount">Total Songs: 0</div>
     </div>
     <ul class="music-list" id="music-list"></ul>
   </div>
@@ -58,10 +44,10 @@
     <div id="folder-list"></div>
   </div>
 
-<!-- genre View -->
-<div id="genre-view" style="display:none;">
-  <div class="genre-list" id="genre-list"></div>
-</div>
+  <!-- Genre View -->
+  <div id="genre-view" style="display:none;">
+    <div class="genre-list" id="genre-list"></div>
+  </div>
 
 </div> <!-- end main-content -->
 
@@ -74,9 +60,7 @@
 <!-- Fullscreen Player -->
 <div class="fullscreen-player" id="fullscreen-player" style="display:none;">
   <div class="container">
-    <!-- Added cover image -->
     <img id="fs-cover" src="" alt="Cover">
-
     <div class="title" id="fs-title"><b>Song Name</b></div>
 
     <!-- Progress Bar -->
@@ -110,7 +94,9 @@
     <!-- Audio -->
     <audio id="fs-audio"></audio>
   </div>
-</div><!-- Song Metadata Modal -->
+</div>
+
+<!-- Song Metadata Modal -->
 <div id="meta-modal" class="meta-modal" style="display:none;">
   <div class="meta-card">
     <img id="meta-cover" src="" alt="Cover">
@@ -118,6 +104,19 @@
     <p><b>Artist:</b> <span id="meta-artist"></span></p>
     <p><b>Album:</b> <span id="meta-album"></span></p>
     <button id="meta-close">Back to Library</button>
+  </div>
+</div>
+
+<!-- About Modal -->
+<div id="about-modal" class="about-modal" style="display:none;">
+  <div class="about-card">
+    <h2>About This Site</h2>
+    <p>
+      This is a custom music player web app where you can browse songs by
+      folder, genre, or A-Z list. You can play, shuffle, repeat, and view metadata
+      of each song. Enjoy smooth animations and fullscreen mode for better experience!
+    </p>
+    <button id="about-close" class="back-btn">Close</button>
   </div>
 </div>
 
