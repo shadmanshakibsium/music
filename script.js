@@ -861,26 +861,23 @@ metaClose.addEventListener('click', () => {
 });
 
 
-const aboutBtn = document.getElementById('about-btn');
+const infoLogo = document.getElementById('info-logo');
 const aboutModal = document.getElementById('about-modal');
 const aboutClose = document.getElementById('about-close');
 
-if (aboutBtn && aboutModal && aboutClose) {
+// Open modal when clicking icon
+infoLogo.addEventListener('click', () => {
+  aboutModal.style.display = 'flex';
+});
 
-  // Button click → modal খোলা
-  aboutBtn.addEventListener('click', () => {
-    aboutModal.style.display = 'flex';
-  });
+// Close modal with Close button
+aboutClose.addEventListener('click', () => {
+  aboutModal.style.display = 'none';
+});
 
-  // Close button → modal বন্ধ করা
-  aboutClose.addEventListener('click', () => {
+// Close modal when clicking outside the card
+aboutModal.addEventListener('click', (e) => {
+  if (e.target === aboutModal) {
     aboutModal.style.display = 'none';
-  });
-
-  // Modal background → ক্লিক করলে বন্ধ করা
-  aboutModal.addEventListener('click', (e) => {
-    if (e.target === aboutModal) {
-      aboutModal.style.display = 'none';
-    }
-  });
-}
+  }
+});
