@@ -642,12 +642,20 @@ h1 {
 /* --------------------
    About Modal (Site Style)
 -------------------- */
+/* Info Icon Hover Effect */
+#info-logo:hover {
+    color: #ff6b6b;
+    transform: scale(1.2);
+    transition: 0.2s;
+}
+
+/* About Modal */
 .about-modal {
   position: fixed;
   inset: 0;
   background: rgba(0,0,0,0.6);
   backdrop-filter: blur(6px);
-  display: none; /* hidden by default */
+  display: none;
   justify-content: center;
   align-items: center;
   z-index: 10000;
@@ -656,7 +664,6 @@ h1 {
 .about-card {
   background: rgba(255,255,255,0.12);
   backdrop-filter: blur(10px) saturate(180%);
-  -webkit-backdrop-filter: blur(10px) saturate(180%);
   color: white;
   padding: 25px 20px;
   max-width: 350px;
@@ -677,7 +684,6 @@ h1 {
   margin-bottom: 20px;
 }
 
-/* About Close Button inside modal */
 #about-close {
   padding: 8px 20px;
   border-radius: 20px;
@@ -688,23 +694,6 @@ h1 {
   font-size: 14px;
 }
 
-/* About Button top-right corner */
-#about-btn {
-  position: absolute;
-  top: 20px;
-  right: 20px;
-  z-index: 9999;
-  padding: 10px 16px;
-  background: rgba(255,255,255,0.2);
-  color: white;
-  border: none;
-  border-radius: 15px;
-  cursor: pointer;
-  font-weight: 500;
-  transition: 0.2s;
-}
-
-#about-btn:hover {
+#about-close:hover {
   background: rgba(255,255,255,0.35);
 }
-
