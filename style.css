@@ -638,3 +638,54 @@ h1 {
   opacity: 1;
   transform: none;
 }
+
+/* -------------------- About Button -------------------- */
+.about-btn {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  z-index: 10001;
+  padding: 10px 20px;
+  border-radius: 20px;
+  border: none;
+  background: rgba(255,255,255,0.2);
+  color: white;
+  cursor: pointer;
+  font-weight: 600;
+  transition: 0.3s;
+}
+.about-btn:hover {
+  background: rgba(255,255,255,0.3);
+}
+
+/* -------------------- About Modal -------------------- */
+.about-modal {
+  display: none; /* initially hidden */
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.6);
+  backdrop-filter: blur(6px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 10000;
+}
+
+.about-card {
+  width: 90%;
+  max-width: 400px;
+  background: rgba(255,255,255,0.12);
+  border-radius: 20px;
+  padding: 25px;
+  text-align: center;
+  color: white;
+  backdrop-filter: blur(10px);
+}
+.about-card h2 {
+  margin-bottom: 15px;
+}
+.about-card p {
+  font-size: 14px;
+  line-height: 1.5;
+  opacity: 0.85;
+}
