@@ -1,5 +1,61 @@
 [
   {
+    "name": "﻿Aami Tomar Songe Bendhechhi",
+    "artist": "﻿Shaan",
+    "album": "﻿Khola Haowa",
+    "file": "Aami Tomar Songe Bendhechhi(MP3_128K).mp3",
+    "cover": "Aami Tomar Songe Bendhechhi(MP3_128K).jpg",
+    "genre": ""
+  },
+  {
+    "name": "﻿Aaji Jharo Jharo Mukharo",
+    "artist": "﻿Rabindranath Tagore",
+    "album": "﻿Surer Dharay",
+    "file": "Aji Jharo Jharo Mukhoro _ আজি ঝরো ঝরো মুখর _ Debangana Sarkar _ Rabindranath Tagore(MP3_128K).mp3",
+    "cover": "Aji Jharo Jharo Mukhoro _ আজি ঝরো ঝরো মুখর _ Debangana Sarkar _ Rabindranath Tagore(MP3_128K).jpg",
+    "genre": ""
+  },
+  {
+    "name": "﻿AMAR HIYAR MAJHE",
+    "artist": "﻿Sanchita Roy",
+    "album": "﻿AMAR HIYAR MAJHE",
+    "file": "Amar Hiyar Majhe (আমার  হিয়ার  মাঝে) _ Rabindra Sangeet _  Sanchita Roy _ Aalo(MP3_128K).mp3",
+    "cover": "Amar Hiyar Majhe (আমার  হিয়ার  মাঝে) _ Rabindra Sangeet _  Sanchita Roy _ Aalo(MP3_128K).jpg",
+    "genre": ""
+  },
+  {
+    "name": "﻿Badhu Kon Alo Laaglo Chokhe",
+    "artist": "﻿Arundhati Holme Chowdhury",
+    "album": "﻿Dadar Kirti (Original Motion Picture Soundtrack)",
+    "file": "Badhu Kon Alo Laaglo Chokhe _ বধু কোন আলো লাগলো চোখে _ Arundhati Holme Chowdhury _ Rabindrasangeet(MP3_128K).mp3",
+    "cover": "Badhu Kon Alo Laaglo Chokhe _ বধু কোন আলো লাগলো চোখে _ Arundhati Holme Chowdhury _ Rabindrasangeet(MP3_128K).jpg",
+    "genre": ""
+  },
+  {
+    "name": "﻿Ekla Cholo Re",
+    "artist": "﻿Amitabh Bachchan",
+    "album": "﻿T-Series",
+    "file": "Ekla Cholo Re Song _ Kahaani _ Amitabh Bachchan(MP3_128K).mp3",
+    "cover": "Ekla Cholo Re Song _ Kahaani _ Amitabh Bachchan(MP3_128K).jpg",
+    "genre": ""
+  },
+  {
+    "name": "﻿Gram Chhara Oi Ranga Matir Path",
+    "artist": "﻿Lopamudra Mitra",
+    "album": "﻿Sanchayan - Kaan Pete Roi, Vol. 1 & 2",
+    "file": "Gram-Chhara Oi Ranga Matir Path _ গ্রাম ছাড়া ওই রাঙ্গা মাটির পথ _ Lopamudra Mitra _  Rabindrasangeet(MP3_128K.mp3",
+    "cover": "Gram-Chhara Oi Ranga Matir Path _ গ্রাম ছাড়া ওই রাঙ্গা মাটির পথ _ Lopamudra Mitra _  Rabindrasangeet(MP3_128K.jpg",
+    "genre": ""
+  },
+  {
+    "name": "﻿Majhe Majhe Tobo",
+    "artist": "﻿Prashmita Paul",
+    "album": "﻿Majhe Majhe Tobo",
+    "file": "Majhe Majhe Tobo (মাঝে মাঝে তব ) _ Prashmita Paul _ Rabindra Sangeet _ Aalo(MP3_128K).mp3",
+    "cover": "Majhe Majhe Tobo (মাঝে মাঝে তব ) _ Prashmita Paul _ Rabindra Sangeet _ Aalo(MP3_128K).jpg",
+    "genre": ""
+  },
+  {
     "name": "﻿Khola Janala",
     "artist": "﻿Tahsin Ahmed",
     "album": "﻿Khola Janala",
@@ -937,4 +993,5 @@
   }
 
 ]
+
 
