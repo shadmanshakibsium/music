@@ -203,6 +203,12 @@ h1 {
   justify-content: space-around;
   margin-bottom: 20px;
 }
+
+.tabs {
+  margin-top: 12px; 
+  margin-bottom: 8px; 
+}
+
 .tab {
   padding: 10px 20px;
   border-radius: 15px;
