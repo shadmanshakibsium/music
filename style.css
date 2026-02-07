@@ -640,35 +640,35 @@ h1 {
 }
 
 /* --------------------
-   About Modal
+   About Modal (Site Style)
 -------------------- */
 .about-modal {
   position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: rgba(0,0,0,0.7);
+  inset: 0;
+  background: rgba(0,0,0,0.6);
+  backdrop-filter: blur(6px);
   display: none; /* hidden by default */
   justify-content: center;
   align-items: center;
-  z-index: 9999;
+  z-index: 10000;
 }
 
 .about-card {
-  background-color: #1e1e1e;
-  color: #fff;
-  padding: 22px;
-  max-width: 400px;
+  background: rgba(255,255,255,0.12);
+  backdrop-filter: blur(10px) saturate(180%);
+  -webkit-backdrop-filter: blur(10px) saturate(180%);
+  color: white;
+  padding: 25px 20px;
+  max-width: 350px;
   width: 90%;
-  border-radius: 12px;
+  border-radius: 20px;
   text-align: center;
-  box-shadow: 0 0 15px rgba(0,0,0,0.5);
+  box-shadow: 0 8px 32px rgba(0,0,0,0.45);
 }
 
 .about-card h2 {
-  margin-bottom: 12px;
   font-size: 22px;
+  margin-bottom: 12px;
 }
 
 .about-card p {
@@ -677,21 +677,34 @@ h1 {
   margin-bottom: 20px;
 }
 
-#about-btn {
-  position: fixed;
-  bottom: 20px;
-  right: 20px;
-  z-index: 999;
-  padding: 10px 14px;
-  background-color: #ff6b6b;
-  color: #fff;
+/* About Close Button inside modal */
+#about-close {
+  padding: 8px 20px;
+  border-radius: 20px;
   border: none;
-  border-radius: 8px;
+  background: rgba(255,255,255,0.2);
+  color: white;
   cursor: pointer;
   font-size: 14px;
+}
+
+/* About Button top-right corner */
+#about-btn {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  z-index: 9999;
+  padding: 10px 16px;
+  background: rgba(255,255,255,0.2);
+  color: white;
+  border: none;
+  border-radius: 15px;
+  cursor: pointer;
+  font-weight: 500;
   transition: 0.2s;
 }
 
 #about-btn:hover {
-  background-color: #f94d4d;
+  background: rgba(255,255,255,0.35);
 }
+
