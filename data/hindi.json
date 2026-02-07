@@ -1,5 +1,493 @@
 [
   {
+    "name": "﻿Aa Re Pritam Pyaare",
+    "artist": "﻿Sajid-Wajid, Mamta Sharma, Sarosh Sami",
+    "album": "﻿Rowdy Rathore (Original Motion Picture Soundtrack)",
+    "file": "Aa Re Pritam Pyaare - Lyrical Video _ Rowdy Rathore _ Akshay Kumar _ Mamta Sharma _ Sajid Wajid(MP3_128K).mp3",
+    "cover": "Aa Re Pritam Pyaare - Lyrical Video _ Rowdy Rathore _ Akshay Kumar _ Mamta Sharma _ Sajid Wajid(MP3_128K).jpg",
+    "genre": ""
+  },
+  {
+    "name": "﻿Aaj Se Teri",
+    "artist": "﻿Akshay Kumar",
+    "album": "﻿Padman",
+    "file": "Aaj Se Teri - Lyrical _ Padman _ Akshay Kumar _ Radhika Apte _ Arijit Singh _ Amit Trivedi(MP3_128K).mp3",
+    "cover": "Aaj Se Teri - Lyrical _ Padman _ Akshay Kumar _ Radhika Apte _ Arijit Singh _ Amit Trivedi(MP3_128K).jpg",
+    "genre": ""
+  },
+  {
+    "name": "﻿Samjhawan",
+    "artist": "﻿Jawad Ahmad, Shaarib Toshi, Arijit Singh, Shreya Ghoshal",
+    "album": "﻿Yours Truly Arijit",
+    "file": "Arijit Singh_ Shreya Ghoshal - Samjhawan _ Varun_ Alia _ Humpty Sharma Ki Dulhania(MP3_128K).mp3",
+    "cover": "Arijit Singh_ Shreya Ghoshal - Samjhawan _ Varun_ Alia _ Humpty Sharma Ki Dulhania(MP3_128K).jpg",
+    "genre": ""
+  },
+  {
+    "name": "﻿Baat Ban Jaye",
+    "artist": "﻿Sachin-Jigar, Siddharth Basrur, Priya Saraiya",
+    "album": "﻿A Gentleman",
+    "file": "Baat Ban Jaye Full Video Song _ A Gentleman - SSR _ Sidharth _ Jacqueline _ Sachin-Jigar _ Raj_DK(MP3_128K).mp3",
+    "cover": "Baat Ban Jaye Full Video Song _ A Gentleman - SSR _ Sidharth _ Jacqueline _ Sachin-Jigar _ Raj_DK(MP3_128K).jpg",
+    "genre": ""
+  },
+  {
+    "name": "﻿Saturday Saturday",
+    "artist": "﻿Shaarib Toshi, Badshah, Indeep Bakshi, Akriti Kakar",
+    "album": "﻿Humpty Sharma Ki Dulhania (Original Motion Picture Soundtrack)",
+    "file": "Badshah_ Akriti K - Saturday Saturday Full Song _ Varun_ Alia _ Humpty Sharma Ki Dulhania(MP3_128K).mp3",
+    "cover": "Badshah_ Akriti K - Saturday Saturday Full Song _ Varun_ Alia _ Humpty Sharma Ki Dulhania(MP3_128K).jpg",
+    "genre": ""
+  },
+  {
+    "name": "﻿Nahin Milta",
+    "artist": "﻿Bayaan",
+    "album": "﻿4 Saal",
+    "file": "Bayaan - Nahin Milta (Official Video)(MP3_128K).mp3",
+    "cover": "Bayaan - Nahin Milta (Official Video)(MP3_128K).jpg",
+    "genre": ""
+  },
+  {
+    "name": "﻿Bhare Bazar",
+    "artist": "﻿Rishi Rich, Master Rakesh",
+    "album": "﻿The Project",
+    "file": "Bhare Bazaar – Namaste England_ Arjun_ Parineeti_ Badshah_ Rishi Rich_ Vishal Dadlani_ Payal Dev(MP3_128K).mp3",
+    "cover": "Bhare Bazaar – Namaste England_ Arjun_ Parineeti_ Badshah_ Rishi Rich_ Vishal Dadlani_ Payal Dev(MP3_128K).jpg",
+    "genre": ""
+  },
+  {
+    "name": "﻿Bom Diggy Diggy",
+    "artist": "﻿Zack Knight, Jasmin Walia",
+    "album": "﻿Bollywood Best Party Songs 2018",
+    "file": "Bom Diggy Diggy  (VIDEO) _ Zack Knight _ Jasmin Walia _ Sonu Ke Titu Ki Sweety(MP3_128K).mp3",
+    "cover": "Bom Diggy Diggy  (VIDEO) _ Zack Knight _ Jasmin Walia _ Sonu Ke Titu Ki Sweety(MP3_128K).jpg",
+    "genre": ""
+  },
+  {
+    "name": "﻿Chaar Botal Vodka",
+    "artist": "﻿Yo Yo Honey Singh",
+    "album": "﻿Ragini Mms 2",
+    "file": "Chaar Botal Vodka Full Song Feat. Yo Yo Honey Singh_ Sunny Leone _ Ragini MMS 2(MP3_128K).mp3",
+    "cover": "Chaar Botal Vodka Full Song Feat. Yo Yo Honey Singh_ Sunny Leone _ Ragini MMS 2(MP3_128K).jpg",
+    "genre": ""
+  },
+  {
+    "name": "﻿Chhote Chhote Peg",
+    "artist": "﻿Yo Yo Honey Singh, Neha Kakkar, Navraj Hans",
+    "album": "﻿Sonu Ke Titu Ki Sweety",
+    "file": "Chhote Chhote Peg (Video) _ Yo Yo Honey Singh _ Neha Kakkar _ Navraj Hans _ Sonu Ke Titu Ki Sweety(MP3_128K).mp3",
+    "cover": "Chhote Chhote Peg (Video) _ Yo Yo Honey Singh _ Neha Kakkar _ Navraj Hans _ Sonu Ke Titu Ki Sweety(MP3_128K).jpg",
+    "genre": ""
+  },
+  {
+    "name": "﻿Chikni Chameli",
+    "artist": "﻿Ajay-Atul, Shreya Ghoshal",
+    "album": "﻿Best of Bollywood: Shreya Ghoshal",
+    "file": "Chikni Chameli - Agneepath _Best Lyric Video _Katrina_ Hrithik _ Shreya_ Ajay-Atul(MP3_128K).mp3",
+    "cover": "Chikni Chameli - Agneepath _Best Lyric Video _Katrina_ Hrithik _ Shreya_ Ajay-Atul(MP3_128K).jpg",
+    "genre": ""
+  },
+  {
+    "name": "﻿Muskurane ki Wajah Tum Ho",
+    "artist": "﻿Sony Music India",
+    "album": "﻿Sony Music India",
+    "file": "Citylights - Muskurane ki Wajah Tum Ho Lyric Video _ Arijit Singh _ Rajkummar Rao(MP3_128K).mp3",
+    "cover": "Citylights - Muskurane ki Wajah Tum Ho Lyric Video _ Arijit Singh _ Rajkummar Rao(MP3_128K).jpg",
+    "genre": ""
+  },
+  {
+    "name": "﻿Dheere Dheere",
+    "artist": "﻿Yo Yo Honey Singh",
+    "album": "﻿Dheere Dheere",
+    "file": "Dheere Dheere Se Meri Zindagi Video Song (OFFICIAL) Hrithik Roshan_ Sonam Kapoor _ Yo Yo Honey Singh(MP3_128K).mp3",
+    "cover": "Dheere Dheere Se Meri Zindagi Video Song (OFFICIAL) Hrithik Roshan_ Sonam Kapoor _ Yo Yo Honey Singh(MP3_128K).jpg",
+    "genre": ""
+  },
+  {
+    "name": "﻿Dholida",
+    "artist": "﻿Udit Narayan, Neha Kakkar, Palak Muchhal, Raja Hasan",
+    "album": "﻿Loveyatri - A Journey Of Love",
+    "file": "Dholida Video _ LOVEYATRI _ Aayush Sharma _ Warina H _Neha Kakkar_ Udit N_ Palak M_ Raja H_Tanishk B(MP3_128K).mp3",
+    "cover": "Dholida Video _ LOVEYATRI _ Aayush Sharma _ Warina H _Neha Kakkar_ Udit N_ Palak M_ Raja H_Tanishk B(MP3_128K).jpg",
+    "genre": ""
+  },
+  {
+    "name": "﻿Dil Tod Ke",
+    "artist": "﻿Rochak Kohli, B Praak",
+    "album": "﻿Dil Tod Ke",
+    "file": "Dil Tod Ke Official Song _ B Praak _ Rochak Kohli _ Manoj M _ Abhishek S_ Kaashish V _ Bhushan Kumar(MP3_128K).mp3",
+    "cover": "Dil Tod Ke Official Song _ B Praak _ Rochak Kohli _ Manoj M _ Abhishek S_ Kaashish V _ Bhushan Kumar(MP3_128K).jpg",
+    "genre": ""
+  },
+  {
+    "name": "﻿Disco Disco",
+    "artist": "﻿Sachin-Jigar, Benny Dayal, Shirley Setia",
+    "album": "﻿A Gentleman",
+    "file": "Disco Disco_ A Gentleman - Sundar_ Susheel_ Risky _ Sidharth_Jacqueline _ Sachin-Jigar_Benny_Shirley(MP3_128K).mp3",
+    "cover": "Disco Disco_ A Gentleman - Sundar_ Susheel_ Risky _ Sidharth_Jacqueline _ Sachin-Jigar_Benny_Shirley(MP3_128K).jpg",
+    "genre": ""
+  },
+  {
+    "name": "LOVE DOSE",
+    "artist": "﻿T-Series",
+    "album": "﻿T-Series",
+    "file": "Exclusive_ LOVE DOSE Full Video Song _ Yo Yo Honey Singh_ Urvashi Rautela _ Desi Kalakaar(MP3_128K).mp3",
+    "cover": "Exclusive_ LOVE DOSE Full Video Song _ Yo Yo Honey Singh_ Urvashi Rautela _ Desi Kalakaar(MP3_128K).jpg",
+    "genre": ""
+  },
+  {
+    "name": "﻿Filhaal2 Mohabbat",
+    "artist": "﻿B Praak, Akshay Kumar, Nupur Sanon, Ammy Virk",
+    "album": "﻿Filhaal2 Mohabbat",
+    "file": "Filhaal2 Mohabbat _ Akshay Kumar Ft Nupur Sanon _ Ammy Virk _ BPraak _ Jaani _ Arvindr Khaira(MP3_128K).mp3",
+    "cover": "Filhaal2 Mohabbat _ Akshay Kumar Ft Nupur Sanon _ Ammy Virk _ BPraak _ Jaani _ Arvindr Khaira(MP3_128K).jpg",
+    "genre": ""
+  },
+  {
+    "name": "﻿Gandi Baat",
+    "artist": "﻿Pritam, Mika Singh, Kalpana Patowary",
+    "album": "﻿R... Rajkumar (Original Motion Picture Soundtrack)",
+    "file": "Gandi Baat _ Shahid Kapoor_ Prabhu Dheva _ Sonakshi Sinha _ R...Rajkumar _ Pritam(MP3_128K).mp3",
+    "cover": "Gandi Baat _ Shahid Kapoor_ Prabhu Dheva _ Sonakshi Sinha _ R...Rajkumar _ Pritam(MP3_128K).jpg",
+    "genre": ""
+  },
+  {
+    "name": "﻿Ban Ja Rani",
+    "artist": "﻿Guru Randhawa",
+    "album": "﻿Tumhari Sulu",
+    "file": "Guru Randhawa_ Ban Ja Rani Video Song With Lyrics _ Tumhari Sulu _ Vidya Balan Manav Kaul(MP3_128K).mp3",
+    "cover": "Guru Randhawa_ Ban Ja Rani Video Song With Lyrics _ Tumhari Sulu _ Vidya Balan Manav Kaul(MP3_128K).jpg",
+    "genre": ""
+  },
+  {
+    "name": "﻿Hangover",
+    "artist": "﻿Salman Khan, Meet Bros Anjjan, Shreya Ghoshal",
+    "album": "﻿Kick",
+    "file": "Hangover Full Video Song _ Kick _ Salman Khan_ Jacqueline Fernandez _ Meet Bros Anjjan(MP3_128K).mp3",
+    "cover": "Hangover Full Video Song _ Kick _ Salman Khan_ Jacqueline Fernandez _ Meet Bros Anjjan(MP3_128K).jpg",
+    "genre": ""
+  },
+  {
+    "name": "﻿Har Ek Friend Kamina Hota Hai",
+    "artist": "﻿Siddharth",
+    "album": "﻿Chashme Baddoor",
+    "file": "Har Ek Friend Kamina Hota Hai Full (HD) Song _ Chashme Baddoor _ Ali Zafar_ Siddharth(MP3_128K).mp3",
+    "cover": "Har Ek Friend Kamina Hota Hai Full (HD) Song _ Chashme Baddoor _ Ali Zafar_ Siddharth(MP3_128K).jpg",
+    "genre": ""
+  },
+  {
+    "name": "﻿Haseeno Ka Deewana",
+    "artist": "﻿Raftaar, Payal Dev",
+    "album": "﻿Kaabil",
+    "file": "Haseeno Ka Deewana Full Video Song _ Kaabil _ Hrithik Roshan_ Urvashi Rautela _ Raftaar _ Payal Dev(MP3_128K).mp3",
+    "cover": "Haseeno Ka Deewana Full Video Song _ Kaabil _ Hrithik Roshan_ Urvashi Rautela _ Raftaar _ Payal Dev(MP3_128K).jpg",
+    "genre": ""
+  },
+  {
+    "name": "﻿High Heels Te Nachche",
+    "artist": "﻿Meet Bros., Yo Yo Honey Singh, Jaz Dhami, Aditi Singh Sharma",
+    "album": "﻿Yo Yo's Party Anthems",
+    "file": "HIGH HEELS TE NACHCHE Video Song _ KI _ KA _ Meet Bros ft. Jaz Dhami _ Yo Yo Honey Singh _ T-Series(MP3_128K).mp3",
+    "cover": "HIGH HEELS TE NACHCHE Video Song _ KI _ KA _ Meet Bros ft. Jaz Dhami _ Yo Yo Honey Singh _ T-Series(MP3_128K).jpg",
+    "genre": ""
+  },
+  {
+    "name": "﻿I Hate Luv Storys",
+    "artist": "﻿Vishal-Shekhar, Vishal Dadlani",
+    "album": "﻿I Hate Luv Storys (Original Motion Picture Soundtrack)",
+    "file": "I Hate Luv Storys Lyric Video - Sonam Kapoor_ Imran Khan_Vishal Dadlani_Kumaar(MP3_128K).mp3",
+    "cover": "I Hate Luv Storys Lyric Video - Sonam Kapoor_ Imran Khan_Vishal Dadlani_Kumaar(MP3_128K).jpg",
+    "genre": ""
+  },
+  {
+    "name": "﻿Kyon?",
+    "artist": "﻿Payal Dev, B Praak",
+    "album": "﻿Kyon?",
+    "file": "Jane Wale Laut Kar Tu Aaya Kyon Nahi - B Praak _ Payal Dev _ Kyon (Lyrics) _ RockMix Lyrics(MP3_128K).mp3",
+    "cover": "Jane Wale Laut Kar Tu Aaya Kyon Nahi - B Praak _ Payal Dev _ Kyon (Lyrics) _ RockMix Lyrics(MP3_128K).jpg",
+    "genre": ""
+  },
+  {
+    "name": "﻿Kajra Re",
+    "artist": "﻿Shankar-Ehsaan-Loy, Alisha Chinai, Shankar Mahadevan, Gulzar",
+    "album": "﻿YRF Top 10 - Nightout Sounds",
+    "file": "Kajra Re _ Full Song _ Bunty Aur Babli _ Aishwarya_ Abhishek_ Amitabh Bachchan _ Shankar-Ehsaan-Loy(MP3_128K).mp3",
+    "cover": "Kajra Re _ Full Song _ Bunty Aur Babli _ Aishwarya_ Abhishek_ Amitabh Bachchan _ Shankar-Ehsaan-Loy(MP3_128K).jpg",
+    "genre": ""
+  },
+  {
+    "name": "﻿Kala Chashma",
+    "artist": "﻿Prem & Hardeep, Amar Arshi, Badshah, Neha Kakkar, Indeep Bakshi, Amrik Singh",
+    "album": "﻿Diwali House Party Mix",
+    "file": "Kala Chashma _ Baar Baar Dekho _ Sidharth M Katrina K _ Prem_ Hardeep_ Badshah_ Kam_ Neha_ Indeep(MP3_128K).mp3",
+    "cover": "Kala Chashma _ Baar Baar Dekho _ Sidharth M Katrina K _ Prem_ Hardeep_ Badshah_ Kam_ Neha_ Indeep(MP3_128K).jpg",
+    "genre": ""
+  },
+  {
+    "name": "﻿Kar Gayi Chull",
+    "artist": "﻿Badshah, Amaal Mallik, Fazilpuria, Sukriti Kakar, Neha Kakkar",
+    "album": "﻿Kar Gayi Chull (From \"Kapoor & Sons (Since 1921)\")",
+    "file": "Kar Gayi Chull - Kapoor _ Sons _ Sidharth Malhotra_ Alia Bhatt _ Badshah _ Amaal Mallik _ Fazilpuria(MP3_128K).mp3",
+    "cover": "Kar Gayi Chull - Kapoor _ Sons _ Sidharth Malhotra_ Alia Bhatt _ Badshah _ Amaal Mallik _ Fazilpuria(MP3_128K).jpg",
+    "genre": ""
+  },
+  {
+    "name": "﻿Kuch Bhi Ho Jaye",
+    "artist": "﻿B Praak",
+    "album": "﻿POV: Pain & Love",
+    "file": "Kuch Bhi Ho Jaye _ B Praak _ Jaani _ Arvindr Khaira _ DM _ New Romantic song 2020(MP3_128K).mp3",
+    "cover": "Kuch Bhi Ho Jaye _ B Praak _ Jaani _ Arvindr Khaira _ DM _ New Romantic song 2020(MP3_128K).jpg",
+    "genre": ""
+  },
+  {
+    "name": "﻿Laila Main Laila",
+    "artist": "﻿Pawni Pandey",
+    "album": "﻿Raees (Original Motion Picture Soundtrack)",
+    "file": "Laila Main Laila _ Raees _ Shah Rukh Khan _ Sunny Leone _ Pawni Pandey _ Ram Sampath(MP3_128K).mp3",
+    "cover": "Laila Main Laila _ Raees _ Shah Rukh Khan _ Sunny Leone _ Pawni Pandey _ Ram Sampath(MP3_128K).jpg",
+    "genre": ""
+  },
+  {
+    "name": "﻿Let's Nacho",
+    "artist": "﻿Nucleya, Benny Dayal, Badshah",
+    "album": "﻿Best of 2016",
+    "file": "Let_s Nacho - Kapoor _ Sons _ Sidharth _ Alia _ Fawad _ Badshah _ Benny Dayal _ Nucleya(MP3_128K).mp3",
+    "cover": "Let_s Nacho - Kapoor _ Sons _ Sidharth _ Alia _ Fawad _ Badshah _ Benny Dayal _ Nucleya(MP3_128K).jpg",
+    "genre": ""
+  },
+  {
+    "name": "﻿Lucky Tu Lucky Me",
+    "artist": "﻿Sachin-Jigar, Benny Dayal, Anushka Manchanda, Varun Dhawan",
+    "album": "﻿Humpty Sharma Ki Dulhania (Original Motion Picture Soundtrack)",
+    "file": "Lucky Tu Lucky Me Full Video - Varun_ Alia Bhatt _ Humpty Sharma Ki Dulhania _ Benny D_ Anushka M(MP3_128K).mp3",
+    "cover": "Lucky Tu Lucky Me Full Video - Varun_ Alia Bhatt _ Humpty Sharma Ki Dulhania _ Benny D_ Anushka M(MP3_128K).jpg",
+    "genre": ""
+  },
+  {
+    "name": "﻿Nagin Dance",
+    "artist": "﻿Malik",
+    "album": "﻿Nagin Dance",
+    "file": "Main Nagin Dance - Video Song _ Bajatey Raho _ Maryam Zakaria _ Scarlett Wilson _ Anmol Malik(MP3_128K).mp3",
+    "cover": "Main Nagin Dance - Video Song _ Bajatey Raho _ Maryam Zakaria _ Scarlett Wilson _ Anmol Malik(MP3_128K).jpg",
+    "genre": ""
+  },
+  {
+    "name": "﻿Makhna",
+    "artist": "﻿Tanishk Bagchi, Yasser Desai, Asees Kaur",
+    "album": "﻿Makhna (From \"Drive\")",
+    "file": "Makhna - Drive _ Sushant Singh Rajput_ Jacqueline Fernandez _ Tanishk Bagchi_ Asees Kaur(MP3_128K).mp3",
+    "cover": "Makhna - Drive _ Sushant Singh Rajput_ Jacqueline Fernandez _ Tanishk Bagchi_ Asees Kaur(MP3_128K).jpg",
+    "genre": ""
+  },
+  {
+    "name": "﻿Mera Intkam Dekhegi",
+    "artist": "﻿Krishna Beuraa",
+    "album": "﻿Shaadi Mein Zaroor Aana (Original Motion Picture Soundtrack)",
+    "file": "Mera Intkam Dekhegi - Lyrical _ Shaadi Mein Zaroor Aana _ Rajkummar R_ Kriti K _ Krishna Beuraa(MP3_128K).mp3",
+    "cover": "Mera Intkam Dekhegi - Lyrical _ Shaadi Mein Zaroor Aana _ Rajkummar R_ Kriti K _ Krishna Beuraa(MP3_128K).jpg",
+    "genre": ""
+  },
+  {
+    "name": "﻿Nashe Si Chadh Gayi",
+    "artist": "﻿Arijit Singh",
+    "album": "﻿Rang Barse Happy Holi",
+    "file": "Nashe Si Chadh Gayi Song _ Befikre _ Ranveer Singh_ Vaani Kapoor _ Arijit Singh _ Vishal and Shekhar(MP3_128K).mp3",
+    "cover": "Nashe Si Chadh Gayi Song _ Befikre _ Ranveer Singh_ Vaani Kapoor _ Arijit Singh _ Vishal and Shekhar(MP3_128K).jpg",
+    "genre": ""
+  },
+  {
+    "name": "﻿Nazm Nazm",
+    "artist": "﻿Ayushmann Khurrana",
+    "album": "﻿Bareilly Ki Barfi",
+    "file": "Nazm Nazm - Lyrical _ Bareilly Ki Barfi _ Kriti Sanon_ Ayushmann Khurrana _ Rajkummar Rao _ Arko(MP3_128K).mp3",
+    "cover": "Nazm Nazm - Lyrical _ Bareilly Ki Barfi _ Kriti Sanon_ Ayushmann Khurrana _ Rajkummar Rao _ Arko(MP3_128K).jpg",
+    "genre": ""
+  },
+  {
+    "name": "﻿Party With The Bhoothnath",
+    "artist": "﻿Yo Yo Honey Singh",
+    "album": "﻿Bhoothnath Returns",
+    "file": "Party With The Bhoothnath Song (Official) _ Bhoothnath Returns _ Amitabh Bachchan_ Yo Yo Honey Singh(MP3_128K).mp3",
+    "cover": "Party With The Bhoothnath Song (Official) _ Bhoothnath Returns _ Amitabh Bachchan_ Yo Yo Honey Singh(MP3_128K).jpg",
+    "genre": ""
+  },
+  {
+    "name": "﻿Phir Bhi Tumko Chaahunga",
+    "artist": "﻿Mithoon, Arijit Singh, Shashaa Tirupati",
+    "album": "﻿Half Girlfriend (Original Motion Picture Soundtrack)",
+    "file": "Phir Bhi Tumko Chaahunga - Full Song _ Arijit Singh _ Arjun K _ Shraddha K _ Mithoon_ Manoj M(MP3_128K).mp3",
+    "cover": "Phir Bhi Tumko Chaahunga - Full Song _ Arijit Singh _ Arjun K _ Shraddha K _ Mithoon_ Manoj M(MP3_128K).jpg",
+    "genre": ""
+  },
+  {
+    "name": "﻿Pink Lips",
+    "artist": "﻿Meet Bros Anjjan, Khushboo Grewal",
+    "album": "﻿Hate Story 2",
+    "file": "Pink Lips Full Video Song _ Sunny Leone _ Hate Story 2 _ Meet Bros Anjjan Feat Khushboo Grewal(MP3_128K).mp3",
+    "cover": "Pink Lips Full Video Song _ Sunny Leone _ Hate Story 2 _ Meet Bros Anjjan Feat Khushboo Grewal(MP3_128K).jpg",
+    "genre": ""
+  },
+  {
+    "name": "﻿Proper Patola",
+    "artist": "﻿Diljit Dosanjh, Badshah",
+    "album": "﻿The Badshah of Party Hits",
+    "file": "Proper Patola - Official Video _ Namaste England _ Arjun _ Parineeti _ Badshah _ Diljit _ Aastha(MP3_128K).mp3",
+    "cover": "Proper Patola - Official Video _ Namaste England _ Arjun _ Parineeti _ Badshah _ Diljit _ Aastha(MP3_128K).jpg",
+    "genre": ""
+  },
+  {
+    "name": "﻿Pyaar Tune Kya Kiya",
+    "artist": "﻿Jubin Nautiyal",
+    "album": "﻿Pyaar Tune Kya Kiya",
+    "file": "Pyaar Tune Kya Kiya - Official Theme Song _ Love Romance Sad Song _ Amjad Nadeem _ Jubin Nautiyal(MP3_128K).mp3",
+    "cover": "Pyaar Tune Kya Kiya - Official Theme Song _ Love Romance Sad Song _ Amjad Nadeem _ Jubin Nautiyal(MP3_128K).jpg",
+    "genre": ""
+  },
+  {
+    "name": "﻿Sadi Gali 2.0",
+    "artist": "﻿Shipra Goyal, Lehmber Hussainpuri, DJ Shadow Dubai, KR$NA",
+    "album": "﻿Sadi Gali 2.0",
+    "file": "Sadi Gali Full Song Tanu Weds Manu _ Ft. Kangna Ranaut_ R Madhavan(MP3_128K).mp3",
+    "cover": "Sadi Gali Full Song Tanu Weds Manu _ Ft. Kangna Ranaut_ R Madhavan(MP3_128K).jpg",
+    "genre": ""
+  },
+  {
+    "name": "﻿Sau Tarah Ke (Revisited)",
+    "artist": "﻿Pritam, Abhijeet Sawant, Aditi Singh Sharma",
+    "album": "﻿Dishoom",
+    "file": "Sau Tarah Ke Full Song with Lyrics _ Dishoom _ John Abraham _ Varun Dhawan _ Jacqueline Fernandez(MP3_128K).mp3",
+    "cover": "Sau Tarah Ke Full Song with Lyrics _ Dishoom _ John Abraham _ Varun Dhawan _ Jacqueline Fernandez(MP3_128K).jpg",
+    "genre": ""
+  },
+  {
+    "name": "﻿Suit Suit",
+    "artist": "﻿Guru Randhawa, Arjun",
+    "album": "﻿Hindi Medium",
+    "file": "Suit Suit Lyrical Video Song _ Hindi Medium _ Irrfan Khan _ Saba Qamar _ Guru Randhawa _ Arjun(MP3_128K).mp3",
+    "cover": "Suit Suit Lyrical Video Song _ Hindi Medium _ Irrfan Khan _ Saba Qamar _ Guru Randhawa _ Arjun(MP3_128K).jpg",
+    "genre": ""
+  },
+  {
+    "name": "﻿Tamma Tamma Again",
+    "artist": "﻿Bappi Lahiri, Anuradha Paudwal, Badshah",
+    "album": "﻿Badrinath Ki Dulhania",
+    "file": "Tamma Tamma Again _ Varun _ Alia _ Bappi L_ Anuradha P _ Tanishk_ Badshah _  _Badrinath Ki Dulhania_(MP3_128K).mp3",
+    "cover": "Tamma Tamma Again _ Varun _ Alia _ Bappi L_ Anuradha P _ Tanishk_ Badshah _  _Badrinath Ki Dulhania_(MP3_128K).jpg",
+    "genre": ""
+  },
+  {
+    "name": "﻿Tareefan",
+    "artist": "﻿QARAN, Badshah",
+    "album": "﻿Veere Di Wedding (Original Motion Picture Soundtrack)",
+    "file": "Tareefan _ Veere Di Wedding _ QARAN  Ft. Badshah _ Kareena Kapoor Khan_ Sonam Kapoor_ Swara _ Shikha(MP3_128K).mp3",
+    "cover": "Tareefan _ Veere Di Wedding _ QARAN  Ft. Badshah _ Kareena Kapoor Khan_ Sonam Kapoor_ Swara _ Shikha(MP3_128K).jpg",
+    "genre": ""
+  },
+  {
+    "name": "﻿Teri Meri Kahaani",
+    "artist": "﻿Arijit Singh, Palak Muchhal",
+    "album": "﻿Gabbar Is Back",
+    "file": "Teri Meri Kahaani Hai Baarishon Ka Paani - Arijit Singh _ Gabbar Is Back _ Akshay Kumar _ Kareena K(MP3_128K).mp3",
+    "cover": "Teri Meri Kahaani Hai Baarishon Ka Paani - Arijit Singh _ Gabbar Is Back _ Akshay Kumar _ Kareena K(MP3_128K).jpg",
+    "genre": ""
+  },
+  {
+    "name": "﻿Thoda Thoda Pyaar",
+    "artist": "﻿Nilesh Ahuja, Kumaar, Stebin Ben",
+    "album": "﻿Thoda Thoda Pyaar",
+    "file": "Thoda Thoda Pyaar _ Sidharth Malhotra_Neha Sharma_Stebin Ben_Nilesh Ahuja_Kumaar_Zee Music Originals(MP3_128K).mp3",
+    "cover": "Thoda Thoda Pyaar _ Sidharth Malhotra_Neha Sharma_Stebin Ben_Nilesh Ahuja_Kumaar_Zee Music Originals(MP3_128K).jpg",
+    "genre": ""
+  },
+  {
+    "name": "﻿Ve Maahi",
+    "artist": "﻿Arijit Singh, Asees Kaur",
+    "album": "﻿Kesari",
+    "file": "Ve Maahi _ Kesari _ Akshay Kumar _ Parineeti Chopra _ Arijit Singh _ Asees Kaur _ Tanishk Bagchi(MP3_128K).mp3",
+    "cover": "Ve Maahi _ Kesari _ Akshay Kumar _ Parineeti Chopra _ Arijit Singh _ Asees Kaur _ Tanishk Bagchi(MP3_128K).jpg",
+    "genre": ""
+  },
+  {
+    "name": "﻿Zaroorat",
+    "artist": "﻿Mustafa Zahid",
+    "album": "﻿Ek Villain",
+    "file": "Zaroorat Full Video Song _ Ek Villain _ Mithoon _ Mustafa Zahid(MP3_128K).mp3",
+    "cover": "Zaroorat Full Video Song _ Ek Villain _ Mithoon _ Mustafa Zahid(MP3_128K).jpg",
+    "genre": ""
+  },
+  {
+    "name": "﻿Baby Doll",
+    "artist": "﻿Meet Bros Anjjan, Kanika Kapoor",
+    "album": "﻿Bollywood Party With Meet Bros",
+    "file": "_Baby Doll_ Ragini MMS 2 Sunny Leone Song _ Meet Bros Anjjan Feat. Kanika Kapoor(MP3_128K).mp3",
+    "cover": "_Baby Doll_ Ragini MMS 2 Sunny Leone Song _ Meet Bros Anjjan Feat. Kanika Kapoor(MP3_128K).jpg",
+    "genre": ""
+  },
+  {
+    "name": "﻿Hawa Hawa",
+    "artist": "﻿Mika Singh, Prakriti Kakar",
+    "album": "﻿Mubarakan",
+    "file": "_Hawa Hawa_ (Full Video Song) _ Mubarakan _ Anil Kapoor_ Arjun Kapoor_ Ileana D_Cruz_ Athiya Shetty(MP3_128K).mp3",
+    "cover": "_Hawa Hawa_ (Full Video Song) _ Mubarakan _ Anil Kapoor_ Arjun Kapoor_ Ileana D_Cruz_ Athiya Shetty(MP3_128K).jpg",
+    "genre": ""
+  },
+  {
+    "name": "﻿Lungi Dance",
+    "artist": "﻿Yo Yo Honey Singh",
+    "album": "﻿Lungi Dance",
+    "file": "_Lungi Dance Chennai Express_ New Video Feat. Honey Singh_ Shahrukh Khan_ Deepika(MP3_128K).mp3",
+    "cover": "_Lungi Dance Chennai Express_ New Video Feat. Honey Singh_ Shahrukh Khan_ Deepika(MP3_128K).jpg",
+    "genre": ""
+  },
+  {
+    "name": "﻿Palat Tera Hero Idhar Hai",
+    "artist": "﻿Varun Dhawan",
+    "album": "﻿Main Tera Hero",
+    "file": "_Main Tera Hero_ Palat - Tera Hero Idhar Hai Song Video _ Arijit Singh _ Varun Dhawan_ Nargis(MP3_128K).mp3",
+    "cover": "_Main Tera Hero_ Palat - Tera Hero Idhar Hai Song Video _ Arijit Singh _ Varun Dhawan_ Nargis(MP3_128K).jpg",
+    "genre": ""
+  },
+  {
+    "name": "﻿One Two Three Four Chennai Express",
+    "artist": "﻿T-Series",
+    "album": "﻿T-Series",
+    "file": "_One Two Three Four Chennai Express_ Song _ Shahrukh Khan_ Deepika Padukone(MP3_128K).mp3",
+    "cover": "_One Two Three Four Chennai Express_ Song _ Shahrukh Khan_ Deepika Padukone(MP3_128K).jpg",
+    "genre": ""
+  },
+  {
+    "name": "﻿Sheila Ki Jawani",
+    "artist": "﻿Sunidhi Chauhan, Vishal Dadlani",
+    "album": "﻿Tees Maar Khan",
+    "file": "_Sheila Ki Jawani_ Full Song _ Tees Maar Khan _ Katrina Kaif _ Vishal Dadlani_ Sunidhi Chauhan(MP3_128K).mp3",
+    "cover": "_Sheila Ki Jawani_ Full Song _ Tees Maar Khan _ Katrina Kaif _ Vishal Dadlani_ Sunidhi Chauhan(MP3_128K).jpg",
+    "genre": ""
+  },
+  {
+    "name": "﻿Suno Na Sangemarmar",
+    "artist": "﻿Arijit Singh",
+    "album": "﻿Best Of Jeet Gannguli",
+    "file": "_Suno Na Sangemarmar_ Full Song Youngistaan _ Arijit Singh _ Jackky Bhagnani_ Neha Sharma(MP3_128K).mp3",
+    "cover": "_Suno Na Sangemarmar_ Full Song Youngistaan _ Arijit Singh _ Jackky Bhagnani_ Neha Sharma(MP3_128K).jpg",
+    "genre": ""
+  },
+  {
+    "name": "﻿Tu Chahiye",
+    "artist": "﻿T-Series",
+    "album": "﻿T-Series",
+    "file": "_Tu Chahiye_ VIDEO Song _ Atif Aslam Pritam _ Bajrangi Bhaijaan _ Salman Khan_ Kareena Kapoor(MP3_128K).mp3",
+    "cover": "_Tu Chahiye_ VIDEO Song _ Atif Aslam Pritam _ Bajrangi Bhaijaan _ Salman Khan_ Kareena Kapoor(MP3_128K).jpg",
+    "genre": ""
+  },
+  {
+    "name": "﻿Tu Hai Ki Nahi",
+    "artist": "﻿Meet Bros Anjjan",
+    "album": "﻿Roy",
+    "file": "_Tu Hai Ki Nahi_ FULL AUDIO SONG _ Roy _ Ankit Tiwari _ Ranbir Kapoor_ Jacqueline Fernandez_ Tseries(MP3_128K).mp3",
+    "cover": "_Tu Hai Ki Nahi_ FULL AUDIO SONG _ Roy _ Ankit Tiwari _ Ranbir Kapoor_ Jacqueline Fernandez_ Tseries(MP3_128K).jpg",
+    "genre": ""
+  },
+  {
     "name": "﻿Happy Happy",
     "artist": "﻿Badshah, Aastha Gill",
     "album": "﻿Blackmail",
@@ -1921,6 +2409,7 @@
   }
 
 ]
+
 
 
 
