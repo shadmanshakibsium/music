@@ -867,18 +867,20 @@ const aboutClose = document.getElementById('about-close');
 
 if (aboutBtn && aboutModal && aboutClose) {
 
+  // Button click → modal খোলা
   aboutBtn.addEventListener('click', () => {
     aboutModal.style.display = 'flex';
   });
 
+  // Close button → modal বন্ধ করা
   aboutClose.addEventListener('click', () => {
     aboutModal.style.display = 'none';
   });
 
+  // Modal background → ক্লিক করলে বন্ধ করা
   aboutModal.addEventListener('click', (e) => {
     if (e.target === aboutModal) {
       aboutModal.style.display = 'none';
     }
   });
 }
-
