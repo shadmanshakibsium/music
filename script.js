@@ -880,5 +880,5 @@ if (aboutBtn && aboutModal && aboutClose) {
       aboutModal.style.display = 'none';
     }
   });
-
 }
+
