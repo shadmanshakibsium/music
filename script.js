@@ -438,19 +438,50 @@ function playSong(index, resetFuture = true) {
   currentIndex = index;
   const song = filteredData[index];
   currentSongUID = song.uid;
+
   if (isShuffle && resetFuture) futureStack = [];
+
+  // 🎵 Set Audio Source
   fsAudio.src = `songs/${song.folder}/${song.file}`;
   fsAudio.play();
+
+  // 🎵 Set Cover
   if (fsCover) {
-    fsCover.src = song.cover ? `covers/${song.folder}/${song.cover}` : getRandomFallbackCover();
+    fsCover.src = song.cover 
+      ? `covers/${song.folder}/${song.cover}` 
+      : getRandomFallbackCover();
   }
+
+  // 🎵 Update UI
   updateMiniPlayer(song.name);
   updateFullscreenPlayer(song.name);
   updatePlayButton();
-  document.querySelectorAll('.music-item.playing').forEach(el => el.classList.remove('playing'));
-  document.querySelectorAll(`.music-item[data-uid="${currentSongUID}"]`).forEach(el => el.classList.add('playing'));
-}
 
+  // 🎵 Highlight Playing Song
+  document.querySelectorAll('.music-item.playing')
+    .forEach(el => el.classList.remove('playing'));
+
+  document.querySelectorAll(`.music-item[data-uid="${currentSongUID}"]`)
+    .forEach(el => el.classList.add('playing'));
+
+  // 🎵 ANDROID NOTIFICATION FIX (Media Session Metadata)
+  if ('mediaSession' in navigator) {
+    navigator.mediaSession.metadata = new MediaMetadata({
+      title: song.name || 'Unknown',
+      artist: song.artist || 'Unknown',
+      album: song.album || 'Unknown',
+      artwork: [
+        {
+          src: song.cover
+            ? `covers/${song.folder}/${song.cover}`
+            : getRandomFallbackCover(),
+          sizes: '512x512',
+          type: 'image/jpeg'
+        }
+      ]
+    });
+  }
+}
 
 // --------------------
 // Update UI
