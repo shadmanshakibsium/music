@@ -232,7 +232,7 @@ function toggleFolder(folderName, folderEl) {
   if (listEl && listEl.classList.contains('folder-songs')) {
     listEl.style.display = listEl.style.display === 'block' ? 'none' : 'block';
     
-    // যদি ফোল্ডার খোলা থাকে এবং বর্তমান গানটি এই ফোল্ডারে থাকে, তাহলে স্ক্রল করুন
+
     if (listEl.style.display === 'block' && currentSongUID) {
       const songFolder = currentSongUID.split('/')[0];
       if (songFolder === folderName) {
@@ -288,7 +288,7 @@ function toggleFolder(folderName, folderEl) {
 
       listEl.style.display = 'block';
       
-      // নতুন ফোল্ডার লোড হলে যদি বর্তমান গানটি এই ফোল্ডারে থাকে, তাহলে স্ক্রল করুন
+
       if (currentSongUID) {
         const songFolder = currentSongUID.split('/')[0];
         if (songFolder === folderName) {
@@ -531,7 +531,7 @@ fsCloseBtn.addEventListener('click', () => {
     allSongsView.style.display = 'block';
     const currentSongEl = document.querySelector(`.music-item[data-uid="${currentSongUID}"]`);
     if (currentSongEl) {
-      // No smooth animation - 바로 স্ক্রল করে নিয়ে আসবে
+
       currentSongEl.scrollIntoView({ behavior: 'auto', block: 'center' });
     }
   } else if (currentView === 'folders') {
@@ -545,20 +545,20 @@ fsCloseBtn.addEventListener('click', () => {
       if (folderEl) {
         let listEl = folderEl.nextElementSibling;
         
-        // যদি ফোল্ডারটি কলাপ্সড থাকে তাহলে খুলুন
+
         if (!listEl || !listEl.classList.contains('folder-songs') || listEl.style.display === 'none') {
           toggleFolder(folderName, folderEl);
           
-          // কিছুক্ষণ অপেক্ষা করুন ফোল্ডার লোড হওয়ার জন্য
+
           setTimeout(() => {
             listEl = folderEl.nextElementSibling;
             if (listEl && listEl.classList.contains('folder-songs')) {
               const currentSongEl = listEl.querySelector(`.music-item[data-uid="${currentSongUID}"]`);
               if (currentSongEl) {
-                // সরাসরি স্ক্রল করে নিয়ে আসুন - কোন এনিমেশন নেই
+
                 currentSongEl.scrollIntoView({ behavior: 'auto', block: 'center' });
                 
-                // হাইলাইট করুন
+
                 document.querySelectorAll('.folder-songs .music-item').forEach(el => {
                   el.classList.remove('playing');
                 });
@@ -567,13 +567,13 @@ fsCloseBtn.addEventListener('click', () => {
             }
           }, 100);
         } else {
-          // ফোল্ডার ইতিমধ্যে খোলা আছে
+
           const currentSongEl = listEl.querySelector(`.music-item[data-uid="${currentSongUID}"]`);
           if (currentSongEl) {
-            // সরাসরি স্ক্রল করে নিয়ে আসুন
+
             currentSongEl.scrollIntoView({ behavior: 'auto', block: 'center' });
             
-            // হাইলাইট করুন
+
             document.querySelectorAll('.folder-songs .music-item').forEach(el => {
               el.classList.remove('playing');
             });
@@ -601,10 +601,10 @@ fsCloseBtn.addEventListener('click', () => {
         
         const currentSongEl = genreSongsEl.querySelector(`.music-item[data-uid="${currentSongUID}"]`);
         if (currentSongEl) {
-          // সরাসরি স্ক্রল করে নিয়ে আসুন
+
           currentSongEl.scrollIntoView({ behavior: 'auto', block: 'center' });
           
-          // হাইলাইট করুন
+
           document.querySelectorAll('.genre-songs .music-item').forEach(el => {
             el.classList.remove('playing');
           });
