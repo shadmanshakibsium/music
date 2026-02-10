@@ -1,5 +1,29 @@
 [
   {
+    "name": "Beat It",
+    "artist": "﻿michaeljacksonVEVO",
+    "album": "﻿michaeljacksonVEVO",
+    "file": "Michael Jackson - Beat It (Official 4K Video)(MP3_128K).mp3",
+    "cover": "Michael Jackson - Beat It (Official 4K Video)(MP3_128K).jpg",
+    "genre": ""
+  },
+  {
+    "name": "﻿Billie Jean",
+    "artist": "﻿Michael Jackson",
+    "album": "﻿Thriller 25 Super Deluxe Edition",
+    "file": "Michael Jackson - Billie Jean (Official Video)(MP3_128K).mp3",
+    "cover": "Michael Jackson - Billie Jean (Official Video)(MP3_128K).jpg",
+    "genre": ""
+  },
+  {
+    "name": "﻿Smooth Criminal",
+    "artist": "﻿michaeljacksonVEVO",
+    "album": "﻿michaeljacksonVEVO",
+    "file": "Michael Jackson - Smooth Criminal (Official Video)(MP3_128K).mp3",
+    "cover": "Michael Jackson - Smooth Criminal (Official Video)(MP3_128K).jpg",
+    "genre": ""
+  },
+  {
     "name": "﻿Stereo Hearts (feat. Adam Levine)",
     "artist": "﻿Gym Class Heroes, Adam Levine",
     "album": "﻿The Papercut Chronicles II",
@@ -2657,6 +2681,7 @@
   }
 
 ]
+
 
 
 
