@@ -1,5 +1,29 @@
 [
   {
+    "name": "﻿Sleepwalker - Slowed",
+    "artist": "﻿akiaura, LONOWN, STM",
+    "album": "﻿Sleepwalker (Slowed)",
+    "file": "Sleepwalker (Slowed)(MP3_128K).mp3",
+    "cover": "Sleepwalker (Slowed)(MP3_128K).jpg",
+    "genre": ""
+  },
+  {
+    "name": "﻿Nevada",
+    "artist": "﻿Vicetone, Cozi Zuehlsdorff",
+    "album": "﻿Nevada",
+    "file": "Vicetone - Nevada (ft. Cozi Zuehlsdorff)(MP3_128K).mp3",
+    "cover": "Vicetone - Nevada (ft. Cozi Zuehlsdorff)(MP3_128K).jpg",
+    "genre": ""
+  },
+  {
+    "name": "﻿Mortals",
+    "artist": "﻿Warriyo",
+    "album": "﻿Mortals",
+    "file": "Warriyo - Mortals (ft. Laura Brehm)(MP3_128K).mp3",
+    "cover": "Warriyo - Mortals (ft. Laura Brehm)(MP3_128K).jpg",
+    "genre": ""
+  },
+  {
     "name": "ECLIPSER (SUPER SLOWED)",
     "artist": "﻿PINKY SMASH",
     "album": "﻿PINKY SMASH",
@@ -433,6 +457,7 @@
   }
 
 ]
+
 
 
 
