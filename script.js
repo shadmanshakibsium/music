@@ -820,21 +820,22 @@ loadAllSongs();
 // --------------------
 // animateCountUp
 // --------------------
-function animateCountUp(element, target, duration = 2500) {
-  let start = 0;
-  if (target <= 0) {
-    element.textContent = `Total Songs: 0`;
-    return;
-  }
-  const stepTime = Math.max(10, Math.abs(Math.floor(duration / target)));
+function animateCountUp(element, target, duration = 1000) {
+  let startTime = null;
 
-  const timer = setInterval(() => {
-    start += 1;
-    element.textContent = `Total Songs: ${start}`;
-    if (start >= target) {
-      clearInterval(timer);
+  function step(timestamp) {
+    if (!startTime) startTime = timestamp;
+    const progress = Math.min((timestamp - startTime) / duration, 1);
+    const current = Math.floor(progress * target);
+    element.textContent = `Total Songs: ${current}`;
+    if (progress < 1) {
+      requestAnimationFrame(step);
+    } else {
+      element.textContent = `Total Songs: ${target}`;
     }
-  }, stepTime);
+  }
+
+  requestAnimationFrame(step);
 }
 
 // --------------------
