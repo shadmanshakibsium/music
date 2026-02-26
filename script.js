@@ -820,7 +820,7 @@ loadAllSongs();
 // --------------------
 // animateCountUp
 // --------------------
-function animateCountUp(element, target, duration = 1000) {
+function animateCountUp(element, target, duration = 3700) {
   let startTime = null;
 
   function step(timestamp) {
