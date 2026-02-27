@@ -14,7 +14,7 @@ let playHistory = [];
 let futureStack = [];
 let currentSongUID = null;
 
-const LONG_PRESS_TIME = 900;
+const LONG_PRESS_TIME = 500;
 const metaModal = document.getElementById('meta-modal');
 const metaCover = document.getElementById('meta-cover');
 const metaName = document.getElementById('meta-name');
