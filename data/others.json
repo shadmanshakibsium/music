@@ -1,5 +1,53 @@
 [
   {
+    "name": "﻿Gandagana",
+    "artist": "﻿Basiani Ensemble",
+    "album": "﻿Georgian Polyphony Singing - Folk Songs",
+    "file": "Gandagana(MP3_128K).mp3",
+    "cover": "Gandagana(MP3_128K).jpg",
+    "genre": ""
+  },
+  {
+    "name": "﻿Made in Romania",
+    "artist": "﻿Ionut Cercel",
+    "album": "﻿Sapte trandafiri",
+    "file": "Ionut Cercel - Made in Romania(MP3_128K).mp3",
+    "cover": "Ionut Cercel - Made in Romania(MP3_128K).jpg",
+    "genre": ""
+  },
+  {
+    "name": "﻿Hadal Ahbek",
+    "artist": "﻿Issam Alnajjar",
+    "album": "﻿Arabic Love Songs",
+    "file": "Issam Alnajjar - Hadal Ahbek (Performance Video)(MP3_128K).mp3",
+    "cover": "Issam Alnajjar - Hadal Ahbek (Performance Video)(MP3_128K).jpg",
+    "genre": ""
+  },
+  {
+    "name": "﻿Patlamaya Devam - Remix",
+    "artist": "﻿Isyan Tetick",
+    "album": "﻿Patlamaya Devam (Remix)",
+    "file": "Isyan Tetick - Patlamaya Devam (Remix) [Official Video](MP3_128K).mp3",
+    "cover": "Isyan Tetick - Patlamaya Devam (Remix) [Official Video](MP3_128K).jpg",
+    "genre": ""
+  },
+  {
+    "name": "﻿JUST A BOY",
+    "artist": "﻿DrINsaNE",
+    "album": "﻿JUST A BOY",
+    "file": "JUST A BOY DrINsaNE official(MP3_128K).mp3",
+    "cover": "JUST A BOY DrINsaNE official(MP3_128K).jpg",
+    "genre": ""
+  },
+  {
+    "name": "﻿Bécane - A COLORS SHOW",
+    "artist": "﻿Yamê",
+    "album": "﻿Bécane - A COLORS SHOW",
+    "file": "Yamê - Bécane _ A COLORS SHOW(MP3_128K).mp3",
+    "cover": "Yamê - Bécane _ A COLORS SHOW(MP3_128K).jpg",
+    "genre": ""
+  },
+  {
     "name": "﻿Tout donner",
     "artist": "﻿Naza, SDM",
     "album": "﻿Tout donner",
@@ -193,6 +241,7 @@
   }
 
 ]
+
 
 
 
