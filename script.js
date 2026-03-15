@@ -500,7 +500,9 @@ function updatePlayButton(){
   }
 }
 
-
+// --------------------
+// Mini → Fullscreen
+// --------------------
 // --------------------
 // Mini → Fullscreen
 // --------------------
@@ -524,6 +526,9 @@ miniPlayer.addEventListener('touchend', (e) => {
     miniPlayer.style.display = 'none';
     document.querySelector('.site-header').style.display = 'none';
     document.querySelector('.tabs').style.display = 'none';
+    allSongsView.style.display = 'none';
+    foldersView.style.display = 'none';
+    genreView.style.display = 'none';
   }
   touchStartY = null;
 });
@@ -535,6 +540,9 @@ miniPlayer.addEventListener('click', () => {
   miniPlayer.style.display = 'none';
   document.querySelector('.site-header').style.display = 'none';
   document.querySelector('.tabs').style.display = 'none';
+  allSongsView.style.display = 'none';
+  foldersView.style.display = 'none';
+  genreView.style.display = 'none';
 });
 // --------------------
 // Close fullscreen (Updated - no smooth animation)
@@ -550,18 +558,18 @@ fsCloseBtn.addEventListener('click', () => {
     document.querySelector('.site-header').style.display = 'block';
     document.querySelector('.tabs').style.display = 'flex';
 
+    allSongsView.style.display = 'none';
+    foldersView.style.display = 'none';
+    genreView.style.display = 'none';
+
     if (currentView === 'all') {
       allSongsView.style.display = 'block';
-      foldersView.style.display = 'none';
-      genreView.style.display = 'none';
       const currentSongEl = document.querySelector(`.music-item[data-uid="${currentSongUID}"]`);
       if (currentSongEl) {
         currentSongEl.scrollIntoView({ behavior: 'auto', block: 'center' });
       }
     } else if (currentView === 'folders') {
-      allSongsView.style.display = 'none';
       foldersView.style.display = 'block';
-      genreView.style.display = 'none';
       if (currentSongUID) {
         const folderName = currentSongUID.split('/')[0];
         const folderEl = Array.from(document.querySelectorAll('.folder-title'))
@@ -592,8 +600,6 @@ fsCloseBtn.addEventListener('click', () => {
         }
       }
     } else if (currentView === 'genre') {
-      allSongsView.style.display = 'none';
-      foldersView.style.display = 'none';
       genreView.style.display = 'block';
       if (currentSongUID) {
         const genreTitle = Array.from(document.querySelectorAll('.genre-title'))
@@ -616,7 +622,7 @@ fsCloseBtn.addEventListener('click', () => {
         }
       }
     }
-  }, 220);
+  }, 350);
 });
 // --------------------
 // Play/Pause
