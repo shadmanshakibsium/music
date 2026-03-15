@@ -455,6 +455,7 @@ fsAudio.play();
 
   // 🎵 Update UI
   updateMiniPlayer(song.name);
+  document.title = song.name + ' | Song Archive';
   updateFullscreenPlayer(song.name);
   updatePlayButton();
 
