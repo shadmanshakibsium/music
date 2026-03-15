@@ -503,6 +503,9 @@ function updatePlayButton(){
 // --------------------
 // Mini → Fullscreen
 // --------------------
+// --------------------
+// Mini → Fullscreen
+// --------------------
 let touchStartY = null;
 
 miniPlayer.addEventListener('touchstart', (e) => {
@@ -514,11 +517,12 @@ miniPlayer.addEventListener('touchend', (e) => {
   const deltaY = touchStartY - e.changedTouches[0].clientY;
 
   if (deltaY > 40) {
-    // Swipe Up — fullscreen খুলবে
     miniPlayer.classList.add('swipe-hint');
     setTimeout(() => miniPlayer.classList.remove('swipe-hint'), 400);
 
     fullscreenPlayer.style.display = 'flex';
+    fullscreenPlayer.classList.remove('slide-down');
+    fullscreenPlayer.classList.add('slide-up');
     miniPlayer.style.display = 'none';
     document.querySelector('.site-header').style.display = 'none';
     document.querySelector('.tabs').style.display = 'none';
@@ -531,6 +535,8 @@ miniPlayer.addEventListener('touchend', (e) => {
 
 miniPlayer.addEventListener('click', () => {
   fullscreenPlayer.style.display = 'flex';
+  fullscreenPlayer.classList.remove('slide-down');
+  fullscreenPlayer.classList.add('slide-up');
   miniPlayer.style.display = 'none';
   document.querySelector('.site-header').style.display = 'none';
   document.querySelector('.tabs').style.display = 'none';
@@ -542,101 +548,81 @@ miniPlayer.addEventListener('click', () => {
 // Close fullscreen (Updated - no smooth animation)
 // --------------------
 fsCloseBtn.addEventListener('click', () => {
-  fullscreenPlayer.style.display = 'none';
-  miniPlayer.style.display = 'flex';
-  document.querySelector('.site-header').style.display = 'block';
-  document.querySelector('.tabs').style.display = 'flex';
+  fullscreenPlayer.classList.remove('slide-up');
+  fullscreenPlayer.classList.add('slide-down');
 
-  allSongsView.style.display = 'none';
-  foldersView.style.display = 'none';
-  genreView.style.display = 'none';
+  setTimeout(() => {
+    fullscreenPlayer.style.display = 'none';
+    fullscreenPlayer.classList.remove('slide-down');
+    miniPlayer.style.display = 'flex';
+    document.querySelector('.site-header').style.display = 'block';
+    document.querySelector('.tabs').style.display = 'flex';
 
-  if (currentView === 'all') {
-    allSongsView.style.display = 'block';
-    const currentSongEl = document.querySelector(`.music-item[data-uid="${currentSongUID}"]`);
-    if (currentSongEl) {
+    allSongsView.style.display = 'none';
+    foldersView.style.display = 'none';
+    genreView.style.display = 'none';
 
-      currentSongEl.scrollIntoView({ behavior: 'auto', block: 'center' });
-    }
-  } else if (currentView === 'folders') {
-    foldersView.style.display = 'block';
-    
-    if (currentSongUID) {
-      const folderName = currentSongUID.split('/')[0];
-      const folderEl = Array.from(document.querySelectorAll('.folder-title'))
-        .find(el => el.textContent === folderName);
-      
-      if (folderEl) {
-        let listEl = folderEl.nextElementSibling;
-        
-
-        if (!listEl || !listEl.classList.contains('folder-songs') || listEl.style.display === 'none') {
-          toggleFolder(folderName, folderEl);
-          
-
-          setTimeout(() => {
-            listEl = folderEl.nextElementSibling;
-            if (listEl && listEl.classList.contains('folder-songs')) {
-              const currentSongEl = listEl.querySelector(`.music-item[data-uid="${currentSongUID}"]`);
-              if (currentSongEl) {
-
-                currentSongEl.scrollIntoView({ behavior: 'auto', block: 'center' });
-                
-
-                document.querySelectorAll('.folder-songs .music-item').forEach(el => {
-                  el.classList.remove('playing');
-                });
-                currentSongEl.classList.add('playing');
+    if (currentView === 'all') {
+      allSongsView.style.display = 'block';
+      const currentSongEl = document.querySelector(`.music-item[data-uid="${currentSongUID}"]`);
+      if (currentSongEl) {
+        currentSongEl.scrollIntoView({ behavior: 'auto', block: 'center' });
+      }
+    } else if (currentView === 'folders') {
+      foldersView.style.display = 'block';
+      if (currentSongUID) {
+        const folderName = currentSongUID.split('/')[0];
+        const folderEl = Array.from(document.querySelectorAll('.folder-title'))
+          .find(el => el.textContent === folderName);
+        if (folderEl) {
+          let listEl = folderEl.nextElementSibling;
+          if (!listEl || !listEl.classList.contains('folder-songs') || listEl.style.display === 'none') {
+            toggleFolder(folderName, folderEl);
+            setTimeout(() => {
+              listEl = folderEl.nextElementSibling;
+              if (listEl && listEl.classList.contains('folder-songs')) {
+                const currentSongEl = listEl.querySelector(`.music-item[data-uid="${currentSongUID}"]`);
+                if (currentSongEl) {
+                  currentSongEl.scrollIntoView({ behavior: 'auto', block: 'center' });
+                  document.querySelectorAll('.folder-songs .music-item').forEach(el => el.classList.remove('playing'));
+                  currentSongEl.classList.add('playing');
+                }
               }
+            }, 100);
+          } else {
+            const currentSongEl = listEl.querySelector(`.music-item[data-uid="${currentSongUID}"]`);
+            if (currentSongEl) {
+              currentSongEl.scrollIntoView({ behavior: 'auto', block: 'center' });
+              document.querySelectorAll('.folder-songs .music-item').forEach(el => el.classList.remove('playing'));
+              currentSongEl.classList.add('playing');
             }
-          }, 100);
-        } else {
-
-          const currentSongEl = listEl.querySelector(`.music-item[data-uid="${currentSongUID}"]`);
+          }
+        }
+      }
+    } else if (currentView === 'genre') {
+      genreView.style.display = 'block';
+      if (currentSongUID) {
+        const genreTitle = Array.from(document.querySelectorAll('.genre-title'))
+          .find(el => {
+            const genreSongs = el.nextElementSibling;
+            if (genreSongs && genreSongs.classList.contains('genre-songs')) {
+              return genreSongs.querySelector(`.music-item[data-uid="${currentSongUID}"]`);
+            }
+            return false;
+          });
+        if (genreTitle) {
+          const genreSongsEl = genreTitle.nextElementSibling;
+          genreSongsEl.style.display = 'block';
+          const currentSongEl = genreSongsEl.querySelector(`.music-item[data-uid="${currentSongUID}"]`);
           if (currentSongEl) {
-
             currentSongEl.scrollIntoView({ behavior: 'auto', block: 'center' });
-            
-
-            document.querySelectorAll('.folder-songs .music-item').forEach(el => {
-              el.classList.remove('playing');
-            });
+            document.querySelectorAll('.genre-songs .music-item').forEach(el => el.classList.remove('playing'));
             currentSongEl.classList.add('playing');
           }
         }
       }
     }
-  } else if (currentView === 'genre') {
-    genreView.style.display = 'block';
-    
-    if (currentSongUID) {
-      const genreTitle = Array.from(document.querySelectorAll('.genre-title'))
-        .find(el => {
-          const genreSongs = el.nextElementSibling;
-          if (genreSongs && genreSongs.classList.contains('genre-songs')) {
-            return genreSongs.querySelector(`.music-item[data-uid="${currentSongUID}"]`);
-          }
-          return false;
-        });
-      
-      if (genreTitle) {
-        const genreSongsEl = genreTitle.nextElementSibling;
-        genreSongsEl.style.display = 'block';
-        
-        const currentSongEl = genreSongsEl.querySelector(`.music-item[data-uid="${currentSongUID}"]`);
-        if (currentSongEl) {
-
-          currentSongEl.scrollIntoView({ behavior: 'auto', block: 'center' });
-          
-
-          document.querySelectorAll('.genre-songs .music-item').forEach(el => {
-            el.classList.remove('playing');
-          });
-          currentSongEl.classList.add('playing');
-        }
-      }
-    }
-  }
+  }, 350);
 });
 // --------------------
 // Play/Pause
