@@ -742,3 +742,15 @@ h1 {
     font-size: 20px; /* Mobile friendly */
   }
 }
+
+
+/* Mini Player Swipe Up Animation */
+.mini-player.swipe-hint {
+  animation: swipeHint 0.4s ease;
+}
+
+@keyframes swipeHint {
+  0%   { transform: translateX(-50%) translateY(0); }
+  40%  { transform: translateX(-50%) translateY(-18px); }
+  100% { transform: translateX(-50%) translateY(0); }
+}
