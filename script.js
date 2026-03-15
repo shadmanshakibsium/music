@@ -622,7 +622,7 @@ fsCloseBtn.addEventListener('click', () => {
         }
       }
     }
-  }, 80);
+  }, 0);
 });
 // --------------------
 // Play/Pause
