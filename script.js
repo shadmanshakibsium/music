@@ -196,11 +196,11 @@ function loadAllSongs() {
   const promises = types.map(lang =>
     fetch(`data/${lang}.json`)
       .then(res => res.json())
-      .then(data => data.map(song => ({   ...song,   folder: lang,   uid: `${lang}/${song.file}` })))
+      .then(data => data.map(song => ({ ...song, folder: lang, uid: `${lang}/${song.file}` })))
       .catch(err => { console.error(`Failed to load ${lang}.json`, err); return []; })
   );
 
-  Promise.all(promises).then(results => {
+  return Promise.all(promises).then(results => {
     musicData = results.flat();
     musicData.sort((a,b) => a.name.localeCompare(b.name));
     filteredData = [...musicData];
@@ -442,8 +442,9 @@ function playSong(index, resetFuture = true) {
   if (isShuffle && resetFuture) futureStack = [];
 
   // 🎵 Set Audio Source
-  fsAudio.src = `songs/${song.folder}/${song.file}`;
-  fsAudio.play();
+fsAudio.src = `songs/${song.folder}/${song.file}`;
+localStorage.setItem('lastSong', JSON.stringify({ uid: song.uid, time: 0 }));
+fsAudio.play();
 
   // 🎵 Set Cover
   if (fsCover) {
@@ -703,12 +704,13 @@ fsAudio.addEventListener('ended', ()=>{
 // --------------------
 // Progress Bar
 // --------------------
-fsAudio.addEventListener('timeupdate', ()=>{
-  if(fsAudio.duration){
-    const percent = (fsAudio.currentTime/fsAudio.duration)*100;
-    progressFilled.style.width = percent+'%';
+fsAudio.addEventListener('timeupdate', () => {
+  if (fsAudio.duration) {
+    const percent = (fsAudio.currentTime / fsAudio.duration) * 100;
+    progressFilled.style.width = percent + '%';
     currentTimeEl.textContent = formatTime(fsAudio.currentTime);
     durationEl.textContent = formatTime(fsAudio.duration);
+    localStorage.setItem('lastSong', JSON.stringify({ uid: currentSongUID, time: fsAudio.currentTime }));
   }
 });
 let isDraggingProgress = false;
@@ -815,7 +817,20 @@ tabs.forEach(tab => {
 // --------------------
 // Initial Load
 // --------------------
-loadAllSongs();
+loadAllSongs().then(() => {
+  const saved = localStorage.getItem('lastSong');
+  if (saved) {
+    const { uid, time } = JSON.parse(saved);
+    const index = filteredData.findIndex(s => s.uid === uid);
+    if (index !== -1) {
+      playSong(index);
+      fsAudio.addEventListener('loadedmetadata', () => {
+        fsAudio.currentTime = time;
+        fsAudio.pause();
+      }, { once: true });
+    }
+  }
+});
 
 // --------------------
 // animateCountUp
