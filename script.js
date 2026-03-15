@@ -503,19 +503,41 @@ function updatePlayButton(){
 // --------------------
 // Mini → Fullscreen
 // --------------------
+let touchStartY = null;
+
+miniPlayer.addEventListener('touchstart', (e) => {
+  touchStartY = e.touches[0].clientY;
+});
+
+miniPlayer.addEventListener('touchend', (e) => {
+  if (touchStartY === null) return;
+  const deltaY = touchStartY - e.changedTouches[0].clientY;
+
+  if (deltaY > 40) {
+    // Swipe Up — fullscreen খুলবে
+    miniPlayer.classList.add('swipe-hint');
+    setTimeout(() => miniPlayer.classList.remove('swipe-hint'), 400);
+
+    fullscreenPlayer.style.display = 'flex';
+    miniPlayer.style.display = 'none';
+    document.querySelector('.site-header').style.display = 'none';
+    document.querySelector('.tabs').style.display = 'none';
+    allSongsView.style.display = 'none';
+    foldersView.style.display = 'none';
+    genreView.style.display = 'none';
+  }
+  touchStartY = null;
+});
+
 miniPlayer.addEventListener('click', () => {
   fullscreenPlayer.style.display = 'flex';
   miniPlayer.style.display = 'none';
-
   document.querySelector('.site-header').style.display = 'none';
   document.querySelector('.tabs').style.display = 'none';
-
   allSongsView.style.display = 'none';
   foldersView.style.display = 'none';
   genreView.style.display = 'none';
 });
-
-
 // --------------------
 // Close fullscreen (Updated - no smooth animation)
 // --------------------
