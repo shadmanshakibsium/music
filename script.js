@@ -679,16 +679,14 @@ fsShuffleBtn.addEventListener('click', ()=>{
 });
 
 
-fsRepeatBtn.addEventListener('click', ()=>{
-  if(repeatMode==='none') repeatMode='all';
-  else if(repeatMode==='all') repeatMode='one';
-  else repeatMode='none';
+fsRepeatBtn.addEventListener('click', () => {
+  if (repeatMode === 'none') repeatMode = 'one';
+  else repeatMode = 'none';
   updateRepeatUI();
 });
-function updateRepeatUI(){
-  fsRepeatBtn.style.color = repeatMode==='none'?'white':(repeatMode==='all'?'#fcb045':'#ff6b6b');
+function updateRepeatUI() {
+  fsRepeatBtn.style.color = repeatMode === 'none' ? 'white' : '#ff6b6b';
 }
-
 // --------------------
 // Auto Next / Repeat
 // --------------------
