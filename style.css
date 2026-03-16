@@ -614,7 +614,7 @@ h1 {
 /* Mobile */
 @media(max-width: 450px){
   #fs-cover {
-    max-width: 250px;  
+    max-width: 320px;  
     aspect-ratio: 1/1;
   }
 }
