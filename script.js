@@ -845,13 +845,14 @@ loadAllSongs().then(() => {
 // --------------------
 // animateCountUp
 // --------------------
-function animateCountUp(element, target, duration = 6700) {
+function animateCountUp(element, target, duration = 2000) {
   let startTime = null;
 
   function step(timestamp) {
     if (!startTime) startTime = timestamp;
     const progress = Math.min((timestamp - startTime) / duration, 1);
-    const current = Math.floor(progress * target);
+    const ease = 1 - Math.pow(1 - progress, 3); // easeOutCubic
+    const current = Math.floor(ease * target);
     element.textContent = `Total Songs: ${current}`;
     if (progress < 1) {
       requestAnimationFrame(step);
