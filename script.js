@@ -161,38 +161,7 @@ function setupLongPressForItem(li, song) {
 }
 
 function showSongOptions(song) {
-  const existing = document.getElementById('song-options-modal');
-  if (existing) existing.remove();
-
-  const modal = document.createElement('div');
-  modal.id = 'song-options-modal';
-  modal.className = 'song-options-modal';
-  modal.innerHTML = `
-    <div class="song-options-card">
-      <img class="options-cover" 
-        src="${song.cover ? `covers/${song.folder}/${song.cover}` : getRandomFallbackCover()}" 
-        onerror="this.src='${getRandomFallbackCover()}'" alt="Cover">
-      <div class="options-name">${song.name || 'Unknown'}</div>
-      <div class="options-artist">${song.artist || 'Unknown Artist'}</div>
-      <div class="options-buttons">
-        <button class="options-btn" id="opt-info"><i class="fas fa-info-circle"></i> Info</button>
-        <button class="options-btn" id="opt-queue"><i class="fas fa-list-ul"></i> Add to Queue</button>
-      </div>
-      <button class="options-close"><i class="fas fa-times"></i></button>
-    </div>
-  `;
-  document.body.appendChild(modal);
-
-  modal.querySelector('#opt-info').addEventListener('click', () => {
-    modal.remove();
-    showMetadata(song);
-  });
-  modal.querySelector('#opt-queue').addEventListener('click', () => {
-    addToQueue(song);
-    modal.remove();
-  });
-  modal.querySelector('.options-close').addEventListener('click', () => modal.remove());
-  modal.addEventListener('click', (e) => { if (e.target === modal) modal.remove(); });
+  showMetadata(song);
 }
 
 function addToQueue(song) {
@@ -510,8 +479,14 @@ function toggleFolder(folderName, folderEl) {
         const li = document.createElement('li');
         li.classList.add('music-item');
         li.setAttribute('data-uid', song.uid);
-        li.innerHTML = `<div class="info"><span class="title">${song.name}</span></div>`;
-
+       li.innerHTML = `
+        <div class="info"><span class="title">${song.name}</span></div>
+        <button class="add-queue-btn" title="Add to Queue"><i class="fas fa-plus"></i></button>`;
+      
+      li.querySelector('.add-queue-btn').addEventListener('click', (e) => {
+        e.stopPropagation();
+        addToQueue(song);
+      });
         setupLongPressForItem(li, song);
 
         // 🎯 HIGHLIGHT currently playing song
@@ -602,8 +577,14 @@ function loadGenreView() {
           const li = document.createElement('li');
           li.classList.add('music-item');
           li.setAttribute('data-uid', song.uid);
-          li.innerHTML = `<div class="info"><span class="title">${song.name}</span></div>`;
-
+        li.innerHTML = `
+          <div class="info"><span class="title">${song.name}</span></div>
+          <button class="add-queue-btn" title="Add to Queue"><i class="fas fa-plus"></i></button>`;
+        
+        li.querySelector('.add-queue-btn').addEventListener('click', (e) => {
+          e.stopPropagation();
+          addToQueue(song);
+        });
           setupLongPressForItem(li, song);
 
           // 🎯 HIGHLIGHT currently playing song
@@ -644,11 +625,17 @@ function renderMusicList() {
     });
 
     li.setAttribute('data-uid', song.uid);
-    li.innerHTML = `
+li.innerHTML = `
       <div class="info">
         <span class="title">${song.name}</span>
         <span style="font-size:12px; color:rgba(255,255,255,0.5); margin-left:8px;">[${song.folder}]</span>
-      </div>`;
+      </div>
+      <button class="add-queue-btn" title="Add to Queue"><i class="fas fa-plus"></i></button>`;
+
+li.querySelector('.add-queue-btn').addEventListener('click', (e) => {
+  e.stopPropagation();
+  addToQueue(song);
+});
 
     if (song.uid === currentSongUID) {
       li.classList.add('playing');
