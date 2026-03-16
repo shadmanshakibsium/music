@@ -1027,7 +1027,7 @@ h1 {
   background: none;
   border: none;
   color: rgba(255, 255, 255, 0.5);
-  font-size: 16px;
+  font-size: 12px;
   cursor: pointer;
   border-radius: 50%;
   flex-shrink: 0;
@@ -1035,8 +1035,8 @@ h1 {
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 32px;
-  height: 32px;
+  width: 24px;
+  height: 24px;
 }
 
 .add-queue-btn:hover,
