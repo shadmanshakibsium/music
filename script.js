@@ -1153,7 +1153,6 @@ metaClose.addEventListener('click', () => {
   metaModal.style.display = 'none';
 });
 
-
 window.addEventListener('DOMContentLoaded', () => {
   fsQueueControlBtn.addEventListener('click', (e) => {
     e.stopPropagation();
@@ -1168,8 +1167,9 @@ window.addEventListener('DOMContentLoaded', () => {
 
   document.addEventListener('click', (e) => {
     const popup = document.getElementById('queue-popup');
-    if (popup && !popup.contains(e.target) && e.target.id !== 'fs-queue-btn') {
+    if (popup && popup.classList.contains('open') && !popup.contains(e.target) && e.target.id !== 'fs-queue-btn') {
       popup.classList.remove('open');
+      fsCover.style.display = 'block';
     }
   });
 });
