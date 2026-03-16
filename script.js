@@ -825,18 +825,7 @@ tabs.forEach(tab => {
 // Initial Load
 // --------------------
 loadAllSongs().then(() => {
-  const saved = localStorage.getItem('lastSong');
-  if (saved) {
-    const { uid, time } = JSON.parse(saved);
-    const index = filteredData.findIndex(s => s.uid === uid);
-    if (index !== -1) {
-      playSong(index);
-      fsAudio.addEventListener('loadedmetadata', () => {
-        fsAudio.currentTime = time;
-        fsAudio.pause();
-      }, { once: true });
-    }
-  }
+  window.scrollTo({ top: 0, behavior: 'auto' });
 });
 
 // --------------------
