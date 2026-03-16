@@ -209,7 +209,7 @@ function loadAllSongs() {
     // সব load হওয়ার পরে count শুরু
     const songCountEl = document.getElementById('songCount');
     if (songCountEl) {
-      animateCountUp(songCountEl, filteredData.length, 2000);
+      animateCountUp(songCountEl, filteredData.length, 6000);
     }
   });
 }
