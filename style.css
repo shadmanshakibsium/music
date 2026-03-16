@@ -392,7 +392,7 @@ h1 {
 .fullscreen-player {
   position: fixed;
   top: 0; left: 0; width: 100%; height: 100%;
-  background: rgba(0, 0, 0, 0.15); /* এটাই fix */
+  background: transparent;
   display: none;
   flex-direction: column;
   justify-content: center;
@@ -537,14 +537,15 @@ h1 {
   gap:14px;
   color:white;
 }
-#fs-volume{
-  width:120px;
-  cursor:pointer;
-  -webkit-appearance:none;
-  height:5px;
+#fs-volume {
+  width: 120px;
+  cursor: pointer;
+  appearance: none; 
+  -webkit-appearance: none;   
+  height: 5px;
   background: rgba(255,255,255,0.3);
-  border-radius:6px;
-  outline:none;
+  border-radius: 6px;
+  outline: none;
 }
 #fs-volume:hover{background: rgba(255,255,255,0.5);}
 #fs-volume::-webkit-slider-thumb{
@@ -763,10 +764,10 @@ h1 {
   to   { transform: translateY(100%); opacity: 0; }
 }
 
-.fullscreen-player.slide-up {
+.fullscreen-player.slide-up .container {
   animation: slideUp 0.28s cubic-bezier(0.16, 1, 0.3, 1) forwards;
 }
 
-.fullscreen-player.slide-down {
+.fullscreen-player.slide-down .container {
   animation: slideDown 0.28s cubic-bezier(0.16, 1, 0.3, 1) forwards;
 }
