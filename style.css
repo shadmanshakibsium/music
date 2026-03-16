@@ -769,5 +769,5 @@ h1 {
 }
 
 .fullscreen-player.slide-down .container {
-  animation: slideDown 1.5s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  animation: slideDown 2s cubic-bezier(0.16, 1, 0.3, 1) forwards;
 }
