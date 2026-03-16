@@ -529,14 +529,16 @@ h1 {
 .control-btn.active{ box-shadow:0 0 20px rgba(255,107,107,0.9); }
 
 /* Volume */
-#volume-container{
-  margin:16px 0;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  gap:14px;
-  color:white;
+#volume-container {
+  margin: 16px 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 14px;
+  color: white;
+  position: relative;
 }
+
 #fs-volume {
   width: 120px;
   cursor: pointer;
@@ -769,5 +771,243 @@ h1 {
 }
 
 .fullscreen-player.slide-down .container {
-  animation: slideDown 2s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  animation: slideDown 1.5s cubic-bezier(0.16, 1, 0.3, 1) forwards;
 }
+
+
+/* --------------------
+   Song Options Modal
+-------------------- */
+.song-options-modal {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.6);
+  backdrop-filter: blur(6px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 10000;
+}
+.song-options-card {
+  background: rgba(255,255,255,0.12);
+  backdrop-filter: blur(12px);
+  border-radius: 20px;
+  padding: 22px 20px;
+  width: 90%;
+  max-width: 300px;
+  text-align: center;
+  color: white;
+  position: relative;
+}
+.options-cover {
+  width: 130px;
+  height: 130px;
+  object-fit: cover;
+  border-radius: 12px;
+  margin-bottom: 12px;
+}
+.options-name {
+  font-size: 15px;
+  font-weight: 700;
+  margin-bottom: 4px;
+}
+.options-artist {
+  font-size: 13px;
+  opacity: 0.7;
+  margin-bottom: 16px;
+}
+.options-buttons {
+  display: flex;
+  gap: 10px;
+  justify-content: center;
+}
+.options-btn {
+  padding: 9px 16px;
+  border-radius: 20px;
+  border: none;
+  background: rgba(255,255,255,0.18);
+  color: white;
+  font-size: 13px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+.options-btn:hover { background: rgba(255,255,255,0.3); }
+.options-close {
+  position: absolute;
+  top: 10px;
+  right: 12px;
+  background: none;
+  border: none;
+  color: rgba(255,255,255,0.6);
+  font-size: 16px;
+  cursor: pointer;
+}
+
+/* --------------------
+   Queue Toggle Button
+-------------------- */
+.queue-toggle-btn {
+  position: absolute;
+  left: 0;
+  background: rgba(255,255,255,0.15);
+  border: none;
+  color: white;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  padding: 6px 14px;
+  border-radius: 20px;
+}
+.queue-toggle-btn:hover {
+  background: rgba(255,255,255,0.25);
+}
+
+.queue-badge {
+  background: #ff6b6b;
+  color: white;
+  font-size: 11px;
+  font-weight: 700;
+  min-width: 18px;
+  height: 18px;
+  border-radius: 9px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0 4px;
+}
+
+/* --------------------
+   Queue Popup
+-------------------- */
+.queue-popup {
+  position: fixed;
+  z-index: 99999;
+  display: none;
+  width: 260px;
+  height: 300px;
+  background: rgba(255,255,255,0.12);
+  backdrop-filter: blur(10px) saturate(180%);
+  -webkit-backdrop-filter: blur(10px) saturate(180%);
+  border-radius: 20px;
+  border: 1px solid rgba(255,255,255,0.2);
+  box-shadow: 0 8px 32px rgba(0,0,0,0.45);
+  overflow: hidden;
+}
+.queue-popup.open {
+  display: block;
+}
+.queue-popup-inner {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+.queue-panel-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 14px 6px;
+  font-size: 13px;
+  font-weight: 700;
+  color: rgba(255,255,255,0.8);
+}
+.queue-panel-header button {
+  background: none;
+  border: none;
+  color: #ff6b6b;
+  font-size: 12px;
+  cursor: pointer;
+}
+.queue-popup-inner {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+.queue-list {
+  list-style: none;
+  padding: 0 8px 8px;
+  overflow-y: auto;
+  flex: 1;
+  touch-action: pan-y;
+  -webkit-overflow-scrolling: touch;
+}
+.queue-list::-webkit-scrollbar {
+  width: 4px;
+}
+.queue-list::-webkit-scrollbar-thumb {
+  background: rgba(255,255,255,0.2);
+  border-radius: 4px;
+}
+.queue-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 8px 10px;
+  border-radius: 10px;
+  background: rgba(255,255,255,0.08);
+  margin-bottom: 6px;
+  cursor: pointer;
+  font-size: 13px;
+}
+.queue-item:hover { background: rgba(255,255,255,0.15); }
+.queue-item-name {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 80%;
+}
+.queue-remove-btn {
+  background: none;
+  border: none;
+  color: rgba(255,255,255,0.5);
+  font-size: 12px;
+  cursor: pointer;
+  padding: 2px 4px;
+}
+.queue-remove-btn:hover { color: #ff6b6b; }
+.queue-empty {
+  text-align: center;
+  padding: 14px;
+  color: rgba(255,255,255,0.4);
+  font-size: 13px;
+}
+.queue-drag-handle {
+  color: rgba(255,255,255,0.4);
+  font-size: 12px;
+  cursor: grab;
+  padding-right: 8px;
+  flex-shrink: 0;
+}
+.queue-item.dragging {
+  opacity: 0.3;
+}
+.queue-item.drag-over {
+  border: 1px solid rgba(255,107,107,0.6);
+  background: rgba(255,107,107,0.1);
+}
+/* --------------------
+   Queue Toast
+-------------------- */
+#queue-toast {
+  position: fixed;
+  bottom: 90px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: rgba(88,61,145,0.9);
+  color: white;
+  padding: 10px 20px;
+  border-radius: 20px;
+  font-size: 13px;
+  z-index: 99999;
+  opacity: 0;
+  transition: opacity 0.3s;
+  pointer-events: none;
+  white-space: nowrap;
+}
+#queue-toast.show { opacity: 1; }
+#queue-toast.hide { opacity: 0; }
