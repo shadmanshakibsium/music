@@ -891,6 +891,11 @@ h1 {
   aspect-ratio: 1/1;
 }
 
+@media(max-width: 450px) {
+  #cover-queue-wrapper {
+    max-width: 250px;
+  }
+}
 
 .queue-popup {
   display: none;
