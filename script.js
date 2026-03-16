@@ -388,18 +388,13 @@ function loadGenreView() {
 function renderMusicList() {
   musicListEl.innerHTML = '';
 
-  const hasSeenAnimation = localStorage.getItem('hasSeenFadeInAnimation');
-
   filteredData.forEach((song, index) => {
     const li = document.createElement('li');
-    li.classList.add('music-item');
+    li.classList.add('music-item', 'fade-in');
 
-    if (!hasSeenAnimation) {
-      li.classList.add('fade-in');
-      li.addEventListener('animationend', () => {
-        li.classList.remove('fade-in');
-      });
-    }
+    li.addEventListener('animationend', () => {
+      li.classList.remove('fade-in');
+    });
 
     li.setAttribute('data-uid', song.uid);
     li.innerHTML = `
@@ -407,30 +402,22 @@ function renderMusicList() {
         <span class="title">${song.name}</span>
         <span style="font-size:12px; color:rgba(255,255,255,0.5); margin-left:8px;">[${song.folder}]</span>
       </div>`;
+
     if (song.uid === currentSongUID) {
-  li.classList.add('playing');
-}
+      li.classList.add('playing');
+    }
 
-
-
-    
-    // Setup long press with new function
     setupLongPressForItem(li, song);
 
     li.addEventListener('click', () => playSong(index));
     musicListEl.appendChild(li);
   });
 
-  if (!hasSeenAnimation) {
-    localStorage.setItem('hasSeenFadeInAnimation', 'true');
-  }
-
   const songCountEl = document.getElementById('songCount');
   if (songCountEl) {
     animateCountUp(songCountEl, filteredData.length, 1000);
   }
 }
-
 // --------------------
 // Play Song
 // --------------------
