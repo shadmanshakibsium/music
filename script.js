@@ -205,6 +205,12 @@ function loadAllSongs() {
     musicData.sort((a,b) => a.name.localeCompare(b.name));
     filteredData = [...musicData];
     renderMusicList();
+
+    // সব load হওয়ার পরে count শুরু
+    const songCountEl = document.getElementById('songCount');
+    if (songCountEl) {
+      animateCountUp(songCountEl, filteredData.length, 2000);
+    }
   });
 }
 
@@ -412,11 +418,6 @@ function renderMusicList() {
     li.addEventListener('click', () => playSong(index));
     musicListEl.appendChild(li);
   });
-
-  const songCountEl = document.getElementById('songCount');
-  if (songCountEl) {
-    animateCountUp(songCountEl, filteredData.length, 1000);
-  }
 }
 // --------------------
 // Play Song
