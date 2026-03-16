@@ -825,6 +825,33 @@ tabs.forEach(tab => {
 // Initial Load
 // --------------------
 loadAllSongs().then(() => {
+  const saved = localStorage.getItem('lastSong');
+  if (saved) {
+    const { uid } = JSON.parse(saved);
+    const index = filteredData.findIndex(s => s.uid === uid);
+    if (index !== -1) {
+      currentIndex = index;
+      currentSongUID = filteredData[index].uid;
+      const song = filteredData[index];
+
+      updateMiniPlayer(song.name);
+      updateFullscreenPlayer(song.name);
+
+      if (fsCover) {
+        fsCover.src = song.cover
+          ? `covers/${song.folder}/${song.cover}`
+          : getRandomFallbackCover();
+      }
+
+      fsAudio.src = `songs/${song.folder}/${song.file}`;
+
+      // Highlight করবে
+      document.querySelectorAll(`.music-item[data-uid="${currentSongUID}"]`)
+        .forEach(el => el.classList.add('playing'));
+    }
+  }
+
+  // সবসময় উপরে থাকবে
   window.scrollTo({ top: 0, behavior: 'auto' });
 });
 
