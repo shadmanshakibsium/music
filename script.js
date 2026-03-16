@@ -3,6 +3,7 @@
 // -------------------
 const types = ['anime','arabic','bangla','edit audio','electronic','english','hindi','instrumental','others','phonk','remix','slowed-reverbed','z'];
 let currentView = 'all';
+let songQueue = [];
 let musicData = [];
 let filteredData = [];
 let currentIndex = null;
@@ -96,7 +97,7 @@ function setupLongPressForItem(li, song) {
   // Desktop
   li.addEventListener('mousedown', (e) => {
     pressTimer = setTimeout(() => {
-      showMetadata(song);
+      showSongOptions(song);
     }, LONG_PRESS_TIME);
   });
   
@@ -122,7 +123,7 @@ function setupLongPressForItem(li, song) {
     
     pressTimer = setTimeout(() => {
       if (!touchMoved) {
-        showMetadata(song);
+        showSongOptions(song);
       }
     }, LONG_PRESS_TIME);
   });
@@ -157,6 +158,234 @@ function setupLongPressForItem(li, song) {
     }
   });
 }
+
+function showSongOptions(song) {
+  const existing = document.getElementById('song-options-modal');
+  if (existing) existing.remove();
+
+  const modal = document.createElement('div');
+  modal.id = 'song-options-modal';
+  modal.className = 'song-options-modal';
+  modal.innerHTML = `
+    <div class="song-options-card">
+      <img class="options-cover" 
+        src="${song.cover ? `covers/${song.folder}/${song.cover}` : getRandomFallbackCover()}" 
+        onerror="this.src='${getRandomFallbackCover()}'" alt="Cover">
+      <div class="options-name">${song.name || 'Unknown'}</div>
+      <div class="options-artist">${song.artist || 'Unknown Artist'}</div>
+      <div class="options-buttons">
+        <button class="options-btn" id="opt-info"><i class="fas fa-info-circle"></i> Info</button>
+        <button class="options-btn" id="opt-queue"><i class="fas fa-list-ul"></i> Add to Queue</button>
+      </div>
+      <button class="options-close"><i class="fas fa-times"></i></button>
+    </div>
+  `;
+  document.body.appendChild(modal);
+
+  modal.querySelector('#opt-info').addEventListener('click', () => {
+    modal.remove();
+    showMetadata(song);
+  });
+  modal.querySelector('#opt-queue').addEventListener('click', () => {
+    addToQueue(song);
+    modal.remove();
+  });
+  modal.querySelector('.options-close').addEventListener('click', () => modal.remove());
+  modal.addEventListener('click', (e) => { if (e.target === modal) modal.remove(); });
+}
+
+function addToQueue(song) {
+  songQueue.push(song);
+  showQueueToast(song.name);
+  renderQueuePanel();
+  updateQueueBadge();
+}
+
+function showQueueToast(name) {
+  let toast = document.getElementById('queue-toast');
+  if (!toast) {
+    toast = document.createElement('div');
+    toast.id = 'queue-toast';
+    document.body.appendChild(toast);
+  }
+  toast.textContent = `"${name}" added to queue`;
+  toast.classList.remove('hide');
+  toast.classList.add('show');
+  clearTimeout(toast._timer);
+  toast._timer = setTimeout(() => {
+    toast.classList.remove('show');
+    toast.classList.add('hide');
+  }, 2000);
+}
+
+function renderQueuePanel() {
+  const list = document.getElementById('queue-list');
+  if (!list) return;
+  list.innerHTML = '';
+
+  if (songQueue.length === 0) {
+    list.innerHTML = '<li class="queue-empty">Queue is empty</li>';
+    return;
+  }
+
+  songQueue.forEach((song, i) => {
+    const li = document.createElement('li');
+    li.classList.add('queue-item');
+    li.setAttribute('draggable', 'true');
+    li.dataset.index = i;
+    li.innerHTML = `
+      <span class="queue-drag-handle"><i class="fas fa-grip-lines"></i></span>
+      <span class="queue-item-name">${song.name}</span>
+      <button class="queue-remove-btn"><i class="fas fa-times"></i></button>
+    `;
+
+    // Remove button
+    li.querySelector('.queue-remove-btn').addEventListener('click', (e) => {
+      e.stopPropagation();
+      songQueue.splice(i, 1);
+      renderQueuePanel();
+      updateQueueBadge();
+    });
+
+    // Click to play
+    li.querySelector('.queue-item-name').addEventListener('click', () => {
+      const qSong = songQueue.splice(i, 1)[0];
+      const existingIdx = filteredData.findIndex(s => s.uid === qSong.uid);
+      if (existingIdx !== -1) {
+        currentIndex = existingIdx;
+      } else {
+        filteredData.splice(currentIndex + 1, 0, qSong);
+        currentIndex = currentIndex + 1;
+      }
+      playSong(currentIndex);
+      renderQueuePanel();
+      updateQueueBadge();
+    });
+
+    // ---------- Desktop Drag ----------
+    li.addEventListener('dragstart', (e) => {
+      li.classList.add('dragging');
+      e.dataTransfer.effectAllowed = 'move';
+      e.dataTransfer.setData('text/plain', i);
+    });
+    li.addEventListener('dragend', () => {
+      li.classList.remove('dragging');
+      document.querySelectorAll('.queue-item').forEach(el => el.classList.remove('drag-over'));
+    });
+    li.addEventListener('dragover', (e) => {
+      e.preventDefault();
+      document.querySelectorAll('.queue-item').forEach(el => el.classList.remove('drag-over'));
+      li.classList.add('drag-over');
+    });
+    li.addEventListener('drop', (e) => {
+      e.preventDefault();
+      const fromIndex = parseInt(e.dataTransfer.getData('text/plain'));
+      const toIndex = parseInt(li.dataset.index);
+      if (fromIndex !== toIndex) {
+        const moved = songQueue.splice(fromIndex, 1)[0];
+        songQueue.splice(toIndex, 0, moved);
+        renderQueuePanel();
+        updateQueueBadge();
+      }
+    });
+
+    // ---------- Mobile Touch Drag ----------
+    let touchDragIndex = null;
+    let touchClone = null;
+
+    li.addEventListener('touchstart', (e) => {
+      touchDragIndex = i;
+      const touch = e.touches[0];
+
+      touchClone = li.cloneNode(true);
+      touchClone.style.cssText = `
+        position: fixed;
+        z-index: 999999;
+        width: ${li.offsetWidth}px;
+        opacity: 0.85;
+        pointer-events: none;
+        border-radius: 10px;
+        background: rgba(255,255,255,0.2);
+        top: ${touch.clientY - li.offsetHeight / 2}px;
+        left: ${li.getBoundingClientRect().left}px;
+      `;
+      document.body.appendChild(touchClone);
+      li.style.opacity = '0.3';
+    }, { passive: true });
+
+    li.addEventListener('touchmove', (e) => {
+      if (touchClone === null) return;
+      const touch = e.touches[0];
+      touchClone.style.top = (touch.clientY - li.offsetHeight / 2) + 'px';
+
+      // Find which item we're hovering over
+      touchClone.style.display = 'none';
+      const el = document.elementFromPoint(touch.clientX, touch.clientY);
+      touchClone.style.display = '';
+
+      const hoverItem = el?.closest('.queue-item');
+      document.querySelectorAll('.queue-item').forEach(el => el.classList.remove('drag-over'));
+      if (hoverItem && hoverItem !== li) {
+        hoverItem.classList.add('drag-over');
+      }
+    }, { passive: true });
+
+    li.addEventListener('touchend', (e) => {
+      if (touchClone) {
+        touchClone.remove();
+        touchClone = null;
+      }
+      li.style.opacity = '1';
+
+      const overItem = document.querySelector('.queue-item.drag-over');
+      if (overItem) {
+        const toIndex = parseInt(overItem.dataset.index);
+        overItem.classList.remove('drag-over');
+        if (touchDragIndex !== null && touchDragIndex !== toIndex) {
+          const moved = songQueue.splice(touchDragIndex, 1)[0];
+          songQueue.splice(toIndex, 0, moved);
+          renderQueuePanel();
+          updateQueueBadge();
+        }
+      }
+      touchDragIndex = null;
+    });
+
+    list.appendChild(li);
+  });
+}
+
+function toggleQueuePopup() {
+  const popup = document.getElementById('queue-popup');
+  if (!popup) return;
+  if (popup.classList.contains('open')) {
+    popup.classList.remove('open');
+  } else {
+    renderQueuePanel();
+    popup.classList.add('open');
+
+    const btn = document.getElementById('queue-toggle-btn');
+    if (btn) {
+      const rect = btn.getBoundingClientRect();
+      const popupH = 300;
+      const popupW = 260;
+
+      const top = rect.top - popupH - 8;
+      const left = rect.left;
+
+      popup.style.top = (top < 0 ? rect.bottom + 8 : top) + 'px';
+      popup.style.left = Math.min(left, window.innerWidth - popupW - 10) + 'px';
+    }
+  }
+}
+
+function updateQueueBadge() {
+  const badge = document.getElementById('queue-badge');
+  if (!badge) return;
+  badge.textContent = songQueue.length;
+  badge.style.display = songQueue.length > 0 ? 'flex' : 'none';
+}
+
 
 // --------------------
 // Show Metadata Modal
@@ -628,6 +857,21 @@ fsAudio.addEventListener('pause', ()=>{ isPlaying = false; updatePlayButton(); }
 // Next / Prev
 // --------------------
 function playNext() {
+  if (songQueue.length > 0) {
+    const nextSong = songQueue.shift();
+    const existingIdx = filteredData.findIndex(s => s.uid === nextSong.uid);
+    if (existingIdx !== -1) {
+      currentIndex = existingIdx;
+    } else {
+      filteredData.splice(currentIndex + 1, 0, nextSong);
+      currentIndex = currentIndex + 1;
+    }
+    playSong(currentIndex);
+    updateQueueBadge();
+    renderQueuePanel();
+    return;
+  }
+
   if (isShuffle) {
     if (currentIndex !== null) playHistory.push(currentIndex);
     let nextIndex;
@@ -644,7 +888,6 @@ function playNext() {
   }
   playSong(currentIndex, false);
 }
-
 
 
 function playPrev() {
@@ -689,6 +932,7 @@ function updateRepeatUI() {
 // --------------------
 fsAudio.addEventListener('ended', ()=>{
   if(repeatMode==='one') playSong(currentIndex);
+  else if (songQueue.length > 0) playNext();
   else if(repeatMode==='all') playNext();
   else {
     if(currentIndex<filteredData.length-1) playNext();
@@ -903,20 +1147,57 @@ if ('mediaSession' in navigator) {
   navigator.mediaSession.setActionHandler('nexttrack', playNext);
 }
 
-function showMetadata(song) {
-  metaName.textContent = song.name || 'Unknown';
-  metaArtist.textContent = song.artist || 'Unknown';
-  metaAlbum.textContent = song.album || 'Unknown';
-
- metaCover.src = song.cover 
-  ? `covers/${song.folder}/${song.cover}` 
-  : getRandomFallbackCover();
-
-  metaModal.style.display = 'flex';
-}
 
 metaClose.addEventListener('click', () => {
   metaModal.style.display = 'none';
+});
+
+
+window.addEventListener('DOMContentLoaded', () => {
+  const container = document.querySelector('.fullscreen-player .container');
+  if (!container) return;
+
+  const volumeContainer = document.getElementById('volume-container');
+  if (!volumeContainer) return;
+
+  const queueBtn = document.createElement('button');
+  queueBtn.className = 'queue-toggle-btn';
+  queueBtn.id = 'queue-toggle-btn';
+  queueBtn.innerHTML = `<i class="fas fa-list-ul"></i> Queue <span id="queue-badge" class="queue-badge" style="display:none;"></span>`;
+  queueBtn.addEventListener('click', (e) => {
+    e.stopPropagation();
+    toggleQueuePopup();
+  });
+
+  volumeContainer.insertBefore(queueBtn, volumeContainer.firstChild);
+
+  // Popup — container এর বাইরে body তে
+  const queuePopup = document.createElement('div');
+  queuePopup.id = 'queue-popup';
+  queuePopup.className = 'queue-popup';
+  queuePopup.innerHTML = `
+    <div class="queue-popup-inner">
+      <div class="queue-panel-header">
+        <span>Up Next</span>
+        <button id="queue-clear">Clear All</button>
+      </div>
+      <ul id="queue-list" class="queue-list"></ul>
+    </div>
+  `;
+  document.body.appendChild(queuePopup);
+
+  document.getElementById('queue-clear').addEventListener('click', () => {
+    songQueue = [];
+    renderQueuePanel();
+    updateQueueBadge();
+  });
+
+  // বাইরে click করলে বন্ধ
+  document.addEventListener('click', (e) => {
+    if (!queuePopup.contains(e.target) && e.target.id !== 'queue-toggle-btn') {
+      queuePopup.classList.remove('open');
+    }
+  });
 });
 
 
