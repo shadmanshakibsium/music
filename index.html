@@ -60,7 +60,18 @@
 <!-- Fullscreen Player -->
 <div class="fullscreen-player" id="fullscreen-player" style="display:none;">
   <div class="container">
-    <img id="fs-cover" src="" alt="Cover">
+    <div id="cover-queue-wrapper">
+  <img id="fs-cover" src="" alt="Cover">
+  <div id="queue-popup" class="queue-popup">
+    <div class="queue-popup-inner">
+      <div class="queue-panel-header">
+        <span>Up Next</span>
+        <button id="queue-clear">Clear All</button>
+      </div>
+      <ul id="queue-list" class="queue-list"></ul>
+    </div>
+  </div>
+</div>
     <div class="title" id="fs-title"><b>Song Name</b></div>
 
     <!-- Progress Bar -->
@@ -73,13 +84,18 @@
     </div>
 
     <!-- Controls -->
-    <div class="controls">
-      <button class="control-btn" id="fs-shuffle" title="Shuffle"><i class="fas fa-random"></i></button>
-      <button class="control-btn" id="fs-prev" title="Previous"><i class="fas fa-backward"></i></button>
-      <button class="control-btn play-btn" id="fs-play" title="Play/Pause"><i class="fas fa-play" id="fs-play-icon"></i></button>
-      <button class="control-btn" id="fs-next" title="Next"><i class="fas fa-forward"></i></button>
-      <button class="control-btn" id="fs-repeat" title="Repeat"><i class="fas fa-redo" id="fs-repeat-icon"></i></button>
-    </div>
+<div class="controls">
+  <button class="control-btn" id="fs-cycle" title="Off">
+    <i class="fas fa-random" id="fs-cycle-icon"></i>
+  </button>
+  <button class="control-btn" id="fs-prev" title="Previous"><i class="fas fa-backward"></i></button>
+  <button class="control-btn play-btn" id="fs-play" title="Play/Pause"><i class="fas fa-play" id="fs-play-icon"></i></button>
+  <button class="control-btn" id="fs-next" title="Next"><i class="fas fa-forward"></i></button>
+  <button class="control-btn" id="fs-queue-btn" title="Queue">
+    <i class="fas fa-list-ul"></i>
+    <span id="queue-badge" class="queue-badge" style="display:none;"></span>
+  </button>
+</div>
 
     <!-- Volume -->
     <div id="volume-container">
