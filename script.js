@@ -232,10 +232,10 @@ function renderQueuePanel() {
   songQueue.forEach((song, i) => {
     const li = document.createElement('li');
     li.classList.add('queue-item');
-    li.setAttribute('draggable', 'true');
     li.dataset.index = i;
+
     li.innerHTML = `
-      <span class="queue-drag-handle"><i class="fas fa-grip-lines"></i></span>
+      <span class="queue-drag-handle" data-handle="true"><i class="fas fa-grip-lines"></i></span>
       <span class="queue-item-name">${song.name}</span>
       <button class="queue-remove-btn"><i class="fas fa-times"></i></button>
     `;
@@ -248,7 +248,7 @@ function renderQueuePanel() {
       updateQueueBadge();
     });
 
-    // Click to play
+    // Click to play (only on name, not handle)
     li.querySelector('.queue-item-name').addEventListener('click', () => {
       const qSong = songQueue.splice(i, 1)[0];
       const existingIdx = filteredData.findIndex(s => s.uid === qSong.uid);
@@ -263,7 +263,8 @@ function renderQueuePanel() {
       updateQueueBadge();
     });
 
-    // ---------- Desktop Drag ----------
+    // -------- Desktop Drag (unchanged) --------
+    li.setAttribute('draggable', 'true');
     li.addEventListener('dragstart', (e) => {
       li.classList.add('dragging');
       e.dataTransfer.effectAllowed = 'move';
@@ -290,36 +291,46 @@ function renderQueuePanel() {
       }
     });
 
-    // ---------- Mobile Touch Drag ----------
-    let touchDragIndex = null;
+    // -------- Mobile Touch Drag (handle-only) --------
+    const handle = li.querySelector('.queue-drag-handle');
+    let isDragging = false;
     let touchClone = null;
+    let dragFromIndex = null;
 
-    li.addEventListener('touchstart', (e) => {
-      touchDragIndex = i;
+    handle.addEventListener('touchstart', (e) => {
+      e.stopPropagation(); // list scroll বন্ধ করবে না
+      isDragging = true;
+      dragFromIndex = i;
       const touch = e.touches[0];
 
+      // Visual clone তৈরি
       touchClone = li.cloneNode(true);
       touchClone.style.cssText = `
         position: fixed;
         z-index: 999999;
         width: ${li.offsetWidth}px;
-        opacity: 0.85;
+        opacity: 0.9;
         pointer-events: none;
         border-radius: 10px;
-        background: rgba(255,255,255,0.2);
+        background: rgba(255,255,255,0.15);
+        backdrop-filter: blur(6px);
+        box-shadow: 0 4px 20px rgba(0,0,0,0.4);
         top: ${touch.clientY - li.offsetHeight / 2}px;
         left: ${li.getBoundingClientRect().left}px;
+        transition: none;
       `;
       document.body.appendChild(touchClone);
       li.style.opacity = '0.3';
     }, { passive: true });
 
-    li.addEventListener('touchmove', (e) => {
-      if (touchClone === null) return;
+    handle.addEventListener('touchmove', (e) => {
+      if (!isDragging || !touchClone) return;
+      e.preventDefault(); // scroll block করবে drag-এর সময়
+
       const touch = e.touches[0];
       touchClone.style.top = (touch.clientY - li.offsetHeight / 2) + 'px';
 
-      // Find which item we're hovering over
+      // কোন item-এর উপরে আছি
       touchClone.style.display = 'none';
       const el = document.elementFromPoint(touch.clientX, touch.clientY);
       touchClone.style.display = '';
@@ -329,9 +340,12 @@ function renderQueuePanel() {
       if (hoverItem && hoverItem !== li) {
         hoverItem.classList.add('drag-over');
       }
-    }, { passive: true });
+    }, { passive: false });
 
-    li.addEventListener('touchend', (e) => {
+    handle.addEventListener('touchend', () => {
+      if (!isDragging) return;
+      isDragging = false;
+
       if (touchClone) {
         touchClone.remove();
         touchClone = null;
@@ -342,14 +356,22 @@ function renderQueuePanel() {
       if (overItem) {
         const toIndex = parseInt(overItem.dataset.index);
         overItem.classList.remove('drag-over');
-        if (touchDragIndex !== null && touchDragIndex !== toIndex) {
-          const moved = songQueue.splice(touchDragIndex, 1)[0];
+        if (dragFromIndex !== null && dragFromIndex !== toIndex) {
+          const moved = songQueue.splice(dragFromIndex, 1)[0];
           songQueue.splice(toIndex, 0, moved);
           renderQueuePanel();
           updateQueueBadge();
         }
       }
-      touchDragIndex = null;
+      dragFromIndex = null;
+    });
+
+    handle.addEventListener('touchcancel', () => {
+      isDragging = false;
+      if (touchClone) { touchClone.remove(); touchClone = null; }
+      li.style.opacity = '1';
+      document.querySelectorAll('.queue-item').forEach(el => el.classList.remove('drag-over'));
+      dragFromIndex = null;
     });
 
     list.appendChild(li);
