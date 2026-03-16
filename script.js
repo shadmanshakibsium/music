@@ -361,9 +361,11 @@ function toggleQueuePopup() {
   if (!popup) return;
   if (popup.classList.contains('open')) {
     popup.classList.remove('open');
+    fsCover.style.display = 'block';
   } else {
     renderQueuePanel();
     popup.classList.add('open');
+    fsCover.style.display = 'none';
   }
 }
 
