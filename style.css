@@ -897,9 +897,6 @@ h1 {
   position: absolute;
   inset: 0;
   border-radius: 15px;
-  background: rgba(255,255,255,0.12);
-  backdrop-filter: blur(8px) saturate(180%);
-  -webkit-backdrop-filter: blur(8px) saturate(180%);
   overflow: hidden;
   z-index: 10;
 }
