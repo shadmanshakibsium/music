@@ -1020,3 +1020,27 @@ h1 {
 }
 #queue-toast.show { opacity: 1; }
 #queue-toast.hide { opacity: 0; }
+
+
+
+.add-queue-btn {
+  background: none;
+  border: none;
+  color: rgba(255, 255, 255, 0.5);
+  font-size: 16px;
+  cursor: pointer;
+  border-radius: 50%;
+  flex-shrink: 0;
+  transition: color 0.2s, background 0.2s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+}
+
+.add-queue-btn:hover,
+.add-queue-btn:active {
+  color: #ff6b6b;
+  background: rgba(255, 107, 107, 0.15);
+}
