@@ -37,8 +37,9 @@ const fsAudio = document.getElementById('fs-audio');
 const fsPlayBtn = document.getElementById('fs-play');
 const fsPrevBtn = document.getElementById('fs-prev');
 const fsNextBtn = document.getElementById('fs-next');
-const fsShuffleBtn = document.getElementById('fs-shuffle');
-const fsRepeatBtn = document.getElementById('fs-repeat');
+const fsCycleBtn = document.getElementById('fs-cycle');
+const fsCycleIcon = document.getElementById('fs-cycle-icon');
+const fsQueueControlBtn = document.getElementById('fs-queue-btn');
 const fsCloseBtn = document.getElementById('fs-close');
 const progressFilled = document.getElementById('progress-filled');
 const currentTimeEl = document.getElementById('current-time');
@@ -363,19 +364,6 @@ function toggleQueuePopup() {
   } else {
     renderQueuePanel();
     popup.classList.add('open');
-
-    const btn = document.getElementById('queue-toggle-btn');
-    if (btn) {
-      const rect = btn.getBoundingClientRect();
-      const popupH = 300;
-      const popupW = 260;
-
-      const top = rect.top - popupH - 8;
-      const left = rect.left;
-
-      popup.style.top = (top < 0 ? rect.bottom + 8 : top) + 'px';
-      popup.style.left = Math.min(left, window.innerWidth - popupW - 10) + 'px';
-    }
   }
 }
 
@@ -908,24 +896,35 @@ fsPrevBtn.addEventListener('click', playPrev);
 // --------------------
 // Shuffle & Repeat
 // --------------------
-fsShuffleBtn.addEventListener('click', ()=>{
-  isShuffle = !isShuffle;
-
-  if (!isShuffle) {
+fsCycleBtn.addEventListener('click', () => {
+  if (!isShuffle && repeatMode === 'none') {
+    isShuffle = true;
+    repeatMode = 'none';
+  } else if (isShuffle && repeatMode === 'none') {
+    isShuffle = false;
+    repeatMode = 'one';
+  } else {
+    isShuffle = false;
+    repeatMode = 'none';
     playHistory = [];
   }
-
-  fsShuffleBtn.style.color = isShuffle ? '#ff6b6b' : 'white';
+  updateCycleUI();
 });
 
-
-fsRepeatBtn.addEventListener('click', () => {
-  if (repeatMode === 'none') repeatMode = 'one';
-  else repeatMode = 'none';
-  updateRepeatUI();
-});
-function updateRepeatUI() {
-  fsRepeatBtn.style.color = repeatMode === 'none' ? 'white' : '#ff6b6b';
+function updateCycleUI() {
+  if (isShuffle) {
+    fsCycleIcon.className = 'fas fa-random';
+    fsCycleBtn.style.color = '#ff6b6b';
+    fsCycleBtn.title = 'Shuffle ON';
+  } else if (repeatMode === 'one') {
+    fsCycleIcon.className = 'fas fa-redo';
+    fsCycleBtn.style.color = '#ff6b6b';
+    fsCycleBtn.title = 'Repeat ON';
+  } else {
+    fsCycleIcon.className = 'fas fa-random';
+    fsCycleBtn.style.color = 'white';
+    fsCycleBtn.title = 'Off';
+  }
 }
 // --------------------
 // Auto Next / Repeat
@@ -1154,37 +1153,10 @@ metaClose.addEventListener('click', () => {
 
 
 window.addEventListener('DOMContentLoaded', () => {
-  const container = document.querySelector('.fullscreen-player .container');
-  if (!container) return;
-
-  const volumeContainer = document.getElementById('volume-container');
-  if (!volumeContainer) return;
-
-  const queueBtn = document.createElement('button');
-  queueBtn.className = 'queue-toggle-btn';
-  queueBtn.id = 'queue-toggle-btn';
-  queueBtn.innerHTML = `<i class="fas fa-list-ul"></i> Queue <span id="queue-badge" class="queue-badge" style="display:none;"></span>`;
-  queueBtn.addEventListener('click', (e) => {
+  fsQueueControlBtn.addEventListener('click', (e) => {
     e.stopPropagation();
     toggleQueuePopup();
   });
-
-  volumeContainer.insertBefore(queueBtn, volumeContainer.firstChild);
-
-  // Popup — container এর বাইরে body তে
-  const queuePopup = document.createElement('div');
-  queuePopup.id = 'queue-popup';
-  queuePopup.className = 'queue-popup';
-  queuePopup.innerHTML = `
-    <div class="queue-popup-inner">
-      <div class="queue-panel-header">
-        <span>Up Next</span>
-        <button id="queue-clear">Clear All</button>
-      </div>
-      <ul id="queue-list" class="queue-list"></ul>
-    </div>
-  `;
-  document.body.appendChild(queuePopup);
 
   document.getElementById('queue-clear').addEventListener('click', () => {
     songQueue = [];
@@ -1192,14 +1164,13 @@ window.addEventListener('DOMContentLoaded', () => {
     updateQueueBadge();
   });
 
-  // বাইরে click করলে বন্ধ
   document.addEventListener('click', (e) => {
-    if (!queuePopup.contains(e.target) && e.target.id !== 'queue-toggle-btn') {
-      queuePopup.classList.remove('open');
+    const popup = document.getElementById('queue-popup');
+    if (popup && !popup.contains(e.target) && e.target.id !== 'fs-queue-btn') {
+      popup.classList.remove('open');
     }
   });
 });
-
 
 const infoLogo = document.getElementById('info-logo');
 const aboutModal = document.getElementById('about-modal');
