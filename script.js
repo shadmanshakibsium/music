@@ -169,6 +169,10 @@ function addToQueue(song) {
   showQueueToast(song.name);
   renderQueuePanel();
   updateQueueBadge();
+  saveQueue();
+}
+function saveQueue() {
+  localStorage.setItem('songQueue', JSON.stringify(songQueue));
 }
 
 function showQueueToast(name) {
@@ -215,9 +219,10 @@ function renderQueuePanel() {
       songQueue.splice(i, 1);
       renderQueuePanel();
       updateQueueBadge();
+      saveQueue();
     });
 
-    // Click to play (only on name, not handle)
+    // Click to play
     li.querySelector('.queue-item-name').addEventListener('click', () => {
       const qSong = songQueue.splice(i, 1)[0];
       const existingIdx = filteredData.findIndex(s => s.uid === qSong.uid);
@@ -230,9 +235,10 @@ function renderQueuePanel() {
       playSong(currentIndex);
       renderQueuePanel();
       updateQueueBadge();
+      saveQueue();
     });
 
-    // -------- Desktop Drag (unchanged) --------
+    // Desktop Drag
     li.setAttribute('draggable', 'true');
     li.addEventListener('dragstart', (e) => {
       li.classList.add('dragging');
@@ -257,22 +263,22 @@ function renderQueuePanel() {
         songQueue.splice(toIndex, 0, moved);
         renderQueuePanel();
         updateQueueBadge();
+        saveQueue();
       }
     });
 
-    // -------- Mobile Touch Drag (handle-only) --------
+    // Mobile Touch Drag
     const handle = li.querySelector('.queue-drag-handle');
     let isDragging = false;
     let touchClone = null;
     let dragFromIndex = null;
 
     handle.addEventListener('touchstart', (e) => {
-      e.stopPropagation(); // list scroll বন্ধ করবে না
+      e.stopPropagation();
       isDragging = true;
       dragFromIndex = i;
       const touch = e.touches[0];
 
-      // Visual clone তৈরি
       touchClone = li.cloneNode(true);
       touchClone.style.cssText = `
         position: fixed;
@@ -294,12 +300,11 @@ function renderQueuePanel() {
 
     handle.addEventListener('touchmove', (e) => {
       if (!isDragging || !touchClone) return;
-      e.preventDefault(); // scroll block করবে drag-এর সময়
+      e.preventDefault();
 
       const touch = e.touches[0];
       touchClone.style.top = (touch.clientY - li.offsetHeight / 2) + 'px';
 
-      // কোন item-এর উপরে আছি
       touchClone.style.display = 'none';
       const el = document.elementFromPoint(touch.clientX, touch.clientY);
       touchClone.style.display = '';
@@ -330,6 +335,7 @@ function renderQueuePanel() {
           songQueue.splice(toIndex, 0, moved);
           renderQueuePanel();
           updateQueueBadge();
+          saveQueue();
         }
       }
       dragFromIndex = null;
@@ -657,32 +663,27 @@ function playSong(index, resetFuture = true) {
 
   if (isShuffle && resetFuture) futureStack = [];
 
-  // 🎵 Set Audio Source
-fsAudio.src = `songs/${song.folder}/${song.file}`;
-localStorage.setItem('lastSong', JSON.stringify({ uid: song.uid, time: 0 }));
-fsAudio.play();
+  fsAudio.src = `songs/${song.folder}/${song.file}`;
+  localStorage.setItem('lastSong', JSON.stringify({ uid: song.uid, time: fsAudio.currentTime }));
+  fsAudio.play();
 
-  // 🎵 Set Cover
   if (fsCover) {
-    fsCover.src = song.cover 
-      ? `covers/${song.folder}/${song.cover}` 
+    fsCover.src = song.cover
+      ? `covers/${song.folder}/${song.cover}`
       : getRandomFallbackCover();
   }
 
-  // 🎵 Update UI
   updateMiniPlayer(song.name);
   document.title = song.name + ' | Song Archive';
   updateFullscreenPlayer(song.name);
   updatePlayButton();
 
-  // 🎵 Highlight Playing Song
   document.querySelectorAll('.music-item.playing')
     .forEach(el => el.classList.remove('playing'));
 
   document.querySelectorAll(`.music-item[data-uid="${currentSongUID}"]`)
     .forEach(el => el.classList.add('playing'));
 
-  // 🎵 ANDROID NOTIFICATION FIX (Media Session Metadata)
   if ('mediaSession' in navigator) {
     navigator.mediaSession.metadata = new MediaMetadata({
       title: song.name || 'Unknown',
@@ -1067,9 +1068,17 @@ tabs.forEach(tab => {
 // Initial Load
 // --------------------
 loadAllSongs().then(() => {
+  // Queue restore
+  const savedQueue = localStorage.getItem('songQueue');
+  if (savedQueue) {
+    songQueue = JSON.parse(savedQueue);
+    updateQueueBadge();
+  }
+
+  // Last song restore
   const saved = localStorage.getItem('lastSong');
   if (saved) {
-    const { uid } = JSON.parse(saved);
+    const { uid, time } = JSON.parse(saved);
     const index = filteredData.findIndex(s => s.uid === uid);
     if (index !== -1) {
       currentIndex = index;
@@ -1087,13 +1096,15 @@ loadAllSongs().then(() => {
 
       fsAudio.src = `songs/${song.folder}/${song.file}`;
 
-      // Highlight করবে
+      fsAudio.addEventListener('loadedmetadata', () => {
+        fsAudio.currentTime = time || 0;
+      }, { once: true });
+
       document.querySelectorAll(`.music-item[data-uid="${currentSongUID}"]`)
         .forEach(el => el.classList.add('playing'));
     }
   }
 
-  // সবসময় উপরে থাকবে
   window.scrollTo({ top: 0, behavior: 'auto' });
 });
 
@@ -1172,6 +1183,7 @@ window.addEventListener('DOMContentLoaded', () => {
     songQueue = [];
     renderQueuePanel();
     updateQueueBadge();
+    saveQueue();
   });
 
   document.addEventListener('click', (e) => {
