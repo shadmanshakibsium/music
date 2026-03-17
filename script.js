@@ -841,6 +841,53 @@ fsCloseBtn.addEventListener('click', () => {
     }
   }, 280);
 });
+
+
+// --------------------
+// Fullscreen → Mini (Swipe Down)
+// --------------------
+let fsSwipeTouchStartY = null;
+
+fullscreenPlayer.addEventListener('touchstart', (e) => {
+  // Queue popup open থাকলে swipe কাজ করবে না
+  const popup = document.getElementById('queue-popup');
+  if (popup && popup.classList.contains('open')) return;
+
+  // Progress bar এ touch হলে swipe কাজ করবে না
+  if (e.target.closest('#progress-bar-container')) return;
+
+  fsSwipeTouchStartY = e.touches[0].clientY;
+});
+
+fullscreenPlayer.addEventListener('touchend', (e) => {
+  if (fsSwipeTouchStartY === null) return;
+
+  const deltaY = e.changedTouches[0].clientY - fsSwipeTouchStartY;
+
+  if (deltaY > 80) {
+    // নিচে swipe করলে mini player এ যাবে
+    fullscreenPlayer.classList.remove('slide-up');
+    fullscreenPlayer.classList.add('slide-down');
+
+    setTimeout(() => {
+      fullscreenPlayer.style.display = 'none';
+      fullscreenPlayer.classList.remove('slide-down');
+      miniPlayer.style.display = 'flex';
+      document.querySelector('.site-header').style.display = 'block';
+      document.querySelector('.tabs').style.display = 'flex';
+
+      allSongsView.style.display = 'none';
+      foldersView.style.display = 'none';
+      genreView.style.display = 'none';
+
+      if (currentView === 'all') allSongsView.style.display = 'block';
+      else if (currentView === 'folders') foldersView.style.display = 'block';
+      else if (currentView === 'genre') genreView.style.display = 'block';
+    }, 280);
+  }
+
+  fsSwipeTouchStartY = null;
+});
 // --------------------
 // Play/Pause
 // --------------------
