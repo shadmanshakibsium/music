@@ -1540,15 +1540,16 @@ function checkDeepLink() {
 
     const index = filteredData.findIndex(s => s.uid === songUID);
     if (index !== -1) {
-        localStorage.removeItem('lastSong'); // ← time reset
+        localStorage.removeItem('lastSong'); 
         playSong(index);
-        fsAudio.currentTime = 0; // ← শুরু থেকে বাজবে
+        fsAudio.currentTime = 0; 
         fullscreenPlayer.style.display = 'flex';
         fullscreenPlayer.classList.add('slide-up');
         miniPlayer.style.display = 'none';
         document.querySelector('.site-header').style.display = 'none';
         document.querySelector('.tabs').style.display = 'none';
         allSongsView.style.display = 'none';
+        history.replaceState(null, '', location.pathname);
     }
 }
 
