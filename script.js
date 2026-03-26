@@ -472,7 +472,7 @@ function showMetadata(song)
     const shareBtn = document.getElementById('meta-share');
     shareBtn.onclick = () => {
         navigator.clipboard.writeText(shareUrl).then(() => {
-            showQueueToast('লিংক কপি হয়েছে! ✅');
+            showToast('copied');
         });
     };
     metaModal.style.display = 'flex';
@@ -492,6 +492,25 @@ metaModal.addEventListener('click', (e) =>
         metaModal.style.display = 'none';
     }
 });
+
+
+function showToast(message) {
+    let toast = document.getElementById('queue-toast');
+    if (!toast) {
+        toast = document.createElement('div');
+        toast.id = 'queue-toast';
+        document.body.appendChild(toast);
+    }
+    toast.textContent = message;
+    toast.classList.remove('hide');
+    toast.classList.add('show');
+    clearTimeout(toast._timer);
+    toast._timer = setTimeout(() => {
+        toast.classList.remove('show');
+        toast.classList.add('hide');
+    }, 2000);
+}
+
 
 // --------------------
 // Load All Songs (A-Z) using Promise.all
