@@ -1,3 +1,13 @@
+function generateUID(str) {
+    let hash = 0;
+    for (let i = 0; i < str.length; i++) {
+        hash = (hash << 5) - hash + str.charCodeAt(i);
+        hash |= 0;
+    }
+    return Math.abs(hash).toString(36);
+}
+
+
 // -------------------
 // Variables
 // -------------------
@@ -181,9 +191,20 @@ function setupLongPressForItem(li, song)
     });
 }
 
-function showSongOptions(song)
-{
-    showMetadata(song);
+function showSongOptions(song) {
+    const url = `${location.origin}${location.pathname}?song=${song.uid}`;
+
+    if (navigator.share) {
+        navigator.share({
+            title: song.name,
+            text: `🎵 শুনুন: ${song.name}`,
+            url: url
+        });
+    } else {
+        navigator.clipboard.writeText(url).then(() => {
+            showQueueToast('লিংক কপি হয়েছে!');
+        });
+    }
 }
 
 function addToQueue(song)
@@ -489,7 +510,8 @@ function loadAllSongs()
         {
             ...song,
             folder: lang,
-            uid: `${lang}/${song.file}`
+            path: `${lang}/${song.file}`,
+            uid: generateUID(`${lang}/${song.file}`)
         })))
         .catch(err =>
         {
@@ -800,7 +822,7 @@ function playSong(index, resetFuture = true)
 
     if (isShuffle && resetFuture) futureStack = [];
 
-    fsAudio.src = `songs/${song.folder}/${song.file}`;
+    fsAudio.src = `songs/${song.path}`;
     localStorage.setItem('lastSong', JSON.stringify(
     {
         uid: song.uid,
@@ -1497,6 +1519,22 @@ tabs.forEach(tab =>
     });
 });
 
+function checkDeepLink() {
+    const params = new URLSearchParams(window.location.search);
+    const songUID = params.get('song');
+    if (!songUID) return;
+
+    const index = filteredData.findIndex(s => s.uid === songUID);
+    if (index !== -1) {
+        playSong(index);
+        fullscreenPlayer.style.display = 'flex';
+        fullscreenPlayer.classList.add('slide-up');
+        miniPlayer.style.display = 'none';
+        document.querySelector('.site-header').style.display = 'none';
+        document.querySelector('.tabs').style.display = 'none';
+        allSongsView.style.display = 'none';
+    }
+}
 
 // --------------------
 // Initial Load
@@ -1557,6 +1595,7 @@ loadAllSongs().then(() =>
         top: 0,
         behavior: 'auto'
     });
+    checkDeepLink();
 });
 
 // --------------------
