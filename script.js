@@ -471,17 +471,9 @@ function showMetadata(song)
     const shareUrl = `${location.origin}${location.pathname}?song=${song.uid}`;
     const shareBtn = document.getElementById('meta-share');
     shareBtn.onclick = () => {
-        if (navigator.share) {
-            navigator.share({
-                title: song.name,
-                text: `🎵 শুনুন: ${song.name}`,
-                url: shareUrl
-            });
-        } else {
-            navigator.clipboard.writeText(shareUrl).then(() => {
-                showQueueToast('লিংক কপি হয়েছে! ✅');
-            });
-        }
+        navigator.clipboard.writeText(shareUrl).then(() => {
+            showQueueToast('লিংক কপি হয়েছে! ✅');
+        });
     };
     metaModal.style.display = 'flex';
 }
