@@ -14,6 +14,7 @@ function generateUID(str) {
 const types = ['anime', 'arabic', 'bangla', 'edit audio', 'electronic', 'english', 'hindi', 'instrumental', 'others',
     'phonk', 'remix', 'slowed-reverbed', 'z'
 ];
+let isDeepLinkLoad = false;
 let currentView = 'all';
 let songQueue = [];
 let musicData = [];
@@ -1540,9 +1541,13 @@ function checkDeepLink() {
 
     const index = filteredData.findIndex(s => s.uid === songUID);
     if (index !== -1) {
-        localStorage.removeItem('lastSong'); 
+        isDeepLinkLoad = true;
+        localStorage.removeItem('lastSong');
         playSong(index);
-        fsAudio.currentTime = 0; 
+        fsAudio.addEventListener('loadedmetadata', () => {
+            fsAudio.currentTime = 0;
+            fsAudio.play();
+        }, { once: true });
         fullscreenPlayer.style.display = 'flex';
         fullscreenPlayer.classList.add('slide-up');
         miniPlayer.style.display = 'none';
@@ -1595,8 +1600,9 @@ loadAllSongs().then(() =>
             fsAudio.src = `songs/${song.folder}/${song.file}`;
 
             fsAudio.addEventListener('loadedmetadata', () => {
-                const isDeepLink = new URLSearchParams(window.location.search).get('song');
-                fsAudio.currentTime = isDeepLink ? 0 : (time || 0);
+                if (!isDeepLinkLoad) {
+                    fsAudio.currentTime = time || 0;
+                }
             }, { once: true });
 
             document.querySelectorAll(`.music-item[data-uid="${currentSongUID}"]`)
