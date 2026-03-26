@@ -16,6 +16,7 @@ const types = ['anime', 'arabic', 'bangla', 'edit audio', 'electronic', 'english
 ];
 let isDeepLinkLoad = false;
 let currentView = 'all';
+let hasAnimated = false;
 let songQueue = [];
 let musicData = [];
 let filteredData = [];
@@ -794,12 +795,14 @@ function renderMusicList()
     filteredData.forEach((song, index) =>
     {
         const li = document.createElement('li');
-        li.classList.add('music-item', 'fade-in');
-
-        li.addEventListener('animationend', () =>
-        {
-            li.classList.remove('fade-in');
-        });
+        li.classList.add('music-item');
+        
+        if (!hasAnimated) {
+            li.classList.add('fade-in');
+            li.addEventListener('animationend', () => {
+                li.classList.remove('fade-in');
+            }, { once: true });
+        }
 
         li.setAttribute('data-uid', song.uid);
         li.innerHTML = `
@@ -825,6 +828,7 @@ function renderMusicList()
         li.addEventListener('click', () => playSong(index));
         musicListEl.appendChild(li);
     });
+    hasAnimated = true;
 }
 // --------------------
 // Play Song
