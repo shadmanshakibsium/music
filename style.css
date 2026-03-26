@@ -1,3 +1,17 @@
+#meta-share {
+    padding: 8px 20px;
+    border-radius: 20px;
+    border: none;
+    background: rgba(255, 107, 107, 0.4);
+    color: white;
+    cursor: pointer;
+    font-size: 14px;
+}
+#meta-share:hover {
+    background: rgba(255, 107, 107, 0.6);
+}
+
+
 /* --------------------
    Global Reset & Body
 -------------------- */
