@@ -192,19 +192,7 @@ function setupLongPressForItem(li, song)
 }
 
 function showSongOptions(song) {
-    const url = `${location.origin}${location.pathname}?song=${song.uid}`;
-
-    if (navigator.share) {
-        navigator.share({
-            title: song.name,
-            text: `🎵 শুনুন: ${song.name}`,
-            url: url
-        });
-    } else {
-        navigator.clipboard.writeText(url).then(() => {
-            showQueueToast('লিংক কপি হয়েছে!');
-        });
-    }
+    showMetadata(song);
 }
 
 function addToQueue(song)
@@ -480,6 +468,21 @@ function showMetadata(song)
     metaName.textContent = song.name || 'Unknown';
     metaArtist.textContent = `Artist: ${song.artist || 'Unknown'}`;
     metaAlbum.textContent = `Album: ${song.album || 'Unknown'}`;
+    const shareUrl = `${location.origin}${location.pathname}?song=${song.uid}`;
+    const shareBtn = document.getElementById('meta-share');
+    shareBtn.onclick = () => {
+        if (navigator.share) {
+            navigator.share({
+                title: song.name,
+                text: `🎵 শুনুন: ${song.name}`,
+                url: shareUrl
+            });
+        } else {
+            navigator.clipboard.writeText(shareUrl).then(() => {
+                showQueueToast('লিংক কপি হয়েছে! ✅');
+            });
+        }
+    };
     metaModal.style.display = 'flex';
 }
 
