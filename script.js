@@ -1593,13 +1593,10 @@ loadAllSongs().then(() =>
 
             fsAudio.src = `songs/${song.folder}/${song.file}`;
 
-            fsAudio.addEventListener('loadedmetadata', () =>
-            {
-                fsAudio.currentTime = time || 0;
-            },
-            {
-                once: true
-            });
+            fsAudio.addEventListener('loadedmetadata', () => {
+                const isDeepLink = new URLSearchParams(window.location.search).get('song');
+                fsAudio.currentTime = isDeepLink ? 0 : (time || 0);
+            }, { once: true });
 
             document.querySelectorAll(`.music-item[data-uid="${currentSongUID}"]`)
                 .forEach(el => el.classList.add('playing'));
