@@ -1540,7 +1540,9 @@ function checkDeepLink() {
 
     const index = filteredData.findIndex(s => s.uid === songUID);
     if (index !== -1) {
+        localStorage.removeItem('lastSong'); // ← time reset
         playSong(index);
+        fsAudio.currentTime = 0; // ← শুরু থেকে বাজবে
         fullscreenPlayer.style.display = 'flex';
         fullscreenPlayer.classList.add('slide-up');
         miniPlayer.style.display = 'none';
