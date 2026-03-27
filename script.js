@@ -611,12 +611,13 @@ function toggleFolder(folderName, folderEl)
         .then(res => res.json())
         .then(data =>
         {
-            const folderSongs = data
-                .map(s => ({
-                    ...s,
-                    folder: folderName,
-                    uid: `${folderName}/${s.file}`,
-                    path: `${folderName}/${s.file}`   
+const folderSongs = data
+    .map(s => ({
+        ...s,
+        folder: folderName,
+        uid: `${folderName}/${s.file}`,
+        path: `${folderName}/${s.file}`
+    }))
                 .sort((a, b) => a.name.localeCompare(b.name));
 
             folderSongs.forEach((song, index) =>
@@ -692,12 +693,12 @@ function loadGenreView()
     const promises = types.map(lang =>
         fetch(`data/${lang}.json`)
         .then(res => res.json())
-        .then(data => data.map(song => (
-        {
-            ...song,
-            folder: lang,
-            uid: `${lang}/${song.file}`
-        })))
+.then(data => data.map(song => ({
+    ...song,
+    folder: lang,
+    uid: `${lang}/${song.file}`,
+    path: `${lang}/${song.file}`
+})))
         .catch(err =>
         {
             console.error(`Failed to load ${lang}.json`, err);
