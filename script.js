@@ -468,13 +468,19 @@ function showMetadata(song)
     }
 
     metaName.textContent = song.name || 'Unknown';
+    metaName.style.cursor = 'pointer';
+    metaName.onclick = () => {
+        navigator.clipboard.writeText(song.name).then(() => {
+            showToast('Name copied!');
+        });
+    };
     metaArtist.textContent = `Artist: ${song.artist || 'Unknown'}`;
     metaAlbum.textContent = `Album: ${song.album || 'Unknown'}`;
     const shareUrl = `${location.origin}${location.pathname}?song=${song.uid}`;
     const shareBtn = document.getElementById('meta-share');
     shareBtn.onclick = () => {
         navigator.clipboard.writeText(shareUrl).then(() => {
-            showToast('copied');
+            showToast('Link copied');
         });
     };
     metaModal.style.display = 'flex';
