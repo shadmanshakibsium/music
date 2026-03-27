@@ -429,46 +429,43 @@ h1 {
 
 /* Song Title */
 .fullscreen-player .container .title {
-  font-size: 22px; 
-  font-weight: 700;
-  margin-bottom: 24px;
-  letter-spacing: 0.7px;
-  white-space: nowrap;
-  overflow: hidden; 
-  text-overflow: ellipsis; 
-  text-align: center;
-}
-
-@media(max-width: 450px) {
-  .fullscreen-player .container .title {
-    font-size: 18px; 
-  }
-}
-
-
-.fullscreen-player .container .title {
-    text-align: left !important;
-    display: flex;
-    flex-direction: column;
-    gap: 4px;
+  font-size: unset;
+  font-weight: unset;
+  margin-bottom: 20px;
+  letter-spacing: unset;
+  white-space: unset;
+  overflow: unset;
+  text-overflow: unset;
+  text-align: left;
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
 }
 
 .fs-song-title {
-    font-size: 20px;
-    font-weight: 700;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    color: white;
+  font-size: 20px;
+  font-weight: 700;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  color: white;
+  display: block;
 }
 
 .fs-artist-name {
-    font-size: 13px;
-    font-weight: 400;
-    color: rgba(255, 255, 255, 0.55);
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
+  font-size: 13px;
+  font-weight: 400;
+  color: rgba(255, 255, 255, 0.55);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: block;
+}
+
+@media(max-width: 450px) {
+  .fs-song-title {
+    font-size: 17px;
+  }
 }
 
 
