@@ -539,6 +539,11 @@ function loadAllSongs()
     return Promise.all(promises).then(results =>
     {
         musicData = results.flat();
+        musicData.forEach(song => {
+            if (song.artist) song.artist = song.artist.replace(/\uFEFF/g, '').trim();
+            if (song.name) song.name = song.name.replace(/\uFEFF/g, '').trim();
+            if (song.album) song.album = song.album.replace(/\uFEFF/g, '').trim();
+        });
         musicData.sort((a, b) => a.name.localeCompare(b.name));
         filteredData = [...musicData];
         renderMusicList();
@@ -550,7 +555,6 @@ function loadAllSongs()
         }
     });
 }
-
 // --------------------
 // Load Folders
 // --------------------
