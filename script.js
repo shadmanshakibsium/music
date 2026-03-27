@@ -896,7 +896,11 @@ function updateMiniPlayer(title)
 
 function updateFullscreenPlayer(title)
 {
-    fsTitle.textContent = title;
+    const song = filteredData[currentIndex];
+    fsTitle.innerHTML = `
+        <span class="fs-song-title">${title}</span>
+        <span class="fs-artist-name">${song?.artist || 'Unknown Artist'}</span>
+    `;
 }
 
 function updatePlayButton()
