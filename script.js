@@ -612,12 +612,11 @@ function toggleFolder(folderName, folderEl)
         .then(data =>
         {
             const folderSongs = data
-                .map(s => (
-                {
+                .map(s => ({
                     ...s,
                     folder: folderName,
-                    uid: `${folderName}/${s.file}`
-                }))
+                    uid: `${folderName}/${s.file}`,
+                    path: `${folderName}/${s.file}`   
                 .sort((a, b) => a.name.localeCompare(b.name));
 
             folderSongs.forEach((song, index) =>
