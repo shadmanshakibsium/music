@@ -1760,9 +1760,9 @@ aboutModal.addEventListener('click', (e) =>
 
 
 
-// Service Worker Register
-if ('serviceWorker' in navigator) {
-  navigator.serviceWorker.register('/service-worker.js')
-    .then(() => console.log('SW registered'))
-    .catch(err => console.error('SW error:', err));
-}
+// // Service Worker Register
+// if ('serviceWorker' in navigator) {
+//   navigator.serviceWorker.register('/service-worker.js')
+//     .then(() => console.log('SW registered'))
+//     .catch(err => console.error('SW error:', err));
+// }
