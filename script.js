@@ -538,11 +538,6 @@ function loadAllSongs()
 
     return Promise.all(promises).then(results =>
     {
-        results.flat().forEach(song => {
-    if (song.artist) song.artist = song.artist.replace(/^\uFEFF/, '').trim();
-    if (song.name) song.name = song.name.replace(/^\uFEFF/, '').trim();
-    if (song.album) song.album = song.album.replace(/^\uFEFF/, '').trim();
-});
         musicData = results.flat();
         musicData.sort((a, b) => a.name.localeCompare(b.name));
         filteredData = [...musicData];
@@ -810,12 +805,11 @@ function renderMusicList()
         }
 
         li.setAttribute('data-uid', song.uid);
-    li.innerHTML = `
-          <div class="info">
-            <span class="title">${song.name}</span>
-            <span style="font-size:12px; color:rgba(255,255,255,0.5); margin-left:8px;">[${song.folder}]</span>
-            ${song.artist ? `<div style="font-size:12px; color:rgba(255,255,255,0.55); margin-top:2px;">${song.artist}</div>` : ''}
-          </div>
+        li.innerHTML = `
+      <div class="info">
+        <span class="title">${song.name}</span>
+        <span style="font-size:12px; color:rgba(255,255,255,0.5); margin-left:8px;">[${song.folder}]</span>
+      </div>
       <button class="add-queue-btn" title="Add to Queue"><i class="fas fa-plus"></i></button>`;
 
         li.querySelector('.add-queue-btn').addEventListener('click', (e) =>
@@ -1768,4 +1762,3 @@ if ('serviceWorker' in navigator) {
     .then(() => console.log('SW registered'))
     .catch(err => console.error('SW error:', err));
 }
-
