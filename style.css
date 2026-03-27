@@ -445,6 +445,36 @@ h1 {
   }
 }
 
+
+.fullscreen-player .container .title {
+    text-align: left !important;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.fs-song-title {
+    font-size: 20px;
+    font-weight: 700;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    color: white;
+}
+
+.fs-artist-name {
+    font-size: 13px;
+    font-weight: 400;
+    color: rgba(255, 255, 255, 0.55);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+
+
+
+
 /* progress wrapper */
 #progress {
   position: relative;
