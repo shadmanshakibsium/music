@@ -538,6 +538,11 @@ function loadAllSongs()
 
     return Promise.all(promises).then(results =>
     {
+        results.flat().forEach(song => {
+    if (song.artist) song.artist = song.artist.replace(/^\uFEFF/, '').trim();
+    if (song.name) song.name = song.name.replace(/^\uFEFF/, '').trim();
+    if (song.album) song.album = song.album.replace(/^\uFEFF/, '').trim();
+});
         musicData = results.flat();
         musicData.sort((a, b) => a.name.localeCompare(b.name));
         filteredData = [...musicData];
