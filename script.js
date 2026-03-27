@@ -805,11 +805,12 @@ function renderMusicList()
         }
 
         li.setAttribute('data-uid', song.uid);
-        li.innerHTML = `
-      <div class="info">
-        <span class="title">${song.name}</span>
-        <span style="font-size:12px; color:rgba(255,255,255,0.5); margin-left:8px;">[${song.folder}]</span>
-      </div>
+    li.innerHTML = `
+          <div class="info">
+            <span class="title">${song.name}</span>
+            <span style="font-size:12px; color:rgba(255,255,255,0.5); margin-left:8px;">[${song.folder}]</span>
+            ${song.artist ? `<div style="font-size:12px; color:rgba(255,255,255,0.55); margin-top:2px;">${song.artist}</div>` : ''}
+          </div>
       <button class="add-queue-btn" title="Add to Queue"><i class="fas fa-plus"></i></button>`;
 
         li.querySelector('.add-queue-btn').addEventListener('click', (e) =>
