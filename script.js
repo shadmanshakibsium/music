@@ -1013,7 +1013,8 @@ fsCloseBtn.addEventListener('click', () =>
             foldersView.style.display = 'block';
             if (currentSongUID)
             {
-                const folderName = currentSongUID.split('/')[0];
+const currentSong = filteredData[currentIndex] || musicData.find(s => s.uid === currentSongUID);
+const folderName = currentSong?.folder;
                 const folderEl = Array.from(document.querySelectorAll('.folder-title'))
                     .find(el => el.textContent === folderName);
                 if (folderEl)
@@ -1159,7 +1160,8 @@ fullscreenPlayer.addEventListener('touchend', (e) =>
                 foldersView.style.display = 'block';
                 if (currentSongUID)
                 {
-                    const folderName = currentSongUID.split('/')[0];
+const currentSong = filteredData[currentIndex] || musicData.find(s => s.uid === currentSongUID);
+const folderName = currentSong?.folder;
                     const folderEl = Array.from(document.querySelectorAll('.folder-title'))
                         .find(el => el.textContent === folderName);
                     if (folderEl)
