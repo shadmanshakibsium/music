@@ -1003,7 +1003,7 @@ fsCloseBtn.addEventListener('click', () =>
             {
                 currentSongEl.scrollIntoView(
                 {
-                    behavior: 'smooth',
+                    behavior: 'auto',
                     block: 'center'
                 });
             }
@@ -1053,7 +1053,7 @@ const folderName = currentSong?.folder;
                         {
                             currentSongEl.scrollIntoView(
                             {
-                                behavior: 'smooth',
+                                behavior: 'auto',
                                 block: 'center'
                             });
                             document.querySelectorAll('.folder-songs .music-item').forEach(el => el
@@ -1090,7 +1090,7 @@ const folderName = currentSong?.folder;
                     {
                         currentSongEl.scrollIntoView(
                         {
-                            behavior: 'smooth',
+                            behavior: 'auto',
                             block: 'center'
                         });
                         document.querySelectorAll('.genre-songs .music-item').forEach(el => el.classList
@@ -1182,7 +1182,7 @@ const folderName = currentSong?.folder;
                                     {
                                         currentSongEl.scrollIntoView(
                                         {
-                                            behavior: 'auto',
+                                            behavior: 'smooth',
                                             block: 'center'
                                         });
                                         document.querySelectorAll('.folder-songs .music-item')
@@ -1238,7 +1238,7 @@ const folderName = currentSong?.folder;
                         {
                             currentSongEl.scrollIntoView(
                             {
-                                behavior: 'auto',
+                                behavior: 'smooth',
                                 block: 'center'
                             });
                             document.querySelectorAll('.genre-songs .music-item').forEach(el => el
