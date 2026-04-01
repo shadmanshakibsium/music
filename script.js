@@ -1020,7 +1020,8 @@ const folderName = currentSong?.folder;
                 if (folderEl)
                 {
                     let listEl = folderEl.nextElementSibling;
-                    if (!listEl || !listEl.classList.contains('folder-songs') || listEl.style.display === 'none')
+                    if (!listEl || !listEl.classList.contains('folder-songs') || listEl.style
+                        .display === 'none')
                     {
                         toggleFolder(folderName, folderEl);
                         setTimeout(() =>
@@ -1034,7 +1035,7 @@ const folderName = currentSong?.folder;
                                 {
                                     currentSongEl.scrollIntoView(
                                     {
-                                        behavior: 'instant',
+                                        behavior: 'auto',
                                         block: 'center'
                                     });
                                     document.querySelectorAll('.folder-songs .music-item')
@@ -1166,7 +1167,8 @@ const folderName = currentSong?.folder;
                     if (folderEl)
                     {
                         let listEl = folderEl.nextElementSibling;
-                        if (!listEl || !listEl.classList.contains('folder-songs') || listEl.style.display === 'none')
+                        if (!listEl || !listEl.classList.contains('folder-songs') || listEl.style
+                            .display === 'none')
                         {
                             toggleFolder(folderName, folderEl);
                             setTimeout(() =>
@@ -1180,7 +1182,7 @@ const folderName = currentSong?.folder;
                                     {
                                         currentSongEl.scrollIntoView(
                                         {
-                                            behavior: 'instant',
+                                            behavior: 'smooth',
                                             block: 'center'
                                         });
                                         document.querySelectorAll('.folder-songs .music-item')
@@ -1772,3 +1774,9 @@ aboutModal.addEventListener('click', (e) =>
 //     .then(() => console.log('SW registered'))
 //     .catch(err => console.error('SW error:', err));
 // }
+
+
+
+
+
+
