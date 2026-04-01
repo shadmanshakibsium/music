@@ -625,7 +625,7 @@ const folderSongs = data
     .map(s => ({
         ...s,
         folder: folderName,
-        uid: `${folderName}/${s.file}`,
+        uid: generateUID(`${folderName}/${s.file}`),
         path: `${folderName}/${s.file}`
     }))
                 .sort((a, b) => a.name.localeCompare(b.name));
@@ -706,7 +706,7 @@ function loadGenreView()
 .then(data => data.map(song => ({
     ...song,
     folder: lang,
-    uid: `${lang}/${song.file}`,
+    uid: generateUID(`${lang}/${song.file}`),
     path: `${lang}/${song.file}`
 })))
         .catch(err =>
