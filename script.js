@@ -1001,11 +1001,7 @@ fsCloseBtn.addEventListener('click', () =>
             const currentSongEl = document.querySelector(`.music-item[data-uid="${currentSongUID}"]`);
             if (currentSongEl)
             {
-                currentSongEl.scrollIntoView(
-                {
-                    behavior: 'auto',
-                    block: 'center'
-                });
+                currentSongEl.scrollIntoView({ behavior: 'auto', block: 'center' });
             }
         }
         else if (currentView === 'folders')
@@ -1013,51 +1009,34 @@ fsCloseBtn.addEventListener('click', () =>
             foldersView.style.display = 'block';
             if (currentSongUID)
             {
-const currentSong = filteredData[currentIndex] || musicData.find(s => s.uid === currentSongUID);
-const folderName = currentSong?.folder;
+                const currentSong = filteredData[currentIndex] || musicData.find(s => s.uid === currentSongUID);
+                const folderName = currentSong?.folder;
                 const folderEl = Array.from(document.querySelectorAll('.folder-title'))
-                    .find(el => el.textContent === folderName);
+                    .find(el => el.textContent.trim() === folderName);
                 if (folderEl)
                 {
                     let listEl = folderEl.nextElementSibling;
-                    if (!listEl || !listEl.classList.contains('folder-songs') || listEl.style
-                        .display === 'none')
+                    const isClosed = !listEl || !listEl.classList.contains('folder-songs') || listEl.style.display === 'none';
+
+                    if (isClosed)
                     {
                         toggleFolder(folderName, folderEl);
                         setTimeout(() =>
                         {
-                            listEl = folderEl.nextElementSibling;
-                            if (listEl && listEl.classList.contains('folder-songs'))
+                            const currentSongEl = document.querySelector(`.music-item[data-uid="${currentSongUID}"]`);
+                            if (currentSongEl)
                             {
-                                const currentSongEl = listEl.querySelector(
-                                    `.music-item[data-uid="${currentSongUID}"]`);
-                                if (currentSongEl)
-                                {
-                                    currentSongEl.scrollIntoView(
-                                    {
-                                        behavior: 'auto',
-                                        block: 'center'
-                                    });
-                                    document.querySelectorAll('.folder-songs .music-item')
-                                        .forEach(el => el.classList.remove('playing'));
-                                    currentSongEl.classList.add('playing');
-                                }
+                                currentSongEl.scrollIntoView({ behavior: 'smooth', block: 'center' });
                             }
-                        }, 100);
+                        }, 300);
                     }
                     else
                     {
-                        const currentSongEl = listEl.querySelector(
-                            `.music-item[data-uid="${currentSongUID}"]`);
+                        const currentSongEl = listEl.querySelector(`.music-item[data-uid="${currentSongUID}"]`);
                         if (currentSongEl)
                         {
-                            currentSongEl.scrollIntoView(
-                            {
-                                behavior: 'auto',
-                                block: 'center'
-                            });
-                            document.querySelectorAll('.folder-songs .music-item').forEach(el => el
-                                .classList.remove('playing'));
+                            currentSongEl.scrollIntoView({ behavior: 'auto', block: 'center' });
+                            document.querySelectorAll('.folder-songs .music-item').forEach(el => el.classList.remove('playing'));
                             currentSongEl.classList.add('playing');
                         }
                     }
@@ -1075,8 +1054,7 @@ const folderName = currentSong?.folder;
                         const genreSongs = el.nextElementSibling;
                         if (genreSongs && genreSongs.classList.contains('genre-songs'))
                         {
-                            return genreSongs.querySelector(
-                                `.music-item[data-uid="${currentSongUID}"]`);
+                            return genreSongs.querySelector(`.music-item[data-uid="${currentSongUID}"]`);
                         }
                         return false;
                     });
@@ -1084,17 +1062,11 @@ const folderName = currentSong?.folder;
                 {
                     const genreSongsEl = genreTitle.nextElementSibling;
                     genreSongsEl.style.display = 'block';
-                    const currentSongEl = genreSongsEl.querySelector(
-                        `.music-item[data-uid="${currentSongUID}"]`);
+                    const currentSongEl = genreSongsEl.querySelector(`.music-item[data-uid="${currentSongUID}"]`);
                     if (currentSongEl)
                     {
-                        currentSongEl.scrollIntoView(
-                        {
-                            behavior: 'auto',
-                            block: 'center'
-                        });
-                        document.querySelectorAll('.genre-songs .music-item').forEach(el => el.classList
-                            .remove('playing'));
+                        currentSongEl.scrollIntoView({ behavior: 'auto', block: 'center' });
+                        document.querySelectorAll('.genre-songs .music-item').forEach(el => el.classList.remove('playing'));
                         currentSongEl.classList.add('playing');
                     }
                 }
