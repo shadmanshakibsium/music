@@ -1020,8 +1020,7 @@ const folderName = currentSong?.folder;
                 if (folderEl)
                 {
                     let listEl = folderEl.nextElementSibling;
-                    if (!listEl || !listEl.classList.contains('folder-songs') || listEl.style
-                        .display === 'none')
+                    if (!listEl || !listEl.classList.contains('folder-songs') || listEl.style.display === 'none')
                     {
                         toggleFolder(folderName, folderEl);
                         setTimeout(() =>
@@ -1035,7 +1034,7 @@ const folderName = currentSong?.folder;
                                 {
                                     currentSongEl.scrollIntoView(
                                     {
-                                        behavior: 'auto',
+                                        behavior: 'instant',
                                         block: 'center'
                                     });
                                     document.querySelectorAll('.folder-songs .music-item')
@@ -1167,8 +1166,7 @@ const folderName = currentSong?.folder;
                     if (folderEl)
                     {
                         let listEl = folderEl.nextElementSibling;
-                        if (!listEl || !listEl.classList.contains('folder-songs') || listEl.style
-                            .display === 'none')
+                        if (!listEl || !listEl.classList.contains('folder-songs') || listEl.style.display === 'none')
                         {
                             toggleFolder(folderName, folderEl);
                             setTimeout(() =>
@@ -1182,7 +1180,7 @@ const folderName = currentSong?.folder;
                                     {
                                         currentSongEl.scrollIntoView(
                                         {
-                                            behavior: 'smooth',
+                                            behavior: 'instant',
                                             block: 'center'
                                         });
                                         document.querySelectorAll('.folder-songs .music-item')
