@@ -1053,7 +1053,7 @@ const folderName = currentSong?.folder;
                         {
                             currentSongEl.scrollIntoView(
                             {
-                                behavior: 'smooth',
+                                behavior: 'auto',
                                 block: 'center'
                             });
                             document.querySelectorAll('.folder-songs .music-item').forEach(el => el
@@ -1202,7 +1202,7 @@ const folderName = currentSong?.folder;
                             {
                                 currentSongEl.scrollIntoView(
                                 {
-                                    behavior: 'smooth',
+                                    behavior: 'auto',
                                     block: 'center'
                                 });
                                 document.querySelectorAll('.folder-songs .music-item').forEach(el => el
