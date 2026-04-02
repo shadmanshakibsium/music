@@ -1104,6 +1104,32 @@ const folderName = currentSong?.folder;
 });
 
 
+
+
+
+let fsHorizontalSwipeStartX = null;
+let fsHorizontalSwipeStartY = null;
+
+fullscreenPlayer.addEventListener('touchstart', (e) => {
+    fsHorizontalSwipeStartX = e.touches[0].clientX;
+    fsHorizontalSwipeStartY = e.touches[0].clientY;
+});
+
+fullscreenPlayer.addEventListener('touchend', (e) => {
+    if (fsHorizontalSwipeStartX === null) return;
+
+    const deltaX = e.changedTouches[0].clientX - fsHorizontalSwipeStartX;
+    const deltaY = Math.abs(e.changedTouches[0].clientY - fsHorizontalSwipeStartY);
+
+    // horizontal swipe, vertical movement কম হলে
+    if (Math.abs(deltaX) > 80 && deltaY < 50) {
+        // close fullscreen
+        fsCloseBtn.click();
+    }
+
+    fsHorizontalSwipeStartX = null;
+    fsHorizontalSwipeStartY = null;
+});
 // --------------------
 // Fullscreen → Mini (Swipe Down)
 // --------------------
