@@ -1122,7 +1122,7 @@ fullscreenPlayer.addEventListener('touchend', (e) => {
     const deltaY = Math.abs(e.changedTouches[0].clientY - fsHorizontalSwipeStartY);
 
     // horizontal swipe, vertical movement কম হলে
-    if (Math.abs(deltaX) > 80 && deltaY < 50) {
+    if (Math.abs(deltaX) > 80 && deltaY < 50 && (fsHorizontalSwipeStartX < 30 || fsHorizontalSwipeStartX > window.innerWidth - 30)) {
         // close fullscreen
         fsCloseBtn.click();
     }
