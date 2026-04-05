@@ -34,32 +34,40 @@
 
     <!-- Tabs -->
     <div class="tabs">
+
       <div class="tab active" data-view="all"><i class="fas fa-music"></i><span>All Songs</span></div>
       <div class="tab" data-view="folders"><i class="fas fa-folder"></i><span>Folders</span></div>
-      <div class="tab" data-view="genre"><i class="fas fa-headphones"></i><span>Playlist</span></div>
       <div class="tab" data-view="artist"><i class="fas fa-user"></i><span>Artists</span></div>
+      <div class="tab" data-view="genre"><i class="fas fa-headphones"></i><span>Playlist</span></div>
     </div>
 
-    <!-- All Songs View -->
-    <div id="all-songs-view">
-      <div class="search-bar">
-        <input type="text" id="searchInput" placeholder="Search songs...">
-        <div id="songCount">Total Songs: 0</div>
+
+
+    <div class="tab-views-wrapper" style="position:relative;">
+      <!-- All Songs View -->
+      <div id="all-songs-view">
+        <div class="search-bar">
+          <input type="text" id="searchInput" placeholder="Search songs...">
+          <div id="songCount">Total Songs: 0</div>
+        </div>
+        <ul class="music-list" id="music-list"></ul>
       </div>
-      <ul class="music-list" id="music-list"></ul>
-    </div>
 
-    <!-- Folders View -->
-    <div id="folders-view" style="display:none;">
-      <div id="folder-list"></div>
-    </div>
-    <!-- Artist View -->
-    <div id="artist-view" style="display:none;">
-      <div class="genre-list" id="artist-list"></div>
-    </div>
-    <!-- Genre View -->
-    <div id="genre-view" style="display:none;">
-      <div class="genre-list" id="genre-list"></div>
+      <!-- Folders View -->
+      <div id="folders-view" style="display:none;">
+        <div id="folder-list"></div>
+      </div>
+      <!-- Artist View -->
+      <div id="artist-view" style="display:none;">
+        <div class="genre-list" id="artist-list"></div>
+      </div>
+      <!-- Genre View -->
+      <div id="genre-view" style="display:none;">
+        <div class="genre-list" id="genre-list"></div>
+      </div>
+      <div id="folders-view" style="display:none;">...</div>
+      <div id="artist-view" style="display:none;">...</div>
+      <div id="genre-view" style="display:none;">...</div>
     </div>
 
   </div> <!-- end main-content -->

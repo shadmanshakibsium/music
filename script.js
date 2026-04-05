@@ -1423,46 +1423,87 @@ searchInput.addEventListener('input', (e) => {
 // --------------------
 // Tabs
 // --------------------
+
+const viewScrollPos = {
+    'all': 0,
+    'folders': 0,
+    'genre': 0,
+    'artist': 0
+};
+
+const viewLoaded = {
+    'all': true,
+    'folders': false,
+    'genre': false,
+    'artist': false
+};
+
+const viewOrder = ['all', 'folders', 'genre', 'artist'];
+
 tabs.forEach(tab => {
     tab.addEventListener('click', () => {
+        if (tab.dataset.view === currentView) return;
+
+        const oldView = currentView;
+        const newView = tab.dataset.view;
+
+        const viewMap = {
+            'all': allSongsView,
+            'folders': foldersView,
+            'genre': genreView,
+            'artist': artistView
+        };
+
+        const outEl = viewMap[oldView];
+        const inEl = viewMap[newView];
+
+        // পুরনো view এর scroll save করো — element এর scrollTop
+        viewScrollPos[oldView] = outEl.scrollTop;
+
+        const oldIndex = viewOrder.indexOf(oldView);
+        const newIndex = viewOrder.indexOf(newView);
+        const goingRight = newIndex > oldIndex;
 
         tabs.forEach(t => t.classList.remove('active'));
         tab.classList.add('active');
 
-        currentView = tab.dataset.view;
+        inEl.style.display = 'block';
+        inEl.style.position = 'absolute';
+        inEl.style.top = '0';
+        inEl.style.left = '0';
+        inEl.style.width = '100%';
 
-        // View switch logic
-        if (currentView === 'all') {
-            allSongsView.style.display = 'block';
-            foldersView.style.display = 'none';
-            genreView.style.display = 'none';
-            artistView.style.display = 'none';
-            loadAllSongs();
+        outEl.classList.add(goingRight ? 'slide-out-left' : 'slide-out-right');
+        inEl.classList.add(goingRight ? 'slide-in-right' : 'slide-in-left');
 
-        }
-        else if (currentView === 'folders') {
-            allSongsView.style.display = 'none';
-            foldersView.style.display = 'block';
-            genreView.style.display = 'none';
-            artistView.style.display = 'none';
-            loadFolders();
+        currentView = newView;
 
-        }
-        else if (currentView === 'artist') {
-            allSongsView.style.display = 'none';
-            foldersView.style.display = 'none';
-            genreView.style.display = 'none';
-            artistView.style.display = 'block';
-            loadArtistView();
-        }
-        else if (currentView === 'genre') {
-            allSongsView.style.display = 'none';
-            foldersView.style.display = 'none';
-            genreView.style.display = 'block';
-            loadGenreView();
-        }
+        setTimeout(() => {
+            outEl.style.display = 'none';
+            outEl.classList.remove('slide-out-left', 'slide-out-right');
+
+            inEl.style.position = '';
+            inEl.style.top = '';
+            inEl.style.left = '';
+            inEl.style.width = '';
+            inEl.classList.remove('slide-in-right', 'slide-in-left');
+
+            if (!viewLoaded[currentView]) {
+                viewLoaded[currentView] = true;
+                if (currentView === 'folders') loadFolders();
+                else if (currentView === 'artist') loadArtistView();
+                else if (currentView === 'genre') loadGenreView();
+            }
+
+            // নতুন view এর scroll restore করো
+            requestAnimationFrame(() => {
+                inEl.scrollTop = viewScrollPos[currentView] || 0;
+            });
+
+        }, 350);
     });
 });
+
 
 function checkDeepLink() {
     const params = new URLSearchParams(window.location.search);
@@ -1666,4 +1707,109 @@ aboutModal.addEventListener('click', (e) => {
 
 
 
+// --------------------
+// Sticky Tabs on Scroll
+// --------------------
+(function () {
+    const tabsEl = document.querySelector('.tabs');
+    const viewMap = {
+        'all': allSongsView,
+        'folders': foldersView,
+        'genre': genreView,
+        'artist': artistView
+    };
 
+    function getCurrentViewEl() {
+        return viewMap[currentView];
+    }
+
+    const sentinel = document.createElement('div');
+    sentinel.style.cssText = 'height:1px; pointer-events:none;';
+    tabsEl.parentNode.insertBefore(sentinel, tabsEl);
+
+    const placeholder = document.createElement('div');
+    placeholder.style.display = 'none';
+    tabsEl.parentNode.insertBefore(placeholder, tabsEl);
+
+    let isSticky = false;
+
+    function makeSticky() {
+        if (isSticky) return;
+        isSticky = true;
+
+        const h = tabsEl.offsetHeight;
+        placeholder.style.cssText = `display:block; height:${h}px;`;
+
+        const bodyPadding = parseInt(window.getComputedStyle(document.body).paddingLeft) || 0;
+
+        tabsEl.style.position = 'fixed';
+        tabsEl.style.top = '0';
+        tabsEl.style.left = bodyPadding + 'px';
+        tabsEl.style.right = bodyPadding + 'px';
+        tabsEl.style.width = 'auto';
+        tabsEl.style.zIndex = '500';
+        tabsEl.style.marginTop = '0';
+        tabsEl.style.marginBottom = '0';
+        tabsEl.style.background = 'transparent';
+        tabsEl.style.backdropFilter = 'blur(20px) saturate(180%)';
+        tabsEl.style.webkitBackdropFilter = 'blur(20px) saturate(180%)';
+        tabsEl.querySelectorAll('.tab i').forEach(i => i.style.display = 'none');
+        tabsEl.style.paddingTop = '8px';
+        tabsEl.style.paddingBottom = '8px';
+        tabsEl.style.borderRadius = '0 0 16px 16px';
+
+        const gap = h + 8;
+        musicListEl.style.paddingTop = gap + 'px';
+        folderListEl.style.paddingTop = gap + 'px';
+        genreListEl.style.paddingTop = gap + 'px';
+        artistListEl.style.paddingTop = gap + 'px';
+    }
+
+    function makeNormal() {
+        if (!isSticky) return;
+        isSticky = false;
+
+        placeholder.style.display = 'none';
+        tabsEl.style.position = '';
+        tabsEl.style.top = '';
+        tabsEl.style.left = '';
+        tabsEl.style.right = '';
+        tabsEl.style.width = '';
+        tabsEl.style.zIndex = '';
+        tabsEl.style.marginTop = '';
+        tabsEl.style.marginBottom = '';
+        tabsEl.style.background = '';
+        tabsEl.style.backdropFilter = '';
+        tabsEl.style.webkitBackdropFilter = '';
+        tabsEl.style.paddingTop = '';
+        tabsEl.style.paddingBottom = '';
+        tabsEl.style.borderRadius = '';
+        tabsEl.querySelectorAll('.tab i').forEach(i => i.style.display = '');
+        musicListEl.style.paddingTop = '';
+        folderListEl.style.paddingTop = '';
+        genreListEl.style.paddingTop = '';
+        artistListEl.style.paddingTop = '';
+    }
+
+    // window scroll এর বদলে active view এর scroll listen করো
+    function onViewScroll() {
+        const el = getCurrentViewEl();
+        if (!el) return;
+        if (el.scrollTop > 10) makeSticky();
+        else makeNormal();
+    }
+
+    // প্রতিটা view এ scroll listener লাগাও
+    Object.values(viewMap).forEach(el => {
+        el.addEventListener('scroll', onViewScroll, { passive: true });
+    });
+
+    // IntersectionObserver বাদ দিলাম — এখন আর দরকার নেই
+    window.addEventListener('resize', () => {
+        if (isSticky) {
+            const bodyPadding = parseInt(window.getComputedStyle(document.body).paddingLeft) || 0;
+            tabsEl.style.left = bodyPadding + 'px';
+            tabsEl.style.right = bodyPadding + 'px';
+        }
+    });
+})();
