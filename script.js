@@ -1067,7 +1067,13 @@ fullscreenPlayer.addEventListener('touchstart', (e) => {
     if (popup && popup.classList.contains('open')) return;
     if (e.target.closest('#progress-bar-container')) return;
     fsSwipeTouchStartY = e.touches[0].clientY;
-});
+}, { passive: false });
+
+fullscreenPlayer.addEventListener('touchmove', (e) => {
+    if (fsSwipeTouchStartY === null) return;
+    const deltaY = e.touches[0].clientY - fsSwipeTouchStartY;
+    if (deltaY > 0) e.preventDefault();
+}, { passive: false });
 
 fullscreenPlayer.addEventListener('touchend', (e) => {
     if (fsSwipeTouchStartY === null) return;
