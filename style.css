@@ -240,6 +240,7 @@ h1 {
   margin-bottom: 8px;
   gap: 6px;
   padding: 0 4px;
+  transition: border-radius 0.3s ease, padding 0.3s ease, backdrop-filter 0.3s ease;
 }
 
 .tab {
