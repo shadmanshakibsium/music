@@ -622,80 +622,66 @@ function toggleFolder(folderName, folderEl) {
 function loadArtistView() {
     artistListEl.innerHTML = '';
 
-    const promises = types.map(lang =>
-        fetch(`data/${lang}.json`)
-            .then(res => res.json())
-            .then(data => data.map(song => ({
-                ...song,
-                folder: lang,
-                uid: generateUID(`${lang}/${song.file}`),
-                path: `${lang}/${song.file}`
-            })))
-            .catch(() => [])
-    );
+    const allSongs = musicData;
+    const artistGroups = {};
 
-    Promise.all(promises).then(results => {
-        const allSongs = results.flat();
-        const artistGroups = {};
+    allSongs.forEach(song => {
+        const rawArtist = (song.artist || 'Unknown Artist').replace(/\uFEFF/g, '').trim();
+        const artists = rawArtist.split(',').map(a => a.trim()).filter(a => a);
+        artists.forEach(artist => {
+            if (!artistGroups[artist]) artistGroups[artist] = [];
+            artistGroups[artist].push(song);
+        });
+    });
 
-        allSongs.forEach(song => {
-            const rawArtist = (song.artist || 'Unknown Artist').replace(/\uFEFF/g, '').trim();
-            const artists = rawArtist.split(',').map(a => a.trim()).filter(a => a);
-            artists.forEach(artist => {
-                if (!artistGroups[artist]) artistGroups[artist] = [];
-                artistGroups[artist].push(song);
-            });
+    const sortedArtists = Object.keys(artistGroups).sort((a, b) => a.localeCompare(b));
+
+    sortedArtists.forEach(artist => {
+        const artistTitle = document.createElement('div');
+        artistTitle.classList.add('genre-title');
+        const count = artistGroups[artist].length;
+        artistTitle.innerHTML = `${artist} <span style="font-size:13px;opacity:0.5;font-weight:400;margin-left:8px;">${count} song${count > 1 ? 's' : ''}</span>`;
+        artistListEl.appendChild(artistTitle);
+
+        const artistSongsEl = document.createElement('ul');
+        artistSongsEl.classList.add('genre-songs');
+        artistSongsEl.style.display = 'none';
+        artistListEl.appendChild(artistSongsEl);
+
+        artistTitle.addEventListener('click', () => {
+            artistSongsEl.style.display = artistSongsEl.style.display === 'block' ? 'none' : 'block';
         });
 
-        const sortedArtists = Object.keys(artistGroups).sort((a, b) => a.localeCompare(b));
-
-        sortedArtists.forEach(artist => {
-            const artistTitle = document.createElement('div');
-            artistTitle.classList.add('genre-title');
-            const count = artistGroups[artist].length;
-            artistTitle.innerHTML = `${artist} <span style="font-size:13px;opacity:0.5;font-weight:400;margin-left:8px;">${count} song${count > 1 ? 's' : ''}</span>`;
-            artistListEl.appendChild(artistTitle);
-
-            const artistSongsEl = document.createElement('ul');
-            artistSongsEl.classList.add('genre-songs');
-            artistSongsEl.style.display = 'none';
-            artistListEl.appendChild(artistSongsEl);
-
-            artistTitle.addEventListener('click', () => {
-                artistSongsEl.style.display = artistSongsEl.style.display === 'block' ? 'none' : 'block';
-            });
-
-            artistGroups[artist]
-                .sort((a, b) => a.name.localeCompare(b.name))
-                .forEach((song, index) => {
-                    const li = document.createElement('li');
-                    li.classList.add('music-item');
-                    li.setAttribute('data-uid', song.uid);
-                    li.innerHTML = `
+        artistGroups[artist]
+            .sort((a, b) => a.name.localeCompare(b.name))
+            .forEach((song, index) => {
+                const li = document.createElement('li');
+                li.classList.add('music-item');
+                li.setAttribute('data-uid', song.uid);
+                li.innerHTML = `
                         <div class="info"><span class="title">${song.name}</span></div>
                         <button class="add-queue-btn" title="Add to Queue"><i class="fas fa-plus"></i></button>`;
 
-                    li.querySelector('.add-queue-btn').addEventListener('click', (e) => {
-                        e.stopPropagation();
-                        addToQueue(song);
-                    });
-                    setupLongPressForItem(li, song);
-
-                    if (song.uid === currentSongUID) li.classList.add('playing');
-
-                    li.addEventListener('click', (e) => {
-                        e.stopPropagation();
-                        filteredData = [...artistGroups[artist]];
-                        musicData = filteredData;
-                        currentIndex = index;
-                        playSong(index);
-                        artistSongsEl.querySelectorAll('.music-item').forEach(el => el.classList.remove('playing'));
-                        li.classList.add('playing');
-                    });
-
-                    artistSongsEl.appendChild(li);
+                li.querySelector('.add-queue-btn').addEventListener('click', (e) => {
+                    e.stopPropagation();
+                    addToQueue(song);
                 });
-        });
+                setupLongPressForItem(li, song);
+
+                if (song.uid === currentSongUID) li.classList.add('playing');
+
+                li.addEventListener('click', (e) => {
+                    e.stopPropagation();
+                    filteredData = [...artistGroups[artist]];
+                    musicData = filteredData;
+                    currentIndex = index;
+                    playSong(index);
+                    artistSongsEl.querySelectorAll('.music-item').forEach(el => el.classList.remove('playing'));
+                    li.classList.add('playing');
+                });
+
+                artistSongsEl.appendChild(li);
+            });
     });
 }
 
@@ -1300,26 +1286,29 @@ fsCycleBtn.addEventListener('click', () => {
         repeatMode = 'none';
         playHistory = [];
     }
+    localStorage.setItem('cycleMode', JSON.stringify({ isShuffle, repeatMode }));
     updateCycleUI();
 });
 
 function updateCycleUI() {
     if (isShuffle) {
         fsCycleIcon.className = 'fas fa-random';
-        fsCycleBtn.style.color = '#ff6b6b';
+        fsCycleBtn.style.color = 'white';
         fsCycleBtn.title = 'Shuffle ON';
     }
     else if (repeatMode === 'one') {
         fsCycleIcon.className = 'fas fa-redo';
-        fsCycleBtn.style.color = '#ff6b6b';
+        fsCycleBtn.style.color = 'white';
         fsCycleBtn.title = 'Repeat ON';
     }
     else {
-        fsCycleIcon.className = 'fas fa-random';
+        fsCycleIcon.className = 'fa-solid fa-repeat';
         fsCycleBtn.style.color = 'white';
         fsCycleBtn.title = 'Off';
     }
 }
+
+
 // --------------------
 // Auto Next / Repeat
 // --------------------
@@ -1492,8 +1481,8 @@ tabs.forEach(tab => {
             if (!viewLoaded[currentView]) {
                 viewLoaded[currentView] = true;
                 if (currentView === 'folders') loadFolders();
-                else if (currentView === 'artist') loadArtistView();
-                else if (currentView === 'genre') loadGenreView();
+                else if (currentView === 'artist' && artistListEl.innerHTML === '') loadArtistView();
+                else if (currentView === 'genre' && genreListEl.innerHTML === '') loadGenreView();
             }
 
             // নতুন view এর scroll restore করো
@@ -1534,11 +1523,18 @@ function checkDeepLink() {
 // Initial Load
 // --------------------
 loadAllSongs().then(() => {
-    // Queue restore
     const savedQueue = localStorage.getItem('songQueue');
     if (savedQueue) {
         songQueue = JSON.parse(savedQueue);
         updateQueueBadge();
+    }
+
+    const savedCycle = localStorage.getItem('cycleMode');
+    if (savedCycle) {
+        const { isShuffle: s, repeatMode: r } = JSON.parse(savedCycle);
+        isShuffle = s;
+        repeatMode = r;
+        updateCycleUI();
     }
 
     // Last song restore
