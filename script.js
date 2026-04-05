@@ -692,7 +692,6 @@ function loadArtistView() {
 // --------------------
 function loadGenreView() {
     genreListEl.innerHTML = '';
-    artistListEl.innerHTML = '';
 
     const promises = types.map(lang =>
         fetch(`data/${lang}.json`)
@@ -1075,7 +1074,7 @@ fullscreenPlayer.addEventListener('touchend', (e) => {
 
     const deltaY = e.changedTouches[0].clientY - fsSwipeTouchStartY;
 
-    if (deltaY > 80) {
+    if (deltaY > 40) {
         fullscreenPlayer.classList.remove('slide-up');
         fullscreenPlayer.classList.add('slide-down');
 
@@ -1485,12 +1484,12 @@ tabs.forEach(tab => {
                 else if (currentView === 'genre' && genreListEl.innerHTML === '') loadGenreView();
             }
 
-            // নতুন view এর scroll restore করো
             requestAnimationFrame(() => {
                 inEl.scrollTop = viewScrollPos[currentView] || 0;
+                if (inEl.scrollTop === 0) window._makeNormal();
             });
 
-        }, 350);
+        }, 200);
     });
 });
 
@@ -1729,6 +1728,7 @@ aboutModal.addEventListener('click', (e) => {
     tabsEl.parentNode.insertBefore(placeholder, tabsEl);
 
     let isSticky = false;
+    window._makeNormal = function () { makeNormal(); };
 
     function makeSticky() {
         if (isSticky) return;

@@ -333,21 +333,20 @@ h1 {
 }
 
 .slide-in-right {
-  animation: slideUpIn 0.3s ease forwards;
+  animation: slideUpIn 0.2s ease forwards;
 }
 
 .slide-in-left {
-  animation: slideUpIn 0.3s ease forwards;
+  animation: slideUpIn 0.2s ease forwards;
 }
 
 .slide-out-left {
-  animation: slideUpOut 0.3s ease forwards;
+  animation: slideUpOut 0.2s ease forwards;
 }
 
 .slide-out-right {
-  animation: slideUpOut 0.3s ease forwards;
+  animation: slideUpOut 0.2s ease forwards;
 }
-
 
 
 
