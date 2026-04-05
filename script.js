@@ -1736,7 +1736,7 @@ aboutModal.addEventListener('click', (e) => {
     function makeSticky() {
         if (isSticky) return;
         isSticky = true;
-
+        document.querySelector('.site-header').style.display = 'none';
         const h = tabsEl.offsetHeight;
         placeholder.style.cssText = `display:block; height:${h}px;`;
 
@@ -1768,6 +1768,7 @@ aboutModal.addEventListener('click', (e) => {
     function makeNormal() {
         if (!isSticky) return;
         isSticky = false;
+        document.querySelector('.site-header').style.display = 'block';
 
         placeholder.style.display = 'none';
         tabsEl.style.position = '';
