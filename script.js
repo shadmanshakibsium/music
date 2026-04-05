@@ -1738,7 +1738,7 @@ aboutModal.addEventListener('click', (e) => {
         isSticky = true;
         document.querySelector('.site-header').style.display = 'none';
         const h = tabsEl.offsetHeight;
-        placeholder.style.cssText = `display:block; height:${h}px;`;
+        placeholder.style.cssText = `display:block; height:0px;`;
 
         const bodyPadding = parseInt(window.getComputedStyle(document.body).paddingLeft) || 0;
 
