@@ -1,3 +1,4 @@
+
 function generateUID(str) {
     let hash = 0;
     for (let i = 0; i < str.length; i++) {
@@ -1757,12 +1758,6 @@ aboutModal.addEventListener('click', (e) => {
         tabsEl.style.paddingTop = '8px';
         tabsEl.style.paddingBottom = '8px';
         tabsEl.style.borderRadius = '0 0 16px 16px';
-
-        const gap = h - 30;
-        musicListEl.style.paddingTop = gap + 'px';
-        folderListEl.style.paddingTop = gap + 'px';
-        genreListEl.style.paddingTop = gap + 'px';
-        artistListEl.style.paddingTop = gap + 'px';
     }
 
     function makeNormal() {
@@ -1792,7 +1787,6 @@ aboutModal.addEventListener('click', (e) => {
         artistListEl.style.paddingTop = '';
     }
 
-    // window scroll এর বদলে active view এর scroll listen করো
     function onViewScroll() {
         const el = getCurrentViewEl();
         if (!el) return;
@@ -1800,12 +1794,10 @@ aboutModal.addEventListener('click', (e) => {
         else makeNormal();
     }
 
-    // প্রতিটা view এ scroll listener লাগাও
     Object.values(viewMap).forEach(el => {
         el.addEventListener('scroll', onViewScroll, { passive: true });
     });
 
-    // IntersectionObserver বাদ দিলাম — এখন আর দরকার নেই
     window.addEventListener('resize', () => {
         if (isSticky) {
             const bodyPadding = parseInt(window.getComputedStyle(document.body).paddingLeft) || 0;
