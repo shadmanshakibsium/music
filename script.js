@@ -63,16 +63,15 @@ const volumeSlider = document.getElementById('fs-volume');
 const genreListEl = document.getElementById('genre-list');
 const genreView = document.getElementById('genre-view');
 const fsCover = document.getElementById('fs-cover');
+const artistView = document.getElementById('artist-view');
+const artistListEl = document.getElementById('artist-list');
 
-if (fsCover)
-{
-    fsCover.onerror = () =>
-    {
+if (fsCover) {
+    fsCover.onerror = () => {
         fsCover.src = getRandomFallbackCover();
     };
 
-    if (!fsCover.src)
-    {
+    if (!fsCover.src) {
         fsCover.style.display = 'none';
     }
 }
@@ -98,16 +97,14 @@ const fallbackCovers = [
     'covers/23.jpg'
 ];
 
-function getRandomFallbackCover()
-{
+function getRandomFallbackCover() {
     return fallbackCovers[Math.floor(Math.random() * fallbackCovers.length)];
 }
 
 // --------------------
 // Long Press Setup Function
 // --------------------
-function setupLongPressForItem(li, song)
-{
+function setupLongPressForItem(li, song) {
     let pressTimer = null;
     let touchMoved = false;
     let startX = 0;
@@ -115,50 +112,40 @@ function setupLongPressForItem(li, song)
     const MOVE_THRESHOLD = 10;
 
     // Desktop
-    li.addEventListener('mousedown', (e) =>
-    {
-        pressTimer = setTimeout(() =>
-        {
+    li.addEventListener('mousedown', (e) => {
+        pressTimer = setTimeout(() => {
             showSongOptions(song);
         }, LONG_PRESS_TIME);
     });
 
-    li.addEventListener('mouseup', () =>
-    {
-        if (pressTimer)
-        {
+    li.addEventListener('mouseup', () => {
+        if (pressTimer) {
             clearTimeout(pressTimer);
             pressTimer = null;
         }
     });
 
-    li.addEventListener('mouseleave', () =>
-    {
-        if (pressTimer)
-        {
+    li.addEventListener('mouseleave', () => {
+        if (pressTimer) {
             clearTimeout(pressTimer);
             pressTimer = null;
         }
     });
 
     // Mobile - with proper touch handling
-    li.addEventListener('touchstart', (e) =>
-    {
+    li.addEventListener('touchstart', (e) => {
         touchMoved = false;
         startX = e.touches[0].clientX;
         startY = e.touches[0].clientY;
 
-        pressTimer = setTimeout(() =>
-        {
-            if (!touchMoved)
-            {
+        pressTimer = setTimeout(() => {
+            if (!touchMoved) {
                 showSongOptions(song);
             }
         }, LONG_PRESS_TIME);
     });
 
-    li.addEventListener('touchmove', (e) =>
-    {
+    li.addEventListener('touchmove', (e) => {
         if (!pressTimer) return;
 
         const currentX = e.touches[0].clientX;
@@ -166,27 +153,22 @@ function setupLongPressForItem(li, song)
         const deltaX = Math.abs(currentX - startX);
         const deltaY = Math.abs(currentY - startY);
 
-        if (deltaX > MOVE_THRESHOLD || deltaY > MOVE_THRESHOLD)
-        {
+        if (deltaX > MOVE_THRESHOLD || deltaY > MOVE_THRESHOLD) {
             touchMoved = true;
             clearTimeout(pressTimer);
             pressTimer = null;
         }
     });
 
-    li.addEventListener('touchend', () =>
-    {
-        if (pressTimer)
-        {
+    li.addEventListener('touchend', () => {
+        if (pressTimer) {
             clearTimeout(pressTimer);
             pressTimer = null;
         }
     });
 
-    li.addEventListener('touchcancel', () =>
-    {
-        if (pressTimer)
-        {
+    li.addEventListener('touchcancel', () => {
+        if (pressTimer) {
             clearTimeout(pressTimer);
             pressTimer = null;
         }
@@ -197,8 +179,7 @@ function showSongOptions(song) {
     showMetadata(song);
 }
 
-function addToQueue(song)
-{
+function addToQueue(song) {
     songQueue.push(song);
     showQueueToast(song.name);
     renderQueuePanel();
@@ -206,16 +187,13 @@ function addToQueue(song)
     saveQueue();
 }
 
-function saveQueue()
-{
+function saveQueue() {
     localStorage.setItem('songQueue', JSON.stringify(songQueue));
 }
 
-function showQueueToast(name)
-{
+function showQueueToast(name) {
     let toast = document.getElementById('queue-toast');
-    if (!toast)
-    {
+    if (!toast) {
         toast = document.createElement('div');
         toast.id = 'queue-toast';
         document.body.appendChild(toast);
@@ -224,27 +202,23 @@ function showQueueToast(name)
     toast.classList.remove('hide');
     toast.classList.add('show');
     clearTimeout(toast._timer);
-    toast._timer = setTimeout(() =>
-    {
+    toast._timer = setTimeout(() => {
         toast.classList.remove('show');
         toast.classList.add('hide');
     }, 2000);
 }
 
-function renderQueuePanel()
-{
+function renderQueuePanel() {
     const list = document.getElementById('queue-list');
     if (!list) return;
     list.innerHTML = '';
 
-    if (songQueue.length === 0)
-    {
+    if (songQueue.length === 0) {
         list.innerHTML = '<li class="queue-empty">Queue is empty</li>';
         return;
     }
 
-    songQueue.forEach((song, i) =>
-    {
+    songQueue.forEach((song, i) => {
         const li = document.createElement('li');
         li.classList.add('queue-item');
         li.dataset.index = i;
@@ -256,8 +230,7 @@ function renderQueuePanel()
     `;
 
         // Remove button
-        li.querySelector('.queue-remove-btn').addEventListener('click', (e) =>
-        {
+        li.querySelector('.queue-remove-btn').addEventListener('click', (e) => {
             e.stopPropagation();
             songQueue.splice(i, 1);
             renderQueuePanel();
@@ -266,16 +239,13 @@ function renderQueuePanel()
         });
 
         // Click to play
-        li.querySelector('.queue-item-name').addEventListener('click', () =>
-        {
+        li.querySelector('.queue-item-name').addEventListener('click', () => {
             const qSong = songQueue.splice(i, 1)[0];
             const existingIdx = filteredData.findIndex(s => s.uid === qSong.uid);
-            if (existingIdx !== -1)
-            {
+            if (existingIdx !== -1) {
                 currentIndex = existingIdx;
             }
-            else
-            {
+            else {
                 filteredData.splice(currentIndex + 1, 0, qSong);
                 currentIndex = currentIndex + 1;
             }
@@ -287,30 +257,25 @@ function renderQueuePanel()
 
         // Desktop Drag
         li.setAttribute('draggable', 'true');
-        li.addEventListener('dragstart', (e) =>
-        {
+        li.addEventListener('dragstart', (e) => {
             li.classList.add('dragging');
             e.dataTransfer.effectAllowed = 'move';
             e.dataTransfer.setData('text/plain', i);
         });
-        li.addEventListener('dragend', () =>
-        {
+        li.addEventListener('dragend', () => {
             li.classList.remove('dragging');
             document.querySelectorAll('.queue-item').forEach(el => el.classList.remove('drag-over'));
         });
-        li.addEventListener('dragover', (e) =>
-        {
+        li.addEventListener('dragover', (e) => {
             e.preventDefault();
             document.querySelectorAll('.queue-item').forEach(el => el.classList.remove('drag-over'));
             li.classList.add('drag-over');
         });
-        li.addEventListener('drop', (e) =>
-        {
+        li.addEventListener('drop', (e) => {
             e.preventDefault();
             const fromIndex = parseInt(e.dataTransfer.getData('text/plain'));
             const toIndex = parseInt(li.dataset.index);
-            if (fromIndex !== toIndex)
-            {
+            if (fromIndex !== toIndex) {
                 const moved = songQueue.splice(fromIndex, 1)[0];
                 songQueue.splice(toIndex, 0, moved);
                 renderQueuePanel();
@@ -325,8 +290,7 @@ function renderQueuePanel()
         let touchClone = null;
         let dragFromIndex = null;
 
-        handle.addEventListener('touchstart', (e) =>
-        {
+        handle.addEventListener('touchstart', (e) => {
             e.stopPropagation();
             isDragging = true;
             dragFromIndex = i;
@@ -350,12 +314,11 @@ function renderQueuePanel()
             document.body.appendChild(touchClone);
             li.style.opacity = '0.3';
         },
-        {
-            passive: true
-        });
+            {
+                passive: true
+            });
 
-        handle.addEventListener('touchmove', (e) =>
-        {
+        handle.addEventListener('touchmove', (e) => {
             if (!isDragging || !touchClone) return;
             e.preventDefault();
 
@@ -368,34 +331,29 @@ function renderQueuePanel()
 
             const hoverItem = el?.closest('.queue-item');
             document.querySelectorAll('.queue-item').forEach(el => el.classList.remove('drag-over'));
-            if (hoverItem && hoverItem !== li)
-            {
+            if (hoverItem && hoverItem !== li) {
                 hoverItem.classList.add('drag-over');
             }
         },
-        {
-            passive: false
-        });
+            {
+                passive: false
+            });
 
-        handle.addEventListener('touchend', () =>
-        {
+        handle.addEventListener('touchend', () => {
             if (!isDragging) return;
             isDragging = false;
 
-            if (touchClone)
-            {
+            if (touchClone) {
                 touchClone.remove();
                 touchClone = null;
             }
             li.style.opacity = '1';
 
             const overItem = document.querySelector('.queue-item.drag-over');
-            if (overItem)
-            {
+            if (overItem) {
                 const toIndex = parseInt(overItem.dataset.index);
                 overItem.classList.remove('drag-over');
-                if (dragFromIndex !== null && dragFromIndex !== toIndex)
-                {
+                if (dragFromIndex !== null && dragFromIndex !== toIndex) {
                     const moved = songQueue.splice(dragFromIndex, 1)[0];
                     songQueue.splice(toIndex, 0, moved);
                     renderQueuePanel();
@@ -406,11 +364,9 @@ function renderQueuePanel()
             dragFromIndex = null;
         });
 
-        handle.addEventListener('touchcancel', () =>
-        {
+        handle.addEventListener('touchcancel', () => {
             isDragging = false;
-            if (touchClone)
-            {
+            if (touchClone) {
                 touchClone.remove();
                 touchClone = null;
             }
@@ -423,25 +379,21 @@ function renderQueuePanel()
     });
 }
 
-function toggleQueuePopup()
-{
+function toggleQueuePopup() {
     const popup = document.getElementById('queue-popup');
     if (!popup) return;
-    if (popup.classList.contains('open'))
-    {
+    if (popup.classList.contains('open')) {
         popup.classList.remove('open');
         fsCover.style.display = 'block';
     }
-    else
-    {
+    else {
         renderQueuePanel();
         popup.classList.add('open');
         fsCover.style.display = 'none';
     }
 }
 
-function updateQueueBadge()
-{
+function updateQueueBadge() {
     const badge = document.getElementById('queue-badge');
     if (!badge) return;
     badge.textContent = songQueue.length;
@@ -452,18 +404,14 @@ function updateQueueBadge()
 // --------------------
 // Show Metadata Modal
 // --------------------
-function showMetadata(song)
-{
-    if (song.cover)
-    {
+function showMetadata(song) {
+    if (song.cover) {
         metaCover.src = `covers/${song.folder}/${song.cover}`;
-        metaCover.onerror = () =>
-        {
+        metaCover.onerror = () => {
             metaCover.src = getRandomFallbackCover();
         };
     }
-    else
-    {
+    else {
         metaCover.src = getRandomFallbackCover();
     }
 
@@ -487,16 +435,13 @@ function showMetadata(song)
 }
 
 // Close metadata modal
-metaClose.addEventListener('click', () =>
-{
+metaClose.addEventListener('click', () => {
     metaModal.style.display = 'none';
 });
 
 // Close modal when clicking outside
-metaModal.addEventListener('click', (e) =>
-{
-    if (e.target === metaModal)
-    {
+metaModal.addEventListener('click', (e) => {
+    if (e.target === metaModal) {
         metaModal.style.display = 'none';
     }
 });
@@ -523,27 +468,24 @@ function showToast(message) {
 // --------------------
 // Load All Songs (A-Z) using Promise.all
 // --------------------
-function loadAllSongs()
-{
+function loadAllSongs() {
     const promises = types.map(lang =>
         fetch(`data/${lang}.json`)
-        .then(res => res.json())
-        .then(data => data.map(song => (
-        {
-            ...song,
-            folder: lang,
-            path: `${lang}/${song.file}`,
-            uid: generateUID(`${lang}/${song.file}`)
-        })))
-        .catch(err =>
-        {
-            console.error(`Failed to load ${lang}.json`, err);
-            return [];
-        })
+            .then(res => res.json())
+            .then(data => data.map(song => (
+                {
+                    ...song,
+                    folder: lang,
+                    path: `${lang}/${song.file}`,
+                    uid: generateUID(`${lang}/${song.file}`)
+                })))
+            .catch(err => {
+                console.error(`Failed to load ${lang}.json`, err);
+                return [];
+            })
     );
 
-    return Promise.all(promises).then(results =>
-    {
+    return Promise.all(promises).then(results => {
         musicData = results.flat();
         musicData.forEach(song => {
             if (song.artist) song.artist = song.artist.replace(/\uFEFF/g, '').trim();
@@ -555,8 +497,7 @@ function loadAllSongs()
         renderMusicList();
 
         const songCountEl = document.getElementById('songCount');
-        if (songCountEl)
-        {
+        if (songCountEl) {
             animateCountUp(songCountEl, filteredData.length, 6000);
         }
     });
@@ -564,11 +505,9 @@ function loadAllSongs()
 // --------------------
 // Load Folders
 // --------------------
-function loadFolders()
-{
+function loadFolders() {
     folderListEl.innerHTML = '';
-    types.forEach(folder =>
-    {
+    types.forEach(folder => {
         const div = document.createElement('div');
         div.classList.add('folder-title');
         div.textContent = folder;
@@ -581,30 +520,24 @@ function loadFolders()
 // --------------------
 // Toggle Folder (Updated)
 // --------------------
-function toggleFolder(folderName, folderEl)
-{
+function toggleFolder(folderName, folderEl) {
     let listEl = folderEl.nextElementSibling;
 
-    if (listEl && listEl.classList.contains('folder-songs'))
-    {
+    if (listEl && listEl.classList.contains('folder-songs')) {
         listEl.style.display = listEl.style.display === 'block' ? 'none' : 'block';
 
 
-        if (listEl.style.display === 'block' && currentSongUID)
-        {
+        if (listEl.style.display === 'block' && currentSongUID) {
             const songFolder = currentSongUID.split('/')[0];
-            if (songFolder === folderName)
-            {
-                setTimeout(() =>
-                {
+            if (songFolder === folderName) {
+                setTimeout(() => {
                     const currentSongEl = listEl.querySelector(`.music-item[data-uid="${currentSongUID}"]`);
-                    if (currentSongEl)
-                    {
+                    if (currentSongEl) {
                         currentSongEl.scrollIntoView(
-                        {
-                            behavior: 'smooth',
-                            block: 'center'
-                        });
+                            {
+                                behavior: 'smooth',
+                                block: 'center'
+                            });
                     }
                 }, 100);
             }
@@ -619,19 +552,17 @@ function toggleFolder(folderName, folderEl)
 
     fetch(`data/${folderName}.json`)
         .then(res => res.json())
-        .then(data =>
-        {
-const folderSongs = data
-    .map(s => ({
-        ...s,
-        folder: folderName,
-        uid: generateUID(`${folderName}/${s.file}`),
-        path: `${folderName}/${s.file}`
-    }))
+        .then(data => {
+            const folderSongs = data
+                .map(s => ({
+                    ...s,
+                    folder: folderName,
+                    uid: generateUID(`${folderName}/${s.file}`),
+                    path: `${folderName}/${s.file}`
+                }))
                 .sort((a, b) => a.name.localeCompare(b.name));
 
-            folderSongs.forEach((song, index) =>
-            {
+            folderSongs.forEach((song, index) => {
                 const li = document.createElement('li');
                 li.classList.add('music-item');
                 li.setAttribute('data-uid', song.uid);
@@ -639,20 +570,17 @@ const folderSongs = data
         <div class="info"><span class="title">${song.name}</span></div>
         <button class="add-queue-btn" title="Add to Queue"><i class="fas fa-plus"></i></button>`;
 
-                li.querySelector('.add-queue-btn').addEventListener('click', (e) =>
-                {
+                li.querySelector('.add-queue-btn').addEventListener('click', (e) => {
                     e.stopPropagation();
                     addToQueue(song);
                 });
                 setupLongPressForItem(li, song);
 
-                if (song.uid === currentSongUID)
-                {
+                if (song.uid === currentSongUID) {
                     li.classList.add('playing');
                 }
 
-                li.addEventListener('click', (e) =>
-                {
+                li.addEventListener('click', (e) => {
                     e.stopPropagation();
                     musicData = folderSongs;
                     filteredData = [...musicData];
@@ -670,22 +598,18 @@ const folderSongs = data
             listEl.style.display = 'block';
 
 
-            if (currentSongUID)
-            {
+            if (currentSongUID) {
                 const songFolder = currentSongUID.split('/')[0];
-                if (songFolder === folderName)
-                {
-                    setTimeout(() =>
-                    {
+                if (songFolder === folderName) {
+                    setTimeout(() => {
                         const currentSongEl = listEl.querySelector(
                             `.music-item[data-uid="${currentSongUID}"]`);
-                        if (currentSongEl)
-                        {
+                        if (currentSongEl) {
                             currentSongEl.scrollIntoView(
-                            {
-                                behavior: 'smooth',
-                                block: 'center'
-                            });
+                                {
+                                    behavior: 'smooth',
+                                    block: 'center'
+                                });
                         }
                     }, 100);
                 }
@@ -693,40 +617,119 @@ const folderSongs = data
         })
         .catch(err => console.error(err));
 }
-// --------------------
-// Load Genre View
-// --------------------
-function loadGenreView()
-{
-    genreListEl.innerHTML = '';
+
+function loadArtistView() {
+    artistListEl.innerHTML = '';
 
     const promises = types.map(lang =>
         fetch(`data/${lang}.json`)
-        .then(res => res.json())
-.then(data => data.map(song => ({
-    ...song,
-    folder: lang,
-    uid: generateUID(`${lang}/${song.file}`),
-    path: `${lang}/${song.file}`
-})))
-        .catch(err =>
-        {
-            console.error(`Failed to load ${lang}.json`, err);
-            return [];
-        })
+            .then(res => res.json())
+            .then(data => data.map(song => ({
+                ...song,
+                folder: lang,
+                uid: generateUID(`${lang}/${song.file}`),
+                path: `${lang}/${song.file}`
+            })))
+            .catch(() => [])
     );
 
-    Promise.all(promises).then(results =>
-    {
+    Promise.all(promises).then(results => {
+        const allSongs = results.flat();
+        const artistGroups = {};
+
+        allSongs.forEach(song => {
+            const rawArtist = (song.artist || 'Unknown Artist').replace(/\uFEFF/g, '').trim();
+            const artists = rawArtist.split(',').map(a => a.trim()).filter(a => a);
+            artists.forEach(artist => {
+                if (!artistGroups[artist]) artistGroups[artist] = [];
+                artistGroups[artist].push(song);
+            });
+        });
+
+        const sortedArtists = Object.keys(artistGroups).sort((a, b) => a.localeCompare(b));
+
+        sortedArtists.forEach(artist => {
+            const artistTitle = document.createElement('div');
+            artistTitle.classList.add('genre-title');
+            const count = artistGroups[artist].length;
+            artistTitle.innerHTML = `${artist} <span style="font-size:13px;opacity:0.5;font-weight:400;margin-left:8px;">${count} song${count > 1 ? 's' : ''}</span>`;
+            artistListEl.appendChild(artistTitle);
+
+            const artistSongsEl = document.createElement('ul');
+            artistSongsEl.classList.add('genre-songs');
+            artistSongsEl.style.display = 'none';
+            artistListEl.appendChild(artistSongsEl);
+
+            artistTitle.addEventListener('click', () => {
+                artistSongsEl.style.display = artistSongsEl.style.display === 'block' ? 'none' : 'block';
+            });
+
+            artistGroups[artist]
+                .sort((a, b) => a.name.localeCompare(b.name))
+                .forEach((song, index) => {
+                    const li = document.createElement('li');
+                    li.classList.add('music-item');
+                    li.setAttribute('data-uid', song.uid);
+                    li.innerHTML = `
+                        <div class="info"><span class="title">${song.name}</span></div>
+                        <button class="add-queue-btn" title="Add to Queue"><i class="fas fa-plus"></i></button>`;
+
+                    li.querySelector('.add-queue-btn').addEventListener('click', (e) => {
+                        e.stopPropagation();
+                        addToQueue(song);
+                    });
+                    setupLongPressForItem(li, song);
+
+                    if (song.uid === currentSongUID) li.classList.add('playing');
+
+                    li.addEventListener('click', (e) => {
+                        e.stopPropagation();
+                        filteredData = [...artistGroups[artist]];
+                        musicData = filteredData;
+                        currentIndex = index;
+                        playSong(index);
+                        artistSongsEl.querySelectorAll('.music-item').forEach(el => el.classList.remove('playing'));
+                        li.classList.add('playing');
+                    });
+
+                    artistSongsEl.appendChild(li);
+                });
+        });
+    });
+}
+
+
+
+// --------------------
+// Load Genre View
+// --------------------
+function loadGenreView() {
+    genreListEl.innerHTML = '';
+    artistListEl.innerHTML = '';
+
+    const promises = types.map(lang =>
+        fetch(`data/${lang}.json`)
+            .then(res => res.json())
+            .then(data => data.map(song => ({
+                ...song,
+                folder: lang,
+                uid: generateUID(`${lang}/${song.file}`),
+                path: `${lang}/${song.file}`
+            })))
+            .catch(err => {
+                console.error(`Failed to load ${lang}.json`, err);
+                return [];
+            })
+    );
+
+    Promise.all(promises).then(results => {
         const allSongs = results.flat();
         const genreGroups = {};
 
-        allSongs.forEach(song =>
-        {
+        allSongs.forEach(song => {
             if (!song.genre) return;
             const genres = song.genre.split(',').map(g => g.trim().toLowerCase());
-            genres.forEach(genre =>
-            {
+            genres.forEach(genre => {
                 if (!genreGroups[genre]) genreGroups[genre] = [];
                 genreGroups[genre].push(song);
             });
@@ -734,8 +737,7 @@ function loadGenreView()
 
         const sortedGenres = Object.keys(genreGroups).sort();
 
-        sortedGenres.forEach(genre =>
-        {
+        sortedGenres.forEach(genre => {
             const genreTitle = document.createElement('div');
             genreTitle.classList.add('genre-title');
             genreTitle.textContent = genre.toUpperCase();
@@ -746,16 +748,14 @@ function loadGenreView()
             genreSongsEl.style.display = 'none';
             genreListEl.appendChild(genreSongsEl);
 
-            genreTitle.addEventListener('click', () =>
-            {
+            genreTitle.addEventListener('click', () => {
                 genreSongsEl.style.display = genreSongsEl.style.display === 'block' ? 'none' :
                     'block';
             });
 
             genreGroups[genre]
                 .sort((a, b) => a.name.localeCompare(b.name))
-                .forEach((song, index) =>
-                {
+                .forEach((song, index) => {
                     const li = document.createElement('li');
                     li.classList.add('music-item');
                     li.setAttribute('data-uid', song.uid);
@@ -763,20 +763,17 @@ function loadGenreView()
           <div class="info"><span class="title">${song.name}</span></div>
           <button class="add-queue-btn" title="Add to Queue"><i class="fas fa-plus"></i></button>`;
 
-                    li.querySelector('.add-queue-btn').addEventListener('click', (e) =>
-                    {
+                    li.querySelector('.add-queue-btn').addEventListener('click', (e) => {
                         e.stopPropagation();
                         addToQueue(song);
                     });
                     setupLongPressForItem(li, song);
 
-                    if (song.uid === currentSongUID)
-                    {
+                    if (song.uid === currentSongUID) {
                         li.classList.add('playing');
                     }
 
-                    li.addEventListener('click', (e) =>
-                    {
+                    li.addEventListener('click', (e) => {
                         e.stopPropagation();
                         filteredData = genreGroups[genre];
                         musicData = filteredData;
@@ -798,15 +795,13 @@ function loadGenreView()
 // --------------------
 // Render Music List
 // --------------------
-function renderMusicList()
-{
+function renderMusicList() {
     musicListEl.innerHTML = '';
 
-    filteredData.forEach((song, index) =>
-    {
+    filteredData.forEach((song, index) => {
         const li = document.createElement('li');
         li.classList.add('music-item');
-        
+
         if (!hasAnimated) {
             li.classList.add('fade-in');
             li.addEventListener('animationend', () => {
@@ -822,14 +817,12 @@ function renderMusicList()
       </div>
       <button class="add-queue-btn" title="Add to Queue"><i class="fas fa-plus"></i></button>`;
 
-        li.querySelector('.add-queue-btn').addEventListener('click', (e) =>
-        {
+        li.querySelector('.add-queue-btn').addEventListener('click', (e) => {
             e.stopPropagation();
             addToQueue(song);
         });
 
-        if (song.uid === currentSongUID)
-        {
+        if (song.uid === currentSongUID) {
             li.classList.add('playing');
         }
 
@@ -843,8 +836,7 @@ function renderMusicList()
 // --------------------
 // Play Song
 // --------------------
-function playSong(index, resetFuture = true)
-{
+function playSong(index, resetFuture = true) {
     currentIndex = index;
     const song = filteredData[index];
     currentSongUID = song.uid;
@@ -853,14 +845,13 @@ function playSong(index, resetFuture = true)
 
     fsAudio.src = `songs/${song.path}`;
     localStorage.setItem('lastSong', JSON.stringify(
-    {
-        uid: song.uid,
-        time: fsAudio.currentTime
-    }));
+        {
+            uid: song.uid,
+            time: fsAudio.currentTime
+        }));
     fsAudio.play();
 
-    if (fsCover)
-    {
+    if (fsCover) {
         fsCover.src = song.cover ?
             `covers/${song.folder}/${song.cover}` :
             getRandomFallbackCover();
@@ -877,35 +868,32 @@ function playSong(index, resetFuture = true)
     document.querySelectorAll(`.music-item[data-uid="${currentSongUID}"]`)
         .forEach(el => el.classList.add('playing'));
 
-    if ('mediaSession' in navigator)
-    {
+    if ('mediaSession' in navigator) {
         navigator.mediaSession.metadata = new MediaMetadata(
-        {
-            title: song.name || 'Unknown',
-            artist: song.artist || 'Unknown',
-            album: song.album || 'Unknown',
-            artwork: [
             {
-                src: song.cover ?
-                    `covers/${song.folder}/${song.cover}` :
-                    getRandomFallbackCover(),
-                sizes: '512x512',
-                type: 'image/jpeg'
-            }]
-        });
+                title: song.name || 'Unknown',
+                artist: song.artist || 'Unknown',
+                album: song.album || 'Unknown',
+                artwork: [
+                    {
+                        src: song.cover ?
+                            `covers/${song.folder}/${song.cover}` :
+                            getRandomFallbackCover(),
+                        sizes: '512x512',
+                        type: 'image/jpeg'
+                    }]
+            });
     }
 }
 
 // --------------------
 // Update UI
 // --------------------
-function updateMiniPlayer(title)
-{
+function updateMiniPlayer(title) {
     miniTitle.textContent = title;
 }
 
-function updateFullscreenPlayer(title)
-{
+function updateFullscreenPlayer(title) {
     const song = filteredData[currentIndex];
     fsTitle.innerHTML = `
         <span class="fs-song-title">${title}</span>
@@ -913,15 +901,12 @@ function updateFullscreenPlayer(title)
     `;
 }
 
-function updatePlayButton()
-{
-    if (isPlaying)
-    {
+function updatePlayButton() {
+    if (isPlaying) {
         fsPlayBtn.innerHTML = '<i class="fa fa-pause"></i>';
         miniPlayBtn.innerHTML = '<i class="fa fa-pause"></i>';
     }
-    else
-    {
+    else {
         fsPlayBtn.innerHTML = '<i class="fa fa-play"></i>';
         miniPlayBtn.innerHTML = '<i class="fa fa-play"></i>';
     }
@@ -935,18 +920,15 @@ function updatePlayButton()
 // --------------------
 let touchStartY = null;
 
-miniPlayer.addEventListener('touchstart', (e) =>
-{
+miniPlayer.addEventListener('touchstart', (e) => {
     touchStartY = e.touches[0].clientY;
 });
 
-miniPlayer.addEventListener('touchend', (e) =>
-{
+miniPlayer.addEventListener('touchend', (e) => {
     if (touchStartY === null) return;
     const deltaY = touchStartY - e.changedTouches[0].clientY;
 
-    if (deltaY > 40)
-    {
+    if (deltaY > 40) {
         miniPlayer.classList.add('swipe-hint');
         setTimeout(() => miniPlayer.classList.remove('swipe-hint'), 400);
 
@@ -959,12 +941,12 @@ miniPlayer.addEventListener('touchend', (e) =>
         allSongsView.style.display = 'none';
         foldersView.style.display = 'none';
         genreView.style.display = 'none';
+        artistView.style.display = 'none';
     }
     touchStartY = null;
 });
 
-miniPlayer.addEventListener('click', () =>
-{
+miniPlayer.addEventListener('click', () => {
     fullscreenPlayer.style.display = 'flex';
     fullscreenPlayer.classList.remove('slide-down');
     fullscreenPlayer.classList.add('slide-up');
@@ -974,17 +956,16 @@ miniPlayer.addEventListener('click', () =>
     allSongsView.style.display = 'none';
     foldersView.style.display = 'none';
     genreView.style.display = 'none';
+    artistView.style.display = 'none';
 });
 // --------------------
 // Close fullscreen (Updated - no smooth animation)
 // --------------------
-fsCloseBtn.addEventListener('click', () =>
-{
+fsCloseBtn.addEventListener('click', () => {
     fullscreenPlayer.classList.remove('slide-up');
     fullscreenPlayer.classList.add('slide-down');
 
-    setTimeout(() =>
-    {
+    setTimeout(() => {
         fullscreenPlayer.style.display = 'none';
         fullscreenPlayer.classList.remove('slide-down');
         miniPlayer.style.display = 'flex';
@@ -994,50 +975,42 @@ fsCloseBtn.addEventListener('click', () =>
         allSongsView.style.display = 'none';
         foldersView.style.display = 'none';
         genreView.style.display = 'none';
+        artistView.style.display = 'none';
 
-        if (currentView === 'all')
-        {
+        if (currentView === 'all') {
             allSongsView.style.display = 'block';
             const currentSongEl = document.querySelector(`.music-item[data-uid="${currentSongUID}"]`);
-            if (currentSongEl)
-            {
+            if (currentSongEl) {
                 currentSongEl.scrollIntoView(
-                {
-                    behavior: 'auto',
-                    block: 'center'
-                });
+                    {
+                        behavior: 'auto',
+                        block: 'center'
+                    });
             }
         }
-        else if (currentView === 'folders')
-        {
+        else if (currentView === 'folders') {
             foldersView.style.display = 'block';
-            if (currentSongUID)
-            {
-const currentSong = filteredData[currentIndex] || musicData.find(s => s.uid === currentSongUID);
-const folderName = currentSong?.folder;
+            if (currentSongUID) {
+                const currentSong = filteredData[currentIndex] || musicData.find(s => s.uid === currentSongUID);
+                const folderName = currentSong?.folder;
                 const folderEl = Array.from(document.querySelectorAll('.folder-title'))
                     .find(el => el.textContent === folderName);
-                if (folderEl)
-                {
+                if (folderEl) {
                     let listEl = folderEl.nextElementSibling;
                     if (!listEl || !listEl.classList.contains('folder-songs') || listEl.style
-                        .display === 'none')
-                    {
+                        .display === 'none') {
                         toggleFolder(folderName, folderEl);
-                        setTimeout(() =>
-                        {
+                        setTimeout(() => {
                             listEl = folderEl.nextElementSibling;
-                            if (listEl && listEl.classList.contains('folder-songs'))
-                            {
+                            if (listEl && listEl.classList.contains('folder-songs')) {
                                 const currentSongEl = listEl.querySelector(
                                     `.music-item[data-uid="${currentSongUID}"]`);
-                                if (currentSongEl)
-                                {
+                                if (currentSongEl) {
                                     currentSongEl.scrollIntoView(
-                                    {
-                                        behavior: 'auto',
-                                        block: 'center'
-                                    });
+                                        {
+                                            behavior: 'auto',
+                                            block: 'center'
+                                        });
                                     document.querySelectorAll('.folder-songs .music-item')
                                         .forEach(el => el.classList.remove('playing'));
                                     currentSongEl.classList.add('playing');
@@ -1045,17 +1018,15 @@ const folderName = currentSong?.folder;
                             }
                         }, 100);
                     }
-                    else
-                    {
+                    else {
                         const currentSongEl = listEl.querySelector(
                             `.music-item[data-uid="${currentSongUID}"]`);
-                        if (currentSongEl)
-                        {
+                        if (currentSongEl) {
                             currentSongEl.scrollIntoView(
-                            {
-                                behavior: 'auto',
-                                block: 'center'
-                            });
+                                {
+                                    behavior: 'auto',
+                                    block: 'center'
+                                });
                             document.querySelectorAll('.folder-songs .music-item').forEach(el => el
                                 .classList.remove('playing'));
                             currentSongEl.classList.add('playing');
@@ -1064,35 +1035,29 @@ const folderName = currentSong?.folder;
                 }
             }
         }
-        else if (currentView === 'genre')
-        {
+        else if (currentView === 'genre') {
             genreView.style.display = 'block';
-            if (currentSongUID)
-            {
+            if (currentSongUID) {
                 const genreTitle = Array.from(document.querySelectorAll('.genre-title'))
-                    .find(el =>
-                    {
+                    .find(el => {
                         const genreSongs = el.nextElementSibling;
-                        if (genreSongs && genreSongs.classList.contains('genre-songs'))
-                        {
+                        if (genreSongs && genreSongs.classList.contains('genre-songs')) {
                             return genreSongs.querySelector(
                                 `.music-item[data-uid="${currentSongUID}"]`);
                         }
                         return false;
                     });
-                if (genreTitle)
-                {
+                if (genreTitle) {
                     const genreSongsEl = genreTitle.nextElementSibling;
                     genreSongsEl.style.display = 'block';
                     const currentSongEl = genreSongsEl.querySelector(
                         `.music-item[data-uid="${currentSongUID}"]`);
-                    if (currentSongEl)
-                    {
+                    if (currentSongEl) {
                         currentSongEl.scrollIntoView(
-                        {
-                            behavior: 'auto',
-                            block: 'center'
-                        });
+                            {
+                                behavior: 'auto',
+                                block: 'center'
+                            });
                         document.querySelectorAll('.genre-songs .music-item').forEach(el => el.classList
                             .remove('playing'));
                         currentSongEl.classList.add('playing');
@@ -1111,27 +1076,23 @@ const folderName = currentSong?.folder;
 // --------------------
 let fsSwipeTouchStartY = null;
 
-fullscreenPlayer.addEventListener('touchstart', (e) =>
-{
+fullscreenPlayer.addEventListener('touchstart', (e) => {
     const popup = document.getElementById('queue-popup');
     if (popup && popup.classList.contains('open')) return;
     if (e.target.closest('#progress-bar-container')) return;
     fsSwipeTouchStartY = e.touches[0].clientY;
 });
 
-fullscreenPlayer.addEventListener('touchend', (e) =>
-{
+fullscreenPlayer.addEventListener('touchend', (e) => {
     if (fsSwipeTouchStartY === null) return;
 
     const deltaY = e.changedTouches[0].clientY - fsSwipeTouchStartY;
 
-    if (deltaY > 80)
-    {
+    if (deltaY > 80) {
         fullscreenPlayer.classList.remove('slide-up');
         fullscreenPlayer.classList.add('slide-down');
 
-        setTimeout(() =>
-        {
+        setTimeout(() => {
             fullscreenPlayer.style.display = 'none';
             fullscreenPlayer.classList.remove('slide-down');
             miniPlayer.style.display = 'flex';
@@ -1141,52 +1102,44 @@ fullscreenPlayer.addEventListener('touchend', (e) =>
             allSongsView.style.display = 'none';
             foldersView.style.display = 'none';
             genreView.style.display = 'none';
+            artistView.style.display = 'none';
 
-            if (currentView === 'all')
-            {
+            if (currentView === 'all') {
                 allSongsView.style.display = 'block';
                 const currentSongEl = document.querySelector(
                     `.music-item[data-uid="${currentSongUID}"]`);
-                if (currentSongEl)
-                {
+                if (currentSongEl) {
                     currentSongEl.scrollIntoView(
-                    {
-                        behavior: 'auto',
-                        block: 'center'
-                    });
+                        {
+                            behavior: 'auto',
+                            block: 'center'
+                        });
                 }
 
             }
-            else if (currentView === 'folders')
-            {
+            else if (currentView === 'folders') {
                 foldersView.style.display = 'block';
-                if (currentSongUID)
-                {
-const currentSong = filteredData[currentIndex] || musicData.find(s => s.uid === currentSongUID);
-const folderName = currentSong?.folder;
+                if (currentSongUID) {
+                    const currentSong = filteredData[currentIndex] || musicData.find(s => s.uid === currentSongUID);
+                    const folderName = currentSong?.folder;
                     const folderEl = Array.from(document.querySelectorAll('.folder-title'))
                         .find(el => el.textContent === folderName);
-                    if (folderEl)
-                    {
+                    if (folderEl) {
                         let listEl = folderEl.nextElementSibling;
                         if (!listEl || !listEl.classList.contains('folder-songs') || listEl.style
-                            .display === 'none')
-                        {
+                            .display === 'none') {
                             toggleFolder(folderName, folderEl);
-                            setTimeout(() =>
-                            {
+                            setTimeout(() => {
                                 listEl = folderEl.nextElementSibling;
-                                if (listEl && listEl.classList.contains('folder-songs'))
-                                {
+                                if (listEl && listEl.classList.contains('folder-songs')) {
                                     const currentSongEl = listEl.querySelector(
                                         `.music-item[data-uid="${currentSongUID}"]`);
-                                    if (currentSongEl)
-                                    {
+                                    if (currentSongEl) {
                                         currentSongEl.scrollIntoView(
-                                        {
-                                            behavior: 'smooth',
-                                            block: 'center'
-                                        });
+                                            {
+                                                behavior: 'smooth',
+                                                block: 'center'
+                                            });
                                         document.querySelectorAll('.folder-songs .music-item')
                                             .forEach(el => el.classList.remove('playing'));
                                         currentSongEl.classList.add('playing');
@@ -1194,17 +1147,15 @@ const folderName = currentSong?.folder;
                                 }
                             }, 100);
                         }
-                        else
-                        {
+                        else {
                             const currentSongEl = listEl.querySelector(
                                 `.music-item[data-uid="${currentSongUID}"]`);
-                            if (currentSongEl)
-                            {
+                            if (currentSongEl) {
                                 currentSongEl.scrollIntoView(
-                                {
-                                    behavior: 'auto',
-                                    block: 'center'
-                                });
+                                    {
+                                        behavior: 'auto',
+                                        block: 'center'
+                                    });
                                 document.querySelectorAll('.folder-songs .music-item').forEach(el => el
                                     .classList.remove('playing'));
                                 currentSongEl.classList.add('playing');
@@ -1214,35 +1165,29 @@ const folderName = currentSong?.folder;
                 }
 
             }
-            else if (currentView === 'genre')
-            {
+            else if (currentView === 'genre') {
                 genreView.style.display = 'block';
-                if (currentSongUID)
-                {
+                if (currentSongUID) {
                     const genreTitle = Array.from(document.querySelectorAll('.genre-title'))
-                        .find(el =>
-                        {
+                        .find(el => {
                             const genreSongs = el.nextElementSibling;
-                            if (genreSongs && genreSongs.classList.contains('genre-songs'))
-                            {
+                            if (genreSongs && genreSongs.classList.contains('genre-songs')) {
                                 return genreSongs.querySelector(
                                     `.music-item[data-uid="${currentSongUID}"]`);
                             }
                             return false;
                         });
-                    if (genreTitle)
-                    {
+                    if (genreTitle) {
                         const genreSongsEl = genreTitle.nextElementSibling;
                         genreSongsEl.style.display = 'block';
                         const currentSongEl = genreSongsEl.querySelector(
                             `.music-item[data-uid="${currentSongUID}"]`);
-                        if (currentSongEl)
-                        {
+                        if (currentSongEl) {
                             currentSongEl.scrollIntoView(
-                            {
-                                behavior: 'smooth',
-                                block: 'center'
-                            });
+                                {
+                                    behavior: 'smooth',
+                                    block: 'center'
+                                });
                             document.querySelectorAll('.genre-songs .music-item').forEach(el => el
                                 .classList.remove('playing'));
                             currentSongEl.classList.add('playing');
@@ -1259,30 +1204,24 @@ const folderName = currentSong?.folder;
 // --------------------
 // Play/Pause
 // --------------------
-function togglePlay()
-{
-    if (isPlaying)
-    {
+function togglePlay() {
+    if (isPlaying) {
         fsAudio.pause();
     }
-    else
-    {
+    else {
         fsAudio.play();
     }
 }
 fsPlayBtn.addEventListener('click', togglePlay);
-miniPlayBtn.addEventListener('click', (e) =>
-{
+miniPlayBtn.addEventListener('click', (e) => {
     e.stopPropagation();
     togglePlay();
 });
-fsAudio.addEventListener('play', () =>
-{
+fsAudio.addEventListener('play', () => {
     isPlaying = true;
     updatePlayButton();
 });
-fsAudio.addEventListener('pause', () =>
-{
+fsAudio.addEventListener('pause', () => {
     isPlaying = false;
     updatePlayButton();
 });
@@ -1290,18 +1229,14 @@ fsAudio.addEventListener('pause', () =>
 // --------------------
 // Next / Prev
 // --------------------
-function playNext()
-{
-    if (songQueue.length > 0)
-    {
+function playNext() {
+    if (songQueue.length > 0) {
         const nextSong = songQueue.shift();
         const existingIdx = filteredData.findIndex(s => s.uid === nextSong.uid);
-        if (existingIdx !== -1)
-        {
+        if (existingIdx !== -1) {
             currentIndex = existingIdx;
         }
-        else
-        {
+        else {
             filteredData.splice(currentIndex + 1, 0, nextSong);
             currentIndex = currentIndex + 1;
         }
@@ -1311,39 +1246,32 @@ function playNext()
         return;
     }
 
-    if (isShuffle)
-    {
+    if (isShuffle) {
         if (currentIndex !== null) playHistory.push(currentIndex);
         let nextIndex;
-        if (futureStack.length > 0)
-        {
+        if (futureStack.length > 0) {
             nextIndex = futureStack.shift();
         }
-        else
-        {
+        else {
             do {
                 nextIndex = Math.floor(Math.random() * filteredData.length);
             } while (nextIndex === currentIndex && filteredData.length > 1);
         }
         currentIndex = nextIndex;
     }
-    else
-    {
+    else {
         currentIndex = (currentIndex + 1) % filteredData.length;
     }
     playSong(currentIndex, false);
 }
 
 
-function playPrev()
-{
-    if (isShuffle && playHistory.length > 0)
-    {
+function playPrev() {
+    if (isShuffle && playHistory.length > 0) {
         if (currentIndex !== null) futureStack.unshift(currentIndex);
         currentIndex = playHistory.pop();
     }
-    else
-    {
+    else {
         currentIndex = (currentIndex - 1 + filteredData.length) % filteredData.length;
     }
     playSong(currentIndex, false);
@@ -1357,20 +1285,16 @@ fsPrevBtn.addEventListener('click', playPrev);
 // --------------------
 // Shuffle & Repeat
 // --------------------
-fsCycleBtn.addEventListener('click', () =>
-{
-    if (!isShuffle && repeatMode === 'none')
-    {
+fsCycleBtn.addEventListener('click', () => {
+    if (!isShuffle && repeatMode === 'none') {
         isShuffle = true;
         repeatMode = 'none';
     }
-    else if (isShuffle && repeatMode === 'none')
-    {
+    else if (isShuffle && repeatMode === 'none') {
         isShuffle = false;
         repeatMode = 'one';
     }
-    else
-    {
+    else {
         isShuffle = false;
         repeatMode = 'none';
         playHistory = [];
@@ -1378,22 +1302,18 @@ fsCycleBtn.addEventListener('click', () =>
     updateCycleUI();
 });
 
-function updateCycleUI()
-{
-    if (isShuffle)
-    {
+function updateCycleUI() {
+    if (isShuffle) {
         fsCycleIcon.className = 'fas fa-random';
         fsCycleBtn.style.color = '#ff6b6b';
         fsCycleBtn.title = 'Shuffle ON';
     }
-    else if (repeatMode === 'one')
-    {
+    else if (repeatMode === 'one') {
         fsCycleIcon.className = 'fas fa-redo';
         fsCycleBtn.style.color = '#ff6b6b';
         fsCycleBtn.title = 'Repeat ON';
     }
-    else
-    {
+    else {
         fsCycleIcon.className = 'fas fa-random';
         fsCycleBtn.style.color = 'white';
         fsCycleBtn.title = 'Off';
@@ -1402,16 +1322,13 @@ function updateCycleUI()
 // --------------------
 // Auto Next / Repeat
 // --------------------
-fsAudio.addEventListener('ended', () =>
-{
+fsAudio.addEventListener('ended', () => {
     if (repeatMode === 'one') playSong(currentIndex);
     else if (songQueue.length > 0) playNext();
     else if (repeatMode === 'all') playNext();
-    else
-    {
+    else {
         if (currentIndex < filteredData.length - 1) playNext();
-        else
-        {
+        else {
             fsAudio.pause();
             isPlaying = false;
             updatePlayButton();
@@ -1422,25 +1339,22 @@ fsAudio.addEventListener('ended', () =>
 // --------------------
 // Progress Bar
 // --------------------
-fsAudio.addEventListener('timeupdate', () =>
-{
-    if (fsAudio.duration)
-    {
+fsAudio.addEventListener('timeupdate', () => {
+    if (fsAudio.duration) {
         const percent = (fsAudio.currentTime / fsAudio.duration) * 100;
         progressFilled.style.width = percent + '%';
         currentTimeEl.textContent = formatTime(fsAudio.currentTime);
         durationEl.textContent = formatTime(fsAudio.duration);
         localStorage.setItem('lastSong', JSON.stringify(
-        {
-            uid: currentSongUID,
-            time: fsAudio.currentTime
-        }));
+            {
+                uid: currentSongUID,
+                time: fsAudio.currentTime
+            }));
     }
 });
 let isDraggingProgress = false;
 
-function seekByX(clientX)
-{
+function seekByX(clientX) {
     if (!fsAudio.duration) return;
 
     const rect = progressBarContainer.getBoundingClientRect();
@@ -1452,47 +1366,39 @@ function seekByX(clientX)
 }
 
 /* Click */
-progressBarContainer.addEventListener('click', (e) =>
-{
+progressBarContainer.addEventListener('click', (e) => {
     seekByX(e.clientX);
 });
 
 /* Desktop drag */
-progressBarContainer.addEventListener('mousedown', (e) =>
-{
+progressBarContainer.addEventListener('mousedown', (e) => {
     isDraggingProgress = true;
     seekByX(e.clientX);
 });
 
-document.addEventListener('mousemove', (e) =>
-{
+document.addEventListener('mousemove', (e) => {
     if (isDraggingProgress) seekByX(e.clientX);
 });
 
-document.addEventListener('mouseup', () =>
-{
+document.addEventListener('mouseup', () => {
     isDraggingProgress = false;
 });
 
 /* Mobile swipe */
-progressBarContainer.addEventListener('touchstart', (e) =>
-{
+progressBarContainer.addEventListener('touchstart', (e) => {
     isDraggingProgress = true;
     seekByX(e.touches[0].clientX);
 });
 
-document.addEventListener('touchmove', (e) =>
-{
+document.addEventListener('touchmove', (e) => {
     if (isDraggingProgress) seekByX(e.touches[0].clientX);
 });
 
-document.addEventListener('touchend', () =>
-{
+document.addEventListener('touchend', () => {
     isDraggingProgress = false;
 });
 
-function formatTime(seconds)
-{
+function formatTime(seconds) {
     const mins = Math.floor(seconds / 60);
     const secs = Math.floor(seconds % 60);
     return mins + ':' + (secs < 10 ? '0' + secs : secs);
@@ -1501,16 +1407,14 @@ function formatTime(seconds)
 // --------------------
 // Volume
 // --------------------
-volumeSlider.addEventListener('input', () =>
-{
+volumeSlider.addEventListener('input', () => {
     fsAudio.volume = volumeSlider.value;
 });
 
 // --------------------
 // Search
 // --------------------
-searchInput.addEventListener('input', (e) =>
-{
+searchInput.addEventListener('input', (e) => {
     const query = e.target.value.toLowerCase();
     filteredData = musicData.filter(song => song.name.toLowerCase().includes(query));
     renderMusicList();
@@ -1519,10 +1423,8 @@ searchInput.addEventListener('input', (e) =>
 // --------------------
 // Tabs
 // --------------------
-tabs.forEach(tab =>
-{
-    tab.addEventListener('click', () =>
-    {
+tabs.forEach(tab => {
+    tab.addEventListener('click', () => {
 
         tabs.forEach(t => t.classList.remove('active'));
         tab.classList.add('active');
@@ -1530,24 +1432,30 @@ tabs.forEach(tab =>
         currentView = tab.dataset.view;
 
         // View switch logic
-        if (currentView === 'all')
-        {
+        if (currentView === 'all') {
             allSongsView.style.display = 'block';
             foldersView.style.display = 'none';
             genreView.style.display = 'none';
+            artistView.style.display = 'none';
             loadAllSongs();
 
         }
-        else if (currentView === 'folders')
-        {
+        else if (currentView === 'folders') {
             allSongsView.style.display = 'none';
             foldersView.style.display = 'block';
             genreView.style.display = 'none';
+            artistView.style.display = 'none';
             loadFolders();
 
         }
-        else if (currentView === 'genre')
-        {
+        else if (currentView === 'artist') {
+            allSongsView.style.display = 'none';
+            foldersView.style.display = 'none';
+            genreView.style.display = 'none';
+            artistView.style.display = 'block';
+            loadArtistView();
+        }
+        else if (currentView === 'genre') {
             allSongsView.style.display = 'none';
             foldersView.style.display = 'none';
             genreView.style.display = 'block';
@@ -1583,28 +1491,24 @@ function checkDeepLink() {
 // --------------------
 // Initial Load
 // --------------------
-loadAllSongs().then(() =>
-{
+loadAllSongs().then(() => {
     // Queue restore
     const savedQueue = localStorage.getItem('songQueue');
-    if (savedQueue)
-    {
+    if (savedQueue) {
         songQueue = JSON.parse(savedQueue);
         updateQueueBadge();
     }
 
     // Last song restore
     const saved = localStorage.getItem('lastSong');
-    if (saved)
-    {
+    if (saved) {
         const
-        {
-            uid,
-            time
-        } = JSON.parse(saved);
+            {
+                uid,
+                time
+            } = JSON.parse(saved);
         const index = filteredData.findIndex(s => s.uid === uid);
-        if (index !== -1)
-        {
+        if (index !== -1) {
             currentIndex = index;
             currentSongUID = filteredData[index].uid;
             const song = filteredData[index];
@@ -1612,8 +1516,7 @@ loadAllSongs().then(() =>
             updateMiniPlayer(song.name);
             updateFullscreenPlayer(song.name);
 
-            if (fsCover)
-            {
+            if (fsCover) {
                 fsCover.src = song.cover ?
                     `covers/${song.folder}/${song.cover}` :
                     getRandomFallbackCover();
@@ -1633,33 +1536,29 @@ loadAllSongs().then(() =>
     }
 
     window.scrollTo(
-    {
-        top: 0,
-        behavior: 'auto'
-    });
+        {
+            top: 0,
+            behavior: 'auto'
+        });
     checkDeepLink();
 });
 
 // --------------------
 // animateCountUp
 // --------------------
-function animateCountUp(element, target, duration = 2000)
-{
+function animateCountUp(element, target, duration = 2000) {
     let startTime = null;
 
-    function step(timestamp)
-    {
+    function step(timestamp) {
         if (!startTime) startTime = timestamp;
         const progress = Math.min((timestamp - startTime) / duration, 1);
         const ease = 1 - Math.pow(1 - progress, 3); // easeOutCubic
         const current = Math.floor(ease * target);
         element.textContent = `Total Songs: ${current}`;
-        if (progress < 1)
-        {
+        if (progress < 1) {
             requestAnimationFrame(step);
         }
-        else
-        {
+        else {
             element.textContent = `Total Songs: ${target}`;
         }
     }
@@ -1672,28 +1571,25 @@ function animateCountUp(element, target, duration = 2000)
 // ArrowLeft → Previous Song
 // ArrowRight → Next Song
 // --------------------
-document.addEventListener('keydown', (e) =>
-{
+document.addEventListener('keydown', (e) => {
     const isInput = ['INPUT', 'TEXTAREA'].includes(document.activeElement.tagName);
 
-    if (!isInput)
-    {
-        switch (e.code)
-        {
-        case 'Space':
-            e.preventDefault();
-            togglePlay();
-            break;
+    if (!isInput) {
+        switch (e.code) {
+            case 'Space':
+                e.preventDefault();
+                togglePlay();
+                break;
 
-        case 'ArrowRight':
-            e.preventDefault();
-            playNext();
-            break;
+            case 'ArrowRight':
+                e.preventDefault();
+                playNext();
+                break;
 
-        case 'ArrowLeft':
-            e.preventDefault();
-            playPrev();
-            break;
+            case 'ArrowLeft':
+                e.preventDefault();
+                playPrev();
+                break;
         }
     }
 });
@@ -1701,8 +1597,7 @@ document.addEventListener('keydown', (e) =>
 // --------------------
 // Media Session API — Enable Bluetooth next/prev buttons
 // --------------------
-if ('mediaSession' in navigator)
-{
+if ('mediaSession' in navigator) {
     navigator.mediaSession.setActionHandler('play', togglePlay);
     navigator.mediaSession.setActionHandler('pause', togglePlay);
     navigator.mediaSession.setActionHandler('previoustrack', playPrev);
@@ -1710,33 +1605,27 @@ if ('mediaSession' in navigator)
 }
 
 
-metaClose.addEventListener('click', () =>
-{
+metaClose.addEventListener('click', () => {
     metaModal.style.display = 'none';
 });
 
-window.addEventListener('DOMContentLoaded', () =>
-{
-    fsQueueControlBtn.addEventListener('click', (e) =>
-    {
+window.addEventListener('DOMContentLoaded', () => {
+    fsQueueControlBtn.addEventListener('click', (e) => {
         e.stopPropagation();
         toggleQueuePopup();
     });
 
-    document.getElementById('queue-clear').addEventListener('click', () =>
-    {
+    document.getElementById('queue-clear').addEventListener('click', () => {
         songQueue = [];
         renderQueuePanel();
         updateQueueBadge();
         saveQueue();
     });
 
-    document.addEventListener('click', (e) =>
-    {
+    document.addEventListener('click', (e) => {
         const popup = document.getElementById('queue-popup');
         if (popup && popup.classList.contains('open') && !popup.contains(e.target) && e.target.id !==
-            'fs-queue-btn')
-        {
+            'fs-queue-btn') {
             popup.classList.remove('open');
             fsCover.style.display = 'block';
         }
@@ -1748,22 +1637,18 @@ const aboutModal = document.getElementById('about-modal');
 const aboutClose = document.getElementById('about-close');
 
 // Open modal when clicking icon
-infoLogo.addEventListener('click', () =>
-{
+infoLogo.addEventListener('click', () => {
     aboutModal.style.display = 'flex';
 });
 
 // Close modal with Close button
-aboutClose.addEventListener('click', () =>
-{
+aboutClose.addEventListener('click', () => {
     aboutModal.style.display = 'none';
 });
 
 // Close modal when clicking outside the card
-aboutModal.addEventListener('click', (e) =>
-{
-    if (e.target === aboutModal)
-    {
+aboutModal.addEventListener('click', (e) => {
+    if (e.target === aboutModal) {
         aboutModal.style.display = 'none';
     }
 });
