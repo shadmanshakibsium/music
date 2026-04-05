@@ -46,6 +46,7 @@
 -------------------- */
 html {
   height: 100%;
+  overflow: hidden;
 }
 
 body {
@@ -57,11 +58,7 @@ body {
   overscroll-behavior: none;
   touch-action: pan-x pan-y;
   color: white;
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
+  position: relative;
   -webkit-overflow-scrolling: touch;
 }
 
