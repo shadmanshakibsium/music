@@ -215,31 +215,39 @@ h1 {
   justify-content: space-around;
   margin-top: 12px;
   margin-bottom: 8px;
-  flex-wrap: nowrap;
-  overflow-x: auto;
-  gap: 4px;
+  gap: 6px;
   padding: 0 4px;
-  scrollbar-width: none;
-}
-.tabs::-webkit-scrollbar {
-  display: none;
 }
 .tab {
-  padding: 10px 14px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  padding: 8px 12px;
   border-radius: 15px;
   cursor: pointer;
-  color: white;
+  color: rgba(255,255,255,0.5);
   font-weight: 500;
   transition: 0.3s;
-  white-space: nowrap;
-  flex-shrink: 0;
+  flex: 1;
+  font-size: 11px;
 }
-.tab.active,
-.tab:hover {
-  background: rgba(255,255,255,0.2);
+.tab i {
+  font-size: 18px;
+}
+.tab span {
+  white-space: nowrap;
+  font-size: 11px;
+}
+.tab.active {
+  color: white;
+  background: rgba(255,255,255,0.15);
   backdrop-filter: blur(8px);
 }
-
+.tab:hover {
+  color: white;
+  background: rgba(255,255,255,0.1);
+}
 /* --------------------
    Music List & Items
 -------------------- */
