@@ -213,21 +213,26 @@ h1 {
 .tabs {
   display: flex;
   justify-content: space-around;
-  margin-bottom: 20px;
+  margin-top: 12px;
+  margin-bottom: 8px;
+  flex-wrap: nowrap;
+  overflow-x: auto;
+  gap: 4px;
+  padding: 0 4px;
+  scrollbar-width: none;
 }
-
-.tabs {
-  margin-top: 12px; 
-  margin-bottom: 8px; 
+.tabs::-webkit-scrollbar {
+  display: none;
 }
-
 .tab {
-  padding: 10px 20px;
+  padding: 10px 14px;
   border-radius: 15px;
   cursor: pointer;
   color: white;
   font-weight: 500;
   transition: 0.3s;
+  white-space: nowrap;
+  flex-shrink: 0;
 }
 .tab.active,
 .tab:hover {
