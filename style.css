@@ -59,7 +59,7 @@ body {
   overscroll-behavior-y: contain;
   touch-action: pan-x pan-y;
   color: white;
-  position: fixed;
+  position: relative;
   -webkit-overflow-scrolling: touch;
 }
 
