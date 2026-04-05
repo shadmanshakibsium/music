@@ -106,7 +106,7 @@ h1 {
 -------------------- */
 .search-bar {
   width: 100%;
-  margin-bottom: 20px;
+  margin-bottom: 0px;
   position: relative;
   box-sizing: border-box;
 }
