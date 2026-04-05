@@ -1758,7 +1758,7 @@ aboutModal.addEventListener('click', (e) => {
         tabsEl.style.paddingBottom = '8px';
         tabsEl.style.borderRadius = '0 0 16px 16px';
 
-        const gap = h + 8;
+        const gap = h;
         musicListEl.style.paddingTop = gap + 'px';
         folderListEl.style.paddingTop = gap + 'px';
         genreListEl.style.paddingTop = gap + 'px';
