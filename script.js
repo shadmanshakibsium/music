@@ -813,7 +813,11 @@ function renderMusicList() {
 
         setupLongPressForItem(li, song);
 
-        li.addEventListener('click', () => playSong(index));
+        li.addEventListener('click', () => {
+            filteredData = [...musicData];
+            const newIndex = filteredData.findIndex(s => s.uid === song.uid);
+            playSong(newIndex);
+        });
         musicListEl.appendChild(li);
     });
     hasAnimated = true;
