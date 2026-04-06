@@ -1436,7 +1436,13 @@ const viewOrder = ['all', 'folders', 'genre', 'artist'];
 
 tabs.forEach(tab => {
     tab.addEventListener('click', () => {
-        if (tab.dataset.view === currentView) return;
+if (tab.dataset.view === currentView) {
+    if (currentView === 'all') {
+        filteredData = [...musicData];
+        renderMusicList();
+    }
+    return;
+}
 
         const oldView = currentView;
         const newView = tab.dataset.view;
