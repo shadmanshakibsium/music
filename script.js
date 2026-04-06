@@ -583,7 +583,7 @@ function toggleFolder(folderName, folderEl) {
 
                 li.addEventListener('click', (e) => {
                     e.stopPropagation();
-                    filteredData = [...musicData];
+                    filteredData = [...folderSongs];
                     currentIndex = index;
                     playSong(index);
 
