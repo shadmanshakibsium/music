@@ -1024,6 +1024,9 @@ fsCloseBtn.addEventListener('click', () => {
                 }
             }
         }
+            else if (currentView === 'artist') {
+    artistView.style.display = 'block';
+}
         else if (currentView === 'genre') {
             genreView.style.display = 'block';
             if (currentSongUID) {
@@ -1160,6 +1163,9 @@ fullscreenPlayer.addEventListener('touchend', (e) => {
                 }
 
             }
+                else if (currentView === 'artist') {
+    artistView.style.display = 'block';
+}
             else if (currentView === 'genre') {
                 genreView.style.display = 'block';
                 if (currentSongUID) {
