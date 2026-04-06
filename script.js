@@ -583,7 +583,6 @@ function toggleFolder(folderName, folderEl) {
 
                 li.addEventListener('click', (e) => {
                     e.stopPropagation();
-                    musicData = folderSongs;
                     filteredData = [...musicData];
                     currentIndex = index;
                     playSong(index);
@@ -673,7 +672,7 @@ function loadArtistView() {
                 li.addEventListener('click', (e) => {
                     e.stopPropagation();
                     filteredData = [...artistGroups[artist]];
-                    musicData = filteredData;
+                    
                     currentIndex = index;
                     playSong(index);
                     artistSongsEl.querySelectorAll('.music-item').forEach(el => el.classList.remove('playing'));
@@ -762,7 +761,7 @@ function loadGenreView() {
                     li.addEventListener('click', (e) => {
                         e.stopPropagation();
                         filteredData = genreGroups[genre];
-                        musicData = filteredData;
+                        
                         currentIndex = index;
                         playSong(index);
 
