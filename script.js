@@ -79,7 +79,7 @@ if (fsCover) {
 const fallbackCovers = [
     'covers/5.jpg',
     'covers/6.jpg',
-    'covers/7.jpg',
+    // 'covers/7.jpg',
     'covers/8.jpg',
     'covers/9.jpg',
     'covers/10.jpg',
