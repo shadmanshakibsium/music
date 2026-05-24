@@ -471,23 +471,33 @@ function showToast(message) {
 // Load All Songs (A-Z) using Promise.all
 // --------------------
 function loadAllSongs() {
-    const promises = types.map(lang =>
+    const githubPromises = types.map(lang =>
         fetch(`${GITHUB_BASE}data/${lang}.json`)
             .then(res => res.json())
-            .then(data => data.map(song => (
-                {
-                    ...song,
-                    folder: lang,
-                    path: `${lang}/${song.file}`,
-                    uid: generateUID(`${lang}/${song.file}`)
-                })))
-            .catch(err => {
-                console.error(`Failed to load ${lang}.json`, err);
-                return [];
-            })
+            .then(data => data.map(song => ({
+                ...song,
+                folder: lang,
+                path: `${lang}/${song.file}`,
+                src: `${GITHUB_BASE}songs/${lang}/${song.file}`,
+                uid: generateUID(`github_${lang}/${song.file}`)
+            })))
+            .catch(() => [])
     );
 
-    return Promise.all(promises).then(results => {
+    const localPromises = types.map(lang =>
+        fetch(`data/${lang}.json`)
+            .then(res => res.json())
+            .then(data => data.map(song => ({
+                ...song,
+                folder: lang,
+                path: `${lang}/${song.file}`,
+                src: `songs/${lang}/${song.file}`,
+                uid: generateUID(`local_${lang}/${song.file}`)
+            })))
+            .catch(() => [])
+    );
+
+    return Promise.all([...githubPromises, ...localPromises]).then(results => {
         musicData = results.flat();
         musicData.forEach(song => {
             if (song.artist) song.artist = song.artist.replace(/\uFEFF/g, '').trim();
@@ -673,7 +683,7 @@ function loadArtistView() {
                 li.addEventListener('click', (e) => {
                     e.stopPropagation();
                     filteredData = [...artistGroups[artist]];
-                    
+
                     currentIndex = index;
                     playSong(index);
                     artistSongsEl.querySelectorAll('.music-item').forEach(el => el.classList.remove('playing'));
@@ -762,7 +772,7 @@ function loadGenreView() {
                     li.addEventListener('click', (e) => {
                         e.stopPropagation();
                         filteredData = genreGroups[genre];
-                        
+
                         currentIndex = index;
                         playSong(index);
 
@@ -833,7 +843,7 @@ function playSong(index, resetFuture = true) {
 
     if (isShuffle && resetFuture) futureStack = [];
 
-    fsAudio.src = `${GITHUB_BASE}songs/${song.path}`;
+    fsAudio.src = song.src;
     localStorage.setItem('lastSong', JSON.stringify(
         {
             uid: song.uid,
@@ -842,9 +852,10 @@ function playSong(index, resetFuture = true) {
     fsAudio.play();
 
     if (fsCover) {
-fsCover.src = song.cover ?
-    `${GITHUB_BASE}covers/${song.folder}/${song.cover}` :
-    getRandomFallbackCover();
+        const coverBase = song.src.startsWith(GITHUB_BASE) ? `${GITHUB_BASE}covers/` : `covers/`;
+        fsCover.src = song.cover ?
+            `${coverBase}${song.folder}/${song.cover}` :
+            getRandomFallbackCover();
     }
 
     updateMiniPlayer(song.name);
@@ -1025,9 +1036,9 @@ fsCloseBtn.addEventListener('click', () => {
                 }
             }
         }
-            else if (currentView === 'artist') {
-    artistView.style.display = 'block';
-}
+        else if (currentView === 'artist') {
+            artistView.style.display = 'block';
+        }
         else if (currentView === 'genre') {
             genreView.style.display = 'block';
             if (currentSongUID) {
@@ -1164,9 +1175,9 @@ fullscreenPlayer.addEventListener('touchend', (e) => {
                 }
 
             }
-                else if (currentView === 'artist') {
-    artistView.style.display = 'block';
-}
+            else if (currentView === 'artist') {
+                artistView.style.display = 'block';
+            }
             else if (currentView === 'genre') {
                 genreView.style.display = 'block';
                 if (currentSongUID) {
@@ -1447,13 +1458,13 @@ const viewOrder = ['all', 'folders', 'genre', 'artist'];
 
 tabs.forEach(tab => {
     tab.addEventListener('click', () => {
-if (tab.dataset.view === currentView) {
-    if (currentView === 'all') {
-        filteredData = [...musicData];
-        renderMusicList();
-    }
-    return;
-}
+        if (tab.dataset.view === currentView) {
+            if (currentView === 'all') {
+                filteredData = [...musicData];
+                renderMusicList();
+            }
+            return;
+        }
 
         const oldView = currentView;
         const newView = tab.dataset.view;
@@ -1576,12 +1587,13 @@ loadAllSongs().then(() => {
             updateFullscreenPlayer(song.name);
 
             if (fsCover) {
+                const coverBase = song.src.startsWith(GITHUB_BASE) ? `${GITHUB_BASE}covers/` : `covers/`;
                 fsCover.src = song.cover ?
-                    `covers/${song.folder}/${song.cover}` :
+                    `${coverBase}${song.folder}/${song.cover}` :
                     getRandomFallbackCover();
             }
 
-            fsAudio.src = `${GITHUB_BASE}songs/${song.folder}/${song.file}`;
+            fsAudio.src = song.src;
 
             fsAudio.addEventListener('loadedmetadata', () => {
                 if (!isDeepLinkLoad) {
