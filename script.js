@@ -30,6 +30,7 @@ let playHistory = [];
 let futureStack = [];
 let currentSongUID = null;
 
+const GITHUB_BASE = "https://raw.githubusercontent.com/shadmanshakibsium1/music/main/";
 const LONG_PRESS_TIME = 500;
 const metaModal = document.getElementById('meta-modal');
 const metaCover = document.getElementById('meta-cover');
@@ -407,7 +408,7 @@ function updateQueueBadge() {
 // --------------------
 function showMetadata(song) {
     if (song.cover) {
-        metaCover.src = `covers/${song.folder}/${song.cover}`;
+        metaCover.src = `${GITHUB_BASE}covers/${song.folder}/${song.cover}`;
         metaCover.onerror = () => {
             metaCover.src = getRandomFallbackCover();
         };
@@ -471,7 +472,7 @@ function showToast(message) {
 // --------------------
 function loadAllSongs() {
     const promises = types.map(lang =>
-        fetch(`data/${lang}.json`)
+        fetch(`${GITHUB_BASE}data/${lang}.json`)
             .then(res => res.json())
             .then(data => data.map(song => (
                 {
@@ -551,7 +552,7 @@ function toggleFolder(folderName, folderEl) {
     listEl.style.marginTop = '8px';
     folderListEl.insertBefore(listEl, folderEl.nextSibling);
 
-    fetch(`data/${folderName}.json`)
+    fetch(`${GITHUB_BASE}data/${folderName}.json`)
         .then(res => res.json())
         .then(data => {
             const folderSongs = data
@@ -693,7 +694,7 @@ function loadGenreView() {
     genreListEl.innerHTML = '';
 
     const promises = types.map(lang =>
-        fetch(`data/${lang}.json`)
+        fetch(`${GITHUB_BASE}data/${lang}.json`)
             .then(res => res.json())
             .then(data => data.map(song => ({
                 ...song,
@@ -832,7 +833,7 @@ function playSong(index, resetFuture = true) {
 
     if (isShuffle && resetFuture) futureStack = [];
 
-    fsAudio.src = `songs/${song.path}`;
+    fsAudio.src = `${GITHUB_BASE}songs/${song.path}`;
     localStorage.setItem('lastSong', JSON.stringify(
         {
             uid: song.uid,
@@ -841,9 +842,9 @@ function playSong(index, resetFuture = true) {
     fsAudio.play();
 
     if (fsCover) {
-        fsCover.src = song.cover ?
-            `covers/${song.folder}/${song.cover}` :
-            getRandomFallbackCover();
+fsCover.src = song.cover ?
+    `${GITHUB_BASE}covers/${song.folder}/${song.cover}` :
+    getRandomFallbackCover();
     }
 
     updateMiniPlayer(song.name);
@@ -866,7 +867,7 @@ function playSong(index, resetFuture = true) {
                 artwork: [
                     {
                         src: song.cover ?
-                            `covers/${song.folder}/${song.cover}` :
+                            `${GITHUB_BASE}covers/${song.folder}/${song.cover}` :
                             getRandomFallbackCover(),
                         sizes: '512x512',
                         type: 'image/jpeg'
@@ -1580,7 +1581,7 @@ loadAllSongs().then(() => {
                     getRandomFallbackCover();
             }
 
-            fsAudio.src = `songs/${song.folder}/${song.file}`;
+            fsAudio.src = `${GITHUB_BASE}songs/${song.folder}/${song.file}`;
 
             fsAudio.addEventListener('loadedmetadata', () => {
                 if (!isDeepLinkLoad) {
