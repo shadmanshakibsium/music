@@ -523,6 +523,7 @@ function loadFolders() {
         const div = document.createElement('div');
         div.classList.add('folder-title');
         div.textContent = folder;
+        div.dataset.folder = folder; // ← যোগ করুন
 
         div.addEventListener('click', () => toggleFolder(folder, div));
         folderListEl.appendChild(div);
@@ -537,23 +538,6 @@ function toggleFolder(folderName, folderEl) {
 
     if (listEl && listEl.classList.contains('folder-songs')) {
         listEl.style.display = listEl.style.display === 'block' ? 'none' : 'block';
-
-
-        if (listEl.style.display === 'block' && currentSongUID) {
-            const songFolder = currentSongUID.split('/')[0];
-            if (songFolder === folderName) {
-                setTimeout(() => {
-                    const currentSongEl = listEl.querySelector(`.music-item[data-uid="${currentSongUID}"]`);
-                    if (currentSongEl) {
-                        currentSongEl.scrollIntoView(
-                            {
-                                behavior: 'smooth',
-                                block: 'center'
-                            });
-                    }
-                }, 100);
-            }
-        }
         return;
     }
 
@@ -562,71 +546,75 @@ function toggleFolder(folderName, folderEl) {
     listEl.style.marginTop = '8px';
     folderListEl.insertBefore(listEl, folderEl.nextSibling);
 
-    fetch(`${GITHUB_BASE}data/${folderName}.json`)
-        .then(res => res.json())
-        .then(data => {
-            const folderSongs = data
-                .map(s => ({
-                    ...s,
-                    folder: folderName,
-                    uid: generateUID(`${folderName}/${s.file}`),
-                    path: `${folderName}/${s.file}`
-                }))
-                .sort((a, b) => a.name.localeCompare(b.name));
+    // GitHub + local দুটো থেকে চেষ্টা করুন
+    const githubFetch = fetch(`${GITHUB_BASE}data/${folderName}.json`)
+        .then(res => res.ok ? res.json() : [])
+        .then(data => data.map(s => ({
+            ...s,
+            folder: folderName,
+            uid: generateUID(`github_${folderName}/${s.file}`),
+            src: `${GITHUB_BASE}songs/${folderName}/${s.file}`
+        })))
+        .catch(() => []);
 
-            folderSongs.forEach((song, index) => {
-                const li = document.createElement('li');
-                li.classList.add('music-item');
-                li.setAttribute('data-uid', song.uid);
-                li.innerHTML = `
-        <div class="info"><span class="title">${song.name}</span></div>
-        <button class="add-queue-btn" title="Add to Queue"><i class="fas fa-plus"></i></button>`;
+    const localFetch = fetch(`data/${folderName}.json`)
+        .then(res => res.ok ? res.json() : [])
+        .then(data => data.map(s => ({
+            ...s,
+            folder: folderName,
+            uid: generateUID(`local_${folderName}/${s.file}`),
+            src: `songs/${folderName}/${s.file}`
+        })))
+        .catch(() => []);
 
-                li.querySelector('.add-queue-btn').addEventListener('click', (e) => {
-                    e.stopPropagation();
-                    addToQueue(song);
-                });
-                setupLongPressForItem(li, song);
+    Promise.all([githubFetch, localFetch]).then(([githubSongs, localSongs]) => {
+        // duplicate এড়াতে uid দিয়ে merge
+        const seen = new Set();
+        const folderSongs = [...githubSongs, ...localSongs]
+            .filter(s => {
+                if (seen.has(s.uid)) return false;
+                seen.add(s.uid);
+                return true;
+            })
+            .sort((a, b) => a.name.localeCompare(b.name));
 
-                if (song.uid === currentSongUID) {
-                    li.classList.add('playing');
-                }
+        if (folderSongs.length === 0) {
+            listEl.innerHTML = '<li style="opacity:0.4; padding:8px;">No songs found</li>';
+            listEl.style.display = 'block';
+            return;
+        }
 
-                li.addEventListener('click', (e) => {
-                    e.stopPropagation();
-                    filteredData = [...folderSongs];
-                    currentIndex = index;
-                    playSong(index);
+        folderSongs.forEach((song, index) => {
+            const li = document.createElement('li');
+            li.classList.add('music-item');
+            li.setAttribute('data-uid', song.uid);
+            li.innerHTML = `
+                <div class="info"><span class="title">${song.name}</span></div>
+                <button class="add-queue-btn" title="Add to Queue"><i class="fas fa-plus"></i></button>`;
 
-                    listEl.querySelectorAll('.music-item').forEach(el => el.classList.remove(
-                        'playing'));
-                    li.classList.add('playing');
-                });
+            li.querySelector('.add-queue-btn').addEventListener('click', (e) => {
+                e.stopPropagation();
+                addToQueue(song);
+            });
+            setupLongPressForItem(li, song);
 
-                listEl.appendChild(li);
+            if (song.uid === currentSongUID) li.classList.add('playing');
+
+            li.addEventListener('click', (e) => {
+                e.stopPropagation();
+                filteredData = [...folderSongs];
+                currentIndex = index;
+                playSong(index);
+                listEl.querySelectorAll('.music-item').forEach(el => el.classList.remove('playing'));
+                li.classList.add('playing');
             });
 
-            listEl.style.display = 'block';
+            listEl.appendChild(li);
+        });
 
-
-            if (currentSongUID) {
-                const songFolder = currentSongUID.split('/')[0];
-                if (songFolder === folderName) {
-                    setTimeout(() => {
-                        const currentSongEl = listEl.querySelector(
-                            `.music-item[data-uid="${currentSongUID}"]`);
-                        if (currentSongEl) {
-                            currentSongEl.scrollIntoView(
-                                {
-                                    behavior: 'smooth',
-                                    block: 'center'
-                                });
-                        }
-                    }, 100);
-                }
-            }
-        })
-        .catch(err => console.error(err));
+        listEl.style.display = 'block';
+    })
+    .catch(err => console.error(err));
 }
 
 function loadArtistView() {
